@@ -71,15 +71,15 @@ All these files should be uploaded to your web server root directory:
 2. **Upload all files** to the root directory (usually `public_html` or `www`)
 
 3. **Verify .htaccess is working:**
-   - Visit `http://they.ltd` (should redirect to `https://they.ltd`)
-   - Visit `https://they.ltd/index.html` (should redirect to `https://they.ltd`)
+   - Visit `http://www.lalaref.com` (should redirect to `https://www.lalaref.com`)
+   - Visit `https://www.lalaref.com/index.html` (should redirect to `https://www.lalaref.com`)
 
 4. **Test these URLs:**
-   - `https://they.ltd/robots.txt` ✓
-   - `https://they.ltd/sitemap.xml` ✓
-   - `https://they.ltd/humans.txt` ✓
-   - `https://they.ltd/manifest.json` ✓
-   - `https://they.ltd/favicon.svg` ✓
+   - `https://www.lalaref.com/robots.txt` ✓
+   - `https://www.lalaref.com/sitemap.xml` ✓
+   - `https://www.lalaref.com/humans.txt` ✓
+   - `https://www.lalaref.com/manifest.json` ✓
+   - `https://www.lalaref.com/favicon.svg` ✓
 
 5. **Test error pages:**
    - Visit a non-existent page to see 404.html
@@ -106,9 +106,9 @@ All these files should be uploaded to your web server root directory:
 
 ### 4. Search Console Setup
 - [ ] Go to [Google Search Console](https://search.google.com/search-console/)
-- [ ] Add property: `https://they.ltd`
+- [ ] Add property: `https://www.lalaref.com`
 - [ ] Verify ownership (meta tag already in HTML)
-- [ ] Submit sitemap: `https://they.ltd/sitemap.xml`
+- [ ] Submit sitemap: `https://www.lalaref.com/sitemap.xml`
 - [ ] Request indexing for homepage
 
 ### 5. Functionality Testing
@@ -207,4 +207,4 @@ Once you complete this checklist, your website will be:
 
 **Created:** January 21, 2026  
 **Website:** LaLaRef 急單王 緊急球證預訂服務  
-**Domain:** they.ltd
+**Domain:** www.lalaref.com

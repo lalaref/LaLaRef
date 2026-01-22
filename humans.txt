@@ -1,6 +1,6 @@
 /* TEAM */
 Name: LaLaRef Team
-Site: https://they.ltd
+Site: https://www.lalaref.com
 Contact: WhatsApp +852-9586-9595
 Location: Hong Kong
 

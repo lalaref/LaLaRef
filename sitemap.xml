@@ -6,7 +6,7 @@
 
     <!-- Homepage -->
     <url>
-        <loc>https://www.they.ltd/</loc>
+        <loc>https://www.lalaref.com/</loc>
         <lastmod>2026-01-22</lastmod>
         <changefreq>weekly</changefreq>
         <priority>1.0</priority>
@@ -15,21 +15,21 @@
     <!-- Add more pages as your site grows -->
     <!-- Example:
     <url>
-        <loc>https://www.they.ltd/about</loc>
+        <loc>https://www.lalaref.com/about</loc>
         <lastmod>2026-01-22</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     
     <url>
-        <loc>https://www.they.ltd/services</loc>
+        <loc>https://www.lalaref.com/services</loc>
         <lastmod>2026-01-22</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     
     <url>
-        <loc>https://www.they.ltd/contact</loc>
+        <loc>https://www.lalaref.com/contact</loc>
         <lastmod>2026-01-22</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>

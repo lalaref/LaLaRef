@@ -16,18 +16,18 @@ RewriteRule ^(.*)$ https://www.%{HTTP_HOST}/$1 [R=301,L]
 ```
 
 This ensures:
-- `https://they.ltd/` → redirects to → `https://www.they.ltd/`
+- `https://lalaref.com/` → redirects to → `https://www.lalaref.com/`
 - All traffic goes to the www version
 - Search engines see only one canonical version
 
 ### 2. Updated All URLs to WWW Format
 All files are now consistent with www format:
-- ✅ index.html canonical tag: `https://www.they.ltd/`
-- ✅ Open Graph URL: `https://www.they.ltd/`
-- ✅ Twitter Card URL: `https://www.they.ltd/`
-- ✅ Structured Data URL: `https://www.they.ltd/`
-- ✅ sitemap.xml: `https://www.they.ltd/`
-- ✅ robots.txt: `https://www.they.ltd/sitemap.xml`
+- ✅ index.html canonical tag: `https://www.lalaref.com/`
+- ✅ Open Graph URL: `https://www.lalaref.com/`
+- ✅ Twitter Card URL: `https://www.lalaref.com/`
+- ✅ Structured Data URL: `https://www.lalaref.com/`
+- ✅ sitemap.xml: `https://www.lalaref.com/`
+- ✅ robots.txt: `https://www.lalaref.com/sitemap.xml`
 
 ## Next Steps
 
@@ -40,21 +40,21 @@ Upload these updated files to your server:
 
 ### 2. Test the Redirect
 After deployment, test both URLs:
-- Visit: `https://they.ltd/`
-- Should redirect to: `https://www.they.ltd/`
+- Visit: `https://lalaref.com/`
+- Should redirect to: `https://www.lalaref.com/`
 
 You can test using:
 ```bash
-curl -I https://they.ltd/
+curl -I https://lalaref.com/
 ```
-Look for: `HTTP/1.1 301 Moved Permanently` and `Location: https://www.they.ltd/`
+Look for: `HTTP/1.1 301 Moved Permanently` and `Location: https://www.lalaref.com/`
 
 ### 3. Update Google Search Console
 1. Go to Google Search Console
 2. Add both properties if not already added:
-   - `https://they.ltd`
-   - `https://www.they.ltd`
-3. Set `https://www.they.ltd` as your preferred domain
+   - `https://lalaref.com`
+   - `https://www.lalaref.com`
+3. Set `https://www.lalaref.com` as your preferred domain
 4. Request re-indexing of your homepage
 
 ### 4. Wait for Google to Re-crawl
@@ -65,15 +65,15 @@ Look for: `HTTP/1.1 301 Moved Permanently` and `Location: https://www.they.ltd/`
 ## Why This Fixes the Issue
 
 **Before:**
-- Both `they.ltd` and `www.they.ltd` were accessible
+- Both `lalaref.com` and `www.lalaref.com` were accessible
 - Google saw them as duplicate content
 - Google chose its own preferred version
 - Your canonical tag didn't match
 - Mismatch = Warning in Search Console
 
 **After:**
-- Only `www.they.ltd` is accessible
-- `they.ltd` automatically redirects with 301
+- Only `www.lalaref.com` is accessible
+- `lalaref.com` automatically redirects with 301
 - Google sees only one version
 - Canonical tag matches the accessible URL
 - No more duplicate content issue
@@ -81,10 +81,10 @@ Look for: `HTTP/1.1 301 Moved Permanently` and `Location: https://www.they.ltd/`
 ## Additional Recommendations
 
 ### 1. Update External Links
-If you have external links pointing to `they.ltd`, update them to `www.they.ltd` to avoid unnecessary redirects.
+If you have external links pointing to `lalaref.com`, update them to `www.lalaref.com` to avoid unnecessary redirects.
 
 ### 2. Update Social Media
-Ensure all social media profiles link to `https://www.they.ltd` (with www).
+Ensure all social media profiles link to `https://www.lalaref.com` (with www).
 
 ### 3. Monitor Search Console
 Check the "Coverage" report weekly to ensure the issue is resolved.
@@ -95,7 +95,7 @@ If using Google Analytics, make sure it's tracking the correct domain format.
 ## Verification Checklist
 
 - [ ] All files deployed to server (.htaccess, index.html, sitemap.xml, robots.txt)
-- [ ] Test non-www redirect works (they.ltd → www.they.ltd)
+- [ ] Test non-www redirect works (lalaref.com → www.lalaref.com)
 - [ ] Test HTTPS redirect works (http → https)
 - [ ] Verify canonical tag in HTML source shows www version
 - [ ] Submit sitemap to Google Search Console

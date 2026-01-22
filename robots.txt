@@ -8,7 +8,7 @@ Disallow: /cgi-bin/
 Disallow: /*.php$
 
 # Sitemap location
-Sitemap: https://www.they.ltd/sitemap.xml
+Sitemap: https://www.lalaref.com/sitemap.xml
 
 # Crawl-delay (optional, adjust if needed)
 Crawl-delay: 1
