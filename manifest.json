@@ -1,0 +1,21 @@
+{
+  "name": "LaLaRef 急單王 緊急球證預訂服務",
+  "short_name": "LaLaRef",
+  "description": "專業籃球裁判服務 - 緊急球證預訂專家",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#1e3c72",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "lalaref2.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["sports", "business"],
+  "lang": "zh-HK",
+  "dir": "ltr"
+}

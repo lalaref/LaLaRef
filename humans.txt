@@ -1,0 +1,12 @@
+/* TEAM */
+Name: LaLaRef Team
+Site: https://they.ltd
+Contact: WhatsApp +852-9586-9595
+Location: Hong Kong
+
+/* SITE */
+Last update: 2026/01/21
+Standards: HTML5, CSS3
+Components: Responsive Design, SEO Optimized
+Software: Custom Development
+Language: Traditional Chinese / English
