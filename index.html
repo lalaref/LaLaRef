@@ -374,6 +374,10 @@
             transition: all 0.3s ease;
             background: white;
         }
+        .input-group input[type="date"] {
+            width: 100%;
+            max-width: 100%;
+        }
         .input-group input:focus,
         .input-group select:focus,
         .input-group textarea:focus {
@@ -626,6 +630,11 @@
             }
             .form-row {
                 grid-template-columns: 1fr;
+            }
+            .input-group input[type="date"] {
+                width: 100%;
+                max-width: 100%;
+                box-sizing: border-box;
             }
             .submit-btn {
                 padding: 16px 40px;
