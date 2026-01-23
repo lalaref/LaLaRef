@@ -164,6 +164,9 @@
             border-bottom: 2px solid white;
             padding-bottom: 2px;
         }
+        .top-bar-break {
+            display: none;
+        }
         
         /* WhatsApp Float */
         .whatsapp-float {
@@ -226,8 +229,8 @@
             align-items: center;
         }
         .logo-circle {
-            width: 280px;
-            height: 280px;
+            width: 320px;
+            height: 320px;
             background: white;
             border-radius: 50%;
             display: flex;
@@ -237,8 +240,8 @@
             border: 8px solid rgba(255, 102, 0, 0.8);
         }
         .logo-circle img {
-            width: 200px;
-            height: 200px;
+            width: 240px;
+            height: 240px;
             object-fit: contain;
         }
         .hero h1 {
@@ -278,6 +281,14 @@
             font-size: 0.9em;
             color: #b8d4e0;
             margin-top: 5px;
+        }
+        
+        /* Responsive text helpers */
+        .mobile-only {
+            display: none;
+        }
+        .desktop-only {
+            display: inline;
         }
         
         /* Main Content */
@@ -569,12 +580,12 @@
                 font-size: 2.5em;
             }
             .logo-circle {
-                width: 220px;
-                height: 220px;
+                width: 260px;
+                height: 260px;
             }
             .logo-circle img {
-                width: 160px;
-                height: 160px;
+                width: 200px;
+                height: 200px;
             }
             .hero-stats {
                 justify-content: center;
@@ -584,6 +595,16 @@
             .top-bar {
                 font-size: 0.85em;
                 padding: 10px 15px;
+                line-height: 1.6;
+            }
+            .top-bar-break {
+                display: block;
+            }
+            .mobile-only {
+                display: inline;
+            }
+            .desktop-only {
+                display: none;
             }
             main {
                 padding: 40px 20px;
@@ -632,12 +653,12 @@
                 font-size: 1.1em;
             }
             .logo-circle {
-                width: 180px;
-                height: 180px;
+                width: 220px;
+                height: 220px;
             }
             .logo-circle img {
-                width: 130px;
-                height: 130px;
+                width: 170px;
+                height: 170px;
             }
         }
         .info-section {
@@ -790,7 +811,7 @@
 <body>
     <!-- Top Bar -->
     <div class="top-bar">
-        ⚡ 緊急球證預訂專線 | WhatsApp: <a href="https://wa.me/85295869595">9586 9595</a> | 即日訂單 · 快速回應
+        ⚡ 緊急球證預訂專線 | <span class="top-bar-break"></span>WhatsApp: <a href="https://wa.me/85295869595">9586 9595</a> | 即日訂單 · 快速回應
     </div>
     
     <!-- WhatsApp Float Button -->
@@ -836,7 +857,7 @@
                 <h2>📅 立即預訂球證服務</h2>
                 <form id="bookingForm" class="booking-form">
                     <div class="form-section">
-                        <h3>🕐 比賽日期及時間</h3>
+                        <h3><span class="desktop-only">🕐 比賽日期及時間</span><span class="mobile-only">🕐 日期時間</span></h3>
                         <div class="form-row">
                             <div class="input-group">
                                 <label for="matchDate">比賽日期 *</label>
@@ -1044,7 +1065,7 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2026 LaLaRef 急單王 緊急球證預訂服務 版權所有</p>
+                <p>&copy; 2026 LaLaRef 版權所有</p>
             </div>
         </footer>
     </div>
