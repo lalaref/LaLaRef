@@ -1007,14 +1007,16 @@
                                        aria-describedby="matchDate-error">
                                 <span id="matchDate-error" class="error-message" role="alert">請選擇比賽日期</span>
                             </div>
+                        </div>
+                        <div class="form-row">
                             <div class="input-group">
-                                <label for="matchTime">比賽時間 *</label>
-                                <select id="matchTime" 
-                                        name="matchTime" 
+                                <label for="matchTimeStart">比賽開始時間 *</label>
+                                <select id="matchTimeStart" 
+                                        name="matchTimeStart" 
                                         required
                                         aria-required="true"
-                                        aria-describedby="matchTime-error">
-                                    <option value="">請選擇時間</option>
+                                        aria-describedby="matchTimeStart-error">
+                                    <option value="">請選擇開始時間</option>
                                     <option value="00:00">00:00 (凌晨12時)</option>
                                     <option value="01:00">01:00 (凌晨1時)</option>
                                     <option value="02:00">02:00 (凌晨2時)</option>
@@ -1040,7 +1042,42 @@
                                     <option value="22:00">22:00 (下午10時)</option>
                                     <option value="23:00">23:00 (下午11時)</option>
                                 </select>
-                                <span id="matchTime-error" class="error-message" role="alert">請選擇比賽時間</span>
+                                <span id="matchTimeStart-error" class="error-message" role="alert">請選擇比賽開始時間</span>
+                            </div>
+                            <div class="input-group">
+                                <label for="matchTimeEnd">比賽結束時間 *</label>
+                                <select id="matchTimeEnd" 
+                                        name="matchTimeEnd" 
+                                        required
+                                        aria-required="true"
+                                        aria-describedby="matchTimeEnd-error">
+                                    <option value="">請選擇結束時間</option>
+                                    <option value="00:00">00:00 (凌晨12時)</option>
+                                    <option value="01:00">01:00 (凌晨1時)</option>
+                                    <option value="02:00">02:00 (凌晨2時)</option>
+                                    <option value="03:00">03:00 (凌晨3時)</option>
+                                    <option value="04:00">04:00 (凌晨4時)</option>
+                                    <option value="05:00">05:00 (凌晨5時)</option>
+                                    <option value="06:00">06:00 (早上6時)</option>
+                                    <option value="07:00">07:00 (早上7時)</option>
+                                    <option value="08:00">08:00 (早上8時)</option>
+                                    <option value="09:00">09:00 (早上9時)</option>
+                                    <option value="10:00">10:00 (早上10時)</option>
+                                    <option value="11:00">11:00 (早上11時)</option>
+                                    <option value="12:00">12:00 (中午12時)</option>
+                                    <option value="13:00">13:00 (下午1時)</option>
+                                    <option value="14:00">14:00 (下午2時)</option>
+                                    <option value="15:00">15:00 (下午3時)</option>
+                                    <option value="16:00">16:00 (下午4時)</option>
+                                    <option value="17:00">17:00 (下午5時)</option>
+                                    <option value="18:00">18:00 (下午6時)</option>
+                                    <option value="19:00">19:00 (下午7時)</option>
+                                    <option value="20:00">20:00 (下午8時)</option>
+                                    <option value="21:00">21:00 (下午9時)</option>
+                                    <option value="22:00">22:00 (下午10時)</option>
+                                    <option value="23:00" selected>23:00 (下午11時)</option>
+                                </select>
+                                <span id="matchTimeEnd-error" class="error-message" role="alert">請選擇比賽結束時間</span>
                             </div>
                         </div>
                     </div>
@@ -1302,7 +1339,8 @@
                 
                 const formData = {
                     matchDate: document.getElementById('matchDate').value,
-                    matchTime: document.getElementById('matchTime').value,
+                    matchTimeStart: document.getElementById('matchTimeStart').value,
+                    matchTimeEnd: document.getElementById('matchTimeEnd').value,
                     venue: document.getElementById('venue').value,
                     venueDetails: document.getElementById('venueDetails').value,
                     refCount: document.getElementById('refCount').value,
@@ -1316,7 +1354,8 @@
                 let message = `🏀 *LaLaRef 急單王 - 緊急球證預訂申請*\n\n`;
                 message += `📅 *比賽日期時間*\n`;
                 message += `日期：${formattedDate}\n`;
-                message += `時間：${formData.matchTime}\n\n`;
+                message += `開始時間：${formData.matchTimeStart}\n`;
+                message += `結束時間：${formData.matchTimeEnd}\n\n`;
                 
                 message += `📍 *場地資訊*\n`;
                 message += `體育館：${formData.venue}\n`;
