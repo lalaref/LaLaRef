@@ -733,6 +733,121 @@
             font-size: 1.3em;
         }
         
+        /* Testimonials Section - Clay Style */
+        .testimonials-section {
+            max-width: 100%;
+            margin: 70px auto 0;
+            padding-top: 60px;
+        }
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+        .testimonial-card {
+            background: linear-gradient(145deg, #f0dcc8, #e8d4b8);
+            padding: 35px 30px;
+            border-radius: 30px;
+            box-shadow: 
+                15px 15px 30px rgba(0,0,0,0.15),
+                -15px -15px 30px rgba(255,255,255,0.7),
+                inset 3px 3px 6px rgba(255,255,255,0.5),
+                inset -3px -3px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .testimonial-card:hover {
+            transform: translateY(-8px);
+        }
+        .testimonial-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .testimonial-avatar {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(145deg, #d4a574, #c89860);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            box-shadow: 
+                8px 8px 16px rgba(0,0,0,0.15),
+                -8px -8px 16px rgba(255,255,255,0.5),
+                inset 2px 2px 4px rgba(255,255,255,0.3);
+        }
+        .testimonial-info {
+            flex: 1;
+        }
+        .testimonial-info h4 {
+            font-size: 1.2em;
+            color: #5a4a3a;
+            margin-bottom: 5px;
+            font-weight: 800;
+        }
+        .testimonial-rating {
+            font-size: 1em;
+            color: #d4a574;
+        }
+        .testimonial-text {
+            color: #5a4a3a;
+            line-height: 1.8;
+            font-size: 1.05em;
+            font-style: italic;
+        }
+        .testimonial-date {
+            font-size: 0.85em;
+            color: #7a6a5a;
+            font-weight: 600;
+        }
+        .testimonial-cta {
+            text-align: center;
+            padding: 40px 30px;
+            background: linear-gradient(145deg, #f0dcc8, #e8d4b8);
+            border-radius: 30px;
+            box-shadow: 
+                15px 15px 30px rgba(0,0,0,0.15),
+                -15px -15px 30px rgba(255,255,255,0.7),
+                inset 3px 3px 6px rgba(255,255,255,0.5),
+                inset -3px -3px 6px rgba(0,0,0,0.1);
+        }
+        .testimonial-cta p {
+            font-size: 1.3em;
+            color: #5a4a3a;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        .testimonial-btn {
+            display: inline-block;
+            padding: 18px 40px;
+            background: linear-gradient(145deg, #d4a574, #c89860);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 800;
+            font-size: 1.1em;
+            box-shadow: 
+                10px 10px 20px rgba(0,0,0,0.2),
+                -10px -10px 20px rgba(255,255,255,0.3),
+                inset 2px 2px 4px rgba(255,255,255,0.3);
+            transition: all 0.3s ease;
+        }
+        .testimonial-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 
+                15px 15px 30px rgba(0,0,0,0.25),
+                -15px -15px 30px rgba(255,255,255,0.4);
+        }
+        .testimonial-btn:focus-visible {
+            outline: 3px solid #5a4a3a;
+            outline-offset: 3px;
+        }
+        
         /* Footer - Clay Style */
         footer {
             background: linear-gradient(145deg, #d4a574, #c89860);
@@ -907,6 +1022,9 @@
                 font-size: 1.8em;
             }
             .info-grid {
+                grid-template-columns: 1fr;
+            }
+            .testimonials-grid {
                 grid-template-columns: 1fr;
             }
             footer {
@@ -1241,6 +1359,86 @@
                             <li>安排專業籃球球證</li>
                         </ul>
                     </div>
+                </div>
+            </section>
+            <section class="testimonials-section">
+                <h2>💬 客戶評語</h2>
+                <div class="testimonials-grid">
+                    <div class="testimonial-card">
+                        <div class="testimonial-header">
+                            <div class="testimonial-avatar">👤</div>
+                            <div class="testimonial-info">
+                                <h4>張先生</h4>
+                                <div class="testimonial-rating">⭐⭐⭐⭐⭐</div>
+                            </div>
+                        </div>
+                        <p class="testimonial-text">"非常專業的球證服務！即日預訂都可以安排到，球證準時到場，執法公正。下次有比賽一定再搵LaLaRef！"</p>
+                        <span class="testimonial-date">2026年1月</span>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="testimonial-header">
+                            <div class="testimonial-avatar">👤</div>
+                            <div class="testimonial-info">
+                                <h4>李教練</h4>
+                                <div class="testimonial-rating">⭐⭐⭐⭐⭐</div>
+                            </div>
+                        </div>
+                        <p class="testimonial-text">"我哋球隊經常搵LaLaRef幫手搵球證，佢哋嘅球證團隊好有經驗，而且收費合理。WhatsApp回覆好快，推薦！"</p>
+                        <span class="testimonial-date">2025年12月</span>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="testimonial-header">
+                            <div class="testimonial-avatar">👤</div>
+                            <div class="testimonial-info">
+                                <h4>陳小姐</h4>
+                                <div class="testimonial-rating">⭐⭐⭐⭐⭐</div>
+                            </div>
+                        </div>
+                        <p class="testimonial-text">"公司搞籃球友誼賽，臨時搵唔到球證，好彩有LaLaRef急單王！即日就幫我哋安排咗兩位專業球證，服務一流！"</p>
+                        <span class="testimonial-date">2025年12月</span>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="testimonial-header">
+                            <div class="testimonial-avatar">👤</div>
+                            <div class="testimonial-info">
+                                <h4>王先生</h4>
+                                <div class="testimonial-rating">⭐⭐⭐⭐⭐</div>
+                            </div>
+                        </div>
+                        <p class="testimonial-text">"用咗LaLaRef幾次，每次都好滿意。球證準時、專業、態度好。價錢公道，絕對係香港最好嘅球證預訂服務！"</p>
+                        <span class="testimonial-date">2025年11月</span>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="testimonial-header">
+                            <div class="testimonial-avatar">👤</div>
+                            <div class="testimonial-info">
+                                <h4>黃教練</h4>
+                                <div class="testimonial-rating">⭐⭐⭐⭐⭐</div>
+                            </div>
+                        </div>
+                        <p class="testimonial-text">"我哋籃球隊長期合作嘅球證服務！LaLaRef嘅球證質素有保證，而且好靈活配合我哋嘅時間。強烈推薦！"</p>
+                        <span class="testimonial-date">2025年11月</span>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="testimonial-header">
+                            <div class="testimonial-avatar">👤</div>
+                            <div class="testimonial-info">
+                                <h4>林先生</h4>
+                                <div class="testimonial-rating">⭐⭐⭐⭐⭐</div>
+                            </div>
+                        </div>
+                        <p class="testimonial-text">"第一次用LaLaRef就好滿意！WhatsApp預訂好方便，球證準時到場，執法專業。以後搵球證一定搵佢哋！"</p>
+                        <span class="testimonial-date">2025年10月</span>
+                    </div>
+                </div>
+                <div class="testimonial-cta">
+                    <p>想分享您的體驗？</p>
+                    <a href="https://wa.me/85295869595?text=我想分享使用LaLaRef的體驗" 
+                       class="testimonial-btn" 
+                       target="_blank"
+                       rel="noopener noreferrer">
+                        💬 WhatsApp 留言
+                    </a>
                 </div>
             </section>
         </main>
