@@ -137,17 +137,38 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="format-detection" content="telephone=no">
     
+    <!-- Resource Hints for Performance -->
+    <link rel="preconnect" href="https://wa.me">
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+    
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
+        
+        /* Skip to main content link */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: #ff6600;
+            color: white;
+            padding: 8px 16px;
+            text-decoration: none;
+            font-weight: 700;
+            z-index: 10000;
+            border-radius: 0 0 4px 0;
+        }
+        .skip-link:focus {
+            top: 0;
+        }
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Microsoft JhengHei', 'PingFang TC', 'Segoe UI', sans-serif;
-            line-height: 1.7;
+            line-height: 1.6;
             color: #1a1a1a;
-            background: #f4f6f8;
+            background: #ffffff;
             min-height: 100vh;
         }
         .container {
@@ -156,21 +177,24 @@
             background: white;
         }
         
-        /* Top Bar */
+        /* Top Bar - Professional */
         .top-bar {
-            background: #ff6600;
+            background: #1a1a1a;
             color: white;
-            padding: 12px 0;
+            padding: 15px 0;
             text-align: center;
             font-size: 0.95em;
-            font-weight: 600;
-            letter-spacing: 0.5px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            border-bottom: 3px solid #ff6600;
         }
         .top-bar a {
-            color: white;
+            color: #ff6600;
             text-decoration: none;
-            border-bottom: 2px solid white;
+            border-bottom: 2px solid #ff6600;
             padding-bottom: 2px;
+            font-weight: 900;
         }
         .top-bar-break {
             display: none;
@@ -179,29 +203,38 @@
         /* WhatsApp Float */
         .whatsapp-float {
             position: fixed;
-            width: 65px;
-            height: 65px;
-            bottom: 25px;
-            right: 25px;
+            width: 70px;
+            height: 70px;
+            bottom: 30px;
+            right: 30px;
             background: #25d366;
             color: #FFF;
-            border-radius: 50%;
+            border-radius: 0;
             text-align: center;
-            font-size: 32px;
-            box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+            font-size: 35px;
+            box-shadow: 0 8px 0 rgba(0,0,0,0.2);
             z-index: 1000;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: transform 0.3s ease;
+            transition: transform 0.2s ease;
+            border: 3px solid #1a1a1a;
         }
         .whatsapp-float:hover {
-            transform: scale(1.1);
+            transform: translateY(-5px);
+            box-shadow: 0 13px 0 rgba(0,0,0,0.2);
+        }
+        .whatsapp-float:focus-visible {
+            outline: 3px solid #ff6600;
+            outline-offset: 4px;
+        }
+        .whatsapp-float:active {
+            transform: scale(0.95);
         }
         
-        /* Hero Section */
+        /* Hero Section - Professional Sports Brand Style */
         .hero {
-            background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+            background: #1a1a1a;
             color: white;
             padding: 0;
             position: relative;
@@ -211,11 +244,21 @@
             content: '';
             position: absolute;
             top: 0;
-            left: 0;
             right: 0;
+            width: 50%;
+            height: 100%;
+            background: #ff6600;
+            clip-path: polygon(20% 0, 100% 0, 100% 100%, 0% 100%);
+            opacity: 0.08;
+        }
+        .hero::after {
+            content: '';
+            position: absolute;
             bottom: 0;
-            background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
-            opacity: 0.5;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: #ff6600;
         }
         .hero-content {
             max-width: 1100px;
@@ -239,22 +282,34 @@
             gap: 20px;
         }
         .website-url {
-            font-size: 1.3em;
-            font-weight: 600;
+            font-size: 1.1em;
+            font-weight: 700;
             color: #ff6600;
-            letter-spacing: 1px;
-            text-transform: lowercase;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-top: 20px;
         }
         .logo-circle {
-            width: 259px;
-            height: 259px;
+            width: 280px;
+            height: 280px;
             background: white;
-            border-radius: 50%;
+            border-radius: 0;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-            border: 8px solid rgba(255, 102, 0, 0.8);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+            border: none;
+            position: relative;
+        }
+        .logo-circle::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            border: 3px solid #ff6600;
+            z-index: -1;
         }
         .logo-circle img {
             width: 292px;
@@ -262,23 +317,26 @@
             object-fit: contain;
         }
         .hero h1 {
-            font-size: 3.5em;
-            margin-bottom: 15px;
-            font-weight: 800;
-            line-height: 1.1;
+            font-size: 4em;
+            margin-bottom: 20px;
+            font-weight: 900;
+            line-height: 1;
             color: #ffffff;
+            letter-spacing: -0.02em;
         }
         .hero h1 .highlight {
             color: #ff6600;
             display: block;
-            font-size: 1.2em;
+            font-size: 1em;
+            margin-top: 10px;
         }
         .tagline {
-            font-size: 1.4em;
-            margin-bottom: 20px;
-            font-weight: 300;
-            color: #b8d4e0;
-            line-height: 1.5;
+            font-size: 1.3em;
+            margin-bottom: 30px;
+            font-weight: 400;
+            color: #cccccc;
+            line-height: 1.6;
+            max-width: 500px;
         }
         .hero-stats {
             display: flex;
@@ -289,15 +347,19 @@
             text-align: center;
         }
         .stat-number {
-            font-size: 2.5em;
-            font-weight: 800;
+            font-size: 3em;
+            font-weight: 900;
             color: #ff6600;
             display: block;
+            line-height: 1;
         }
         .stat-label {
-            font-size: 0.9em;
-            color: #b8d4e0;
-            margin-top: 5px;
+            font-size: 0.85em;
+            color: #999999;
+            margin-top: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
         }
         
         /* Responsive text helpers */
@@ -310,30 +372,29 @@
         
         /* Main Content */
         main { 
-            padding: 60px 30px; 
-            background: #f4f6f8;
+            padding: 80px 30px; 
+            background: #ffffff;
             max-width: 1100px;
             margin: 0 auto;
         }
         section { margin-bottom: 60px; }
         section h2 {
-            font-size: 2.2em;
+            font-size: 2.5em;
             color: #1a1a1a;
-            margin-bottom: 40px;
+            margin-bottom: 50px;
             text-align: center;
-            font-weight: 800;
+            font-weight: 900;
             position: relative;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: -0.01em;
         }
         section h2::before {
             content: '';
             position: absolute;
-            top: -15px;
+            top: -20px;
             left: 50%;
             transform: translateX(-50%);
-            width: 50px;
-            height: 4px;
+            width: 60px;
+            height: 5px;
             background: #ff6600;
         }
         
@@ -342,26 +403,32 @@
             max-width: 100%;
         }
         .booking-form {
-            background: #ffffff;
-            padding: 50px;
-            border-radius: 12px;
-            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.08);
+            background: #f8f8f8;
+            padding: 60px;
+            border-radius: 0;
+            box-shadow: none;
+            border: 2px solid #e0e0e0;
         }
         .form-section {
-            margin-bottom: 40px;
-            padding: 35px;
-            background: #f9fafb;
-            border-radius: 8px;
-            border-left: 5px solid #ff6600;
+            margin-bottom: 50px;
+            padding: 40px;
+            background: #ffffff;
+            border-radius: 0;
+            border-left: 4px solid #ff6600;
+            border-top: 1px solid #e0e0e0;
+            border-right: 1px solid #e0e0e0;
+            border-bottom: 1px solid #e0e0e0;
         }
         .form-section h3 {
-            font-size: 1.4em;
+            font-size: 1.3em;
             color: #1a1a1a;
-            margin-bottom: 25px;
-            font-weight: 700;
+            margin-bottom: 30px;
+            font-weight: 800;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         .form-row {
             display: grid;
@@ -372,23 +439,23 @@
         .input-group:last-child { margin-bottom: 0; }
         .input-group label {
             display: block;
-            margin-bottom: 10px;
-            font-weight: 700;
-            color: #2c3e50;
-            font-size: 0.95em;
+            margin-bottom: 12px;
+            font-weight: 800;
+            color: #1a1a1a;
+            font-size: 0.9em;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 1px;
         }
         .input-group input,
         .input-group select,
         .input-group textarea {
             width: 100%;
-            padding: 14px 18px;
-            border: 2px solid #e1e8ed;
-            border-radius: 6px;
+            padding: 16px 20px;
+            border: 2px solid #d0d0d0;
+            border-radius: 0;
             font-size: 1em;
             font-family: inherit;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
             background: white;
             box-sizing: border-box;
         }
@@ -408,6 +475,7 @@
             outline: none;
             border-color: #ff6600;
             box-shadow: 0 0 0 3px rgba(255, 102, 0, 0.1);
+            transform: translateY(-2px);
         }
         .input-group textarea {
             resize: vertical;
@@ -429,27 +497,37 @@
             margin-top: 15px;
         }
         .ref-count-btn {
-            padding: 18px;
-            font-size: 1.2em;
-            font-weight: 700;
-            border: 3px solid #e1e8ed;
+            padding: 20px;
+            font-size: 1.3em;
+            font-weight: 900;
+            border: 3px solid #1a1a1a;
             background: white;
-            color: #2c3e50;
-            border-radius: 8px;
+            color: #1a1a1a;
+            border-radius: 0;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
             font-family: inherit;
             text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
         .ref-count-btn:hover {
             border-color: #ff6600;
-            background: #fff5f0;
+            background: #1a1a1a;
+            color: white;
         }
         .ref-count-btn.active {
             background: #ff6600;
             color: white;
             border-color: #ff6600;
-            box-shadow: 0 4px 15px rgba(255, 102, 0, 0.3);
+            box-shadow: none;
+        }
+        .ref-count-btn:focus-visible {
+            outline: 3px solid #ff6600;
+            outline-offset: 2px;
+        }
+        .ref-count-btn:active {
+            transform: scale(0.97);
         }
         
         /* Submit Button */
@@ -462,25 +540,75 @@
         .submit-btn {
             background: #25d366;
             color: white;
-            border: none;
-            padding: 20px 60px;
-            font-size: 1.3em;
-            font-weight: 700;
-            border-radius: 50px;
+            border: 3px solid #25d366;
+            padding: 22px 70px;
+            font-size: 1.2em;
+            font-weight: 900;
+            border-radius: 0;
             cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 6px 25px rgba(37, 211, 102, 0.3);
+            transition: all 0.2s ease;
+            box-shadow: none;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
         }
         .submit-btn:hover {
-            background: #128c7e;
-            transform: translateY(-2px);
+            background: #1a1a1a;
+            border-color: #1a1a1a;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 0 #ff6600;
+        }
+        .submit-btn:focus-visible {
+            outline: 3px solid #ff6600;
+            outline-offset: 4px;
             box-shadow: 0 8px 30px rgba(37, 211, 102, 0.4);
+        }
+        .submit-btn:active {
+            transform: translateY(0);
         }
         .submit-btn i {
             margin-right: 12px;
             font-size: 1.1em;
+        }
+        
+        /* Form Validation Styles */
+        .input-group.error input,
+        .input-group.error select,
+        .input-group.error textarea {
+            border-color: #e74c3c !important;
+            animation: shake 0.5s;
+        }
+        .error-message {
+            display: none;
+            color: #e74c3c;
+            font-size: 0.85em;
+            margin-top: 5px;
+            font-weight: 600;
+        }
+        .input-group.error .error-message {
+            display: block;
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+        
+        /* Keyboard Focus Styles */
+        *:focus-visible {
+            outline: 3px solid #ff6600;
+            outline-offset: 2px;
+        }
+        
+        /* Reduced Motion Support */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
         }
         .form-note {
             margin-top: 20px;
@@ -501,24 +629,31 @@
             gap: 30px;
         }
         .info-card {
-            background: white;
-            padding: 40px 35px;
-            border-radius: 12px;
-            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
-            border-top: 5px solid #ff6600;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background: #f8f8f8;
+            padding: 45px 40px;
+            border-radius: 0;
+            box-shadow: none;
+            border-left: 5px solid #ff6600;
+            border-top: 1px solid #e0e0e0;
+            border-right: 1px solid #e0e0e0;
+            border-bottom: 1px solid #e0e0e0;
+            transition: transform 0.2s ease, border-color 0.2s ease;
         }
         .info-card:hover {
+            transform: translateX(5px);
+            border-left-width: 8px;
+        }
+        .info-card:focus-within {
             transform: translateY(-5px);
             box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
         }
         .info-card h4 {
-            font-size: 1.4em;
+            font-size: 1.3em;
             color: #1a1a1a;
-            margin-bottom: 20px;
-            font-weight: 800;
+            margin-bottom: 25px;
+            font-weight: 900;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 1px;
         }
         .info-card ul { 
             list-style: none;
@@ -542,10 +677,20 @@
         
         /* Footer */
         footer {
-            background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+            background: #1a1a1a;
             color: white;
-            padding: 60px 30px 30px;
+            padding: 70px 30px 40px;
             border-top: 5px solid #ff6600;
+            position: relative;
+        }
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, #ff6600 0%, #1a1a1a 100%);
         }
         .footer-content {
             display: grid;
@@ -555,35 +700,43 @@
             margin: 0 auto 40px;
         }
         .footer-section h4 {
-            font-size: 1.3em;
-            margin-bottom: 20px;
+            font-size: 1.2em;
+            margin-bottom: 25px;
             color: #ff6600;
-            font-weight: 800;
+            font-weight: 900;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
         }
         .footer-section p {
-            line-height: 1.9;
-            color: #b8d4e0;
-            font-size: 1.05em;
+            line-height: 1.8;
+            color: #cccccc;
+            font-size: 1em;
+            font-weight: 400;
         }
         .footer-section a {
-            color: white;
+            color: #1a1a1a;
             text-decoration: none;
             display: inline-block;
-            margin-top: 15px;
-            padding: 14px 30px;
+            margin-top: 20px;
+            padding: 16px 35px;
             background: #ff6600;
-            border-radius: 50px;
-            transition: all 0.3s ease;
-            font-weight: 700;
+            border-radius: 0;
+            transition: all 0.2s ease;
+            font-weight: 900;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 2px;
+            border: 3px solid #ff6600;
         }
         .footer-section a:hover {
-            background: #ff8533;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(255, 102, 0, 0.4);
+            background: white;
+            color: #1a1a1a;
+            border-color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 0 #ff6600;
+        }
+        .footer-section a:focus-visible {
+            outline: 3px solid white;
+            outline-offset: 3px;
         }
         .footer-section i { margin-right: 10px; }
         .footer-bottom {
@@ -857,14 +1010,23 @@
     </style>
 </head>
 <body>
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="skip-link">跳至主要內容</a>
+    
     <!-- Top Bar -->
     <div class="top-bar">
         ⚡ 緊急球證預訂專線 | <span class="top-bar-break"></span>WhatsApp: <a href="https://wa.me/85295869595">9586 9595</a> | 即日訂單 · 快速回應
     </div>
     
     <!-- WhatsApp Float Button -->
-    <a href="https://wa.me/85295869595?text=你好！我想查詢球證服務" class="whatsapp-float" target="_blank" title="WhatsApp 查詢">
-        <svg viewBox="0 0 32 32" width="32" height="32" fill="white">
+    <a href="https://wa.me/85295869595?text=你好！我想查詢球證服務" 
+       class="whatsapp-float" 
+       target="_blank" 
+       rel="noopener noreferrer"
+       title="WhatsApp 查詢"
+       aria-label="透過 WhatsApp 聯絡我們查詢球證服務"
+       role="button">
+        <svg viewBox="0 0 32 32" width="32" height="32" fill="white" aria-hidden="true">
             <path d="M16 0C7.164 0 0 7.164 0 16c0 2.825.738 5.488 2.031 7.813L.281 30.594l7.031-1.844A15.923 15.923 0 0016 32c8.836 0 16-7.164 16-16S24.836 0 16 0zm0 29.25c-2.406 0-4.719-.656-6.719-1.875l-.469-.281-4.875 1.281 1.313-4.781-.313-.5A13.173 13.173 0 012.75 16C2.75 8.681 8.681 2.75 16 2.75S29.25 8.681 29.25 16 23.319 29.25 16 29.25zm7.25-9.906c-.406-.188-2.375-1.156-2.75-1.281-.375-.125-.656-.188-.938.188-.281.375-1.063 1.281-1.313 1.563-.25.281-.5.313-.906.125-.406-.188-1.719-.625-3.281-2-.219-.188-2.031-1.781-2.281-2.156-.25-.375-.031-.594.156-.781.156-.156.406-.406.594-.594.188-.188.25-.313.375-.531.125-.219.063-.406-.031-.594-.094-.188-.938-2.219-1.281-3.031-.344-.781-.688-.656-.938-.656-.25 0-.531-.031-.813-.031s-.75.094-1.125.469c-.375.375-1.438 1.406-1.438 3.438s1.469 3.969 1.656 4.25c.188.281 2.625 4 6.375 5.625.906.375 1.594.594 2.125.781.875.281 1.688.25 2.313.156.719-.094 2.188-.875 2.5-1.719.313-.844.313-1.563.219-1.719-.094-.156-.375-.25-.781-.438z"/>
         </svg>
     </a>
@@ -895,13 +1057,17 @@
                 </div>
                 <div class="hero-right">
                     <div class="logo-circle">
-                        <img src="lalaref2.png" alt="LaLaRef Logo">
+                        <img src="lalaref2.png" 
+                             alt="LaLaRef 急單王 - 專業籃球球證服務標誌"
+                             width="292"
+                             height="292"
+                             loading="eager">
                     </div>
                     <div class="website-url">www.lalaref.com</div>
                 </div>
             </div>
         </header>
-        <main>
+        <main id="main-content">
             <section class="booking-section">
                 <h2>📅 立即預訂球證服務</h2>
                 <form id="bookingForm" class="booking-form">
@@ -910,11 +1076,21 @@
                         <div class="form-row">
                             <div class="input-group">
                                 <label for="matchDate">比賽日期 *</label>
-                                <input type="date" id="matchDate" name="matchDate" required>
+                                <input type="date" 
+                                       id="matchDate" 
+                                       name="matchDate" 
+                                       required
+                                       aria-required="true"
+                                       aria-describedby="matchDate-error">
+                                <span id="matchDate-error" class="error-message" role="alert">請選擇比賽日期</span>
                             </div>
                             <div class="input-group">
                                 <label for="matchTime">比賽時間 *</label>
-                                <select id="matchTime" name="matchTime" required>
+                                <select id="matchTime" 
+                                        name="matchTime" 
+                                        required
+                                        aria-required="true"
+                                        aria-describedby="matchTime-error">
                                     <option value="">請選擇時間</option>
                                     <option value="00:00">00:00 (凌晨12時)</option>
                                     <option value="01:00">01:00 (凌晨1時)</option>
@@ -941,6 +1117,7 @@
                                     <option value="22:00">22:00 (下午10時)</option>
                                     <option value="23:00">23:00 (下午11時)</option>
                                 </select>
+                                <span id="matchTime-error" class="error-message" role="alert">請選擇比賽時間</span>
                             </div>
                         </div>
                     </div>
@@ -948,7 +1125,11 @@
                         <h3>📍 比賽場地</h3>
                         <div class="input-group">
                             <label for="venue">體育館 *</label>
-                            <select id="venue" name="venue" required>
+                            <select id="venue" 
+                                    name="venue" 
+                                    required
+                                    aria-required="true"
+                                    aria-describedby="venue-error">
                                 <option value="">請選擇體育館</option>
                                 <optgroup label="九龍區">
                                     <option value="花園街體育館">花園街體育館</option>
@@ -1024,6 +1205,7 @@
                                     <option value="東涌文東路體育館">東涌文東路體育館</option>
                                 </optgroup>
                             </select>
+                            <span id="venue-error" class="error-message" role="alert">請選擇體育館</span>
                         </div>
                         <div class="input-group">
                             <label for="venueDetails">其他地點備註</label>
@@ -1042,8 +1224,17 @@
                         </div>
                         <div class="input-group">
                             <label for="hourlyRate">每小時報價預算（港幣）*</label>
-                            <input type="number" id="hourlyRate" name="hourlyRate" placeholder="例如：300" min="0" step="50" required>
-                            <small class="hint">請輸入您的預算，我們會盡力配合</small>
+                            <input type="number" 
+                                   id="hourlyRate" 
+                                   name="hourlyRate" 
+                                   placeholder="例如：300" 
+                                   min="0" 
+                                   step="50" 
+                                   required
+                                   aria-required="true"
+                                   aria-describedby="hourlyRate-hint hourlyRate-error">
+                            <small id="hourlyRate-hint" class="hint">請輸入您的預算，我們會盡力配合</small>
+                            <span id="hourlyRate-error" class="error-message" role="alert">請輸入每小時報價預算</span>
                         </div>
                         <div class="input-group">
                             <label for="remarks">備註</label>
@@ -1051,7 +1242,7 @@
                         </div>
                     </div>
                     <div class="form-actions">
-                        <button type="submit" class="submit-btn">
+                        <button type="submit" class="submit-btn" aria-label="提交表格並透過 WhatsApp 確認預訂">
                             💬 透過 WhatsApp 確認預訂
                         </button>
                         <p class="form-note">
@@ -1140,8 +1331,51 @@
                 });
             });
             
+            // Enhanced form validation
+            function validateField(field) {
+                const inputGroup = field.closest('.input-group');
+                if (!field.validity.valid) {
+                    inputGroup.classList.add('error');
+                    return false;
+                } else {
+                    inputGroup.classList.remove('error');
+                    return true;
+                }
+            }
+            
+            // Real-time validation
+            document.querySelectorAll('input[required], select[required]').forEach(field => {
+                field.addEventListener('blur', function() {
+                    validateField(this);
+                });
+                
+                field.addEventListener('input', function() {
+                    if (this.closest('.input-group').classList.contains('error')) {
+                        validateField(this);
+                    }
+                });
+            });
+            
             document.getElementById('bookingForm').addEventListener('submit', function(e) {
                 e.preventDefault();
+                
+                // Validate all required fields
+                let isValid = true;
+                const requiredFields = this.querySelectorAll('input[required], select[required]');
+                requiredFields.forEach(field => {
+                    if (!validateField(field)) {
+                        isValid = false;
+                    }
+                });
+                
+                if (!isValid) {
+                    // Focus on first error
+                    const firstError = this.querySelector('.input-group.error input, .input-group.error select');
+                    if (firstError) {
+                        firstError.focus();
+                    }
+                    return;
+                }
                 
                 const formData = {
                     matchDate: document.getElementById('matchDate').value,
@@ -1182,8 +1416,15 @@
                 const encodedMessage = encodeURIComponent(message);
                 const whatsappURL = `https://wa.me/85295869595?text=${encodedMessage}`;
                 
-                window.open(whatsappURL, '_blank');
-                alert('正在開啟 WhatsApp...\n\n請確認發送訊息以完成預訂！\n\n我們會盡快回覆您的申請。');
+                // Announce to screen readers
+                announcer.textContent = '正在開啟 WhatsApp，請稍候...';
+                
+                window.open(whatsappURL, '_blank', 'noopener,noreferrer');
+                
+                setTimeout(() => {
+                    alert('正在開啟 WhatsApp...\n\n請確認發送訊息以完成預訂！\n\n我們會盡快回覆您的申請。');
+                    announcer.textContent = '已開啟 WhatsApp，請在新視窗中確認發送訊息';
+                }, 100);
             });
             
             document.getElementById('hourlyRate').addEventListener('input', function(e) {
@@ -1193,31 +1434,25 @@
                 }
             });
             
-            document.querySelectorAll('input[required], select[required], textarea[required]').forEach(field => {
-                field.addEventListener('invalid', function(e) {
-                    e.preventDefault();
-                    this.classList.add('error');
-                    
-                    this.addEventListener('input', function() {
-                        this.classList.remove('error');
-                    }, { once: true });
-                });
+            // Keyboard navigation enhancement
+            document.addEventListener('keydown', function(e) {
+                // Allow Escape to close any focused element
+                if (e.key === 'Escape') {
+                    document.activeElement.blur();
+                }
             });
             
-            const style = document.createElement('style');
-            style.textContent = `
-                .error {
-                    border-color: #e74c3c !important;
-                    animation: shake 0.5s;
-                }
-                
-                @keyframes shake {
-                    0%, 100% { transform: translateX(0); }
-                    25% { transform: translateX(-10px); }
-                    75% { transform: translateX(10px); }
-                }
-            `;
-            document.head.appendChild(style);
+            // Announce form submission to screen readers
+            const announcer = document.createElement('div');
+            announcer.setAttribute('role', 'status');
+            announcer.setAttribute('aria-live', 'polite');
+            announcer.setAttribute('aria-atomic', 'true');
+            announcer.style.position = 'absolute';
+            announcer.style.left = '-10000px';
+            announcer.style.width = '1px';
+            announcer.style.height = '1px';
+            announcer.style.overflow = 'hidden';
+            document.body.appendChild(announcer);
         });
     </script>
 </body>
