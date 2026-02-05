@@ -552,7 +552,8 @@
             gap: 20px;
             margin-top: 15px;
         }
-        .ref-count-btn {
+        .ref-count-btn,
+        .game-format-btn {
             padding: 22px;
             font-size: 1.2em;
             font-weight: 700;
@@ -569,24 +570,28 @@
             text-align: center;
             letter-spacing: 1px;
         }
-        .ref-count-btn:hover {
+        .ref-count-btn:hover,
+        .game-format-btn:hover {
             box-shadow: 
                 15px 15px 30px rgba(0,0,0,0.2),
                 -15px -15px 30px rgba(255,255,255,0.8);
             transform: translateY(-3px);
         }
-        .ref-count-btn.active {
+        .ref-count-btn.active,
+        .game-format-btn.active {
             background: linear-gradient(145deg, #d4a574, #c89860);
             color: white;
             box-shadow: 
                 inset 8px 8px 16px rgba(0,0,0,0.2),
                 inset -8px -8px 16px rgba(255,255,255,0.5);
         }
-        .ref-count-btn:focus-visible {
+        .ref-count-btn:focus-visible,
+        .game-format-btn:focus-visible {
             outline: 3px solid #d4a574;
             outline-offset: 2px;
         }
-        .ref-count-btn:active {
+        .ref-count-btn:active,
+        .game-format-btn:active {
             transform: scale(0.97);
         }
         
@@ -1291,6 +1296,17 @@
                         </div>
                     </div>
                     <div class="form-section">
+                        <h3>🏀 比賽形式</h3>
+                        <div class="input-group">
+                            <label>比賽類型 *</label>
+                            <div class="ref-count-buttons">
+                                <button type="button" class="game-format-btn active" data-value="5x5">5 x 5 全場</button>
+                                <button type="button" class="game-format-btn" data-value="3x3">3 x 3 半場</button>
+                            </div>
+                            <input type="hidden" id="gameFormat" name="gameFormat" value="5x5" required>
+                        </div>
+                    </div>
+                    <div class="form-section">
                         <h3>👥 球證需求</h3>
                         <div class="input-group">
                             <label>需要球證數目 *</label>
@@ -1473,6 +1489,21 @@
             dateInput.setAttribute('min', today);
             dateInput.value = today;
             
+            // 比賽形式按鈕功能
+            const gameFormatButtons = document.querySelectorAll('.game-format-btn');
+            const gameFormatInput = document.getElementById('gameFormat');
+            
+            gameFormatButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // 移除所有按鈕的 active 類
+                    gameFormatButtons.forEach(btn => btn.classList.remove('active'));
+                    // 添加 active 類到被點擊的按鈕
+                    this.classList.add('active');
+                    // 更新隱藏的 input 值
+                    gameFormatInput.value = this.getAttribute('data-value');
+                });
+            });
+            
             // 球證數目按鈕功能
             const refCountButtons = document.querySelectorAll('.ref-count-btn');
             const refCountInput = document.getElementById('refCount');
@@ -1540,6 +1571,7 @@
                     matchTimeEnd: document.getElementById('matchTimeEnd').value,
                     venue: document.getElementById('venue').value,
                     venueDetails: document.getElementById('venueDetails').value,
+                    gameFormat: document.getElementById('gameFormat').value,
                     refCount: document.getElementById('refCount').value,
                     hourlyRate: document.getElementById('hourlyRate').value,
                     remarks: document.getElementById('remarks').value
@@ -1547,6 +1579,8 @@
                 
                 const dateObj = new Date(formData.matchDate);
                 const formattedDate = `${dateObj.getFullYear()}年${dateObj.getMonth() + 1}月${dateObj.getDate()}日`;
+                
+                const gameFormatText = formData.gameFormat === '5x5' ? '5 x 5 全場' : '3 x 3 半場';
                 
                 let message = `🏀 *LaLaRef 急單王 - 緊急球證預訂申請*\n\n`;
                 message += `📅 *比賽日期時間*\n`;
@@ -1560,6 +1594,9 @@
                     message += `場地詳情：${formData.venueDetails}\n`;
                 }
                 message += `\n`;
+                
+                message += `🏀 *比賽形式*\n`;
+                message += `類型：${gameFormatText}\n\n`;
                 
                 message += `👥 *球證需求*\n`;
                 message += `需要球證：${formData.refCount} 位\n`;
