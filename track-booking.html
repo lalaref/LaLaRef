@@ -267,6 +267,9 @@
     </div>
 
     <script>
+        // Get Google Sheets URL from admin page (stored in localStorage)
+        const sheetUrl = localStorage.getItem('sheetUrl') || '';
+        
         document.getElementById('search-form').addEventListener('submit', async function(e) {
             e.preventDefault();
             
@@ -278,11 +281,17 @@
             resultBox.classList.remove('show');
             errorMsg.classList.remove('show');
             
+            if (!sheetUrl) {
+                errorMsg.textContent = '系統未設定，請聯絡管理員';
+                errorMsg.classList.add('show');
+                return;
+            }
+            
             try {
-                const response = await fetch('get-booking.php?code=' + encodeURIComponent(code));
+                const response = await fetch(sheetUrl + '?code=' + encodeURIComponent(code));
                 const data = await response.json();
                 
-                if (data.success) {
+                if (data.success && data.booking) {
                     displayBooking(data.booking);
                 } else {
                     errorMsg.textContent = data.message || '找不到此預訂編號';

@@ -39,11 +39,37 @@
             margin-bottom: 10px;
         }
 
+        .setup-notice {
+            background: linear-gradient(145deg, #ffd700, #ffed4e);
+            padding: 30px;
+            border-radius: 25px;
+            margin-bottom: 30px;
+            box-shadow: 15px 15px 30px rgba(0,0,0,0.15), -15px -15px 30px rgba(255,255,255,0.7);
+        }
+
+        .setup-notice h3 {
+            color: #5a4a3a;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .setup-notice ol {
+            margin-left: 20px;
+            color: #5a4a3a;
+            line-height: 1.8;
+        }
+
+        .setup-notice a {
+            color: #d4a574;
+            font-weight: 700;
+        }
+
         .tabs {
             display: flex;
             gap: 15px;
             margin-bottom: 30px;
             justify-content: center;
+            flex-wrap: wrap;
         }
 
         .tab-btn {
@@ -143,15 +169,12 @@
             color: #5a4a3a;
         }
 
-        .btn-danger {
-            background: linear-gradient(145deg, #ff6b6b, #ee5a52);
-        }
-
         .form-actions {
             display: flex;
             gap: 15px;
             justify-content: flex-end;
             margin-top: 30px;
+            flex-wrap: wrap;
         }
 
         .booking-list {
@@ -164,10 +187,6 @@
             padding: 25px;
             border-radius: 25px;
             box-shadow: 10px 10px 20px rgba(0,0,0,0.1), -10px -10px 20px rgba(255,255,255,0.7);
-            display: grid;
-            grid-template-columns: 1fr auto;
-            gap: 20px;
-            align-items: center;
         }
 
         .booking-info h3 {
@@ -192,23 +211,13 @@
             color: #7a6a5a;
         }
 
-        .booking-actions {
-            display: flex;
-            gap: 10px;
-            flex-direction: column;
-        }
-
-        .btn-small {
-            padding: 10px 20px;
-            font-size: 0.9em;
-        }
-
         .status-badge {
             display: inline-block;
             padding: 5px 15px;
             border-radius: 15px;
             font-weight: 700;
             font-size: 0.9em;
+            margin-left: 10px;
         }
 
         .status-confirmed {
@@ -296,18 +305,63 @@
             font-size: 1.5em;
             margin-bottom: 10px;
         }
+
+        .config-input {
+            width: 100%;
+            padding: 12px;
+            margin-top: 10px;
+            border-radius: 15px;
+            border: 2px solid #d4a574;
+            font-family: monospace;
+            font-size: 0.9em;
+        }
+
+        .save-config-btn {
+            margin-top: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .booking-details {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-actions {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
             <h1>📋 預訂管理系統</h1>
-            <p>管理球證預訂及生成查詢編號</p>
+            <p>使用 Google Sheets 管理球證預訂</p>
+        </div>
+
+        <div class="setup-notice" id="setup-notice">
+            <h3>⚙️ 首次設定指南</h3>
+            <ol>
+                <li>前往 <a href="https://docs.google.com/spreadsheets" target="_blank">Google Sheets</a> 建立新試算表</li>
+                <li>在第一行輸入欄位標題：code | matchDate | matchTime | venue | matchType | refereeCount | contactName | contactPhone | contactEmail | status | paymentStatus | refereeInfo | notes | createdAt</li>
+                <li>點擊「擴充功能」→「Apps Script」</li>
+                <li>複製下方程式碼並貼上，然後點擊「部署」→「新增部署」→「網頁應用程式」</li>
+                <li>設定「執行身分」為「我」，「誰可以存取」為「任何人」</li>
+                <li>複製部署的網址並貼到下方「設定」分頁</li>
+            </ol>
         </div>
 
         <div class="tabs">
             <button class="tab-btn active" onclick="switchTab('create')">➕ 新增預訂</button>
             <button class="tab-btn" onclick="switchTab('list')">📋 預訂列表</button>
+            <button class="tab-btn" onclick="switchTab('config')">⚙️ 設定</button>
         </div>
 
         <!-- Create Booking Tab -->
@@ -316,8 +370,6 @@
                 <div class="message" id="create-message"></div>
                 
                 <form id="booking-form">
-                    <input type="hidden" id="booking-id" name="id">
-                    
                     <div class="form-grid">
                         <div class="form-group">
                             <label for="match-date">📅 比賽日期 *</label>
@@ -325,100 +377,14 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="match-time">🕐 開始時間 *</label>
+                            <label for="match-time">🕐 比賽時間 *</label>
                             <input type="time" id="match-time" name="matchTime" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="end-time">🕐 結束時間 *</label>
-                            <input type="time" id="end-time" name="endTime" required>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label for="venue">📍 比賽地點 *</label>
-                        <select id="venue" name="venue" required onchange="handleVenueChange()">
-                            <option value="">請選擇體育館</option>
-                            <optgroup label="香港島">
-                                <option value="港島東體育館">港島東體育館</option>
-                                <option value="柴灣體育館">柴灣體育館</option>
-                                <option value="小西灣體育館">小西灣體育館</option>
-                                <option value="鰂魚涌體育館">鰂魚涌體育館</option>
-                                <option value="西灣河體育館">西灣河體育館</option>
-                                <option value="渣華道體育館">渣華道體育館</option>
-                                <option value="北角渡輪碼頭體育館">北角渡輪碼頭體育館</option>
-                                <option value="維多利亞公園體育館">維多利亞公園體育館</option>
-                                <option value="中山紀念公園體育館">中山紀念公園體育館</option>
-                                <option value="上環體育館">上環體育館</option>
-                                <option value="士美非路體育館">士美非路體育館</option>
-                                <option value="香港仔體育館">香港仔體育館</option>
-                                <option value="鴨脷洲體育館">鴨脷洲體育館</option>
-                                <option value="石塘咀體育館">石塘咀體育館</option>
-                                <option value="堅尼地城體育館">堅尼地城體育館</option>
-                                <option value="薄扶林體育館">薄扶林體育館</option>
-                            </optgroup>
-                            <optgroup label="九龍">
-                                <option value="九龍公園體育館">九龍公園體育館</option>
-                                <option value="紅磡市政大廈體育館">紅磡市政大廈體育館</option>
-                                <option value="土瓜灣體育館">土瓜灣體育館</option>
-                                <option value="何文田體育館">何文田體育館</option>
-                                <option value="九龍灣體育館">九龍灣體育館</option>
-                                <option value="牛頭角體育館">牛頭角體育館</option>
-                                <option value="藍田體育館">藍田體育館</option>
-                                <option value="觀塘體育館">觀塘體育館</option>
-                                <option value="秀茂坪體育館">秀茂坪體育館</option>
-                                <option value="彩虹道體育館">彩虹道體育館</option>
-                                <option value="彩榮路體育館">彩榮路體育館</option>
-                                <option value="牛池灣體育館">牛池灣體育館</option>
-                                <option value="鑽石山體育館">鑽石山體育館</option>
-                                <option value="黃大仙體育館">黃大仙體育館</option>
-                                <option value="摩士公園體育館">摩士公園體育館</option>
-                                <option value="石硤尾公園體育館">石硤尾公園體育館</option>
-                                <option value="深水埗體育館">深水埗體育館</option>
-                                <option value="長沙灣體育館">長沙灣體育館</option>
-                                <option value="荔枝角公園體育館">荔枝角公園體育館</option>
-                                <option value="保安道體育館">保安道體育館</option>
-                                <option value="花園街體育館">花園街體育館</option>
-                                <option value="界限街體育館">界限街體育館</option>
-                                <option value="大角咀體育館">大角咀體育館</option>
-                            </optgroup>
-                            <optgroup label="新界東">
-                                <option value="沙田體育館">沙田體育館</option>
-                                <option value="源禾路體育館">源禾路體育館</option>
-                                <option value="顯徑體育館">顯徑體育館</option>
-                                <option value="馬鞍山體育館">馬鞍山體育館</option>
-                                <option value="大埔體育館">大埔體育館</option>
-                                <option value="太和體育館">太和體育館</option>
-                                <option value="北區公園體育館">北區公園體育館</option>
-                                <option value="粉嶺遊樂場體育館">粉嶺遊樂場體育館</option>
-                                <option value="和興體育館">和興體育館</option>
-                                <option value="西貢體育館">西貢體育館</option>
-                                <option value="將軍澳體育館">將軍澳體育館</option>
-                                <option value="調景嶺體育館">調景嶺體育館</option>
-                                <option value="坑口體育館">坑口體育館</option>
-                                <option value="寶林體育館">寶林體育館</option>
-                            </optgroup>
-                            <optgroup label="新界西">
-                                <option value="荃灣體育館">荃灣體育館</option>
-                                <option value="蕙荃體育館">蕙荃體育館</option>
-                                <option value="城門谷體育館">城門谷體育館</option>
-                                <option value="葵涌體育館">葵涌體育館</option>
-                                <option value="林士德體育館">林士德體育館</option>
-                                <option value="青衣體育館">青衣體育館</option>
-                                <option value="青衣西南體育館">青衣西南體育館</option>
-                                <option value="元朗體育館">元朗體育館</option>
-                                <option value="天水圍體育館">天水圍體育館</option>
-                                <option value="屯門體育館">屯門體育館</option>
-                                <option value="屯門西北體育館">屯門西北體育館</option>
-                                <option value="賽馬會屯門蝴蝶灣體育館">賽馬會屯門蝴蝶灣體育館</option>
-                            </optgroup>
-                            <option value="custom">其他 (自訂地點)</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group" id="custom-venue-group" style="display: none;">
-                        <label for="custom-venue">📍 自訂地點 *</label>
-                        <input type="text" id="custom-venue" name="customVenue" placeholder="請輸入比賽地點">
+                        <input type="text" id="venue" name="venue" placeholder="例如: 九龍公園體育館" required>
                     </div>
 
                     <div class="form-grid">
@@ -512,39 +478,94 @@
                 <div class="booking-list" id="booking-list">
                     <div class="empty-state">
                         <h3>📭 暫無預訂記錄</h3>
-                        <p>請新增第一個預訂</p>
+                        <p>請先在「設定」分頁配置 Google Sheets</p>
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Config Tab -->
+        <div id="config-tab" class="tab-content">
+            <div class="form-box">
+                <h3 style="margin-bottom: 20px; color: #5a4a3a;">⚙️ Google Sheets 設定</h3>
+                <div class="message" id="config-message"></div>
+                
+                <div class="form-group">
+                    <label for="sheet-url">Google Apps Script 網址</label>
+                    <input type="url" id="sheet-url" class="config-input" placeholder="https://script.google.com/macros/s/...../exec">
+                    <button class="btn save-config-btn" onclick="saveConfig()">💾 儲存設定</button>
+                </div>
+
+                <div style="margin-top: 30px; padding: 20px; background: #f5e6d3; border-radius: 15px;">
+                    <h4 style="margin-bottom: 15px; color: #5a4a3a;">📝 Google Apps Script 程式碼</h4>
+                    <p style="margin-bottom: 10px; color: #7a6a5a;">複製以下程式碼到 Google Sheets 的 Apps Script：</p>
+                    <textarea readonly style="width: 100%; height: 200px; font-family: monospace; font-size: 0.85em; padding: 10px; border-radius: 10px; border: 1px solid #d4a574;">
+function doGet(e) {
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  const data = sheet.getDataRange().getValues();
+  const headers = data[0];
+  const rows = data.slice(1);
+  
+  const code = e.parameter.code;
+  
+  if (code) {
+    // Search for specific booking
+    const booking = rows.find(row => row[0] === code);
+    if (booking) {
+      const result = {};
+      headers.forEach((header, i) => result[header] = booking[i]);
+      return ContentService.createTextOutput(JSON.stringify({success: true, booking: result})).setMimeType(ContentService.MimeType.JSON);
+    }
+    return ContentService.createTextOutput(JSON.stringify({success: false, message: '找不到此預訂編號'})).setMimeType(ContentService.MimeType.JSON);
+  }
+  
+  // Return all bookings
+  const bookings = rows.map(row => {
+    const obj = {};
+    headers.forEach((header, i) => obj[header] = row[i]);
+    return obj;
+  });
+  
+  return ContentService.createTextOutput(JSON.stringify({success: true, bookings: bookings})).setMimeType(ContentService.MimeType.JSON);
+}
+
+function doPost(e) {
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  const data = JSON.parse(e.postData.contents);
+  
+  sheet.appendRow([
+    data.code,
+    data.matchDate,
+    data.matchTime,
+    data.venue,
+    data.matchType,
+    data.refereeCount,
+    data.contactName,
+    data.contactPhone,
+    data.contactEmail || '',
+    data.status,
+    data.paymentStatus,
+    data.refereeInfo || '',
+    data.notes || '',
+    new Date().toISOString()
+  ]);
+  
+  return ContentService.createTextOutput(JSON.stringify({success: true, message: '預訂已建立'})).setMimeType(ContentService.MimeType.JSON);
+}
+</textarea>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        let bookings = [];
-        let editingId = null;
-
-        // Load bookings on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            loadBookings();
-        });
-
-        // Handle venue dropdown change
-        function handleVenueChange() {
-            const venueSelect = document.getElementById('venue');
-            const customVenueGroup = document.getElementById('custom-venue-group');
-            const customVenueInput = document.getElementById('custom-venue');
-            
-            if (venueSelect.value === 'custom') {
-                customVenueGroup.style.display = 'block';
-                customVenueInput.required = true;
-            } else {
-                customVenueGroup.style.display = 'none';
-                customVenueInput.required = false;
-                customVenueInput.value = '';
-            }
+        let sheetUrl = localStorage.getItem('sheetUrl') || '';
+        
+        if (sheetUrl) {
+            document.getElementById('sheet-url').value = sheetUrl;
+            document.getElementById('setup-notice').style.display = 'none';
         }
 
-        // Switch tabs
         function switchTab(tab) {
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
@@ -552,38 +573,46 @@
             if (tab === 'create') {
                 document.querySelector('.tab-btn:nth-child(1)').classList.add('active');
                 document.getElementById('create-tab').classList.add('active');
-            } else {
+            } else if (tab === 'list') {
                 document.querySelector('.tab-btn:nth-child(2)').classList.add('active');
                 document.getElementById('list-tab').classList.add('active');
                 loadBookings();
+            } else {
+                document.querySelector('.tab-btn:nth-child(3)').classList.add('active');
+                document.getElementById('config-tab').classList.add('active');
             }
         }
 
-        // Form submission
+        function saveConfig() {
+            const url = document.getElementById('sheet-url').value.trim();
+            if (!url) {
+                showMessage('config-message', '請輸入 Google Apps Script 網址', 'error');
+                return;
+            }
+            
+            localStorage.setItem('sheetUrl', url);
+            sheetUrl = url;
+            showMessage('config-message', '設定已儲存', 'success');
+            document.getElementById('setup-notice').style.display = 'none';
+        }
+
         document.getElementById('booking-form').addEventListener('submit', async function(e) {
             e.preventDefault();
+            
+            if (!sheetUrl) {
+                showMessage('create-message', '請先在「設定」分頁配置 Google Sheets', 'error');
+                return;
+            }
             
             const formData = new FormData(this);
             const data = Object.fromEntries(formData.entries());
             
-            // Handle custom venue
-            if (data.venue === 'custom') {
-                data.venue = data.customVenue;
-            }
-            delete data.customVenue;
-            
-            // Generate booking code if new booking
-            if (!data.id) {
-                data.code = generateBookingCode();
-                data.createdAt = new Date().toISOString();
-            }
+            data.code = generateBookingCode();
+            data.createdAt = new Date().toISOString();
             
             try {
-                const response = await fetch('save-booking.php', {
+                const response = await fetch(sheetUrl, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
                     body: JSON.stringify(data)
                 });
                 
@@ -591,12 +620,9 @@
                 
                 if (result.success) {
                     showMessage('create-message', result.message, 'success');
-                    
-                    // Show generated code
                     document.getElementById('code-display').textContent = data.code;
                     document.getElementById('generated-code').classList.add('show');
                     
-                    // Reset form after 3 seconds
                     setTimeout(() => {
                         resetForm();
                     }, 3000);
@@ -605,47 +631,46 @@
                 }
             } catch (error) {
                 console.error('Error:', error);
-                showMessage('create-message', '儲存時發生錯誤', 'error');
+                showMessage('create-message', '儲存時發生錯誤，請檢查 Google Sheets 設定', 'error');
             }
         });
 
-        // Generate booking code (format: LR + YYYYMMDD + sequential number)
         function generateBookingCode() {
             const today = new Date();
             const dateStr = today.getFullYear() + 
                           String(today.getMonth() + 1).padStart(2, '0') + 
                           String(today.getDate()).padStart(2, '0');
-            
-            // Find highest sequential number for today
-            const todayBookings = bookings.filter(b => b.code && b.code.startsWith('LR' + dateStr));
-            let maxNum = 0;
-            
-            todayBookings.forEach(b => {
-                const num = parseInt(b.code.slice(-3));
-                if (num > maxNum) maxNum = num;
-            });
-            
-            const nextNum = String(maxNum + 1).padStart(3, '0');
-            return 'LR' + dateStr + nextNum;
+            const randomNum = String(Math.floor(Math.random() * 1000)).padStart(3, '0');
+            return 'LR' + dateStr + randomNum;
         }
 
-        // Load bookings
         async function loadBookings() {
+            if (!sheetUrl) {
+                document.getElementById('booking-list').innerHTML = `
+                    <div class="empty-state">
+                        <h3>⚙️ 請先設定 Google Sheets</h3>
+                        <p>前往「設定」分頁配置連接</p>
+                    </div>
+                `;
+                return;
+            }
+            
             try {
-                const response = await fetch('get-booking.php');
+                const response = await fetch(sheetUrl);
                 const data = await response.json();
                 
-                if (data.success) {
-                    bookings = data.bookings || [];
-                    renderBookings();
+                if (data.success && data.bookings) {
+                    renderBookings(data.bookings);
+                } else {
+                    showMessage('list-message', '載入失敗', 'error');
                 }
             } catch (error) {
-                console.error('Error loading bookings:', error);
+                console.error('Error:', error);
+                showMessage('list-message', '載入時發生錯誤', 'error');
             }
         }
 
-        // Render bookings list
-        function renderBookings() {
+        function renderBookings(bookings) {
             const listContainer = document.getElementById('booking-list');
             
             if (bookings.length === 0) {
@@ -658,35 +683,27 @@
                 return;
             }
             
-            // Sort by date (newest first)
-            const sortedBookings = [...bookings].sort((a, b) => {
-                return new Date(b.createdAt || 0) - new Date(a.createdAt || 0);
-            });
+            const sortedBookings = [...bookings].reverse();
             
             listContainer.innerHTML = sortedBookings.map(booking => `
                 <div class="booking-item">
                     <div class="booking-info">
-                        <h3>${booking.code}</h3>
-                        <span class="status-badge status-${booking.status}">${getStatusText(booking.status)}</span>
+                        <h3>${booking.code}<span class="status-badge status-${booking.status}">${getStatusText(booking.status)}</span></h3>
                         <div class="booking-details">
                             <div class="booking-detail"><strong>日期：</strong>${booking.matchDate}</div>
-                            <div class="booking-detail"><strong>時間：</strong>${booking.matchTime}${booking.endTime ? ' - ' + booking.endTime : ''}</div>
+                            <div class="booking-detail"><strong>時間：</strong>${booking.matchTime}</div>
                             <div class="booking-detail"><strong>地點：</strong>${booking.venue}</div>
                             <div class="booking-detail"><strong>類型：</strong>${booking.matchType}</div>
                             <div class="booking-detail"><strong>聯絡人：</strong>${booking.contactName}</div>
                             <div class="booking-detail"><strong>電話：</strong>${booking.contactPhone}</div>
                             <div class="booking-detail"><strong>付款：</strong>${booking.paymentStatus}</div>
+                            ${booking.refereeInfo ? `<div class="booking-detail"><strong>球證：</strong>${booking.refereeInfo}</div>` : ''}
                         </div>
-                    </div>
-                    <div class="booking-actions">
-                        <button class="btn btn-small btn-secondary" onclick="editBooking('${booking.code}')">✏️ 編輯</button>
-                        <button class="btn btn-small btn-danger" onclick="deleteBooking('${booking.code}')">🗑️ 刪除</button>
                     </div>
                 </div>
             `).join('');
         }
 
-        // Get status text
         function getStatusText(status) {
             const statusMap = {
                 'pending': '待確認',
@@ -696,88 +713,12 @@
             return statusMap[status] || status;
         }
 
-        // Edit booking
-        function editBooking(code) {
-            const booking = bookings.find(b => b.code === code);
-            if (!booking) return;
-            
-            // Fill form
-            document.getElementById('booking-id').value = booking.code;
-            document.getElementById('match-date').value = booking.matchDate;
-            document.getElementById('match-time').value = booking.matchTime;
-            document.getElementById('end-time').value = booking.endTime || '';
-            
-            // Handle venue - check if it's a custom venue
-            const venueSelect = document.getElementById('venue');
-            const venueOptions = Array.from(venueSelect.options).map(opt => opt.value);
-            
-            if (venueOptions.includes(booking.venue)) {
-                venueSelect.value = booking.venue;
-                handleVenueChange();
-            } else {
-                venueSelect.value = 'custom';
-                handleVenueChange();
-                document.getElementById('custom-venue').value = booking.venue;
-            }
-            
-            document.getElementById('match-type').value = booking.matchType;
-            document.getElementById('referee-count').value = booking.refereeCount;
-            document.getElementById('contact-name').value = booking.contactName;
-            document.getElementById('contact-phone').value = booking.contactPhone;
-            document.getElementById('contact-email').value = booking.contactEmail || '';
-            document.getElementById('status').value = booking.status;
-            document.getElementById('payment-status').value = booking.paymentStatus;
-            document.getElementById('referee-info').value = booking.refereeInfo || '';
-            document.getElementById('notes').value = booking.notes || '';
-            
-            editingId = code;
-            
-            // Switch to create tab
-            switchTab('create');
-            
-            // Scroll to top
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        // Delete booking
-        async function deleteBooking(code) {
-            if (!confirm('確定要刪除此預訂嗎？')) return;
-            
-            try {
-                const response = await fetch('save-booking.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ code, delete: true })
-                });
-                
-                const result = await response.json();
-                
-                if (result.success) {
-                    showMessage('list-message', '預訂已刪除', 'success');
-                    loadBookings();
-                } else {
-                    showMessage('list-message', '刪除失敗', 'error');
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                showMessage('list-message', '刪除時發生錯誤', 'error');
-            }
-        }
-
-        // Reset form
         function resetForm() {
             document.getElementById('booking-form').reset();
-            document.getElementById('booking-id').value = '';
             document.getElementById('generated-code').classList.remove('show');
             document.getElementById('create-message').classList.remove('show');
-            document.getElementById('custom-venue-group').style.display = 'none';
-            document.getElementById('custom-venue').required = false;
-            editingId = null;
         }
 
-        // Copy code to clipboard
         function copyCode() {
             const code = document.getElementById('code-display').textContent;
             navigator.clipboard.writeText(code).then(() => {
@@ -785,7 +726,6 @@
             });
         }
 
-        // Show message
         function showMessage(elementId, message, type) {
             const msgElement = document.getElementById(elementId);
             msgElement.textContent = message;
