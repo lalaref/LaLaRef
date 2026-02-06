@@ -214,6 +214,31 @@
             background: rgba(255,255,255,0.2);
         }
         
+        /* Hamburger Menu */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 5px;
+        }
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: white;
+            margin: 3px 0;
+            transition: 0.3s;
+            border-radius: 3px;
+        }
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(-45deg) translate(-5px, 6px);
+        }
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(45deg) translate(-5px, -6px);
+        }
+        
         /* Breadcrumb */
         .breadcrumb {
             max-width: 1100px;
@@ -454,12 +479,31 @@
         
         /* Responsive */
         @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
             .nav-links {
-                gap: 15px;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: linear-gradient(145deg, #d4a574, #c89860);
+                flex-direction: column;
+                gap: 0;
+                padding: 0;
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.3s ease;
+                box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+            }
+            .nav-links.active {
+                max-height: 300px;
             }
             .nav-links a {
-                font-size: 0.9em;
-                padding: 6px 12px;
+                padding: 15px 30px;
+                font-size: 1em;
+                border-radius: 0;
+                border-bottom: 1px solid rgba(255,255,255,0.1);
             }
             .page-header h1 {
                 font-size: 2em;
@@ -485,7 +529,12 @@
     <nav class="nav-bar">
         <div class="nav-content">
             <a href="index.html" class="nav-logo">LaLaRef 急單王</a>
-            <div class="nav-links">
+            <div class="hamburger" onclick="toggleMenu()" aria-label="選單" role="button" tabindex="0">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <div class="nav-links" id="navLinks">
                 <a href="index.html">首頁</a>
                 <a href="service.html">服務資訊</a>
                 <a href="news.html">籃球新聞</a>
@@ -772,6 +821,23 @@
                         block: 'start'
                     });
                 }
+            });
+        });
+    </script>
+    
+    <script>
+        function toggleMenu() {
+            const navLinks = document.getElementById('navLinks');
+            const hamburger = document.querySelector('.hamburger');
+            navLinks.classList.toggle('active');
+            hamburger.classList.toggle('active');
+        }
+        
+        // Close menu when clicking on a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('navLinks').classList.remove('active');
+                document.querySelector('.hamburger').classList.remove('active');
             });
         });
     </script>
