@@ -377,8 +377,13 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="match-time">🕐 比賽時間 *</label>
+                            <label for="match-time">🕐 開始時間 *</label>
                             <input type="time" id="match-time" name="matchTime" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="match-end-time">🕐 結束時間 *</label>
+                            <input type="time" id="match-end-time" name="matchEndTime" required>
                         </div>
                     </div>
 
@@ -537,6 +542,7 @@ function doPost(e) {
     data.code,
     data.matchDate,
     data.matchTime,
+    data.matchEndTime,
     data.venue,
     data.matchType,
     data.refereeCount,
@@ -623,9 +629,7 @@ function doPost(e) {
                     document.getElementById('code-display').textContent = data.code;
                     document.getElementById('generated-code').classList.add('show');
                     
-                    setTimeout(() => {
-                        resetForm();
-                    }, 3000);
+                    // Don't auto-reset, let user manually reset or switch tabs
                 } else {
                     showMessage('create-message', result.message || '儲存失敗', 'error');
                 }
@@ -659,14 +663,16 @@ function doPost(e) {
                 const response = await fetch(sheetUrl);
                 const data = await response.json();
                 
+                console.log('Loaded data:', data); // Debug log
+                
                 if (data.success && data.bookings) {
                     renderBookings(data.bookings);
                 } else {
-                    showMessage('list-message', '載入失敗', 'error');
+                    showMessage('list-message', '載入失敗: ' + (data.message || '未知錯誤'), 'error');
                 }
             } catch (error) {
-                console.error('Error:', error);
-                showMessage('list-message', '載入時發生錯誤', 'error');
+                console.error('Error loading bookings:', error);
+                showMessage('list-message', '載入時發生錯誤: ' + error.message, 'error');
             }
         }
 
@@ -683,20 +689,34 @@ function doPost(e) {
                 return;
             }
             
-            const sortedBookings = [...bookings].reverse();
+            // Filter out empty rows
+            const validBookings = bookings.filter(b => b.code && b.code.trim() !== '');
+            
+            if (validBookings.length === 0) {
+                listContainer.innerHTML = `
+                    <div class="empty-state">
+                        <h3>📭 暫無預訂記錄</h3>
+                        <p>請新增第一個預訂</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            const sortedBookings = [...validBookings].reverse();
             
             listContainer.innerHTML = sortedBookings.map(booking => `
                 <div class="booking-item">
                     <div class="booking-info">
-                        <h3>${booking.code}<span class="status-badge status-${booking.status}">${getStatusText(booking.status)}</span></h3>
+                        <h3>${booking.code || 'N/A'}<span class="status-badge status-${booking.status || 'pending'}">${getStatusText(booking.status)}</span></h3>
                         <div class="booking-details">
-                            <div class="booking-detail"><strong>日期：</strong>${booking.matchDate}</div>
-                            <div class="booking-detail"><strong>時間：</strong>${booking.matchTime}</div>
-                            <div class="booking-detail"><strong>地點：</strong>${booking.venue}</div>
-                            <div class="booking-detail"><strong>類型：</strong>${booking.matchType}</div>
-                            <div class="booking-detail"><strong>聯絡人：</strong>${booking.contactName}</div>
-                            <div class="booking-detail"><strong>電話：</strong>${booking.contactPhone}</div>
-                            <div class="booking-detail"><strong>付款：</strong>${booking.paymentStatus}</div>
+                            <div class="booking-detail"><strong>日期：</strong>${booking.matchDate || 'N/A'}</div>
+                            <div class="booking-detail"><strong>開始時間：</strong>${booking.matchTime || 'N/A'}</div>
+                            <div class="booking-detail"><strong>結束時間：</strong>${booking.matchEndTime || 'N/A'}</div>
+                            <div class="booking-detail"><strong>地點：</strong>${booking.venue || 'N/A'}</div>
+                            <div class="booking-detail"><strong>類型：</strong>${booking.matchType || 'N/A'}</div>
+                            <div class="booking-detail"><strong>聯絡人：</strong>${booking.contactName || 'N/A'}</div>
+                            <div class="booking-detail"><strong>電話：</strong>${booking.contactPhone || 'N/A'}</div>
+                            <div class="booking-detail"><strong>付款：</strong>${booking.paymentStatus || 'N/A'}</div>
                             ${booking.refereeInfo ? `<div class="booking-detail"><strong>球證：</strong>${booking.refereeInfo}</div>` : ''}
                         </div>
                     </div>

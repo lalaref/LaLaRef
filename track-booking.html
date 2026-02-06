@@ -224,6 +224,11 @@
 
             <div class="detail-row">
                 <div class="detail-label">🕐 結束時間</div>
+                <div class="detail-value" id="match-end-time"></div>
+            </div>
+
+            <div class="detail-row">
+                <div class="detail-label">🕐 結束時間</div>
                 <div class="detail-value" id="end-time"></div>
             </div>
 
@@ -308,6 +313,7 @@
             document.getElementById('display-code').textContent = booking.code;
             document.getElementById('match-date').textContent = booking.matchDate;
             document.getElementById('match-time').textContent = booking.matchTime;
+            document.getElementById('match-end-time').textContent = booking.matchEndTime || 'N/A';
             document.getElementById('venue').textContent = booking.venue;
             document.getElementById('match-type').textContent = booking.matchType;
             document.getElementById('contact-name').textContent = booking.contactName;
