@@ -501,6 +501,32 @@
         .desktop-only {
             display: inline;
         }
+        .mobile-text {
+            display: none;
+        }
+        .desktop-text {
+            display: inline;
+        }
+        .partnership-btn {
+            text-align: center;
+            line-height: 1.4;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 4px 15px rgba(212, 165, 116, 0.3);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 6px 20px rgba(212, 165, 116, 0.5);
+            }
+        }
+        
+        .partnership-btn:hover {
+            animation: none;
+        }
         
         /* Main Content - Clay Style */
         main { 
@@ -1077,6 +1103,17 @@
             .desktop-only {
                 display: none;
             }
+            .mobile-text {
+                display: inline;
+            }
+            .desktop-text {
+                display: none;
+            }
+            .partnership-btn {
+                font-size: 0.95em !important;
+                padding: 8px 20px !important;
+                letter-spacing: 1px !important;
+            }
             .hero {
                 margin: 10px;
                 border-radius: 30px;
@@ -1222,7 +1259,7 @@
                              fetchpriority="high">
                     </div>
                     <div class="website-url">www.lalaref.com</div>
-                    <a href="https://wa.me/85295869595?text=你好！我想查詢長期合作方案" target="_blank" rel="noopener noreferrer" style="display: inline-block; margin-top: 15px; padding: 10px 30px; border: 3px solid #d4a574; color: #d4a574; border-radius: 30px; font-size: 1.15em; font-weight: 900; letter-spacing: 2px; background: transparent; text-transform: uppercase; box-shadow: 0 4px 15px rgba(212, 165, 116, 0.3); text-decoration: none; transition: all 0.3s ease;" onmouseover="this.style.background='#d4a574'; this.style.color='white';" onmouseout="this.style.background='transparent'; this.style.color='#d4a574';">長期合作洽談</a>
+                    <a href="https://wa.me/85295869595?text=你好！我想查詢長期合作方案" target="_blank" rel="noopener noreferrer" class="partnership-btn" style="display: inline-block; margin-top: 15px; padding: 10px 30px; border: 3px solid #d4a574; color: #d4a574; border-radius: 30px; font-size: 1.15em; font-weight: 900; letter-spacing: 2px; background: transparent; text-transform: uppercase; box-shadow: 0 4px 15px rgba(212, 165, 116, 0.3); text-decoration: none; transition: all 0.3s ease;" onmouseover="this.style.background='#d4a574'; this.style.color='white';" onmouseout="this.style.background='transparent'; this.style.color='#d4a574';"><span class="desktop-text">長期合作洽談</span><span class="mobile-text">WhatsApp<br>長期合作洽談</span></a>
                 </div>
             </div>
         </header>
