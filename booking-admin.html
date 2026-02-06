@@ -744,8 +744,9 @@ function doPost(e) {
             // If it's a date string from Google Sheets
             if (typeof timeValue === 'string' && timeValue.includes('T')) {
                 const date = new Date(timeValue);
-                const hours = String(date.getUTCHours()).padStart(2, '0');
-                const minutes = String(date.getUTCMinutes()).padStart(2, '0');
+                // Use local time instead of UTC to get correct hours
+                const hours = String(date.getHours()).padStart(2, '0');
+                const minutes = String(date.getMinutes()).padStart(2, '0');
                 return `${hours}:${minutes}`;
             }
             
