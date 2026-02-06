@@ -400,9 +400,23 @@ function loadMockData() {
     newsData.hongkong = MOCK_DATA.hongkong;
     newsData.referee = MOCK_DATA.referee;
     
+    // Sort by date (newest first)
+    sortNewsByDate('international');
+    sortNewsByDate('hongkong');
+    sortNewsByDate('referee');
+    
     renderNews('international', newsData.international);
     renderNews('hongkong', newsData.hongkong);
     renderNews('referee', newsData.referee);
+}
+
+// Sort news by date (newest first)
+function sortNewsByDate(category) {
+    newsData[category].sort((a, b) => {
+        const dateA = new Date(a.date);
+        const dateB = new Date(b.date);
+        return dateB - dateA; // Descending order (newest first)
+    });
 }
 
 // Load from TheSportsDB (Free API)
@@ -483,6 +497,7 @@ async function loadNewsDataIO() {
             
             if (transformedNews.length > 0) {
                 newsData.hongkong = [...transformedNews, ...newsData.hongkong];
+                sortNewsByDate('hongkong'); // Sort after adding new articles
                 renderNews('hongkong', newsData.hongkong);
                 console.log(`Loaded ${transformedNews.length} Hong Kong basketball articles`);
             }
@@ -513,6 +528,7 @@ async function loadNewsDataIO() {
             }));
             
             newsData.international = [...transformedIntNews, ...newsData.international];
+            sortNewsByDate('international'); // Sort after adding new articles
             renderNews('international', newsData.international);
             console.log(`Loaded ${transformedIntNews.length} international basketball articles`);
         }
@@ -551,6 +567,7 @@ async function loadNewsDataIO() {
             
             if (transformedRefNews.length > 0) {
                 newsData.referee = [...transformedRefNews, ...newsData.referee];
+                sortNewsByDate('referee'); // Sort after adding new articles
                 renderNews('referee', newsData.referee);
                 console.log(`Loaded ${transformedRefNews.length} referee articles`);
             }
