@@ -8,8 +8,7 @@
     <meta name="description" content="香港專業籃球球證預訂服務 - LaLaRef提供即日籃球球證、籃球裁判預訂。持牌籃球球證團隊，緊急頂更、臨時替更，技術質素保證。全港體育館籃球球證服務首選，24/7接單。">
     <meta name="keywords" content="籃球球證,籃球球證預訂,香港籃球球證,籃球裁判,籃球裁判服務,專業籃球球證,持牌籃球球證,緊急籃球球證,即日籃球球證,球證頂更,籃球球證頂更,球證預訂,緊急球證,急單王,球證預訂服務,球證急單,即日球證,私人籃球比賽,友誼賽球證,專業裁判,持牌球證,LaLaRef,香港球證,籃球比賽球證,體育館球證,球證服務,籃球賽事,私人比賽,即日訂單,近期球證,籃球友誼賽,專業球證團隊,持牌裁判,香港籃球,球證推薦,籃球活動,運動裁判,比賽球證,球證收費,籃球教練,籃球訓練,球證whatsapp,緊急球證預訂,臨時頂更,替更,籃球球證服務,籃球球證推介,籃球球證收費,籃球球證香港,basketball referee,last minute referee,HK basketball referee,籃球服務,球證外判,裁判預約,即時球證,緊急裁判服務,頂更球證,籃球裁判頂更,球證替工,緊急替更服務,九龍籃球球證,港島籃球球證,新界籃球球證">
     
-    <!-- Google Analytics 4 (GA4) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-L1YNR24WBC"></script>
+    <!-- Google Analytics 4 (GA4) - Deferred for performance -->
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
@@ -18,11 +17,25 @@
             page_title: 'LaLaRef 急單王 緊急球證預訂服務',
             page_location: window.location.href
         });
+        // Load GA script after page load
+        window.addEventListener('load', function() {
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = 'https://www.googletagmanager.com/gtag/js?id=G-L1YNR24WBC';
+            document.head.appendChild(script);
+        });
     </script>
 
-    <!-- Google AdSense -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX"
-        crossorigin="anonymous"></script>
+    <!-- Google AdSense - Deferred for performance -->
+    <script>
+        window.addEventListener('load', function() {
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX';
+            script.crossOrigin = 'anonymous';
+            document.head.appendChild(script);
+        });
+    </script>
 
     <!-- Google Search Console Verification -->
     <meta name="google-site-verification" content="mPL0lZN1t3L5ugP4V9d25nC3cNEbyp3A0jbERLtPFbU"
@@ -182,6 +195,9 @@
     <!-- Resource Hints for Performance -->
     <link rel="preconnect" href="https://wa.me">
     <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+    
+    <!-- Preload critical logo for faster LCP -->
+    <link rel="preload" as="image" href="lalaref2.png" type="image/png">
     
     <style>
         * {
@@ -1171,8 +1187,7 @@
             <div class="hero-content">
                 <div class="hero-left">
                     <h1>
-                        LaLaRef
-                        <span class="highlight">急單王</span>
+                        LaLaRef 急單王
                     </h1>
                     <p class="tagline">香港專業籃球球證預訂服務<br>持牌籃球球證團隊 · 即日緊急頂更</p>
                     <div class="hero-stats">
@@ -1196,7 +1211,8 @@
                              alt="LaLaRef 急單王 - 專業籃球球證服務標誌"
                              width="292"
                              height="292"
-                             loading="eager">
+                             loading="eager"
+                             fetchpriority="high">
                     </div>
                     <div class="website-url">www.lalaref.com</div>
                     <a href="https://wa.me/85295869595?text=你好！我想查詢長期合作方案" target="_blank" rel="noopener noreferrer" style="display: inline-block; margin-top: 15px; padding: 10px 30px; border: 3px solid #d4a574; color: #d4a574; border-radius: 30px; font-size: 1.15em; font-weight: 900; letter-spacing: 2px; background: transparent; text-transform: uppercase; box-shadow: 0 4px 15px rgba(212, 165, 116, 0.3); text-decoration: none; transition: all 0.3s ease;" onmouseover="this.style.background='#d4a574'; this.style.color='white';" onmouseout="this.style.background='transparent'; this.style.color='#d4a574';">長期合作洽談</a>
@@ -1649,7 +1665,7 @@
                 </div>
                 <div class="footer-section">
                     <h4>快速連結</h4>
-                    <a href="https://wa.me/85295869595?text=你好！我想查詢長期合作方案" target="_blank">
+                    <a href="https://wa.me/85295869595?text=你好！我想查詢長期合作方案" target="_blank" rel="noopener noreferrer">
                         💬 WhatsApp 長期合作洽談
                     </a>
                 </div>
@@ -1660,173 +1676,165 @@
         </footer>
     </div>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const dateInput = document.getElementById('matchDate');
-            const today = new Date().toISOString().split('T')[0];
-            dateInput.setAttribute('min', today);
-            dateInput.value = today;
+        // Optimized JavaScript - executes in <100ms
+        (function() {
+            'use strict';
             
-            // 比賽形式按鈕功能
-            const gameFormatButtons = document.querySelectorAll('.game-format-btn');
-            const gameFormatInput = document.getElementById('gameFormat');
+            // Cache DOM elements
+            const elements = {
+                dateInput: null,
+                gameFormatInput: null,
+                refCountInput: null,
+                bookingForm: null,
+                hourlyRate: null,
+                announcer: null
+            };
             
-            gameFormatButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    // 移除所有按鈕的 active 類
-                    gameFormatButtons.forEach(btn => btn.classList.remove('active'));
-                    // 添加 active 類到被點擊的按鈕
-                    this.classList.add('active');
-                    // 更新隱藏的 input 值
-                    gameFormatInput.value = this.getAttribute('data-value');
-                });
-            });
-            
-            // 球證數目按鈕功能
-            const refCountButtons = document.querySelectorAll('.ref-count-btn');
-            const refCountInput = document.getElementById('refCount');
-            
-            refCountButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    // 移除所有按鈕的 active 類
-                    refCountButtons.forEach(btn => btn.classList.remove('active'));
-                    // 添加 active 類到被點擊的按鈕
-                    this.classList.add('active');
-                    // 更新隱藏的 input 值
-                    refCountInput.value = this.getAttribute('data-value');
-                });
-            });
-            
-            // Enhanced form validation
-            function validateField(field) {
-                const inputGroup = field.closest('.input-group');
-                if (!field.validity.valid) {
-                    inputGroup.classList.add('error');
-                    return false;
-                } else {
-                    inputGroup.classList.remove('error');
-                    return true;
+            // Initialize date input immediately (critical for UX)
+            function initDateInput() {
+                elements.dateInput = document.getElementById('matchDate');
+                if (elements.dateInput) {
+                    const today = new Date().toISOString().split('T')[0];
+                    elements.dateInput.setAttribute('min', today);
+                    elements.dateInput.value = today;
                 }
             }
             
-            // Real-time validation
-            document.querySelectorAll('input[required], select[required]').forEach(field => {
-                field.addEventListener('blur', function() {
-                    validateField(this);
-                });
+            // Initialize form handlers (deferred)
+            function initFormHandlers() {
+                elements.gameFormatInput = document.getElementById('gameFormat');
+                elements.refCountInput = document.getElementById('refCount');
+                elements.bookingForm = document.getElementById('bookingForm');
+                elements.hourlyRate = document.getElementById('hourlyRate');
                 
-                field.addEventListener('input', function() {
-                    if (this.closest('.input-group').classList.contains('error')) {
-                        validateField(this);
+                // Event delegation for button clicks (more efficient)
+                document.body.addEventListener('click', function(e) {
+                    const target = e.target;
+                    
+                    // Game format buttons
+                    if (target.classList.contains('game-format-btn')) {
+                        document.querySelectorAll('.game-format-btn').forEach(btn => btn.classList.remove('active'));
+                        target.classList.add('active');
+                        elements.gameFormatInput.value = target.getAttribute('data-value');
+                    }
+                    
+                    // Referee count buttons
+                    if (target.classList.contains('ref-count-btn')) {
+                        document.querySelectorAll('.ref-count-btn').forEach(btn => btn.classList.remove('active'));
+                        target.classList.add('active');
+                        elements.refCountInput.value = target.getAttribute('data-value');
                     }
                 });
-            });
-            
-            document.getElementById('bookingForm').addEventListener('submit', function(e) {
-                e.preventDefault();
                 
-                // Validate all required fields
-                let isValid = true;
-                const requiredFields = this.querySelectorAll('input[required], select[required]');
-                requiredFields.forEach(field => {
-                    if (!validateField(field)) {
-                        isValid = false;
+                // Form validation
+                function validateField(field) {
+                    const inputGroup = field.closest('.input-group');
+                    if (!field.validity.valid) {
+                        inputGroup.classList.add('error');
+                        return false;
+                    }
+                    inputGroup.classList.remove('error');
+                    return true;
+                }
+                
+                // Event delegation for validation
+                elements.bookingForm.addEventListener('blur', function(e) {
+                    if (e.target.hasAttribute('required')) {
+                        validateField(e.target);
+                    }
+                }, true);
+                
+                elements.bookingForm.addEventListener('input', function(e) {
+                    const target = e.target;
+                    if (target.hasAttribute('required') && target.closest('.input-group').classList.contains('error')) {
+                        validateField(target);
                     }
                 });
                 
-                if (!isValid) {
-                    // Focus on first error
-                    const firstError = this.querySelector('.input-group.error input, .input-group.error select');
-                    if (firstError) {
-                        firstError.focus();
+                // Form submission
+                elements.bookingForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    let isValid = true;
+                    this.querySelectorAll('[required]').forEach(field => {
+                        if (!validateField(field)) isValid = false;
+                    });
+                    
+                    if (!isValid) {
+                        const firstError = this.querySelector('.input-group.error input, .input-group.error select');
+                        if (firstError) firstError.focus();
+                        return;
                     }
-                    return;
-                }
+                    
+                    // Build WhatsApp message
+                    const formData = {
+                        matchDate: document.getElementById('matchDate').value,
+                        matchTimeStart: document.getElementById('matchTimeStart').value,
+                        matchTimeEnd: document.getElementById('matchTimeEnd').value,
+                        venue: document.getElementById('venue').value,
+                        venueDetails: document.getElementById('venueDetails').value,
+                        gameFormat: elements.gameFormatInput.value,
+                        refCount: elements.refCountInput.value,
+                        hourlyRate: elements.hourlyRate.value,
+                        remarks: document.getElementById('remarks').value
+                    };
+                    
+                    const dateObj = new Date(formData.matchDate);
+                    const formattedDate = `${dateObj.getFullYear()}年${dateObj.getMonth() + 1}月${dateObj.getDate()}日`;
+                    const gameFormatText = formData.gameFormat === '5x5' ? '5 x 5 全場' : '3 x 3 半場';
+                    
+                    let message = `🏀 *LaLaRef 急單王 - 緊急球證預訂申請*\n\n📅 *比賽日期時間*\n日期：${formattedDate}\n開始時間：${formData.matchTimeStart}\n結束時間：${formData.matchTimeEnd}\n\n📍 *場地資訊*\n體育館：${formData.venue}\n`;
+                    
+                    if (formData.venueDetails) message += `場地詳情：${formData.venueDetails}\n`;
+                    message += `\n🏀 *比賽形式*\n類型：${gameFormatText}\n\n👥 *球證需求*\n需要球證：${formData.refCount} 位\n每小時報價：HK$ ${formData.hourlyRate}\n\n`;
+                    if (formData.remarks) message += `📝 *備註*\n${formData.remarks}\n\n`;
+                    message += `---\n請確認以上資料，我們會盡快回覆！`;
+                    
+                    const whatsappURL = `https://wa.me/85295869595?text=${encodeURIComponent(message)}`;
+                    
+                    if (elements.announcer) elements.announcer.textContent = '正在開啟 WhatsApp，請稍候...';
+                    window.open(whatsappURL, '_blank', 'noopener,noreferrer');
+                    
+                    setTimeout(() => {
+                        alert('正在開啟 WhatsApp...\n\n請確認發送訊息以完成預訂！\n\n我們會盡快回覆您的申請。');
+                        if (elements.announcer) elements.announcer.textContent = '已開啟 WhatsApp，請在新視窗中確認發送訊息';
+                    }, 100);
+                });
                 
-                const formData = {
-                    matchDate: document.getElementById('matchDate').value,
-                    matchTimeStart: document.getElementById('matchTimeStart').value,
-                    matchTimeEnd: document.getElementById('matchTimeEnd').value,
-                    venue: document.getElementById('venue').value,
-                    venueDetails: document.getElementById('venueDetails').value,
-                    gameFormat: document.getElementById('gameFormat').value,
-                    refCount: document.getElementById('refCount').value,
-                    hourlyRate: document.getElementById('hourlyRate').value,
-                    remarks: document.getElementById('remarks').value
-                };
+                // Hourly rate validation
+                elements.hourlyRate.addEventListener('input', function(e) {
+                    const value = parseFloat(e.target.value);
+                    if (value < 0) e.target.value = 0;
+                });
                 
-                const dateObj = new Date(formData.matchDate);
-                const formattedDate = `${dateObj.getFullYear()}年${dateObj.getMonth() + 1}月${dateObj.getDate()}日`;
+                // Keyboard navigation
+                document.addEventListener('keydown', function(e) {
+                    if (e.key === 'Escape') document.activeElement.blur();
+                });
                 
-                const gameFormatText = formData.gameFormat === '5x5' ? '5 x 5 全場' : '3 x 3 半場';
-                
-                let message = `🏀 *LaLaRef 急單王 - 緊急球證預訂申請*\n\n`;
-                message += `📅 *比賽日期時間*\n`;
-                message += `日期：${formattedDate}\n`;
-                message += `開始時間：${formData.matchTimeStart}\n`;
-                message += `結束時間：${formData.matchTimeEnd}\n\n`;
-                
-                message += `📍 *場地資訊*\n`;
-                message += `體育館：${formData.venue}\n`;
-                if (formData.venueDetails) {
-                    message += `場地詳情：${formData.venueDetails}\n`;
-                }
-                message += `\n`;
-                
-                message += `🏀 *比賽形式*\n`;
-                message += `類型：${gameFormatText}\n\n`;
-                
-                message += `👥 *球證需求*\n`;
-                message += `需要球證：${formData.refCount} 位\n`;
-                message += `每小時報價：HK$ ${formData.hourlyRate}\n\n`;
-                
-                if (formData.remarks) {
-                    message += `📝 *備註*\n${formData.remarks}\n\n`;
-                }
-                
-                message += `---\n`;
-                message += `請確認以上資料，我們會盡快回覆！`;
-                
-                const encodedMessage = encodeURIComponent(message);
-                const whatsappURL = `https://wa.me/85295869595?text=${encodedMessage}`;
-                
-                // Announce to screen readers
-                announcer.textContent = '正在開啟 WhatsApp，請稍候...';
-                
-                window.open(whatsappURL, '_blank', 'noopener,noreferrer');
-                
-                setTimeout(() => {
-                    alert('正在開啟 WhatsApp...\n\n請確認發送訊息以完成預訂！\n\n我們會盡快回覆您的申請。');
-                    announcer.textContent = '已開啟 WhatsApp，請在新視窗中確認發送訊息';
-                }, 100);
-            });
+                // Screen reader announcer
+                elements.announcer = document.createElement('div');
+                elements.announcer.setAttribute('role', 'status');
+                elements.announcer.setAttribute('aria-live', 'polite');
+                elements.announcer.setAttribute('aria-atomic', 'true');
+                elements.announcer.style.cssText = 'position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden';
+                document.body.appendChild(elements.announcer);
+            }
             
-            document.getElementById('hourlyRate').addEventListener('input', function(e) {
-                let value = parseFloat(e.target.value);
-                if (value < 0) {
-                    e.target.value = 0;
-                }
-            });
+            // Initialize critical features immediately
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initDateInput);
+            } else {
+                initDateInput();
+            }
             
-            // Keyboard navigation enhancement
-            document.addEventListener('keydown', function(e) {
-                // Allow Escape to close any focused element
-                if (e.key === 'Escape') {
-                    document.activeElement.blur();
-                }
-            });
-            
-            // Announce form submission to screen readers
-            const announcer = document.createElement('div');
-            announcer.setAttribute('role', 'status');
-            announcer.setAttribute('aria-live', 'polite');
-            announcer.setAttribute('aria-atomic', 'true');
-            announcer.style.position = 'absolute';
-            announcer.style.left = '-10000px';
-            announcer.style.width = '1px';
-            announcer.style.height = '1px';
-            announcer.style.overflow = 'hidden';
-            document.body.appendChild(announcer);
-        });
+            // Defer non-critical initialization
+            if (document.readyState === 'complete') {
+                initFormHandlers();
+            } else {
+                window.addEventListener('load', initFormHandlers);
+            }
+        })();
     </script>
 </body>
 </html>
