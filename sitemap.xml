@@ -20,6 +20,14 @@
         <priority>0.9</priority>
     </url>
 
+    <!-- Basketball News Page -->
+    <url>
+        <loc>https://www.lalaref.com/news.html</loc>
+        <lastmod>2026-02-06</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
     <!-- Add more pages as your site grows -->
     <!-- Example:
     <url>
