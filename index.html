@@ -243,6 +243,71 @@
             display: none;
         }
         
+        /* Slogan Banner */
+        .slogan-banner {
+            background: linear-gradient(145deg, #f0dcc8, #e8d4b8);
+            padding: 40px 30px;
+            margin: 20px;
+            border-radius: 30px;
+            box-shadow: 
+                15px 15px 30px rgba(0,0,0,0.15),
+                -15px -15px 30px rgba(255,255,255,0.7),
+                inset 3px 3px 6px rgba(255,255,255,0.5);
+            position: relative;
+            overflow: hidden;
+        }
+        .slogan-banner::before {
+            content: '⚡';
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            font-size: 150px;
+            opacity: 0.05;
+            transform: rotate(-15deg);
+        }
+        .slogan-content {
+            max-width: 1100px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        .slogan-title {
+            font-size: 1.8em;
+            color: #d4a574;
+            font-weight: 900;
+            margin-bottom: 20px;
+            text-align: center;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(255,255,255,0.5);
+        }
+        .slogan-title::before {
+            content: '✓ ';
+            color: #d4a574;
+        }
+        .slogan-text {
+            font-size: 1.15em;
+            line-height: 1.9;
+            color: #5a4a3a;
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .slogan-text strong {
+            color: #d4a574;
+            font-weight: 900;
+        }
+        .slogan-highlight {
+            display: inline-block;
+            background: linear-gradient(145deg, #d4a574, #c89860);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-weight: 900;
+            box-shadow: 
+                5px 5px 10px rgba(0,0,0,0.15),
+                -2px -2px 5px rgba(255,255,255,0.3);
+        }
+        
         /* WhatsApp Float - Clay Style */
         .whatsapp-float {
             position: fixed;
@@ -927,6 +992,17 @@
         
         /* Responsive */
         @media (max-width: 968px) {
+            .slogan-banner {
+                padding: 30px 20px;
+                margin: 15px;
+                border-radius: 25px;
+            }
+            .slogan-title {
+                font-size: 1.4em;
+            }
+            .slogan-text {
+                font-size: 1.05em;
+            }
             .hero-content {
                 grid-template-columns: 1fr;
                 gap: 40px;
@@ -951,6 +1027,19 @@
             }
         }
         @media (max-width: 768px) {
+            .slogan-banner {
+                padding: 25px 15px;
+                margin: 10px;
+                border-radius: 20px;
+            }
+            .slogan-title {
+                font-size: 1.2em;
+                margin-bottom: 15px;
+            }
+            .slogan-text {
+                font-size: 0.95em;
+                line-height: 1.7;
+            }
             .top-bar {
                 font-size: 0.85em;
                 padding: 10px 15px;
@@ -1061,7 +1150,7 @@
     
     <!-- Top Bar -->
     <div class="top-bar">
-        ⚡ 緊急球證預訂專線 | <span class="top-bar-break"></span>WhatsApp: <a href="https://wa.me/85295869595">9586 9595</a> | 即日訂單 · 快速回應
+        ⚡ 緊急球證預訂專線 | <span class="top-bar-break"></span>WhatsApp: <a href="https://wa.me/85295869595">9586 9595</a> | 即日訂單 · 快速回應 | <a href="service.html" style="color: #fff; border-bottom: 2px solid #fff; padding-bottom: 2px; font-weight: 900;">📋 服務資訊</a>
     </div>
     
     <!-- WhatsApp Float Button -->
@@ -1110,9 +1199,21 @@
                              loading="eager">
                     </div>
                     <div class="website-url">lalaref.com</div>
+                    <a href="https://wa.me/85295869595?text=你好！我想查詢長期合作方案" target="_blank" rel="noopener noreferrer" style="display: inline-block; margin-top: 15px; padding: 10px 30px; border: 3px solid #d4a574; color: #d4a574; border-radius: 30px; font-size: 1.15em; font-weight: 900; letter-spacing: 2px; background: transparent; text-transform: uppercase; box-shadow: 0 4px 15px rgba(212, 165, 116, 0.3); text-decoration: none; transition: all 0.3s ease;" onmouseover="this.style.background='#d4a574'; this.style.color='white';" onmouseout="this.style.background='transparent'; this.style.color='#d4a574';">長期合作洽談</a>
                 </div>
             </div>
         </header>
+        
+        <!-- Slogan Banner -->
+        <div class="slogan-banner">
+            <div class="slogan-content">
+                <div class="slogan-title">嚴格挑選核心團隊成員</div>
+                <div class="slogan-text">
+                    作為<span class="slogan-highlight">「急單王」</span>，我們最大的優勢是能夠處理<strong>即日緊急球證預訂</strong>。當您的原定球證臨時無法到場，或者您需要緊急安排一場比賽時，<strong>LaLaRef 就是您最可靠的選擇</strong>。我們 <span class="slogan-highlight">24/7 全天候接單</span>，<span class="slogan-highlight">歡迎長期合作</span>，快速回應，盡力為您配對合適的專業球證。
+                </div>
+            </div>
+        </div>
+        
         <main id="main-content">
             <section class="booking-section">
                 <h2>📅 立即預訂籃球球證服務</h2>
@@ -1348,6 +1449,16 @@
                 <h2>ℹ️ 服務說明</h2>
                 <div class="info-grid">
                     <div class="info-card">
+                        <h4>一條龍全套服務</h4>
+                        <ul>
+                            <li>聯賽策劃及賽程制定</li>
+                            <li>賽制設計（循環賽、淘汰賽）</li>
+                            <li>計時計分專業紀錄</li>
+                            <li>全場球賽高清錄影</li>
+                            <li>專業相片拍攝服務</li>
+                        </ul>
+                    </div>
+                    <div class="info-card">
                         <h4>籃球球證服務範圍</h4>
                         <ul>
                             <li>私人籃球比賽球證</li>
@@ -1365,15 +1476,11 @@
                             <li>24/7緊急接單</li>
                         </ul>
                     </div>
-                    <div class="info-card">
-                        <h4>籃球球證預訂流程</h4>
-                        <ul>
-                            <li>填寫籃球球證預訂表格</li>
-                            <li>WhatsApp 即時確認</li>
-                            <li>快速回覆配對</li>
-                            <li>安排專業籃球球證</li>
-                        </ul>
-                    </div>
+                </div>
+                <div style="text-align: center; margin-top: 40px;">
+                    <a href="service.html" style="display: inline-block; padding: 18px 40px; background: linear-gradient(145deg, #d4a574, #c89860); color: white; text-decoration: none; border-radius: 25px; font-weight: 800; font-size: 1.1em; box-shadow: 10px 10px 20px rgba(0,0,0,0.2), -10px -10px 20px rgba(255,255,255,0.3); transition: all 0.3s ease;">
+                        📋 更多服務資訊
+                    </a>
                 </div>
             </section>
             <section class="testimonials-section">
@@ -1456,6 +1563,27 @@
                     </a>
                 </div>
             </section>
+
+            <!-- Partner Logos Section -->
+            <section style="max-width: 100%; margin: 70px auto 0; padding-top: 60px;">
+                <h2 style="font-size: 2.5em; color: #5a4a3a; margin-bottom: 50px; text-align: center; font-weight: 900; position: relative; letter-spacing: -0.01em; text-shadow: 2px 2px 4px rgba(255,255,255,0.5);">🤝 合作機構</h2>
+                <div style="background: linear-gradient(145deg, #f0dcc8, #e8d4b8); padding: 50px 40px; border-radius: 30px; box-shadow: 15px 15px 30px rgba(0,0,0,0.15), -15px -15px 30px rgba(255,255,255,0.7), inset 3px 3px 6px rgba(255,255,255,0.5), inset -3px -3px 6px rgba(0,0,0,0.1);">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; align-items: center; justify-items: center;">
+                        <!-- Partner logos will be added here -->
+                        <!-- Example structure for each logo:
+                        <a href="https://partner-website.com" target="_blank" rel="noopener noreferrer" style="display: flex; align-items: center; justify-content: center; padding: 20px; background: linear-gradient(145deg, #f5e6d3, #ede0cc); border-radius: 20px; box-shadow: 8px 8px 16px rgba(0,0,0,0.1), -8px -8px 16px rgba(255,255,255,0.7); transition: transform 0.3s ease, box-shadow 0.3s ease; width: 100%; min-height: 120px;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='12px 12px 24px rgba(0,0,0,0.15), -12px -12px 24px rgba(255,255,255,0.8)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='8px 8px 16px rgba(0,0,0,0.1), -8px -8px 16px rgba(255,255,255,0.7)';">
+                            <img src="partner-logo.png" alt="Partner Name" style="max-width: 100%; max-height: 80px; object-fit: contain; filter: grayscale(100%); transition: filter 0.3s ease;" onmouseover="this.style.filter='grayscale(0%)';" onmouseout="this.style.filter='grayscale(100%)';">
+                        </a>
+                        -->
+                        
+                        <!-- Placeholder text - remove when adding actual logos -->
+                        <div style="grid-column: 1 / -1; text-align: center; padding: 40px 20px; color: #7a6a5a; font-size: 1.1em;">
+                            <p style="margin-bottom: 15px; font-weight: 700;">合作夥伴標誌即將加入</p>
+                            <p style="font-size: 0.95em; color: #8a7a6a;">Partner logos coming soon</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </main>
         <footer>
             <div class="footer-content">
@@ -1472,8 +1600,8 @@
                 </div>
                 <div class="footer-section">
                     <h4>快速連結</h4>
-                    <a href="https://wa.me/85295869595?text=你好！我想查詢球證服務" target="_blank">
-                        💬 WhatsApp 查詢
+                    <a href="https://wa.me/85295869595?text=你好！我想查詢長期合作方案" target="_blank">
+                        💬 WhatsApp 長期合作洽談
                     </a>
                 </div>
             </div>
