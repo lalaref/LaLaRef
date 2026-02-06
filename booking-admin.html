@@ -709,7 +709,7 @@ function doPost(e) {
                     <div class="booking-info">
                         <h3>${booking.code || 'N/A'}<span class="status-badge status-${booking.status || 'pending'}">${getStatusText(booking.status)}</span></h3>
                         <div class="booking-details">
-                            <div class="booking-detail"><strong>日期：</strong>${booking.matchDate || 'N/A'}</div>
+                            <div class="booking-detail"><strong>日期：</strong>${formatDate(booking.matchDate)}</div>
                             <div class="booking-detail"><strong>開始時間：</strong>${formatTime(booking.matchTime)}</div>
                             <div class="booking-detail"><strong>結束時間：</strong>${formatTime(booking.matchEndTime)}</div>
                             <div class="booking-detail"><strong>地點：</strong>${booking.venue || 'N/A'}</div>
@@ -751,6 +751,34 @@ function doPost(e) {
             }
             
             return timeValue;
+        }
+
+        function formatDate(dateValue) {
+            if (!dateValue) return 'N/A';
+            
+            // If it's already in YYYY-MM-DD format, return as is
+            if (typeof dateValue === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(dateValue)) {
+                return dateValue;
+            }
+            
+            // If it's a date string from Google Sheets
+            if (typeof dateValue === 'string' && dateValue.includes('T')) {
+                const date = new Date(dateValue);
+                const year = date.getFullYear();
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const day = String(date.getDate()).padStart(2, '0');
+                return `${year}-${month}-${day}`;
+            }
+            
+            // If it's a Date object
+            if (dateValue instanceof Date) {
+                const year = dateValue.getFullYear();
+                const month = String(dateValue.getMonth() + 1).padStart(2, '0');
+                const day = String(dateValue.getDate()).padStart(2, '0');
+                return `${year}-${month}-${day}`;
+            }
+            
+            return dateValue;
         }
 
         function resetForm() {

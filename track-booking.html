@@ -273,7 +273,16 @@
 
     <script>
         // Get Google Sheets URL from admin page (stored in localStorage)
-        const sheetUrl = localStorage.getItem('sheetUrl') || '';
+        let sheetUrl = localStorage.getItem('sheetUrl') || '';
+        
+        // Check if URL is configured on page load
+        window.addEventListener('DOMContentLoaded', function() {
+            if (!sheetUrl) {
+                console.warn('Google Sheets URL not configured. Please configure in booking-admin.html first.');
+            } else {
+                console.log('Google Sheets URL configured:', sheetUrl.substring(0, 50) + '...');
+            }
+        });
         
         document.getElementById('search-form').addEventListener('submit', async function(e) {
             e.preventDefault();
@@ -286,15 +295,28 @@
             resultBox.classList.remove('show');
             errorMsg.classList.remove('show');
             
+            // Re-check sheetUrl in case it was just set
+            sheetUrl = localStorage.getItem('sheetUrl') || '';
+            
             if (!sheetUrl) {
-                errorMsg.textContent = '系統未設定，請聯絡管理員';
+                errorMsg.textContent = '系統未設定，請先在管理頁面配置 Google Sheets';
                 errorMsg.classList.add('show');
+                console.error('No sheetUrl found in localStorage');
                 return;
             }
             
+            console.log('Searching for code:', code);
+            console.log('Using URL:', sheetUrl);
+            
             try {
-                const response = await fetch(sheetUrl + '?code=' + encodeURIComponent(code));
+                const fetchUrl = sheetUrl + '?code=' + encodeURIComponent(code);
+                console.log('Fetching:', fetchUrl);
+                
+                const response = await fetch(fetchUrl);
+                console.log('Response status:', response.status);
+                
                 const data = await response.json();
+                console.log('Search response:', data);
                 
                 if (data.success && data.booking) {
                     displayBooking(data.booking);
@@ -304,29 +326,41 @@
                 }
             } catch (error) {
                 console.error('Error:', error);
-                errorMsg.textContent = '查詢時發生錯誤，請稍後再試';
+                errorMsg.textContent = '查詢時發生錯誤: ' + error.message;
                 errorMsg.classList.add('show');
             }
         });
 
         function displayBooking(booking) {
-            document.getElementById('display-code').textContent = booking.code;
-            document.getElementById('match-date').textContent = booking.matchDate;
+            console.log('Displaying booking:', booking); // Debug log
+            
+            document.getElementById('display-code').textContent = booking.code || 'N/A';
+            document.getElementById('match-date').textContent = formatDate(booking.matchDate);
             document.getElementById('match-time').textContent = formatTime(booking.matchTime);
             document.getElementById('match-end-time').textContent = formatTime(booking.matchEndTime);
-            document.getElementById('venue').textContent = booking.venue;
-            document.getElementById('match-type').textContent = booking.matchType;
-            document.getElementById('contact-name').textContent = booking.contactName;
-            document.getElementById('contact-phone').textContent = booking.contactPhone;
+            document.getElementById('venue').textContent = booking.venue || 'N/A';
+            document.getElementById('match-type').textContent = booking.matchType || 'N/A';
+            document.getElementById('contact-name').textContent = booking.contactName || 'N/A';
+            document.getElementById('contact-phone').textContent = booking.contactPhone || 'N/A';
             document.getElementById('referee-info').textContent = booking.refereeInfo || '待安排';
-            document.getElementById('payment-status').textContent = booking.paymentStatus;
+            document.getElementById('payment-status').textContent = booking.paymentStatus || 'N/A';
             document.getElementById('notes').textContent = booking.notes || '無';
             
             const statusBadge = document.getElementById('status-badge');
-            statusBadge.textContent = booking.status;
-            statusBadge.className = 'status-badge status-' + booking.status.toLowerCase();
+            const statusText = getStatusText(booking.status);
+            statusBadge.textContent = statusText;
+            statusBadge.className = 'status-badge status-' + (booking.status || 'pending').toLowerCase();
             
             document.getElementById('result-box').classList.add('show');
+        }
+
+        function getStatusText(status) {
+            const statusMap = {
+                'pending': '待確認',
+                'confirmed': '已確認',
+                'cancelled': '已取消'
+            };
+            return statusMap[status] || status || '待確認';
         }
 
         function formatTime(timeValue) {
@@ -347,6 +381,34 @@
             }
             
             return timeValue;
+        }
+
+        function formatDate(dateValue) {
+            if (!dateValue) return 'N/A';
+            
+            // If it's already in YYYY-MM-DD format, return as is
+            if (typeof dateValue === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(dateValue)) {
+                return dateValue;
+            }
+            
+            // If it's a date string from Google Sheets
+            if (typeof dateValue === 'string' && dateValue.includes('T')) {
+                const date = new Date(dateValue);
+                const year = date.getFullYear();
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const day = String(date.getDate()).padStart(2, '0');
+                return `${year}-${month}-${day}`;
+            }
+            
+            // If it's a Date object
+            if (dateValue instanceof Date) {
+                const year = dateValue.getFullYear();
+                const month = String(dateValue.getMonth() + 1).padStart(2, '0');
+                const day = String(dateValue.getDate()).padStart(2, '0');
+                return `${year}-${month}-${day}`;
+            }
+            
+            return dateValue;
         }
     </script>
 </body>
