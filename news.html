@@ -351,6 +351,71 @@
             color: #7a6a5a;
         }
 
+        /* Load More Button */
+        .load-more-container {
+            grid-column: 1 / -1;
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+            padding: 20px 0;
+        }
+        
+        .load-more-btn {
+            background: linear-gradient(145deg, #d4a574, #c89860);
+            color: white;
+            border: none;
+            padding: 18px 45px;
+            font-size: 1.1em;
+            font-weight: 700;
+            border-radius: 50px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 
+                10px 10px 20px rgba(0,0,0,0.15),
+                -10px -10px 20px rgba(255,255,255,0.3),
+                inset 0 0 0 rgba(255,255,255,0);
+            transition: all 0.3s ease;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Microsoft JhengHei', 'PingFang TC', sans-serif;
+        }
+        
+        .load-more-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 
+                15px 15px 30px rgba(0,0,0,0.2),
+                -15px -15px 30px rgba(255,255,255,0.4),
+                inset 0 0 20px rgba(255,255,255,0.2);
+        }
+        
+        .load-more-btn:active {
+            transform: translateY(0);
+            box-shadow: 
+                5px 5px 10px rgba(0,0,0,0.15),
+                -5px -5px 10px rgba(255,255,255,0.3),
+                inset 5px 5px 10px rgba(0,0,0,0.1);
+        }
+        
+        .load-more-icon {
+            font-size: 1.3em;
+            animation: bounce 2s infinite;
+        }
+        
+        .load-more-text {
+            font-weight: 700;
+        }
+        
+        .load-more-count {
+            font-size: 0.9em;
+            opacity: 0.9;
+            font-weight: 600;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
         /* WhatsApp Float */
         .whatsapp-float {
             position: fixed;
@@ -398,6 +463,19 @@
                 gap: 10px;
             }
             .filter-tab {
+                font-size: 0.9em;
+                padding: 10px 18px;
+            }
+            .load-more-btn {
+                padding: 15px 35px;
+                font-size: 1em;
+            }
+            .load-more-count {
+                display: block;
+                margin-top: 5px;
+                font-size: 0.85em;
+            }
+        }
                 padding: 10px 20px;
                 font-size: 0.9em;
             }
