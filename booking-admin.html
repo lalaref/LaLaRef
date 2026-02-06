@@ -710,8 +710,8 @@ function doPost(e) {
                         <h3>${booking.code || 'N/A'}<span class="status-badge status-${booking.status || 'pending'}">${getStatusText(booking.status)}</span></h3>
                         <div class="booking-details">
                             <div class="booking-detail"><strong>日期：</strong>${booking.matchDate || 'N/A'}</div>
-                            <div class="booking-detail"><strong>開始時間：</strong>${booking.matchTime || 'N/A'}</div>
-                            <div class="booking-detail"><strong>結束時間：</strong>${booking.matchEndTime || 'N/A'}</div>
+                            <div class="booking-detail"><strong>開始時間：</strong>${formatTime(booking.matchTime)}</div>
+                            <div class="booking-detail"><strong>結束時間：</strong>${formatTime(booking.matchEndTime)}</div>
                             <div class="booking-detail"><strong>地點：</strong>${booking.venue || 'N/A'}</div>
                             <div class="booking-detail"><strong>類型：</strong>${booking.matchType || 'N/A'}</div>
                             <div class="booking-detail"><strong>聯絡人：</strong>${booking.contactName || 'N/A'}</div>
@@ -731,6 +731,25 @@ function doPost(e) {
                 'cancelled': '已取消'
             };
             return statusMap[status] || status;
+        }
+
+        function formatTime(timeValue) {
+            if (!timeValue) return 'N/A';
+            
+            // If it's already in HH:MM format, return as is
+            if (typeof timeValue === 'string' && /^\d{2}:\d{2}$/.test(timeValue)) {
+                return timeValue;
+            }
+            
+            // If it's a date string from Google Sheets
+            if (typeof timeValue === 'string' && timeValue.includes('T')) {
+                const date = new Date(timeValue);
+                const hours = String(date.getUTCHours()).padStart(2, '0');
+                const minutes = String(date.getUTCMinutes()).padStart(2, '0');
+                return `${hours}:${minutes}`;
+            }
+            
+            return timeValue;
         }
 
         function resetForm() {

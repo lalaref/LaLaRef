@@ -312,8 +312,8 @@
         function displayBooking(booking) {
             document.getElementById('display-code').textContent = booking.code;
             document.getElementById('match-date').textContent = booking.matchDate;
-            document.getElementById('match-time').textContent = booking.matchTime;
-            document.getElementById('match-end-time').textContent = booking.matchEndTime || 'N/A';
+            document.getElementById('match-time').textContent = formatTime(booking.matchTime);
+            document.getElementById('match-end-time').textContent = formatTime(booking.matchEndTime);
             document.getElementById('venue').textContent = booking.venue;
             document.getElementById('match-type').textContent = booking.matchType;
             document.getElementById('contact-name').textContent = booking.contactName;
@@ -327,6 +327,25 @@
             statusBadge.className = 'status-badge status-' + booking.status.toLowerCase();
             
             document.getElementById('result-box').classList.add('show');
+        }
+
+        function formatTime(timeValue) {
+            if (!timeValue) return 'N/A';
+            
+            // If it's already in HH:MM format, return as is
+            if (typeof timeValue === 'string' && /^\d{2}:\d{2}$/.test(timeValue)) {
+                return timeValue;
+            }
+            
+            // If it's a date string from Google Sheets
+            if (typeof timeValue === 'string' && timeValue.includes('T')) {
+                const date = new Date(timeValue);
+                const hours = String(date.getUTCHours()).padStart(2, '0');
+                const minutes = String(date.getUTCMinutes()).padStart(2, '0');
+                return `${hours}:${minutes}`;
+            }
+            
+            return timeValue;
         }
     </script>
 </body>
