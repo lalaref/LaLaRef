@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>查詢預訂 | LaLaRef 急單王</title>
+    <meta name="description" content="輸入預訂編號查詢籃球球證預訂詳情、付款狀態及球證安排">
+    <link rel="icon" type="image/jpeg" href="lalaref2.jpg">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Microsoft JhengHei', sans-serif;
+            background: linear-gradient(135deg, #f5e6d3 0%, #e8d4b8 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px 20px;
+            background: linear-gradient(145deg, #f0dcc8, #e8d4b8);
+            border-radius: 30px;
+            box-shadow: 20px 20px 40px rgba(0,0,0,0.15), -20px -20px 40px rgba(255,255,255,0.7);
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            color: #5a4a3a;
+            margin-bottom: 10px;
+        }
+
+        .search-box {
+            background: linear-gradient(145deg, #f0dcc8, #e8d4b8);
+            padding: 40px;
+            border-radius: 30px;
+            box-shadow: 20px 20px 40px rgba(0,0,0,0.15), -20px -20px 40px rgba(255,255,255,0.7);
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 700;
+            color: #5a4a3a;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 15px 20px;
+            background: linear-gradient(145deg, #f5e6d3, #ede0cc);
+            border: none;
+            border-radius: 20px;
+            font-size: 1.1em;
+            font-weight: 700;
+            text-align: center;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            box-shadow: inset 8px 8px 16px rgba(0,0,0,0.1), inset -8px -8px 16px rgba(255,255,255,0.7);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(145deg, #d4a574, #c89860);
+            border: none;
+            border-radius: 20px;
+            color: white;
+            font-size: 1.1em;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 10px 10px 20px rgba(0,0,0,0.15), -10px -10px 20px rgba(255,255,255,0.5);
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 15px 15px 30px rgba(0,0,0,0.2), -15px -15px 30px rgba(255,255,255,0.6);
+        }
+
+        .result-box {
+            display: none;
+            background: linear-gradient(145deg, #f0dcc8, #e8d4b8);
+            padding: 40px;
+            border-radius: 30px;
+            box-shadow: 20px 20px 40px rgba(0,0,0,0.15), -20px -20px 40px rgba(255,255,255,0.7);
+        }
+
+        .result-box.show {
+            display: block;
+        }
+
+        .booking-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #d4a574;
+        }
+
+        .booking-code {
+            font-size: 2em;
+            font-weight: 900;
+            color: #d4a574;
+            letter-spacing: 3px;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: 700;
+            margin-top: 10px;
+        }
+
+        .status-confirmed {
+            background: #25d366;
+            color: white;
+        }
+
+        .status-pending {
+            background: #ffa500;
+            color: white;
+        }
+
+        .status-cancelled {
+            background: #ff4444;
+            color: white;
+        }
+
+        .detail-row {
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(90, 74, 58, 0.1);
+        }
+
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+
+        .detail-label {
+            font-weight: 700;
+            color: #5a4a3a;
+            margin-bottom: 5px;
+        }
+
+        .detail-value {
+            color: #7a6a5a;
+            font-size: 1.1em;
+        }
+
+        .error-message {
+            background: #ff4444;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 15px;
+            text-align: center;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #d4a574;
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔍 查詢預訂</h1>
+            <p>輸入您的預訂編號查詢詳情</p>
+        </div>
+
+        <div class="search-box">
+            <form id="search-form">
+                <div class="form-group">
+                    <label for="booking-code">預訂編號</label>
+                    <input type="text" id="booking-code" placeholder="例如: LR20260130001" required>
+                </div>
+                <button type="submit" class="btn">🔍 查詢預訂</button>
+            </form>
+            <div class="error-message" id="error-message"></div>
+        </div>
+
+        <div class="result-box" id="result-box">
+            <div class="booking-header">
+                <div class="booking-code" id="display-code"></div>
+                <div class="status-badge" id="status-badge"></div>
+            </div>
+
+            <div class="detail-row">
+                <div class="detail-label">📅 比賽日期</div>
+                <div class="detail-value" id="match-date"></div>
+            </div>
+
+            <div class="detail-row">
+                <div class="detail-label">🕐 比賽時間</div>
+                <div class="detail-value" id="match-time"></div>
+            </div>
+
+            <div class="detail-row">
+                <div class="detail-label">🕐 結束時間</div>
+                <div class="detail-value" id="end-time"></div>
+            </div>
+
+            <div class="detail-row">
+                <div class="detail-label">📍 比賽地點</div>
+                <div class="detail-value" id="venue"></div>
+            </div>
+
+            <div class="detail-row">
+                <div class="detail-label">🏀 比賽類型</div>
+                <div class="detail-value" id="match-type"></div>
+            </div>
+
+            <div class="detail-row">
+                <div class="detail-label">👤 聯絡人</div>
+                <div class="detail-value" id="contact-name"></div>
+            </div>
+
+            <div class="detail-row">
+                <div class="detail-label">📱 聯絡電話</div>
+                <div class="detail-value" id="contact-phone"></div>
+            </div>
+
+            <div class="detail-row">
+                <div class="detail-label">👨‍⚖️ 球證安排</div>
+                <div class="detail-value" id="referee-info"></div>
+            </div>
+
+            <div class="detail-row">
+                <div class="detail-label">💰 付款狀態</div>
+                <div class="detail-value" id="payment-status"></div>
+            </div>
+
+            <div class="detail-row">
+                <div class="detail-label">📝 備註</div>
+                <div class="detail-value" id="notes"></div>
+            </div>
+
+            <a href="index.html" class="back-link">← 返回首頁</a>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('search-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const code = document.getElementById('booking-code').value.trim().toUpperCase();
+            const errorMsg = document.getElementById('error-message');
+            const resultBox = document.getElementById('result-box');
+            
+            // Hide previous results
+            resultBox.classList.remove('show');
+            errorMsg.classList.remove('show');
+            
+            try {
+                const response = await fetch('get-booking.php?code=' + encodeURIComponent(code));
+                const data = await response.json();
+                
+                if (data.success) {
+                    displayBooking(data.booking);
+                } else {
+                    errorMsg.textContent = data.message || '找不到此預訂編號';
+                    errorMsg.classList.add('show');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                errorMsg.textContent = '查詢時發生錯誤，請稍後再試';
+                errorMsg.classList.add('show');
+            }
+        });
+
+        function displayBooking(booking) {
+            document.getElementById('display-code').textContent = booking.code;
+            document.getElementById('match-date').textContent = booking.matchDate;
+            document.getElementById('match-time').textContent = booking.matchTime;
+            document.getElementById('venue').textContent = booking.venue;
+            document.getElementById('match-type').textContent = booking.matchType;
+            document.getElementById('contact-name').textContent = booking.contactName;
+            document.getElementById('contact-phone').textContent = booking.contactPhone;
+            document.getElementById('referee-info').textContent = booking.refereeInfo || '待安排';
+            document.getElementById('payment-status').textContent = booking.paymentStatus;
+            document.getElementById('notes').textContent = booking.notes || '無';
+            
+            const statusBadge = document.getElementById('status-badge');
+            statusBadge.textContent = booking.status;
+            statusBadge.className = 'status-badge status-' + booking.status.toLowerCase();
+            
+            document.getElementById('result-box').classList.add('show');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>預訂管理 | LaLaRef 急單王</title>
+    <link rel="icon" type="image/jpeg" href="lalaref2.jpg">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Microsoft JhengHei', sans-serif;
+            background: linear-gradient(135deg, #f5e6d3 0%, #e8d4b8 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px 20px;
+            background: linear-gradient(145deg, #f0dcc8, #e8d4b8);
+            border-radius: 30px;
+            box-shadow: 20px 20px 40px rgba(0,0,0,0.15), -20px -20px 40px rgba(255,255,255,0.7);
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            color: #5a4a3a;
+            margin-bottom: 10px;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            justify-content: center;
+        }
+
+        .tab-btn {
+            padding: 15px 30px;
+            background: linear-gradient(145deg, #f0dcc8, #e8d4b8);
+            border: none;
+            border-radius: 20px;
+            color: #5a4a3a;
+            font-size: 1.1em;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 10px 10px 20px rgba(0,0,0,0.15), -10px -10px 20px rgba(255,255,255,0.7);
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn:hover {
+            transform: translateY(-3px);
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(145deg, #d4a574, #c89860);
+            color: white;
+            box-shadow: inset 8px 8px 16px rgba(0,0,0,0.2), inset -8px -8px 16px rgba(255,255,255,0.5);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .form-box {
+            background: linear-gradient(145deg, #f0dcc8, #e8d4b8);
+            padding: 40px;
+            border-radius: 30px;
+            box-shadow: 20px 20px 40px rgba(0,0,0,0.15), -20px -20px 40px rgba(255,255,255,0.7);
+            margin-bottom: 30px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 700;
+            color: #5a4a3a;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 15px 20px;
+            background: linear-gradient(145deg, #f5e6d3, #ede0cc);
+            border: none;
+            border-radius: 20px;
+            font-size: 1em;
+            box-shadow: inset 8px 8px 16px rgba(0,0,0,0.1), inset -8px -8px 16px rgba(255,255,255,0.7);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            background: linear-gradient(145deg, #d4a574, #c89860);
+            border: none;
+            border-radius: 20px;
+            color: white;
+            font-size: 1.1em;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 10px 10px 20px rgba(0,0,0,0.15), -10px -10px 20px rgba(255,255,255,0.5);
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 15px 15px 30px rgba(0,0,0,0.2), -15px -15px 30px rgba(255,255,255,0.6);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(145deg, #f0dcc8, #e8d4b8);
+            color: #5a4a3a;
+        }
+
+        .btn-danger {
+            background: linear-gradient(145deg, #ff6b6b, #ee5a52);
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: flex-end;
+            margin-top: 30px;
+        }
+
+        .booking-list {
+            display: grid;
+            gap: 20px;
+        }
+
+        .booking-item {
+            background: linear-gradient(145deg, #f5e6d3, #ede0cc);
+            padding: 25px;
+            border-radius: 25px;
+            box-shadow: 10px 10px 20px rgba(0,0,0,0.1), -10px -10px 20px rgba(255,255,255,0.7);
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .booking-info h3 {
+            color: #d4a574;
+            font-size: 1.5em;
+            margin-bottom: 10px;
+            font-weight: 900;
+        }
+
+        .booking-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .booking-detail {
+            color: #5a4a3a;
+        }
+
+        .booking-detail strong {
+            color: #7a6a5a;
+        }
+
+        .booking-actions {
+            display: flex;
+            gap: 10px;
+            flex-direction: column;
+        }
+
+        .btn-small {
+            padding: 10px 20px;
+            font-size: 0.9em;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 15px;
+            font-weight: 700;
+            font-size: 0.9em;
+        }
+
+        .status-confirmed {
+            background: #25d366;
+            color: white;
+        }
+
+        .status-pending {
+            background: #ffa500;
+            color: white;
+        }
+
+        .status-cancelled {
+            background: #ff4444;
+            color: white;
+        }
+
+        .message {
+            padding: 15px 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 700;
+            display: none;
+        }
+
+        .message.show {
+            display: block;
+        }
+
+        .message.success {
+            background: #25d366;
+            color: white;
+        }
+
+        .message.error {
+            background: #ff4444;
+            color: white;
+        }
+
+        .generated-code {
+            background: linear-gradient(145deg, #d4a574, #c89860);
+            color: white;
+            padding: 20px;
+            border-radius: 20px;
+            text-align: center;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .generated-code.show {
+            display: block;
+        }
+
+        .generated-code h3 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+
+        .code-display {
+            font-size: 2em;
+            font-weight: 900;
+            letter-spacing: 3px;
+            margin: 15px 0;
+        }
+
+        .copy-btn {
+            background: white;
+            color: #d4a574;
+            padding: 10px 25px;
+            border: none;
+            border-radius: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #7a6a5a;
+        }
+
+        .empty-state h3 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📋 預訂管理系統</h1>
+            <p>管理球證預訂及生成查詢編號</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('create')">➕ 新增預訂</button>
+            <button class="tab-btn" onclick="switchTab('list')">📋 預訂列表</button>
+        </div>
+
+        <!-- Create Booking Tab -->
+        <div id="create-tab" class="tab-content active">
+            <div class="form-box">
+                <div class="message" id="create-message"></div>
+                
+                <form id="booking-form">
+                    <input type="hidden" id="booking-id" name="id">
+                    
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="match-date">📅 比賽日期 *</label>
+                            <input type="date" id="match-date" name="matchDate" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="match-time">🕐 開始時間 *</label>
+                            <input type="time" id="match-time" name="matchTime" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="end-time">🕐 結束時間 *</label>
+                            <input type="time" id="end-time" name="endTime" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="venue">📍 比賽地點 *</label>
+                        <select id="venue" name="venue" required onchange="handleVenueChange()">
+                            <option value="">請選擇體育館</option>
+                            <optgroup label="香港島">
+                                <option value="港島東體育館">港島東體育館</option>
+                                <option value="柴灣體育館">柴灣體育館</option>
+                                <option value="小西灣體育館">小西灣體育館</option>
+                                <option value="鰂魚涌體育館">鰂魚涌體育館</option>
+                                <option value="西灣河體育館">西灣河體育館</option>
+                                <option value="渣華道體育館">渣華道體育館</option>
+                                <option value="北角渡輪碼頭體育館">北角渡輪碼頭體育館</option>
+                                <option value="維多利亞公園體育館">維多利亞公園體育館</option>
+                                <option value="中山紀念公園體育館">中山紀念公園體育館</option>
+                                <option value="上環體育館">上環體育館</option>
+                                <option value="士美非路體育館">士美非路體育館</option>
+                                <option value="香港仔體育館">香港仔體育館</option>
+                                <option value="鴨脷洲體育館">鴨脷洲體育館</option>
+                                <option value="石塘咀體育館">石塘咀體育館</option>
+                                <option value="堅尼地城體育館">堅尼地城體育館</option>
+                                <option value="薄扶林體育館">薄扶林體育館</option>
+                            </optgroup>
+                            <optgroup label="九龍">
+                                <option value="九龍公園體育館">九龍公園體育館</option>
+                                <option value="紅磡市政大廈體育館">紅磡市政大廈體育館</option>
+                                <option value="土瓜灣體育館">土瓜灣體育館</option>
+                                <option value="何文田體育館">何文田體育館</option>
+                                <option value="九龍灣體育館">九龍灣體育館</option>
+                                <option value="牛頭角體育館">牛頭角體育館</option>
+                                <option value="藍田體育館">藍田體育館</option>
+                                <option value="觀塘體育館">觀塘體育館</option>
+                                <option value="秀茂坪體育館">秀茂坪體育館</option>
+                                <option value="彩虹道體育館">彩虹道體育館</option>
+                                <option value="彩榮路體育館">彩榮路體育館</option>
+                                <option value="牛池灣體育館">牛池灣體育館</option>
+                                <option value="鑽石山體育館">鑽石山體育館</option>
+                                <option value="黃大仙體育館">黃大仙體育館</option>
+                                <option value="摩士公園體育館">摩士公園體育館</option>
+                                <option value="石硤尾公園體育館">石硤尾公園體育館</option>
+                                <option value="深水埗體育館">深水埗體育館</option>
+                                <option value="長沙灣體育館">長沙灣體育館</option>
+                                <option value="荔枝角公園體育館">荔枝角公園體育館</option>
+                                <option value="保安道體育館">保安道體育館</option>
+                                <option value="花園街體育館">花園街體育館</option>
+                                <option value="界限街體育館">界限街體育館</option>
+                                <option value="大角咀體育館">大角咀體育館</option>
+                            </optgroup>
+                            <optgroup label="新界東">
+                                <option value="沙田體育館">沙田體育館</option>
+                                <option value="源禾路體育館">源禾路體育館</option>
+                                <option value="顯徑體育館">顯徑體育館</option>
+                                <option value="馬鞍山體育館">馬鞍山體育館</option>
+                                <option value="大埔體育館">大埔體育館</option>
+                                <option value="太和體育館">太和體育館</option>
+                                <option value="北區公園體育館">北區公園體育館</option>
+                                <option value="粉嶺遊樂場體育館">粉嶺遊樂場體育館</option>
+                                <option value="和興體育館">和興體育館</option>
+                                <option value="西貢體育館">西貢體育館</option>
+                                <option value="將軍澳體育館">將軍澳體育館</option>
+                                <option value="調景嶺體育館">調景嶺體育館</option>
+                                <option value="坑口體育館">坑口體育館</option>
+                                <option value="寶林體育館">寶林體育館</option>
+                            </optgroup>
+                            <optgroup label="新界西">
+                                <option value="荃灣體育館">荃灣體育館</option>
+                                <option value="蕙荃體育館">蕙荃體育館</option>
+                                <option value="城門谷體育館">城門谷體育館</option>
+                                <option value="葵涌體育館">葵涌體育館</option>
+                                <option value="林士德體育館">林士德體育館</option>
+                                <option value="青衣體育館">青衣體育館</option>
+                                <option value="青衣西南體育館">青衣西南體育館</option>
+                                <option value="元朗體育館">元朗體育館</option>
+                                <option value="天水圍體育館">天水圍體育館</option>
+                                <option value="屯門體育館">屯門體育館</option>
+                                <option value="屯門西北體育館">屯門西北體育館</option>
+                                <option value="賽馬會屯門蝴蝶灣體育館">賽馬會屯門蝴蝶灣體育館</option>
+                            </optgroup>
+                            <option value="custom">其他 (自訂地點)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group" id="custom-venue-group" style="display: none;">
+                        <label for="custom-venue">📍 自訂地點 *</label>
+                        <input type="text" id="custom-venue" name="customVenue" placeholder="請輸入比賽地點">
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="match-type">🏀 比賽類型 *</label>
+                            <select id="match-type" name="matchType" required>
+                                <option value="">請選擇</option>
+                                <option value="5x5">5x5 全場</option>
+                                <option value="3x3">3x3 半場</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="referee-count">👨‍⚖️ 球證數量 *</label>
+                            <select id="referee-count" name="refereeCount" required>
+                                <option value="">請選擇</option>
+                                <option value="1">1 位球證</option>
+                                <option value="2">2 位球證</option>
+                                <option value="3">3 位球證</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="contact-name">👤 聯絡人姓名 *</label>
+                            <input type="text" id="contact-name" name="contactName" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="contact-phone">📱 聯絡電話 *</label>
+                            <input type="tel" id="contact-phone" name="contactPhone" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="contact-email">📧 電郵地址</label>
+                        <input type="email" id="contact-email" name="contactEmail">
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="status">📊 預訂狀態 *</label>
+                            <select id="status" name="status" required>
+                                <option value="pending">待確認</option>
+                                <option value="confirmed">已確認</option>
+                                <option value="cancelled">已取消</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="payment-status">💰 付款狀態 *</label>
+                            <select id="payment-status" name="paymentStatus" required>
+                                <option value="未付款">未付款</option>
+                                <option value="已付款">已付款</option>
+                                <option value="部分付款">部分付款</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="referee-info">👨‍⚖️ 球證安排</label>
+                        <input type="text" id="referee-info" name="refereeInfo" placeholder="例如: 張三、李四">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="notes">📝 備註</label>
+                        <textarea id="notes" name="notes" placeholder="其他備註資料"></textarea>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="resetForm()">🔄 重設</button>
+                        <button type="submit" class="btn">💾 儲存預訂</button>
+                    </div>
+                </form>
+
+                <div class="generated-code" id="generated-code">
+                    <h3>✅ 預訂已建立</h3>
+                    <p>查詢編號：</p>
+                    <div class="code-display" id="code-display"></div>
+                    <button class="copy-btn" onclick="copyCode()">📋 複製編號</button>
+                    <p style="margin-top: 15px; font-size: 0.9em;">請將此編號提供給客戶查詢預訂</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- List Bookings Tab -->
+        <div id="list-tab" class="tab-content">
+            <div class="form-box">
+                <div class="message" id="list-message"></div>
+                <div class="booking-list" id="booking-list">
+                    <div class="empty-state">
+                        <h3>📭 暫無預訂記錄</h3>
+                        <p>請新增第一個預訂</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let bookings = [];
+        let editingId = null;
+
+        // Load bookings on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadBookings();
+        });
+
+        // Handle venue dropdown change
+        function handleVenueChange() {
+            const venueSelect = document.getElementById('venue');
+            const customVenueGroup = document.getElementById('custom-venue-group');
+            const customVenueInput = document.getElementById('custom-venue');
+            
+            if (venueSelect.value === 'custom') {
+                customVenueGroup.style.display = 'block';
+                customVenueInput.required = true;
+            } else {
+                customVenueGroup.style.display = 'none';
+                customVenueInput.required = false;
+                customVenueInput.value = '';
+            }
+        }
+
+        // Switch tabs
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+            if (tab === 'create') {
+                document.querySelector('.tab-btn:nth-child(1)').classList.add('active');
+                document.getElementById('create-tab').classList.add('active');
+            } else {
+                document.querySelector('.tab-btn:nth-child(2)').classList.add('active');
+                document.getElementById('list-tab').classList.add('active');
+                loadBookings();
+            }
+        }
+
+        // Form submission
+        document.getElementById('booking-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData.entries());
+            
+            // Handle custom venue
+            if (data.venue === 'custom') {
+                data.venue = data.customVenue;
+            }
+            delete data.customVenue;
+            
+            // Generate booking code if new booking
+            if (!data.id) {
+                data.code = generateBookingCode();
+                data.createdAt = new Date().toISOString();
+            }
+            
+            try {
+                const response = await fetch('save-booking.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    showMessage('create-message', result.message, 'success');
+                    
+                    // Show generated code
+                    document.getElementById('code-display').textContent = data.code;
+                    document.getElementById('generated-code').classList.add('show');
+                    
+                    // Reset form after 3 seconds
+                    setTimeout(() => {
+                        resetForm();
+                    }, 3000);
+                } else {
+                    showMessage('create-message', result.message || '儲存失敗', 'error');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showMessage('create-message', '儲存時發生錯誤', 'error');
+            }
+        });
+
+        // Generate booking code (format: LR + YYYYMMDD + sequential number)
+        function generateBookingCode() {
+            const today = new Date();
+            const dateStr = today.getFullYear() + 
+                          String(today.getMonth() + 1).padStart(2, '0') + 
+                          String(today.getDate()).padStart(2, '0');
+            
+            // Find highest sequential number for today
+            const todayBookings = bookings.filter(b => b.code && b.code.startsWith('LR' + dateStr));
+            let maxNum = 0;
+            
+            todayBookings.forEach(b => {
+                const num = parseInt(b.code.slice(-3));
+                if (num > maxNum) maxNum = num;
+            });
+            
+            const nextNum = String(maxNum + 1).padStart(3, '0');
+            return 'LR' + dateStr + nextNum;
+        }
+
+        // Load bookings
+        async function loadBookings() {
+            try {
+                const response = await fetch('get-booking.php');
+                const data = await response.json();
+                
+                if (data.success) {
+                    bookings = data.bookings || [];
+                    renderBookings();
+                }
+            } catch (error) {
+                console.error('Error loading bookings:', error);
+            }
+        }
+
+        // Render bookings list
+        function renderBookings() {
+            const listContainer = document.getElementById('booking-list');
+            
+            if (bookings.length === 0) {
+                listContainer.innerHTML = `
+                    <div class="empty-state">
+                        <h3>📭 暫無預訂記錄</h3>
+                        <p>請新增第一個預訂</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Sort by date (newest first)
+            const sortedBookings = [...bookings].sort((a, b) => {
+                return new Date(b.createdAt || 0) - new Date(a.createdAt || 0);
+            });
+            
+            listContainer.innerHTML = sortedBookings.map(booking => `
+                <div class="booking-item">
+                    <div class="booking-info">
+                        <h3>${booking.code}</h3>
+                        <span class="status-badge status-${booking.status}">${getStatusText(booking.status)}</span>
+                        <div class="booking-details">
+                            <div class="booking-detail"><strong>日期：</strong>${booking.matchDate}</div>
+                            <div class="booking-detail"><strong>時間：</strong>${booking.matchTime}${booking.endTime ? ' - ' + booking.endTime : ''}</div>
+                            <div class="booking-detail"><strong>地點：</strong>${booking.venue}</div>
+                            <div class="booking-detail"><strong>類型：</strong>${booking.matchType}</div>
+                            <div class="booking-detail"><strong>聯絡人：</strong>${booking.contactName}</div>
+                            <div class="booking-detail"><strong>電話：</strong>${booking.contactPhone}</div>
+                            <div class="booking-detail"><strong>付款：</strong>${booking.paymentStatus}</div>
+                        </div>
+                    </div>
+                    <div class="booking-actions">
+                        <button class="btn btn-small btn-secondary" onclick="editBooking('${booking.code}')">✏️ 編輯</button>
+                        <button class="btn btn-small btn-danger" onclick="deleteBooking('${booking.code}')">🗑️ 刪除</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Get status text
+        function getStatusText(status) {
+            const statusMap = {
+                'pending': '待確認',
+                'confirmed': '已確認',
+                'cancelled': '已取消'
+            };
+            return statusMap[status] || status;
+        }
+
+        // Edit booking
+        function editBooking(code) {
+            const booking = bookings.find(b => b.code === code);
+            if (!booking) return;
+            
+            // Fill form
+            document.getElementById('booking-id').value = booking.code;
+            document.getElementById('match-date').value = booking.matchDate;
+            document.getElementById('match-time').value = booking.matchTime;
+            document.getElementById('end-time').value = booking.endTime || '';
+            
+            // Handle venue - check if it's a custom venue
+            const venueSelect = document.getElementById('venue');
+            const venueOptions = Array.from(venueSelect.options).map(opt => opt.value);
+            
+            if (venueOptions.includes(booking.venue)) {
+                venueSelect.value = booking.venue;
+                handleVenueChange();
+            } else {
+                venueSelect.value = 'custom';
+                handleVenueChange();
+                document.getElementById('custom-venue').value = booking.venue;
+            }
+            
+            document.getElementById('match-type').value = booking.matchType;
+            document.getElementById('referee-count').value = booking.refereeCount;
+            document.getElementById('contact-name').value = booking.contactName;
+            document.getElementById('contact-phone').value = booking.contactPhone;
+            document.getElementById('contact-email').value = booking.contactEmail || '';
+            document.getElementById('status').value = booking.status;
+            document.getElementById('payment-status').value = booking.paymentStatus;
+            document.getElementById('referee-info').value = booking.refereeInfo || '';
+            document.getElementById('notes').value = booking.notes || '';
+            
+            editingId = code;
+            
+            // Switch to create tab
+            switchTab('create');
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Delete booking
+        async function deleteBooking(code) {
+            if (!confirm('確定要刪除此預訂嗎？')) return;
+            
+            try {
+                const response = await fetch('save-booking.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ code, delete: true })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    showMessage('list-message', '預訂已刪除', 'success');
+                    loadBookings();
+                } else {
+                    showMessage('list-message', '刪除失敗', 'error');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showMessage('list-message', '刪除時發生錯誤', 'error');
+            }
+        }
+
+        // Reset form
+        function resetForm() {
+            document.getElementById('booking-form').reset();
+            document.getElementById('booking-id').value = '';
+            document.getElementById('generated-code').classList.remove('show');
+            document.getElementById('create-message').classList.remove('show');
+            document.getElementById('custom-venue-group').style.display = 'none';
+            document.getElementById('custom-venue').required = false;
+            editingId = null;
+        }
+
+        // Copy code to clipboard
+        function copyCode() {
+            const code = document.getElementById('code-display').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                alert('編號已複製到剪貼簿');
+            });
+        }
+
+        // Show message
+        function showMessage(elementId, message, type) {
+            const msgElement = document.getElementById(elementId);
+            msgElement.textContent = message;
+            msgElement.className = 'message show ' + type;
+            
+            setTimeout(() => {
+                msgElement.classList.remove('show');
+            }, 5000);
+        }
+    </script>
+</body>
+</html>
