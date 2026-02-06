@@ -21,15 +21,15 @@ const API_CONFIG = {
     // NewsData.io - News API (需要註冊獲取 API Key)
     newsDataIO: {
         baseUrl: 'https://newsdata.io/api/1/news',
-        apiKey: 'YOUR_API_KEY_HERE', // 請替換為你的 API Key
-        enabled: false // 設為 true 當你有 API Key
+        apiKey: 'pub_f1c16ce168d24cd8b4d2ef5fa1fb77a3', // 請替換為你的 API Key
+        enabled: true // 設為 true 當你有 API Key
     },
     
     // MediaStack - Alternative News API
     mediaStack: {
         baseUrl: 'http://api.mediastack.com/v1/news',
-        apiKey: 'YOUR_API_KEY_HERE', // 請替換為你的 API Key
-        enabled: false // 設為 true 當你有 API Key
+        apiKey: '3d736bd774445a89c54668019eb7799d', // 請替換為你的 API Key
+        enabled: true // 設為 true 當你有 API Key
     }
 };
 
@@ -71,7 +71,7 @@ const MOCK_DATA = {
             category: '甲組聯賽',
             date: '2026-02-06',
             source: 'HKBA',
-            url: '#',
+            url: 'https://www.fiba.basketball/en/news',
             image: '🏆'
         },
         {
@@ -80,7 +80,7 @@ const MOCK_DATA = {
             category: '學界籃球',
             date: '2026-02-05',
             source: 'HKSSF',
-            url: '#',
+            url: 'http://sportsentry.hkssf.org.hk/',
             image: '🎓'
         },
         {
@@ -89,7 +89,7 @@ const MOCK_DATA = {
             category: '香港代表隊',
             date: '2026-02-04',
             source: 'HKBA',
-            url: '#',
+            url: 'https://www.fiba.basketball/en/news',
             image: '🇭🇰'
         },
         {
@@ -98,7 +98,7 @@ const MOCK_DATA = {
             category: '大專籃球',
             date: '2026-02-03',
             source: 'CUSFHK',
-            url: '#',
+            url: 'https://www.fiba.basketball/en/news',
             image: '🎓'
         }
     ],
@@ -118,7 +118,7 @@ const MOCK_DATA = {
             category: '規則解析',
             date: '2026-02-01',
             source: 'LaLaRef',
-            url: '#',
+            url: 'https://www.lalaref.com/service.html',
             image: '📖'
         },
         {
@@ -145,7 +145,7 @@ const MOCK_DATA = {
             category: '球證心得',
             date: '2026-01-28',
             source: 'LaLaRef',
-            url: '#',
+            url: 'https://www.lalaref.com/service.html',
             image: '👨‍⚖️'
         },
         {
@@ -166,6 +166,22 @@ let newsData = {
     international: [],
     hongkong: [],
     referee: []
+};
+
+// Pagination State
+const ITEMS_PER_PAGE = 6; // Initial items to show
+const ITEMS_PER_LOAD = 6; // Items to load when clicking "Load More"
+let displayedItems = {
+    international: ITEMS_PER_PAGE,
+    hongkong: ITEMS_PER_PAGE,
+    referee: ITEMS_PER_PAGE
+};
+
+// API Pagination Tokens (for APIs that support pagination)
+let nextPageTokens = {
+    international: null,
+    hongkong: null,
+    referee: null
 };
 
 // Initialize
@@ -408,7 +424,7 @@ async function loadMediaStack() {
 }
 
 // Render News
-function renderNews(category, articles) {
+function renderNews(category, articles, append = false) {
     const gridId = `${category}-grid`;
     const grid = document.getElementById(gridId);
     
@@ -425,7 +441,45 @@ function renderNews(category, articles) {
         return;
     }
     
-    grid.innerHTML = articles.map(article => createNewsCard(article)).join('');
+    // Get items to display based on current pagination state
+    const itemsToShow = articles.slice(0, displayedItems[category]);
+    const hasMore = articles.length > displayedItems[category];
+    
+    // Render news cards
+    const newsCards = itemsToShow.map(article => createNewsCard(article)).join('');
+    
+    // Add Load More button if there are more items
+    const loadMoreButton = hasMore ? `
+        <div class="load-more-container">
+            <button class="load-more-btn" onclick="loadMoreNews('${category}')">
+                <span class="load-more-icon">📰</span>
+                <span class="load-more-text">查看更多</span>
+                <span class="load-more-count">(還有 ${articles.length - displayedItems[category]} 篇)</span>
+            </button>
+        </div>
+    ` : '';
+    
+    grid.innerHTML = newsCards + loadMoreButton;
+}
+
+// Load More News Function
+function loadMoreNews(category) {
+    // Increase displayed items
+    displayedItems[category] += ITEMS_PER_LOAD;
+    
+    // Re-render with more items
+    renderNews(category, newsData[category]);
+    
+    // Smooth scroll to the newly loaded content
+    const grid = document.getElementById(`${category}-grid`);
+    if (grid) {
+        const newItems = grid.querySelectorAll('.news-card');
+        if (newItems.length > 0) {
+            // Scroll to the first newly loaded item
+            const scrollTarget = newItems[Math.max(0, newItems.length - ITEMS_PER_LOAD)];
+            scrollTarget.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+    }
 }
 
 // Create News Card HTML
