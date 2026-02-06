@@ -26,12 +26,7 @@ const API_CONFIG = {
         enabled: true // 設為 true 當你有 API Key
     },
     
-    // MediaStack - Alternative News API
-    mediaStack: {
-        baseUrl: 'http://api.mediastack.com/v1/news',
-        apiKey: '3d736bd774445a89c54668019eb7799d', // 請替換為你的 API Key
-        enabled: true // 設為 true 當你有 API Key
-    }
+    
 };
 
 // Sample/Mock Data for demonstration
