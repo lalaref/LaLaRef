@@ -299,20 +299,30 @@ async function loadNewsDataIO() {
     }
     
     try {
-        // Load Hong Kong basketball news
+        // Load Hong Kong sports news (broader search)
         const hkParams = new URLSearchParams({
             apikey: API_CONFIG.newsDataIO.apiKey,
             country: 'hk',
             category: 'sports',
-            q: 'basketball OR 籃球 OR 甲組 OR 學界',
             language: 'zh,en'
         });
         
         const hkResponse = await fetch(`${API_CONFIG.newsDataIO.baseUrl}?${hkParams}`);
         const hkData = await hkResponse.json();
         
+        console.log('NewsData.io HK response:', hkData);
+        
         if (hkData.results && hkData.results.length > 0) {
-            const transformedNews = hkData.results.map(article => ({
+            // Filter for basketball-related news
+            const basketballNews = hkData.results.filter(article => {
+                const text = (article.title + ' ' + (article.description || '')).toLowerCase();
+                return text.includes('basketball') || text.includes('籃球') || 
+                       text.includes('nba') || text.includes('甲組') || 
+                       text.includes('學界') || text.includes('hkba') ||
+                       text.includes('球證');
+            });
+            
+            const transformedNews = basketballNews.map(article => ({
                 title: article.title,
                 excerpt: article.description || article.content?.substring(0, 150) + '...',
                 category: '香港新聞',
@@ -322,23 +332,65 @@ async function loadNewsDataIO() {
                 image: '📰'
             }));
             
-            newsData.hongkong = [...transformedNews, ...newsData.hongkong];
-            renderNews('hongkong', newsData.hongkong);
+            if (transformedNews.length > 0) {
+                newsData.hongkong = [...transformedNews, ...newsData.hongkong];
+                renderNews('hongkong', newsData.hongkong);
+                console.log(`Loaded ${transformedNews.length} Hong Kong basketball articles`);
+            }
         }
         
-        // Load referee-related news
+        // Load international basketball news (no country filter for more results)
+        const intParams = new URLSearchParams({
+            apikey: API_CONFIG.newsDataIO.apiKey,
+            category: 'sports',
+            q: 'NBA OR basketball',
+            language: 'en'
+        });
+        
+        const intResponse = await fetch(`${API_CONFIG.newsDataIO.baseUrl}?${intParams}`);
+        const intData = await intResponse.json();
+        
+        console.log('NewsData.io International response:', intData);
+        
+        if (intData.results && intData.results.length > 0) {
+            const transformedIntNews = intData.results.slice(0, 10).map(article => ({
+                title: article.title,
+                excerpt: article.description || article.content?.substring(0, 150) + '...',
+                category: '國際籃球',
+                date: article.pubDate?.split(' ')[0] || new Date().toISOString().split('T')[0],
+                source: article.source_id || 'News',
+                url: article.link,
+                image: '🏀'
+            }));
+            
+            newsData.international = [...transformedIntNews, ...newsData.international];
+            renderNews('international', newsData.international);
+            console.log(`Loaded ${transformedIntNews.length} international basketball articles`);
+        }
+        
+        // Load referee-related news (broader search)
         const refParams = new URLSearchParams({
             apikey: API_CONFIG.newsDataIO.apiKey,
             category: 'sports',
-            q: 'basketball referee OR 籃球球證 OR 籃球裁判 OR FIBA referee',
-            language: 'zh,en'
+            q: 'referee OR official',
+            language: 'en'
         });
         
         const refResponse = await fetch(`${API_CONFIG.newsDataIO.baseUrl}?${refParams}`);
         const refData = await refResponse.json();
         
+        console.log('NewsData.io Referee response:', refData);
+        
         if (refData.results && refData.results.length > 0) {
-            const transformedRefNews = refData.results.map(article => ({
+            // Filter for basketball referee news
+            const refNews = refData.results.filter(article => {
+                const text = (article.title + ' ' + (article.description || '')).toLowerCase();
+                return text.includes('basketball') || text.includes('nba') || 
+                       text.includes('fiba') || text.includes('referee') ||
+                       text.includes('球證');
+            });
+            
+            const transformedRefNews = refNews.slice(0, 10).map(article => ({
                 title: article.title,
                 excerpt: article.description || article.content?.substring(0, 150) + '...',
                 category: '球證新聞',
@@ -348,8 +400,11 @@ async function loadNewsDataIO() {
                 image: '👨‍⚖️'
             }));
             
-            newsData.referee = [...transformedRefNews, ...newsData.referee];
-            renderNews('referee', newsData.referee);
+            if (transformedRefNews.length > 0) {
+                newsData.referee = [...transformedRefNews, ...newsData.referee];
+                renderNews('referee', newsData.referee);
+                console.log(`Loaded ${transformedRefNews.length} referee articles`);
+            }
         }
     } catch (error) {
         console.error('Error loading NewsData.io:', error);
