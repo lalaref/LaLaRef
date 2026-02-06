@@ -566,6 +566,17 @@ function doPost(e) {
 
     <script>
         let sheetUrl = localStorage.getItem('sheetUrl') || '';
+        let editingId = null;
+
+        // IMPORTANT: Set your Google Sheets URL here for production
+        // This will be used if localStorage is empty (e.g., on external devices)
+        const FALLBACK_SHEET_URL = 'https://script.google.com/macros/s/AKfycbx2xeJ7WZUwf5kXr9wTOYR5udv0vhHuu3HlIE5HTbGFgRZ7XhIt-O3Xg7PnM8dB6U6MZg/exec';
+        
+        // Use fallback if localStorage is empty
+        if (!sheetUrl && FALLBACK_SHEET_URL) {
+            sheetUrl = FALLBACK_SHEET_URL;
+            localStorage.setItem('sheetUrl', FALLBACK_SHEET_URL);
+        }
         
         if (sheetUrl) {
             document.getElementById('sheet-url').value = sheetUrl;

@@ -272,8 +272,17 @@
     </div>
 
     <script>
-        // Get Google Sheets URL from admin page (stored in localStorage)
-        let sheetUrl = localStorage.getItem('sheetUrl') || '';
+        // IMPORTANT: Set your Google Sheets URL here for production
+        // This will be used if localStorage is empty (e.g., on external devices)
+        const FALLBACK_SHEET_URL = 'https://script.google.com/macros/s/AKfycbx2xeJ7WZUwf5kXr9wTOYR5udv0vhHuu3HlIE5HTbGFgRZ7XhIt-O3Xg7PnM8dB6U6MZg/exec';
+        
+        // Get Google Sheets URL from admin page (stored in localStorage) or use fallback
+        let sheetUrl = localStorage.getItem('sheetUrl') || FALLBACK_SHEET_URL;
+        
+        // Save fallback to localStorage if it exists
+        if (!localStorage.getItem('sheetUrl') && FALLBACK_SHEET_URL) {
+            localStorage.setItem('sheetUrl', FALLBACK_SHEET_URL);
+        }
         
         // Check if URL is configured on page load
         window.addEventListener('DOMContentLoaded', function() {
