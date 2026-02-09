@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>籃球新聞 | LaLaRef 籃球球證服務 | 香港籃球資訊 | 球證專欄</title>
+    <meta name="description" content="LaLaRef 籃球新聞 - 提供最新國際籃球賽事、香港籃球動態、球證專業資訊。涵蓋 NBA、FIBA、香港甲組聯賽、學界籃球及專業球證培訓資訊。">
+    <meta name="keywords" content="籃球新聞,香港籃球,NBA新聞,FIBA,球證資訊,籃球裁判,學界籃球,甲組聯賽,籃球賽事,LaLaRef新聞,香港籃球總會,籃球球證培訓">
+    
+    <!-- Breadcrumb Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "name": "首頁",
+            "item": "https://www.lalaref.com/"
+        },{
+            "@type": "ListItem",
+            "position": 2,
+            "name": "籃球新聞",
+            "item": "https://www.lalaref.com/news.html"
+        }]
+    }
+    </script>
+
+    <!-- Google Analytics 4 (GA4) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-L1YNR24WBC"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-L1YNR24WBC', {
+            page_title: 'LaLaRef 籃球新聞 - 香港籃球資訊',
+            page_location: window.location.href
+        });
+    </script>
+
+    <!-- Open Graph / Facebook / WhatsApp -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.lalaref.com/news.html">
+    <meta property="og:title" content="籃球新聞 | LaLaRef 籃球球證服務">
+    <meta property="og:description" content="最新國際籃球賽事、香港籃球動態、球證專業資訊。涵蓋 NBA、FIBA、香港甲組聯賽及學界籃球新聞。">
+    <meta property="og:image" content="https://www.lalaref.com/lalaref2.png">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://www.lalaref.com/news.html">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/jpeg" href="lalaref2.jpg">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Microsoft JhengHei', 'PingFang TC', sans-serif;
+            line-height: 1.6;
+            color: #5a4a3a;
+            background: linear-gradient(135deg, #f5e6d3 0%, #e8d4b8 100%);
+            min-height: 100vh;
+        }
+
+        /* Navigation Bar */
+        .nav-bar {
+            background: linear-gradient(145deg, #d4a574, #c89860);
+            padding: 15px 0;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .nav-content {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .nav-logo {
+            color: white;
+            font-size: 1.5em;
+            font-weight: 900;
+            text-decoration: none;
+        }
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            padding: 8px 16px;
+            border-radius: 20px;
+        }
+        .nav-links a:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        
+        /* Hamburger Menu */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 5px;
+        }
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: white;
+            margin: 3px 0;
+            transition: 0.3s;
+            border-radius: 3px;
+        }
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(-45deg) translate(-5px, 6px);
+        }
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(45deg) translate(-5px, -6px);
+        }
+        
+        /* Breadcrumb */
+        .breadcrumb {
+            max-width: 1100px;
+            margin: 20px auto;
+            padding: 0 30px;
+            font-size: 0.9em;
+            color: #7a6a5a;
+        }
+        .breadcrumb a {
+            color: #d4a574;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        .breadcrumb span {
+            margin: 0 8px;
+        }
+        
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px 30px;
+        }
+        
+        /* Page Header */
+        .page-header {
+            text-align: center;
+            margin-bottom: 60px;
+            padding: 60px 30px;
+            background: linear-gradient(145deg, #f0dcc8, #e8d4b8);
+            border-radius: 40px;
+            box-shadow: 
+                20px 20px 40px rgba(0,0,0,0.15),
+                -20px -20px 40px rgba(255,255,255,0.7);
+        }
+        .page-header h1 {
+            font-size: 3em;
+            color: #5a4a3a;
+            margin-bottom: 20px;
+            font-weight: 900;
+        }
+        .page-header p {
+            font-size: 1.2em;
+            color: #7a6a5a;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Filter Tabs */
+        .filter-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 50px;
+            flex-wrap: wrap;
+        }
+        .filter-tab {
+            padding: 12px 30px;
+            background: linear-gradient(145deg, #f0dcc8, #e8d4b8);
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1em;
+            font-weight: 700;
+            color: #5a4a3a;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 
+                8px 8px 16px rgba(0,0,0,0.1),
+                -8px -8px 16px rgba(255,255,255,0.7);
+        }
+        .filter-tab:hover {
+            transform: translateY(-3px);
+        }
+        .filter-tab.active {
+            background: linear-gradient(145deg, #d4a574, #c89860);
+            color: white;
+            box-shadow: 
+                inset 5px 5px 10px rgba(0,0,0,0.2),
+                inset -5px -5px 10px rgba(255,255,255,0.1);
+        }
+
+        /* News Section */
+        .news-section {
+            margin-bottom: 80px;
+        }
+        .news-section h2 {
+            font-size: 2.5em;
+            color: #5a4a3a;
+            margin-bottom: 40px;
+            text-align: center;
+            font-weight: 900;
+            position: relative;
+        }
+        .news-section h2::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 5px;
+            background: #d4a574;
+            border-radius: 10px;
+        }
+
+        /* News Grid */
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        /* News Card */
+        .news-card {
+            background: linear-gradient(145deg, #f0dcc8, #e8d4b8);
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 
+                15px 15px 30px rgba(0,0,0,0.15),
+                -15px -15px 30px rgba(255,255,255,0.7);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+        }
+        .news-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 
+                20px 20px 40px rgba(0,0,0,0.2),
+                -20px -20px 40px rgba(255,255,255,0.8);
+        }
+
+        .news-image {
+            font-size: 5em;
+            text-align: center;
+            padding: 40px;
+            background: linear-gradient(145deg, #e8d4b8, #d4a574);
+        }
+
+        .news-content {
+            padding: 30px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .news-category {
+            display: inline-block;
+            padding: 6px 15px;
+            background: #d4a574;
+            color: white;
+            border-radius: 15px;
+            font-size: 0.85em;
+            font-weight: 700;
+            margin-bottom: 15px;
+            align-self: flex-start;
+        }
+
+        .news-title {
+            font-size: 1.4em;
+            color: #5a4a3a;
+            margin-bottom: 15px;
+            font-weight: 800;
+            line-height: 1.4;
+        }
+
+        .news-excerpt {
+            color: #7a6a5a;
+            line-height: 1.7;
+            margin-bottom: 20px;
+            flex: 1;
+        }
+
+        .news-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 15px;
+            border-top: 2px solid rgba(212, 165, 116, 0.3);
+            font-size: 0.9em;
+        }
+
+        .news-date {
+            color: #7a6a5a;
+            font-weight: 600;
+        }
+
+        .news-source {
+            color: #d4a574;
+            font-weight: 700;
+        }
+
+        /* Load More Button */
+        .load-more-container {
+            grid-column: 1 / -1;
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .load-more-btn {
+            padding: 15px 40px;
+            background: linear-gradient(145deg, #d4a574, #c89860);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.1em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 
+                10px 10px 20px rgba(0,0,0,0.15),
+                -10px -10px 20px rgba(255,255,255,0.3);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .load-more-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 
+                15px 15px 30px rgba(0,0,0,0.2),
+                -15px -15px 30px rgba(255,255,255,0.4);
+        }
+
+        .load-more-icon {
+            font-size: 1.2em;
+        }
+
+        .load-more-count {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        /* Empty State */
+        .empty-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 80px 30px;
+        }
+
+        .empty-state-icon {
+            font-size: 5em;
+            margin-bottom: 20px;
+        }
+
+        .empty-state h3 {
+            font-size: 2em;
+            color: #5a4a3a;
+            margin-bottom: 15px;
+            font-weight: 800;
+        }
+
+        .empty-state p {
+            font-size: 1.2em;
+            color: #7a6a5a;
+        }
+
+        /* WhatsApp Float */
+        .whatsapp-float {
+            position: fixed;
+            width: 80px;
+            height: 80px;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(145deg, #25d366, #20b358);
+            color: #FFF;
+            border-radius: 50%;
+            text-align: center;
+            font-size: 35px;
+            box-shadow: 
+                15px 15px 30px rgba(0,0,0,0.2),
+                -15px -15px 30px rgba(255,255,255,0.3);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        .whatsapp-float:hover {
+            transform: translateY(-8px) scale(1.05);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+            .nav-links {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: linear-gradient(145deg, #d4a574, #c89860);
+                flex-direction: column;
+                gap: 0;
+                padding: 0;
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.3s ease;
+                box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+            }
+            .nav-links.active {
+                max-height: 300px;
+            }
+            .nav-links a {
+                padding: 15px 30px;
+                font-size: 1em;
+                border-radius: 0;
+                border-bottom: 1px solid rgba(255,255,255,0.1);
+            }
+            .page-header h1 {
+                font-size: 2em;
+            }
+            .news-section h2 {
+                font-size: 1.8em;
+            }
+            .news-grid {
+                grid-template-columns: 1fr;
+            }
+            .filter-tabs {
+                gap: 10px;
+            }
+            .filter-tab {
+                padding: 10px 20px;
+                font-size: 1em;
+            }
+            .whatsapp-float {
+                width: 60px;
+                height: 60px;
+                font-size: 28px;
+                bottom: 20px;
+                right: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav-bar">
+        <div class="nav-content">
+            <a href="index.html" class="nav-logo">LaLaRef 急單王</a>
+            <div class="hamburger" onclick="toggleMenu()" aria-label="選單" role="button" tabindex="0">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <div class="nav-links" id="navLinks">
+                <a href="index.html">首頁</a>
+                <a href="service.html">服務資訊</a>
+                <a href="news.html">籃球新聞</a>
+                <a href="index.html#booking">立即預訂</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb" aria-label="麵包屑導航">
+        <a href="index.html">首頁</a>
+        <span>›</span>
+        <span>籃球新聞</span>
+    </nav>
+    
+    <!-- WhatsApp Float Button -->
+    <a href="https://wa.me/85284828484?text=你好！我想查詢球證服務" 
+       class="whatsapp-float" 
+       target="_blank" 
+       rel="noopener noreferrer"
+       title="WhatsApp 查詢"
+       aria-label="透過 WhatsApp 聯絡我們">
+        <svg viewBox="0 0 32 32" width="32" height="32" fill="white">
+            <path d="M16 0C7.164 0 0 7.164 0 16c0 2.825.738 5.488 2.031 7.813L.281 30.594l7.031-1.844A15.923 15.923 0 0016 32c8.836 0 16-7.164 16-16S24.836 0 16 0zm0 29.25c-2.406 0-4.719-.656-6.719-1.875l-.469-.281-4.875 1.281 1.313-4.781-.313-.5A13.173 13.173 0 012.75 16C2.75 8.681 8.681 2.75 16 2.75S29.25 8.681 29.25 16 23.319 29.25 16 29.25zm7.25-9.906c-.406-.188-2.375-1.156-2.75-1.281-.375-.125-.656-.188-.938.188-.281.375-1.063 1.281-1.313 1.563-.25.281-.5.313-.906.125-.406-.188-1.719-.625-3.281-2-.219-.188-2.031-1.781-2.281-2.156-.25-.375-.031-.594.156-.781.156-.156.406-.406.594-.594.188-.188.25-.313.375-.531.125-.219.063-.406-.031-.594-.094-.188-.938-2.219-1.281-3.031-.344-.781-.688-.656-.938-.656-.25 0-.531-.031-.813-.031s-.75.094-1.125.469c-.375.375-1.438 1.406-1.438 3.438s1.469 3.969 1.656 4.25c.188.281 2.625 4 6.375 5.625.906.375 1.594.594 2.125.781.875.281 1.688.25 2.313.156.719-.094 2.188-.875 2.5-1.719.313-.844.313-1.563.219-1.719-.094-.156-.375-.25-.781-.438z"/>
+        </svg>
+    </a>
+    
+    <div class="container">
+        <!-- Page Header -->
+        <header class="page-header">
+            <h1>🏀 籃球新聞</h1>
+            <p>最新國際籃球賽事 · 香港籃球動態 · 球證專業資訊</p>
+        </header>
+
+        <!-- Filter Tabs -->
+        <div class="filter-tabs">
+            <button class="filter-tab active" data-category="all">全部新聞</button>
+            <button class="filter-tab" data-category="referee">球證專欄</button>
+            <button class="filter-tab" data-category="hongkong">香港籃球</button>
+            <button class="filter-tab" data-category="international">國際籃球</button>
+        </div>
+
+        <!-- Referee News Section -->
+        <section id="referee-section" class="news-section">
+            <h2>👨‍⚖️ 球證專欄</h2>
+            <div id="referee-grid" class="news-grid">
+                <!-- News cards will be dynamically loaded here -->
+            </div>
+        </section>
+
+        <!-- Hong Kong News Section -->
+        <section id="hongkong-section" class="news-section">
+            <h2>🇭🇰 香港籃球新聞</h2>
+            <div id="hongkong-grid" class="news-grid">
+                <!-- News cards will be dynamically loaded here -->
+            </div>
+        </section>
+
+        <!-- International News Section -->
+        <section id="international-section" class="news-section">
+            <h2>🌍 國際籃球新聞</h2>
+            <div id="international-grid" class="news-grid">
+                <!-- News cards will be dynamically loaded here -->
+            </div>
+        </section>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // Toggle Mobile Menu
+        function toggleMenu() {
+            const navLinks = document.getElementById('navLinks');
+            const hamburger = document.querySelector('.hamburger');
+            navLinks.classList.toggle('active');
+            hamburger.classList.toggle('active');
+        }
+    </script>
+    
+    <!-- Load News Data -->
+    <script src="js/news.js"></script>
+</body>
+</html>
