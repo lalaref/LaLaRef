@@ -473,6 +473,27 @@
             </div>
         </div>
 
+        <!-- League Counter -->
+        <div style="text-align: center; margin-bottom: 40px;">
+            <div style="position: relative; padding: 20px 35px; background: linear-gradient(145deg, #f0dcc8, #e8d4b8); border-radius: 20px; display: inline-block; box-shadow: 15px 15px 30px rgba(0,0,0,0.15), -15px -15px 30px rgba(255,255,255,0.7); overflow: hidden;">
+                <!-- Decorative elements -->
+                <div style="position: absolute; top: -15px; right: -15px; width: 60px; height: 60px; background: linear-gradient(145deg, #d4a574, #c89860); border-radius: 50%; opacity: 0.3;"></div>
+                <div style="position: absolute; bottom: -10px; left: -10px; width: 50px; height: 50px; background: linear-gradient(145deg, #d4a574, #c89860); border-radius: 50%; opacity: 0.2;"></div>
+                
+                <!-- Content -->
+                <div style="position: relative; z-index: 1; display: flex; align-items: center; gap: 15px;">
+                    <div style="font-size: 2em;">📊</div>
+                    <div style="text-align: left;">
+                        <div style="color: #7a6a5a; font-size: 0.75em; font-weight: 600; margin-bottom: 3px; letter-spacing: 0.5px;">TOTAL LEAGUES</div>
+                        <div style="display: flex; align-items: baseline; gap: 8px;">
+                            <span id="leagueCount" style="color: #d4a574; font-size: 2em; font-weight: 900; line-height: 1;">0</span>
+                            <span style="color: #5a4a3a; font-size: 1em; font-weight: 700;">個聯賽</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- League Grid -->
         <div class="league-grid" id="leagueGrid">
             <!-- Leagues will be dynamically loaded here -->
@@ -712,11 +733,17 @@
         // Render leagues
         function renderLeagues() {
             const grid = document.getElementById('leagueGrid');
+            const countElement = document.getElementById('leagueCount');
             
             // Sort leagues alphabetically by name
             const sortedLeagues = [...leagues].sort((a, b) => {
                 return a.name.localeCompare(b.name, 'en', { sensitivity: 'base' });
             });
+            
+            // Update league count
+            if (countElement) {
+                countElement.textContent = sortedLeagues.length;
+            }
             
             sortedLeagues.forEach(league => {
                 const card = document.createElement('div');
