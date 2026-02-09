@@ -180,6 +180,9 @@
                 15px 15px 30px rgba(0,0,0,0.15),
                 -15px -15px 30px rgba(255,255,255,0.7);
             transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
         }
         .league-card:hover {
             transform: translateY(-5px);
@@ -191,11 +194,28 @@
         .league-name {
             font-size: 1.5em;
             color: #5a4a3a;
-            margin-bottom: 20px;
+            margin-bottom: 0;
             font-weight: 800;
             display: flex;
             align-items: center;
             gap: 15px;
+        }
+
+        .league-name-text {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .league-name-en {
+            font-size: 1em;
+            line-height: 1.2;
+        }
+
+        .league-name-zh {
+            font-size: 0.85em;
+            color: #7a6a5a;
+            line-height: 1.2;
         }
 
         .league-logo {
@@ -213,23 +233,24 @@
 
         .league-links {
             display: flex;
-            gap: 15px;
+            gap: 10px;
             flex-wrap: wrap;
         }
 
         .social-link {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            padding: 10px 20px;
+            gap: 6px;
+            padding: 8px 15px;
             background: linear-gradient(145deg, #d4a574, #c89860);
             color: white;
             text-decoration: none;
             border-radius: 20px;
             font-weight: 700;
-            font-size: 0.9em;
+            font-size: 0.85em;
             transition: all 0.3s ease;
             box-shadow: 5px 5px 10px rgba(0,0,0,0.1);
+            flex: 0 0 auto;
         }
 
         .social-link:hover {
@@ -239,6 +260,8 @@
 
         .social-icon {
             flex-shrink: 0;
+            width: 16px;
+            height: 16px;
         }
 
         /* WhatsApp Float */
@@ -330,6 +353,39 @@
                 font-size: 28px;
                 bottom: 20px;
                 right: 20px;
+            }
+            
+            /* Mobile: Smaller social buttons */
+            .social-link {
+                padding: 8px 12px;
+                font-size: 0.75em;
+                gap: 5px;
+                flex: 0 0 auto;
+            }
+            
+            .social-icon {
+                width: 14px;
+                height: 14px;
+            }
+            
+            /* Mobile: Ensure 4 icons fit on one row */
+            .league-links {
+                gap: 8px;
+                justify-content: space-between;
+            }
+            
+            /* Mobile: Smaller logo */
+            .league-logo-img {
+                width: 45px;
+                height: 45px;
+            }
+            
+            .league-logo {
+                font-size: 1.5em;
+            }
+            
+            .league-name {
+                font-size: 1.2em;
             }
         }
     </style>
@@ -643,10 +699,31 @@
                     ? `<img src="${league.logo}" alt="${league.name}" class="league-logo-img">`
                     : `<span class="league-logo">${league.logo}</span>`;
                 
+                // Split name into English and Chinese parts
+                const nameParts = league.name.split(/\s+/);
+                let englishName = '';
+                let chineseName = '';
+                
+                nameParts.forEach(part => {
+                    // Check if part contains Chinese characters
+                    if (/[\u4e00-\u9fa5]/.test(part)) {
+                        chineseName += (chineseName ? ' ' : '') + part;
+                    } else {
+                        englishName += (englishName ? ' ' : '') + part;
+                    }
+                });
+                
+                const nameHTML = (englishName && chineseName) 
+                    ? `<div class="league-name-text">
+                        <div class="league-name-en">${englishName}</div>
+                        <div class="league-name-zh">${chineseName}</div>
+                       </div>`
+                    : `<span>${league.name}</span>`;
+                
                 card.innerHTML = `
                     <h3 class="league-name">
                         ${logoHTML}
-                        <span>${league.name}</span>
+                        ${nameHTML}
                     </h3>
                     <div class="league-links">
                         ${linksHTML}
