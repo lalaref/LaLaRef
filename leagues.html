@@ -234,7 +234,8 @@
         .league-links {
             display: flex;
             gap: 10px;
-            flex-wrap: wrap;
+            flex-wrap: nowrap;
+            justify-content: space-between;
         }
 
         .social-link {
@@ -251,6 +252,7 @@
             transition: all 0.3s ease;
             box-shadow: 5px 5px 10px rgba(0,0,0,0.1);
             flex: 0 0 auto;
+            white-space: nowrap;
         }
 
         .social-link:hover {
@@ -355,23 +357,26 @@
                 right: 20px;
             }
             
+            /* Mobile: All 4 icons on one row with equal spacing */
+            .league-links {
+                gap: 0;
+                justify-content: space-between;
+                flex-wrap: nowrap;
+            }
+            
             /* Mobile: Smaller social buttons */
             .social-link {
-                padding: 8px 12px;
-                font-size: 0.75em;
-                gap: 5px;
-                flex: 0 0 auto;
+                padding: 8px 10px;
+                font-size: 0.7em;
+                gap: 4px;
+                flex: 1 1 0;
+                min-width: 0;
+                justify-content: center;
             }
             
             .social-icon {
                 width: 14px;
                 height: 14px;
-            }
-            
-            /* Mobile: Ensure 4 icons fit on one row */
-            .league-links {
-                gap: 8px;
-                justify-content: space-between;
             }
             
             /* Mobile: Smaller logo */
