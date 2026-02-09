@@ -28,6 +28,14 @@
         <priority>0.8</priority>
     </url>
 
+    <!-- Hong Kong Basketball Leagues Page -->
+    <url>
+        <loc>https://www.lalaref.com/leagues.html</loc>
+        <lastmod>2026-02-09</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
     <!-- Add more pages as your site grows -->
     <!-- Example:
     <url>
