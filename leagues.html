@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>香港私人籃球聯賽 | LaLaRef 球證服務 | 香港籃球聯賽名單</title>
+    <meta name="description" content="香港私人籃球聯賽完整名單 - LaLaRef為各大私人籃球聯賽提供專業球證服務。包含聯賽網站、Facebook、Instagram、YouTube等社交媒體連結。">
+    <meta name="keywords" content="香港籃球聯賽,私人籃球聯賽,香港籃球,球證服務,籃球聯賽名單,香港籃球比賽,社區籃球,企業籃球聯賽,LaLaRef">
+    
+    <!-- Google Analytics 4 (GA4) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-L1YNR24WBC"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-L1YNR24WBC', {
+            page_title: 'LaLaRef 香港私人籃球聯賽名單',
+            page_location: window.location.href
+        });
+    </script>
+
+    <!-- Open Graph / Facebook / WhatsApp -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.lalaref.com/leagues.html">
+    <meta property="og:title" content="香港私人籃球聯賽 | LaLaRef 球證服務">
+    <meta property="og:description" content="香港私人籃球聯賽完整名單，包含聯賽網站及社交媒體連結">
+    <meta property="og:image" content="https://www.lalaref.com/lalaref2.png">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://www.lalaref.com/leagues.html">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/jpeg" href="lalaref2.jpg">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Microsoft JhengHei', 'PingFang TC', sans-serif;
+            line-height: 1.6;
+            color: #5a4a3a;
+            background: linear-gradient(135deg, #f5e6d3 0%, #e8d4b8 100%);
+            min-height: 100vh;
+        }
+
+        /* Navigation Bar */
+        .nav-bar {
+            background: linear-gradient(145deg, #d4a574, #c89860);
+            padding: 15px 0;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .nav-content {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .nav-logo {
+            color: white;
+            font-size: 1.5em;
+            font-weight: 900;
+            text-decoration: none;
+        }
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            padding: 8px 16px;
+            border-radius: 20px;
+        }
+        .nav-links a:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        
+        /* Hamburger Menu */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 5px;
+        }
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: white;
+            margin: 3px 0;
+            transition: 0.3s;
+            border-radius: 3px;
+        }
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(-45deg) translate(-5px, 6px);
+        }
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(45deg) translate(-5px, -6px);
+        }
+        
+        /* Breadcrumb */
+        .breadcrumb {
+            max-width: 1100px;
+            margin: 20px auto;
+            padding: 0 30px;
+            font-size: 0.9em;
+            color: #7a6a5a;
+        }
+        .breadcrumb a {
+            color: #d4a574;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        .breadcrumb span {
+            margin: 0 8px;
+        }
+        
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px 30px;
+        }
+        
+        /* Page Header */
+        .page-header {
+            text-align: center;
+            margin-bottom: 60px;
+            padding: 60px 30px;
+            background: linear-gradient(145deg, #f0dcc8, #e8d4b8);
+            border-radius: 40px;
+            box-shadow: 
+                20px 20px 40px rgba(0,0,0,0.15),
+                -20px -20px 40px rgba(255,255,255,0.7);
+        }
+        .page-header h1 {
+            font-size: 3em;
+            color: #5a4a3a;
+            margin-bottom: 20px;
+            font-weight: 900;
+        }
+        .page-header p {
+            font-size: 1.2em;
+            color: #7a6a5a;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* League Grid */
+        .league-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        /* League Card */
+        .league-card {
+            background: linear-gradient(145deg, #f0dcc8, #e8d4b8);
+            border-radius: 25px;
+            padding: 30px;
+            box-shadow: 
+                15px 15px 30px rgba(0,0,0,0.15),
+                -15px -15px 30px rgba(255,255,255,0.7);
+            transition: all 0.3s ease;
+        }
+        .league-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 
+                20px 20px 40px rgba(0,0,0,0.2),
+                -20px -20px 40px rgba(255,255,255,0.8);
+        }
+
+        .league-name {
+            font-size: 1.5em;
+            color: #5a4a3a;
+            margin-bottom: 20px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .league-logo {
+            font-size: 2em;
+            flex-shrink: 0;
+        }
+
+        .league-links {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .social-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: linear-gradient(145deg, #d4a574, #c89860);
+            color: white;
+            text-decoration: none;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            box-shadow: 5px 5px 10px rgba(0,0,0,0.1);
+        }
+
+        .social-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 8px 8px 15px rgba(0,0,0,0.15);
+        }
+
+        .social-icon {
+            font-size: 1.2em;
+        }
+
+        /* WhatsApp Float */
+        .whatsapp-float {
+            position: fixed;
+            width: 80px;
+            height: 80px;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(145deg, #25d366, #20b358);
+            color: #FFF;
+            border-radius: 50%;
+            text-align: center;
+            font-size: 35px;
+            box-shadow: 
+                15px 15px 30px rgba(0,0,0,0.2),
+                -15px -15px 30px rgba(255,255,255,0.3);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        .whatsapp-float:hover {
+            transform: translateY(-8px) scale(1.05);
+        }
+
+        /* Info Box */
+        .info-box {
+            background: linear-gradient(145deg, #d4a574, #c89860);
+            padding: 30px;
+            border-radius: 25px;
+            margin-bottom: 40px;
+            color: white;
+            text-align: center;
+            box-shadow: 
+                15px 15px 30px rgba(0,0,0,0.15),
+                -15px -15px 30px rgba(255,255,255,0.3);
+        }
+
+        .info-box h3 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            font-weight: 800;
+        }
+
+        .info-box p {
+            font-size: 1.1em;
+            line-height: 1.8;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+            .nav-links {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: linear-gradient(145deg, #d4a574, #c89860);
+                flex-direction: column;
+                gap: 0;
+                padding: 0;
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.3s ease;
+                box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+            }
+            .nav-links.active {
+                max-height: 300px;
+            }
+            .nav-links a {
+                padding: 15px 30px;
+                font-size: 1em;
+                border-radius: 0;
+                border-bottom: 1px solid rgba(255,255,255,0.1);
+            }
+            .page-header h1 {
+                font-size: 2em;
+            }
+            .league-grid {
+                grid-template-columns: 1fr;
+            }
+            .whatsapp-float {
+                width: 60px;
+                height: 60px;
+                font-size: 28px;
+                bottom: 20px;
+                right: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav-bar">
+        <div class="nav-content">
+            <a href="index.html" class="nav-logo">LaLaRef 急單王</a>
+            <div class="hamburger" onclick="toggleMenu()" aria-label="選單" role="button" tabindex="0">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <div class="nav-links" id="navLinks">
+                <a href="index.html">首頁</a>
+                <a href="service.html">服務資訊</a>
+                <a href="news.html">籃球新聞</a>
+                <a href="leagues.html">籃球聯賽</a>
+                <a href="index.html#booking">立即預訂</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb" aria-label="麵包屑導航">
+        <a href="index.html">首頁</a>
+        <span>›</span>
+        <span>香港私人籃球聯賽</span>
+    </nav>
+    
+    <!-- WhatsApp Float Button -->
+    <a href="https://wa.me/85284828484?text=你好！我想查詢球證服務" 
+       class="whatsapp-float" 
+       target="_blank" 
+       rel="noopener noreferrer"
+       title="WhatsApp 查詢"
+       aria-label="透過 WhatsApp 聯絡我們">
+        <svg viewBox="0 0 32 32" width="32" height="32" fill="white">
+            <path d="M16 0C7.164 0 0 7.164 0 16c0 2.825.738 5.488 2.031 7.813L.281 30.594l7.031-1.844A15.923 15.923 0 0016 32c8.836 0 16-7.164 16-16S24.836 0 16 0zm0 29.25c-2.406 0-4.719-.656-6.719-1.875l-.469-.281-4.875 1.281 1.313-4.781-.313-.5A13.173 13.173 0 012.75 16C2.75 8.681 8.681 2.75 16 2.75S29.25 8.681 29.25 16 23.319 29.25 16 29.25zm7.25-9.906c-.406-.188-2.375-1.156-2.75-1.281-.375-.125-.656-.188-.938.188-.281.375-1.063 1.281-1.313 1.563-.25.281-.5.313-.906.125-.406-.188-1.719-.625-3.281-2-.219-.188-2.031-1.781-2.281-2.156-.25-.375-.031-.594.156-.781.156-.156.406-.406.594-.594.188-.188.25-.313.375-.531.125-.219.063-.406-.031-.594-.094-.188-.938-2.219-1.281-3.031-.344-.781-.688-.656-.938-.656-.25 0-.531-.031-.813-.031s-.75.094-1.125.469c-.375.375-1.438 1.406-1.438 3.438s1.469 3.969 1.656 4.25c.188.281 2.625 4 6.375 5.625.906.375 1.594.594 2.125.781.875.281 1.688.25 2.313.156.719-.094 2.188-.875 2.5-1.719.313-.844.313-1.563.219-1.719-.094-.156-.375-.25-.781-.438z"/>
+        </svg>
+    </a>
+    
+    <div class="container">
+        <!-- Page Header -->
+        <header class="page-header">
+            <h1>🏀 香港私人籃球聯賽</h1>
+            <p>香港各大私人籃球聯賽完整名單 · LaLaRef 可為各聯賽提供專業球證服務</p>
+            <div style="margin-top: 30px;">
+                <a href="https://wa.me/85284828484?text=你好！我想了解長期合作事宜-lp" 
+                   target="_blank" 
+                   rel="noopener noreferrer"
+                   style="display: inline-block; padding: 15px 40px; border: 3px solid #d4a574; color: #d4a574; border-radius: 30px; font-size: 1.15em; font-weight: 900; letter-spacing: 2px; background: transparent; text-transform: uppercase; box-shadow: 0 4px 15px rgba(212, 165, 116, 0.3); text-decoration: none; transition: 0.3s;"
+                   onmouseover="this.style.background='#d4a574'; this.style.color='white';"
+                   onmouseout="this.style.background='transparent'; this.style.color='#d4a574';">
+                    長期合作洽談
+                </a>
+            </div>
+        </header>
+
+        <!-- Info Box -->
+        <div class="info-box">
+            <h3>🎯 為您的聯賽提供專業球證服務</h3>
+            <p>LaLaRef 為香港各大私人籃球聯賽提供專業持牌球證服務。無論是企業聯賽、社區聯賽還是朋友組織的比賽，我們都能為您安排最合適的球證團隊。立即聯絡我們了解更多！</p>
+            <div style="margin-top: 25px;">
+                <a href="https://wa.me/85284828484?text=你好！我想將我的籃球聯賽加入到名單中" 
+                   target="_blank" 
+                   rel="noopener noreferrer"
+                   style="display: inline-block; padding: 15px 35px; background: linear-gradient(145deg, #f0dcc8, #e8d4b8); color: #5a4a3a; text-decoration: none; border-radius: 30px; font-weight: 900; font-size: 1.1em; box-shadow: 10px 10px 20px rgba(0,0,0,0.2), -10px -10px 20px rgba(255,255,255,0.3); transition: all 0.3s ease; border: 3px solid rgba(255,255,255,0.5);"
+                   onmouseover="this.style.transform='translateY(-3px) scale(1.05)'; this.style.boxShadow='15px 15px 30px rgba(0,0,0,0.3), -15px -15px 30px rgba(255,255,255,0.4)';"
+                   onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='10px 10px 20px rgba(0,0,0,0.2), -10px -10px 20px rgba(255,255,255,0.3)';">
+                    📱 加入您的聯賽到名單
+                </a>
+            </div>
+        </div>
+
+        <!-- League Grid -->
+        <div class="league-grid" id="leagueGrid">
+            <!-- Leagues will be dynamically loaded here -->
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // Toggle Mobile Menu
+        function toggleMenu() {
+            const navLinks = document.getElementById('navLinks');
+            const hamburger = document.querySelector('.hamburger');
+            navLinks.classList.toggle('active');
+            hamburger.classList.toggle('active');
+        }
+
+        // Hong Kong Private Basketball Leagues Data
+        const leagues = [
+            {
+                name: "Hillen 驍籃",
+                logo: "logo/hillen.jpg",
+                website: "https://www.hillen-sports.com/hillensports",
+                facebook: "https://www.facebook.com/Hillensportspages",
+                instagram: "https://www.instagram.com/hillen_sports_event_limited/",
+                youtube: "https://www.youtube.com/@hillensports"
+            },
+            {
+                name: "企業籃球聯賽",
+                logo: "🏢",
+                website: "#",
+                facebook: "#",
+                instagram: null,
+                youtube: null
+            },
+            {
+                name: "社區籃球聯賽",
+                logo: "🏘️",
+                website: "#",
+                facebook: "#",
+                instagram: "#",
+                youtube: "#"
+            },
+            {
+                name: "週末籃球聯賽",
+                logo: "📅",
+                website: null,
+                facebook: "#",
+                instagram: "#",
+                youtube: null
+            },
+            {
+                name: "3x3 街頭籃球聯賽",
+                logo: "🔥",
+                website: "#",
+                facebook: "#",
+                instagram: "#",
+                youtube: "#"
+            },
+            {
+                name: "青年籃球發展聯賽",
+                logo: "⭐",
+                website: "#",
+                facebook: "#",
+                instagram: "#",
+                youtube: null
+            }
+        ];
+
+        // Render leagues
+        function renderLeagues() {
+            const grid = document.getElementById('leagueGrid');
+            
+            leagues.forEach(league => {
+                const card = document.createElement('div');
+                card.className = 'league-card';
+                
+                let linksHTML = '';
+                
+                if (league.website) {
+                    linksHTML += `
+                        <a href="${league.website}" class="social-link" target="_blank" rel="noopener noreferrer">
+                            <span class="social-icon">🌐</span>
+                            <span>官方網站</span>
+                        </a>
+                    `;
+                }
+                
+                if (league.facebook) {
+                    linksHTML += `
+                        <a href="${league.facebook}" class="social-link" target="_blank" rel="noopener noreferrer">
+                            <span class="social-icon">📘</span>
+                            <span>Facebook</span>
+                        </a>
+                    `;
+                }
+                
+                if (league.instagram) {
+                    linksHTML += `
+                        <a href="${league.instagram}" class="social-link" target="_blank" rel="noopener noreferrer">
+                            <span class="social-icon">📷</span>
+                            <span>Instagram</span>
+                        </a>
+                    `;
+                }
+                
+                if (league.youtube) {
+                    linksHTML += `
+                        <a href="${league.youtube}" class="social-link" target="_blank" rel="noopener noreferrer">
+                            <span class="social-icon">📺</span>
+                            <span>YouTube</span>
+                        </a>
+                    `;
+                }
+                
+                card.innerHTML = `
+                    <h3 class="league-name">
+                        <span class="league-logo">${league.logo || '🏀'}</span>
+                        <span>${league.name}</span>
+                    </h3>
+                    <div class="league-links">
+                        ${linksHTML}
+                    </div>
+                `;
+                
+                grid.appendChild(card);
+            });
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            renderLeagues();
+        });
+    </script>
+</body>
+</html>
