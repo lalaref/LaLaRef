@@ -233,9 +233,9 @@
 
         .league-links {
             display: flex;
-            gap: 10px;
+            gap: 15px;
             flex-wrap: nowrap;
-            justify-content: space-between;
+            justify-content: flex-start;
         }
 
         .social-link {
@@ -362,18 +362,18 @@
             
             /* Mobile: All 4 icons on one row with equal spacing */
             .league-links {
-                gap: 0;
-                justify-content: space-between;
+                gap: 8px;
+                justify-content: flex-start;
                 flex-wrap: nowrap;
             }
             
             /* Mobile: Circular icon buttons */
             .social-link {
-                padding: 10px;
+                padding: 0;
                 font-size: 0.7em;
                 gap: 0;
-                flex: 1 1 0;
-                min-width: 0;
+                flex: 0 0 auto;
+                min-width: 40px;
                 justify-content: center;
                 width: 40px;
                 height: 40px;
