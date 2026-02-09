@@ -422,8 +422,40 @@
             hamburger.classList.toggle('active');
         }
 
-        // Hong Kong Private Basketball Leagues Data
+        // Hong Kong Private Basketball Leagues Data (Sorted A-Z)
         const leagues = [
+            {
+                name: "ACE Spade",
+                logo: "logo/ace.jpg",
+                website: "https://ablhk.com/spade/",
+                facebook: "https://www.facebook.com/AceSPADE.HK/",
+                instagram: "https://www.instagram.com/acespadeeee/",
+                youtube: "https://www.youtube.com/@acebasketballleague7050"
+            },
+            {
+                name: "Ad Hoc Basketball",
+                logo: "logo/adhoc.jpg",
+                website: "https://adhocleague.wpcomstaging.com/",
+                facebook: "https://www.facebook.com/adhocleaguee",
+                instagram: "https://www.instagram.com/adhocleague/",
+                youtube: "https://www.youtube.com/@adhocbasketballleague4838"
+            },
+            {
+                name: "Capital Club 首都",
+                logo: "logo/capital.jpg",
+                website: "https://www.capital-club.hk/",
+                facebook: "https://www.facebook.com/CapitalClubBasketballLeague",
+                instagram: "https://www.instagram.com/capital_club_basketball_league/",
+                youtube: "https://www.youtube.com/@CapitalClubHK"
+            },
+            {
+                name: "DwSporT HK",
+                logo: "logo/dw.jpg",
+                website: "https://sites.google.com/view/dw-sporthk/?fbclid=IwY2xjawP2Q_tleHRuA2FlbQIxMABicmlkETF3dkpxa0JGQ21LOE56ZHo5c3J0YwZhcHBfaWQQMjIyMDM5MTc4ODIwMDg5MgABHuDlAQJ9MoCwixcBFXh-PotlU5JGfnRHAXKfTDIvIK1pHrH7ZuegLOFY8Nhc_aem_t6sfI0N9KCYyYRjKyhXeew",
+                facebook: "https://www.facebook.com/profile.php/?id=100064731606670",
+                instagram: "https://www.instagram.com/dw_sport.hk/",
+                youtube: "https://www.youtube.com/@DwSporTHK"
+            },
             {
                 name: "Hillen 驍籃",
                 logo: "logo/hillen.jpg",
@@ -433,36 +465,124 @@
                 youtube: "https://www.youtube.com/@hillensports"
             },
             {
-                name: "企業籃球聯賽",
-                logo: "🏢",
-                website: "#",
-                facebook: "#",
-                instagram: null,
-                youtube: null
+                name: "Hong City Basketbal 香城籃球",
+                logo: "logo/hcbl.jpg",
+                website: "https://hongcitybasketballleague.com/",
+                facebook: "https://www.facebook.com/profile.php?id=61571286218265",
+                instagram: "https://www.instagram.com/hc_basketballleague",
+                youtube: "https://www.youtube.com/@hongcitybasketballleague"
             },
             {
-                name: "社區籃球聯賽",
-                logo: "🏘️",
-                website: "#",
-                facebook: "#",
-                instagram: "#",
-                youtube: "#"
+                name: "Hotblood Basketball 熱血籃球",
+                logo: "logo/hotblood.jpg",
+                website: "https://hotbloodleague.com/",
+                facebook: "https://www.facebook.com/profile.php?id=61586142128018",
+                instagram: "https://www.instagram.com/hotblood_basketball_league/",
+                youtube: "https://www.youtube.com/@hotbloodleague"
             },
             {
-                name: "週末籃球聯賽",
-                logo: "📅",
-                website: null,
-                facebook: "#",
-                instagram: "#",
-                youtube: null
+                name: "Humbleague 低調高手",
+                logo: "logo/humble.jpg",
+                website: "https://www.humbleague.com/",
+                facebook: "https://www.facebook.com/humbleague#",
+                instagram: "https://www.instagram.com/humbleague",
+                youtube: "https://www.youtube.com/@humbleague/videos"
             },
             {
-                name: "3x3 街頭籃球聯賽",
+                name: "Hustle League",
+                logo: "logo/hustle.jpg",
+                website: "https://www.hustleleaguehk.com/",
+                facebook: "https://www.facebook.com/profile.php?id=100095112955066",
+                instagram: "https://www.instagram.com/hustle.hk/",
+                youtube: "https://www.youtube.com/@thehustleleague"
+            },
+            {
+                name: "M League HK",
+                logo: "logo/M.jpg",
+                website: "https://msportbasketball.com/",
+                facebook: "https://www.facebook.com/profile.php?id=100063613312497#",
+                instagram: "https://www.instagram.com/mleague.hk/",
+                youtube: "https://www.youtube.com/@mleaguehk1230"
+            },
+            {
+                name: "NW Basketball",
+                logo: "logo/nw.jpg",
+                website: "https://nwleaguehk.com/",
+                facebook: "https://www.facebook.com/profile.php?id=61555289001018",
+                instagram: "https://www.instagram.com/nw_basketball_league",
+                youtube: "https://www.youtube.com/@CapitalClubHK"
+            },
+            {
+                name: "Phoenix Basketball 鳳凰",
+                logo: "logo/phoenix.jpg",
+                website: "http://www.phoenix-sports-721.com/",
+                facebook: "https://www.facebook.com/profile.php?id=100064053032815",
+                instagram: "https://www.instagram.com/phoenix_basketball_league/",
+                youtube: "https://www.youtube.com/@phoenixbl2842"
+            },
+            {
+                name: "Pop Basketball 博驥",
+                logo: "logo/pop.jpg",
+                website: "https://popsportshk.com/basketball/",
+                facebook: "https://www.facebook.com/popsportsbasketball",
+                instagram: "https://www.instagram.com/popsportshk/",
+                youtube: "https://www.youtube.com/@popsportshkbasketball"
+            },
+            {
+                name: "Proud League 傲聯",
+                logo: "logo/proud.jpg",
+                website: "http://proudleague.com/",
+                facebook: "https://www.facebook.com/Proudleauge",
+                instagram: "https://www.instagram.com/proud_basketball_league/",
+                youtube: "https://www.youtube.com/@proudleague7139"
+            },
+            {
+                name: "SBL HK",
                 logo: "🔥",
-                website: "#",
-                facebook: "#",
-                instagram: "#",
-                youtube: "#"
+                website: "https://hktbl.com/",
+                facebook: "https://www.facebook.com/sblhk",
+                instagram: "https://www.instagram.com/sblhk",
+                youtube: "https://www.youtube.com/sblhk1"
+            },
+            {
+                name: "Sketch",
+                logo: "logo/sketch.jpg",
+                website: "https://sketchbball.com/",
+                facebook: "https://www.facebook.com/sketchballcompetition/",
+                instagram: "https://www.instagram.com/sketchcompetition_official/",
+                youtube: "https://www.youtube.com/@sketchbasketball"
+            },
+            {
+                name: "Sportsart League 博亞",
+                logo: "logo/sportsart.png",
+                website: "https://www.sportsartclub.com/",
+                facebook: "https://www.facebook.com/sportsartleague/",
+                instagram: "https://www.instagram.com/sportsartclub/",
+                youtube: "https://www.youtube.com/@sportsartclub"
+            },
+            {
+                name: "Sportsman 籃球人聯盟",
+                logo: "logo/capital.jpg",
+                website: "https://sportsman.com.hk/basketman/",
+                facebook: "https://www.facebook.com/www.sportsman.com.hk",
+                instagram: "https://www.instagram.com/sportsman_basketball/",
+                youtube: "https://www.youtube.com/@sportsman5630"
+            },
+            {
+                name: "Swingman Basketball",
+                logo: "logo/swingman.png",
+                website: "https://www.swingman.hk",
+                facebook: "https://www.facebook.com/swingmanhk",
+                instagram: "https://www.instagram.com/swingmanbasketball",
+                youtube: "https://www.youtube.com/channel/UCwjdpCAf4yfly4YRvTD1JMw"
+            },
+            {
+                name: "W League 天狼籃球",
+                logo: "logo/capital.jpg",
+                website: "http://www.slamsportshongkong.com/",
+                facebook: "https://www.facebook.com/wolverinebasketballleague",
+                instagram: "https://www.instagram.com/wolverine_league_",
+                youtube: "https://www.youtube.com/@wolverine_2012"
             },
             {
                 name: "青年籃球發展聯賽",
