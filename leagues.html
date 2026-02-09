@@ -713,7 +713,12 @@
         function renderLeagues() {
             const grid = document.getElementById('leagueGrid');
             
-            leagues.forEach(league => {
+            // Sort leagues alphabetically by name
+            const sortedLeagues = [...leagues].sort((a, b) => {
+                return a.name.localeCompare(b.name, 'en', { sensitivity: 'base' });
+            });
+            
+            sortedLeagues.forEach(league => {
                 const card = document.createElement('div');
                 card.className = 'league-card';
                 
