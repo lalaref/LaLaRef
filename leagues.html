@@ -773,8 +773,9 @@
             function createAdCard(adData) {
                 const adCard = document.createElement('div');
                 adCard.className = 'league-card';
-                adCard.style.opacity = '0.95';
-                adCard.style.border = '1px solid rgba(212, 165, 116, 0.2)';
+                adCard.style.background = 'linear-gradient(145deg, #e8d4c0, #dcc8b0)'; // Slightly warmer/darker tone
+                adCard.style.opacity = '0.98';
+                adCard.style.border = '2px solid rgba(200, 152, 96, 0.25)';
                 adCard.style.gridColumn = '1 / -1'; // Span full width
                 
                 // Support for GIF/image banner - horizontal layout
@@ -786,7 +787,7 @@
                 
                 // Horizontal layout for full-width ad
                 adCard.innerHTML = `
-                    <div style="position: absolute; top: 10px; right: 10px; background: linear-gradient(145deg, #d4a574, #c89860); color: white; padding: 3px 10px; border-radius: 10px; font-size: 0.7em; font-weight: 700; letter-spacing: 0.5px; z-index: 10;">贊助</div>
+                    <div style="position: absolute; top: 10px; right: 10px; background: linear-gradient(145deg, #c89860, #b8885a); color: white; padding: 3px 10px; border-radius: 10px; font-size: 0.7em; font-weight: 700; letter-spacing: 0.5px; z-index: 10;">贊助</div>
                     <div style="display: flex; align-items: center; gap: 30px; flex-wrap: wrap;">
                         ${bannerHTML}
                         <div style="flex: 1; min-width: 250px;">
@@ -794,8 +795,8 @@
                                 ${adData.logo ? `<img src="${adData.logo}" alt="${adData.title}" style="width: 50px; height: 50px; object-fit: contain; border-radius: 10px;">` : '<span style="font-size: 1.5em;">📢</span>'}
                                 <span>${adData.title}</span>
                             </h3>
-                            <p style="color: #7a6a5a; font-size: 0.95em; margin: 10px 0; line-height: 1.6;">${adData.description}</p>
-                            <a href="${adData.link}" target="_blank" rel="noopener noreferrer sponsored" style="display: inline-block; padding: 10px 25px; background: linear-gradient(145deg, #d4a574, #c89860); color: white; text-decoration: none; border-radius: 15px; font-weight: 700; font-size: 0.9em; transition: all 0.3s ease; box-shadow: 5px 5px 10px rgba(0,0,0,0.1); margin-top: 10px;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='8px 8px 15px rgba(0,0,0,0.15)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='5px 5px 10px rgba(0,0,0,0.1)';">
+                            <p style="color: #6a5a4a; font-size: 0.95em; margin: 10px 0; line-height: 1.6;">${adData.description}</p>
+                            <a href="${adData.link}" target="_blank" rel="noopener noreferrer sponsored" style="display: inline-block; padding: 10px 25px; background: linear-gradient(145deg, #c89860, #b8885a); color: white; text-decoration: none; border-radius: 15px; font-weight: 700; font-size: 0.9em; transition: all 0.3s ease; box-shadow: 5px 5px 10px rgba(0,0,0,0.1); margin-top: 10px;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='8px 8px 15px rgba(0,0,0,0.15)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='5px 5px 10px rgba(0,0,0,0.1)';">
                                 ${adData.buttonText || '了解更多'}
                             </a>
                         </div>
