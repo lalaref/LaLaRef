@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>預訂管理 | LaLaRef 急單王</title>
     <link rel="icon" type="image/jpeg" href="lalaref2.jpg">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -361,6 +363,7 @@
         <div class="tabs">
             <button class="tab-btn active" onclick="switchTab('create')">➕ 新增預訂</button>
             <button class="tab-btn" onclick="switchTab('list')">📋 預訂列表</button>
+            <button class="tab-btn" onclick="switchTab('quotation')">💰 報價單</button>
             <button class="tab-btn" onclick="switchTab('config')">⚙️ 設定</button>
         </div>
 
@@ -489,6 +492,138 @@
             </div>
         </div>
 
+        <!-- Quotation Tab -->
+        <div id="quotation-tab" class="tab-content">
+            <div class="form-box">
+                <h3 style="margin-bottom: 20px; color: #5a4a3a;">💰 建立報價單</h3>
+                <div class="message" id="quotation-message"></div>
+                
+                <form id="quotation-form">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="quote-number">報價單編號 *</label>
+                            <input type="text" id="quote-number" name="quoteNumber" placeholder="自動生成" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="quote-date">報價日期 *</label>
+                            <input type="date" id="quote-date" name="quoteDate" required>
+                        </div>
+                    </div>
+
+                    <h4 style="margin: 30px 0 15px; color: #5a4a3a;">客戶資料</h4>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="customer-name">客戶姓名/公司名稱 *</label>
+                            <input type="text" id="customer-name" name="customerName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="customer-phone">聯絡電話 *</label>
+                            <input type="tel" id="customer-phone" name="customerPhone" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="customer-email">電郵地址</label>
+                        <input type="email" id="customer-email" name="customerEmail">
+                    </div>
+                    <div class="form-group">
+                        <label for="customer-address">地址</label>
+                        <input type="text" id="customer-address" name="customerAddress">
+                    </div>
+
+                    <h4 style="margin: 30px 0 15px; color: #5a4a3a;">服務項目</h4>
+                    <div id="service-items">
+                        <div class="service-item" style="background: #f5e6d3; padding: 20px; border-radius: 15px; margin-bottom: 15px;">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label>服務名稱 *</label>
+                                    <select class="service-name" required onchange="handleServiceNameChange(this)">
+                                        <option value="">請選擇</option>
+                                        <option value="5x5 全場球證服務">5x5 全場球證服務</option>
+                                        <option value="3x3 半場球證服務">3x3 半場球證服務</option>
+                                        <option value="其他">其他（手動輸入）</option>
+                                    </select>
+                                    <input type="text" class="service-name-custom" placeholder="請輸入服務名稱" style="display: none; margin-top: 10px;">
+                                </div>
+                                <div class="form-group">
+                                    <label>球證數量 *</label>
+                                    <input type="number" class="service-quantity" min="1" value="1" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>小時 *</label>
+                                    <input type="number" class="service-hours" min="0.5" step="0.5" value="1" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>單價 (HKD/小時) *</label>
+                                    <input type="number" class="service-price" min="0" step="0.01" placeholder="0.00" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>小計 (HKD)</label>
+                                    <input type="number" class="service-subtotal" readonly>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>備註</label>
+                                <input type="text" class="service-notes" placeholder="例如: 包含2位持牌球證">
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-secondary" onclick="addServiceItem()" style="margin-bottom: 20px;">➕ 新增服務項目</button>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="discount">折扣 (HKD)</label>
+                            <input type="number" id="discount" name="discount" min="0" step="0.01" value="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="deposit">訂金 (HKD)</label>
+                            <input type="number" id="deposit" name="deposit" min="0" step="0.01" value="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="total-amount">總金額 (HKD) *</label>
+                            <input type="number" id="total-amount" name="totalAmount" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="balance-due">尾數 (HKD)</label>
+                            <input type="number" id="balance-due" name="balanceDue" readonly>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="payment-terms">付款條款</label>
+                        <textarea id="payment-terms" name="paymentTerms" placeholder="例如: 比賽當日現金支付">付款方式：
+1. PayMe
+2. 轉數快 (FPS)
+3. 銀行轉帳
+
+付款時間：
+- 單次預訂：比賽當日或之前支付
+- 長期合作：每月結算，7 天內付款
+
+備註：
+- 如需取消預訂，請於比賽前 24 小時通知
+- 臨時取消或缺席將收取 50% 服務費用
+- 極端天氣或不可抗因素除外</textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="quote-notes">備註</label>
+                        <textarea id="quote-notes" name="quoteNotes" placeholder="其他備註事項"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="validity-days">報價有效期 (天)</label>
+                        <input type="number" id="validity-days" name="validityDays" value="30" min="1">
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="resetQuotationForm()">🔄 重設</button>
+                        <button type="button" class="btn" onclick="previewQuotation()">👁️ 預覽</button>
+                        <button type="button" class="btn" onclick="generatePDF()">📄 匯出 PDF</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
         <!-- Config Tab -->
         <div id="config-tab" class="tab-content">
             <div class="form-box">
@@ -594,8 +729,12 @@ function doPost(e) {
                 document.querySelector('.tab-btn:nth-child(2)').classList.add('active');
                 document.getElementById('list-tab').classList.add('active');
                 loadBookings();
-            } else {
+            } else if (tab === 'quotation') {
                 document.querySelector('.tab-btn:nth-child(3)').classList.add('active');
+                document.getElementById('quotation-tab').classList.add('active');
+                initQuotationForm();
+            } else {
+                document.querySelector('.tab-btn:nth-child(4)').classList.add('active');
                 document.getElementById('config-tab').classList.add('active');
             }
         }
@@ -813,6 +952,424 @@ function doPost(e) {
             setTimeout(() => {
                 msgElement.classList.remove('show');
             }, 5000);
+        }
+
+        // Quotation Functions
+        function initQuotationForm() {
+            // Generate quote number
+            const today = new Date();
+            const dateStr = today.getFullYear() + 
+                          String(today.getMonth() + 1).padStart(2, '0') + 
+                          String(today.getDate()).padStart(2, '0');
+            const randomNum = String(Math.floor(Math.random() * 1000)).padStart(3, '0');
+            document.getElementById('quote-number').value = 'Q' + dateStr + randomNum;
+            
+            // Set today's date
+            document.getElementById('quote-date').valueAsDate = new Date();
+            
+            // Add event listeners for calculation
+            updateCalculations();
+        }
+
+        function addServiceItem() {
+            const container = document.getElementById('service-items');
+            const newItem = document.createElement('div');
+            newItem.className = 'service-item';
+            newItem.style.cssText = 'background: #f5e6d3; padding: 20px; border-radius: 15px; margin-bottom: 15px; position: relative;';
+            newItem.innerHTML = `
+                <button type="button" onclick="removeServiceItem(this)" style="position: absolute; top: 10px; right: 10px; background: #ff4444; color: white; border: none; border-radius: 50%; width: 30px; height: 30px; cursor: pointer; font-weight: bold;">×</button>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>服務名稱 *</label>
+                        <select class="service-name" required onchange="handleServiceNameChange(this)">
+                            <option value="">請選擇</option>
+                            <option value="5x5 全場球證服務">5x5 全場球證服務</option>
+                            <option value="3x3 半場球證服務">3x3 半場球證服務</option>
+                            <option value="其他">其他（手動輸入）</option>
+                        </select>
+                        <input type="text" class="service-name-custom" placeholder="請輸入服務名稱" style="display: none; margin-top: 10px;">
+                    </div>
+                    <div class="form-group">
+                        <label>球證數量 *</label>
+                        <input type="number" class="service-quantity" min="1" value="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label>小時 *</label>
+                        <input type="number" class="service-hours" min="0.5" step="0.5" value="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label>單價 (HKD/小時) *</label>
+                        <input type="number" class="service-price" min="0" step="0.01" placeholder="0.00" required>
+                    </div>
+                    <div class="form-group">
+                        <label>小計 (HKD)</label>
+                        <input type="number" class="service-subtotal" readonly>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>備註</label>
+                    <input type="text" class="service-notes" placeholder="例如: 包含2位持牌球證">
+                </div>
+            `;
+            container.appendChild(newItem);
+            updateCalculations();
+        }
+
+        function handleServiceNameChange(selectElement) {
+            const serviceItem = selectElement.closest('.service-item');
+            const customInput = serviceItem.querySelector('.service-name-custom');
+            
+            if (selectElement.value === '其他') {
+                customInput.style.display = 'block';
+                customInput.required = true;
+            } else {
+                customInput.style.display = 'none';
+                customInput.required = false;
+                customInput.value = '';
+            }
+        }
+
+        function removeServiceItem(btn) {
+            btn.parentElement.remove();
+            updateCalculations();
+        }
+
+        function updateCalculations() {
+            // Add event listeners to all service items
+            document.querySelectorAll('.service-quantity, .service-hours, .service-price').forEach(input => {
+                input.removeEventListener('input', calculateSubtotals);
+                input.addEventListener('input', calculateSubtotals);
+            });
+            
+            document.getElementById('discount').removeEventListener('input', calculateTotal);
+            document.getElementById('discount').addEventListener('input', calculateTotal);
+            
+            document.getElementById('deposit').removeEventListener('input', calculateBalance);
+            document.getElementById('deposit').addEventListener('input', calculateBalance);
+            
+            calculateSubtotals();
+        }
+
+        function calculateSubtotals() {
+            document.querySelectorAll('.service-item').forEach(item => {
+                const quantity = parseFloat(item.querySelector('.service-quantity').value) || 0;
+                const hours = parseFloat(item.querySelector('.service-hours').value) || 0;
+                const price = parseFloat(item.querySelector('.service-price').value) || 0;
+                const subtotal = quantity * hours * price;
+                item.querySelector('.service-subtotal').value = subtotal.toFixed(2);
+            });
+            calculateTotal();
+        }
+
+        function calculateTotal() {
+            let total = 0;
+            document.querySelectorAll('.service-subtotal').forEach(input => {
+                total += parseFloat(input.value) || 0;
+            });
+            
+            const discount = parseFloat(document.getElementById('discount').value) || 0;
+            const finalTotal = Math.max(0, total - discount);
+            document.getElementById('total-amount').value = finalTotal.toFixed(2);
+            
+            calculateBalance();
+        }
+
+        function calculateBalance() {
+            const total = parseFloat(document.getElementById('total-amount').value) || 0;
+            const deposit = parseFloat(document.getElementById('deposit').value) || 0;
+            const balance = Math.max(0, total - deposit);
+            document.getElementById('balance-due').value = balance.toFixed(2);
+        }
+
+        function resetQuotationForm() {
+            document.getElementById('quotation-form').reset();
+            // Keep only one service item
+            const container = document.getElementById('service-items');
+            const items = container.querySelectorAll('.service-item');
+            for (let i = 1; i < items.length; i++) {
+                items[i].remove();
+            }
+            initQuotationForm();
+        }
+
+        function previewQuotation() {
+            const data = getQuotationData();
+            if (!data) return;
+            
+            alert('報價單預覽\n\n' + 
+                  '報價單編號: ' + data.quoteNumber + '\n' +
+                  '客戶: ' + data.customerName + '\n' +
+                  '總金額: HKD $' + data.totalAmount + '\n\n' +
+                  '請點擊「匯出 PDF」生成完整報價單');
+        }
+
+        function getQuotationData() {
+            const form = document.getElementById('quotation-form');
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return null;
+            }
+            
+            const services = [];
+            document.querySelectorAll('.service-item').forEach(item => {
+                const selectElement = item.querySelector('.service-name');
+                const customInput = item.querySelector('.service-name-custom');
+                let serviceName = selectElement.value;
+                
+                // If "其他" is selected, use custom input value
+                if (serviceName === '其他') {
+                    serviceName = customInput.value || '其他服務';
+                }
+                
+                services.push({
+                    name: serviceName,
+                    quantity: item.querySelector('.service-quantity').value,
+                    hours: item.querySelector('.service-hours').value,
+                    price: item.querySelector('.service-price').value,
+                    subtotal: item.querySelector('.service-subtotal').value,
+                    notes: item.querySelector('.service-notes').value
+                });
+            });
+            
+            return {
+                quoteNumber: document.getElementById('quote-number').value,
+                quoteDate: document.getElementById('quote-date').value,
+                customerName: document.getElementById('customer-name').value,
+                customerPhone: document.getElementById('customer-phone').value,
+                customerEmail: document.getElementById('customer-email').value,
+                customerAddress: document.getElementById('customer-address').value,
+                services: services,
+                discount: document.getElementById('discount').value,
+                deposit: document.getElementById('deposit').value,
+                totalAmount: document.getElementById('total-amount').value,
+                balanceDue: document.getElementById('balance-due').value,
+                paymentTerms: document.getElementById('payment-terms').value,
+                quoteNotes: document.getElementById('quote-notes').value,
+                validityDays: document.getElementById('validity-days').value
+            };
+        }
+
+        async function generatePDF() {
+            const data = getQuotationData();
+            if (!data) return;
+            
+            // Load and convert logo to base64
+            let logoBase64 = '';
+            try {
+                const logoImg = new Image();
+                // Don't use crossOrigin for same-domain images
+                await new Promise((resolve, reject) => {
+                    logoImg.onload = () => {
+                        try {
+                            const canvas = document.createElement('canvas');
+                            canvas.width = logoImg.width;
+                            canvas.height = logoImg.height;
+                            const ctx = canvas.getContext('2d');
+                            ctx.drawImage(logoImg, 0, 0);
+                            logoBase64 = canvas.toDataURL('image/jpeg');
+                            resolve();
+                        } catch (err) {
+                            console.warn('Canvas conversion failed:', err);
+                            resolve(); // Continue without logo
+                        }
+                    };
+                    logoImg.onerror = () => {
+                        console.warn('Logo loading failed');
+                        resolve(); // Continue without logo if fails
+                    };
+                    // Use correct file extension
+                    logoImg.src = 'lalaref2.jpg';
+                });
+            } catch (error) {
+                console.warn('Logo loading failed, continuing without logo:', error);
+            }
+            
+            // Create a temporary HTML element for PDF generation
+            const pdfContainer = document.createElement('div');
+            pdfContainer.style.cssText = 'position: absolute; left: -9999px; width: 800px; background: white; padding: 40px; font-family: Arial, sans-serif;';
+            
+            // Calculate validity date
+            const validUntil = new Date(data.quoteDate);
+            validUntil.setDate(validUntil.getDate() + parseInt(data.validityDays));
+            
+            // Build HTML content
+            pdfContainer.innerHTML = `
+                <div style="font-family: 'Microsoft JhengHei', Arial, sans-serif;">
+                    <!-- Header with Logo -->
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 3px solid #d4a574; padding-bottom: 20px;">
+                        <div style="display: flex; align-items: center; gap: 15px;">
+                            ${logoBase64 ? `<img src="${logoBase64}" alt="LaLaRef Logo" style="width: 80px; height: 80px; object-fit: contain;">` : ''}
+                            <div>
+                                <h1 style="color: #d4a574; font-size: 36px; margin: 0;">LaLaRef</h1>
+                                <h2 style="color: #5a4a3a; font-size: 24px; margin: 5px 0 0 0;">報價單 QUOTATION</h2>
+                            </div>
+                        </div>
+                        <div style="text-align: right;">
+                            <div style="font-size: 14px; margin-bottom: 5px;"><strong>報價單編號:</strong> ${data.quoteNumber}</div>
+                            <div style="font-size: 14px;"><strong>日期:</strong> ${data.quoteDate}</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Customer Info -->
+                    <div style="margin-bottom: 30px;">
+                        <h3 style="color: #5a4a3a; font-size: 18px; margin-bottom: 10px;">客戶資料 Bill To:</h3>
+                        <div style="background: #f5e6d3; padding: 15px; border-radius: 10px;">
+                            <div style="margin-bottom: 5px;"><strong>客戶名稱:</strong> ${data.customerName}</div>
+                            <div style="margin-bottom: 5px;"><strong>聯絡電話:</strong> ${data.customerPhone}</div>
+                            ${data.customerEmail ? `<div style="margin-bottom: 5px;"><strong>電郵:</strong> ${data.customerEmail}</div>` : ''}
+                            ${data.customerAddress ? `<div><strong>地址:</strong> ${data.customerAddress}</div>` : ''}
+                        </div>
+                    </div>
+                    
+                    <!-- Services Table -->
+                    <div style="margin-bottom: 30px;">
+                        <h3 style="color: #5a4a3a; font-size: 18px; margin-bottom: 10px;">服務項目 Services:</h3>
+                        <table style="width: 100%; border-collapse: collapse;">
+                            <thead>
+                                <tr style="background: #d4a574; color: white;">
+                                    <th style="padding: 10px; text-align: left; border: 1px solid #c89860;">服務名稱</th>
+                                    <th style="padding: 10px; text-align: center; border: 1px solid #c89860; width: 70px;">球證數量</th>
+                                    <th style="padding: 10px; text-align: center; border: 1px solid #c89860; width: 70px;">小時</th>
+                                    <th style="padding: 10px; text-align: right; border: 1px solid #c89860; width: 90px;">單價<br>(HKD/小時)</th>
+                                    <th style="padding: 10px; text-align: right; border: 1px solid #c89860; width: 100px;">小計 (HKD)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${data.services.map(service => `
+                                    <tr>
+                                        <td style="padding: 10px; border: 1px solid #ddd;">
+                                            ${service.name}
+                                            ${service.notes ? `<br><span style="font-size: 12px; color: #666;">(${service.notes})</span>` : ''}
+                                        </td>
+                                        <td style="padding: 10px; text-align: center; border: 1px solid #ddd;">${service.quantity}</td>
+                                        <td style="padding: 10px; text-align: center; border: 1px solid #ddd;">${service.hours}</td>
+                                        <td style="padding: 10px; text-align: right; border: 1px solid #ddd;">$${parseFloat(service.price).toFixed(2)}</td>
+                                        <td style="padding: 10px; text-align: right; border: 1px solid #ddd;">$${parseFloat(service.subtotal).toFixed(2)}</td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                        <div style="margin-top: 8px; font-size: 12px; color: #666;">
+                            * 小計 = 球證數量 × 小時 × 單價
+                        </div>
+                    </div>
+                    
+                    <!-- Totals -->
+                    <div style="margin-bottom: 30px;">
+                        <div style="display: flex; justify-content: flex-end;">
+                            <div style="width: 300px;">
+                                <div style="display: flex; justify-content: space-between; padding: 8px; border-bottom: 1px solid #ddd;">
+                                    <span>小計 Subtotal:</span>
+                                    <span>$${data.services.reduce((sum, s) => sum + parseFloat(s.subtotal), 0).toFixed(2)}</span>
+                                </div>
+                                ${parseFloat(data.discount) > 0 ? `
+                                    <div style="display: flex; justify-content: space-between; padding: 8px; border-bottom: 1px solid #ddd;">
+                                        <span>折扣 Discount:</span>
+                                        <span>-$${parseFloat(data.discount).toFixed(2)}</span>
+                                    </div>
+                                ` : ''}
+                                <div style="display: flex; justify-content: space-between; padding: 12px; background: #d4a574; color: white; font-size: 18px; font-weight: bold;">
+                                    <span>總金額 Total:</span>
+                                    <span>HKD $${parseFloat(data.totalAmount).toFixed(2)}</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; padding: 8px; border-bottom: 1px solid #ddd; margin-top: 10px;">
+                                    <span>訂金 Deposit:</span>
+                                    <span>${parseFloat(data.deposit) > 0 ? '-' : ''}${parseFloat(data.deposit).toFixed(2)}</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; padding: 10px; background: #f5e6d3; font-size: 16px; font-weight: bold; color: #5a4a3a;">
+                                    <span>尾數 Balance Due:</span>
+                                    <span>HKD ${parseFloat(data.balanceDue).toFixed(2)}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Payment Terms -->
+                    ${data.paymentTerms ? `
+                        <div style="margin-bottom: 15px;">
+                            <h3 style="color: #5a4a3a; font-size: 14px; margin-bottom: 6px;">付款條款 Payment Terms:</h3>
+                            <div style="background: #f5e6d3; padding: 10px; border-radius: 8px; white-space: pre-wrap; font-size: 11px; line-height: 1.4;">${data.paymentTerms}</div>
+                        </div>
+                    ` : ''}
+                    
+                    <!-- Notes -->
+                    ${data.quoteNotes ? `
+                        <div style="margin-bottom: 15px;">
+                            <h3 style="color: #5a4a3a; font-size: 14px; margin-bottom: 6px;">備註 Notes:</h3>
+                            <div style="background: #f5e6d3; padding: 10px; border-radius: 8px; white-space: pre-wrap; font-size: 11px; line-height: 1.4;">${data.quoteNotes}</div>
+                        </div>
+                    ` : ''}
+                    
+                    <!-- Validity -->
+                    <div style="margin-top: 15px; font-size: 10px; color: #666;">
+                        <div>此報價單有效期至 (Valid until): ${validUntil.toISOString().split('T')[0]}</div>
+                    </div>
+                    
+                    <!-- Footer -->
+                    <div style="margin-top: 20px; text-align: center; font-size: 11px; color: #999; padding-top: 15px;">
+                        <div style="margin-bottom: 5px;"><strong>LaLaRef - 專業籃球球證服務</strong></div>
+                        <div>Professional Basketball Referee Service</div>
+                        <div style="margin-top: 5px;">電話 Tel: +852 8482 8484 | 網站 Web: www.lalaref.com</div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(pdfContainer);
+            
+            try {
+                // Use html2canvas to render the HTML to canvas
+                const canvas = await html2canvas(pdfContainer, {
+                    scale: 1.5, // Reduced from 2 to balance quality and file size
+                    useCORS: true,
+                    allowTaint: false,
+                    logging: false,
+                    backgroundColor: '#ffffff'
+                });
+                
+                // Create PDF from canvas
+                const { jsPDF } = window.jspdf;
+                const imgWidth = 210; // A4 width in mm
+                const imgHeight = (canvas.height * imgWidth) / canvas.width;
+                
+                const pdf = new jsPDF('p', 'mm', 'a4');
+                // Use JPEG with compression instead of PNG to reduce file size
+                const imgData = canvas.toDataURL('image/jpeg', 0.85); // 85% quality JPEG
+                
+                // Add image to PDF - handle multi-page properly
+                const pageHeight = 297; // A4 height in mm
+                
+                // If content fits on one page, just add it
+                if (imgHeight <= pageHeight) {
+                    pdf.addImage(imgData, 'JPEG', 0, 0, imgWidth, imgHeight);
+                } else {
+                    // Multi-page content
+                    let heightLeft = imgHeight;
+                    let position = 0;
+                    
+                    // Add first page
+                    pdf.addImage(imgData, 'JPEG', 0, 0, imgWidth, imgHeight);
+                    heightLeft -= pageHeight;
+                    
+                    // Add additional pages only if there's significant content left (more than 10mm)
+                    while (heightLeft > 10) {
+                        position += pageHeight;
+                        pdf.addPage();
+                        pdf.addImage(imgData, 'JPEG', 0, -position, imgWidth, imgHeight);
+                        heightLeft -= pageHeight;
+                    }
+                }
+                
+                // Save PDF
+                pdf.save('LaLaRef_報價單_' + data.quoteNumber + '.pdf');
+                showMessage('quotation-message', 'PDF 已成功匯出', 'success');
+                
+            } catch (error) {
+                console.error('PDF generation error:', error);
+                showMessage('quotation-message', 'PDF 匯出失敗: ' + error.message, 'error');
+            } finally {
+                // Remove temporary element
+                document.body.removeChild(pdfContainer);
+            }
         }
     </script>
 </body>
