@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>教學課程報價單 | LaLaRef 急單王</title>
+    <link rel="icon" type="image/jpeg" href="lalaref2.jpg">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Microsoft JhengHei', sans-serif;
+            background: linear-gradient(135deg, #f5e6d3 0%, #e8d4b8 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px 20px;
+            background: linear-gradient(145deg, #f0dcc8, #e8d4b8);
+            border-radius: 30px;
+            box-shadow: 20px 20px 40px rgba(0,0,0,0.15), -20px -20px 40px rgba(255,255,255,0.7);
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            color: #5a4a3a;
+            margin-bottom: 10px;
+        }
+
+        .form-box {
+            background: linear-gradient(145deg, #f0dcc8, #e8d4b8);
+            padding: 40px;
+            border-radius: 30px;
+            box-shadow: 20px 20px 40px rgba(0,0,0,0.15), -20px -20px 40px rgba(255,255,255,0.7);
+            margin-bottom: 30px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 700;
+            color: #5a4a3a;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 15px 20px;
+            background: linear-gradient(145deg, #f5e6d3, #ede0cc);
+            border: none;
+            border-radius: 20px;
+            font-size: 1em;
+            box-shadow: inset 8px 8px 16px rgba(0,0,0,0.1), inset -8px -8px 16px rgba(255,255,255,0.7);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            background: linear-gradient(145deg, #d4a574, #c89860);
+            border: none;
+            border-radius: 20px;
+            color: white;
+            font-size: 1.1em;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 10px 10px 20px rgba(0,0,0,0.15), -10px -10px 20px rgba(255,255,255,0.5);
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 15px 15px 30px rgba(0,0,0,0.2), -15px -15px 30px rgba(255,255,255,0.6);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(145deg, #f0dcc8, #e8d4b8);
+            color: #5a4a3a;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: flex-end;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .message {
+            padding: 15px 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 700;
+            display: none;
+        }
+
+        .message.show {
+            display: block;
+        }
+
+        .message.success {
+            background: #25d366;
+            color: white;
+        }
+
+        .message.error {
+            background: #ff4444;
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-actions {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏀 教學課程報價單</h1>
+            <p>籃球教學課程專業報價系統</p>
+        </div>
+
+        <div class="form-box">
+            <h3 style="margin-bottom: 20px; color: #5a4a3a;">🏀 建立教學課程報價單</h3>
+            <div class="message" id="quotation-message"></div>
+            
+            <form id="quotation-form">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="quote-number">報價單編號 *</label>
+                        <input type="text" id="quote-number" name="quoteNumber" placeholder="自動生成" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="quote-date">報價日期 *</label>
+                        <input type="date" id="quote-date" name="quoteDate" required>
+                    </div>
+                </div>
+
+                <h4 style="margin: 30px 0 15px; color: #5a4a3a;">客戶資料</h4>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="customer-name">客戶姓名/學校/機構名稱 *</label>
+                        <input type="text" id="customer-name" name="customerName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="customer-phone">聯絡電話 *</label>
+                        <input type="tel" id="customer-phone" name="customerPhone" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="customer-email">電郵地址</label>
+                    <input type="email" id="customer-email" name="customerEmail">
+                </div>
+                <div class="form-group">
+                    <label for="customer-address">地址</label>
+                    <input type="text" id="customer-address" name="customerAddress">
+                </div>
+
+                <h4 style="margin: 30px 0 15px; color: #5a4a3a;">教學課程項目</h4>
+                <div id="service-items">
+                    <div class="service-item" style="background: #f5e6d3; padding: 20px; border-radius: 15px; margin-bottom: 15px;">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>課程類型 *</label>
+                                <select class="service-name" required onchange="handleServiceNameChange(this)">
+                                    <option value="">請選擇</option>
+                                    <option value="基礎籃球技巧班">基礎籃球技巧班</option>
+                                    <option value="進階籃球訓練班">進階籃球訓練班</option>
+                                    <option value="青少年籃球培訓">青少年籃球培訓</option>
+                                    <option value="成人籃球訓練">成人籃球訓練</option>
+                                    <option value="一對一私人教練">一對一私人教練</option>
+                                    <option value="小組訓練課程">小組訓練課程 (4-8人)</option>
+                                    <option value="學校籃球課程">學校籃球課程</option>
+                                    <option value="企業團隊訓練">企業團隊訓練</option>
+                                    <option value="暑期籃球訓練營">暑期籃球訓練營</option>
+                                    <option value="週末籃球班">週末籃球班</option>
+                                    <option value="投籃專項訓練">投籃專項訓練</option>
+                                    <option value="運球技巧訓練">運球技巧訓練</option>
+                                    <option value="防守技術訓練">防守技術訓練</option>
+                                    <option value="體能訓練課程">體能訓練課程</option>
+                                    <option value="戰術理解課程">戰術理解課程</option>
+                                    <option value="其他">其他（手動輸入）</option>
+                                </select>
+                                <input type="text" class="service-name-custom" placeholder="請輸入課程名稱" style="display: none; margin-top: 10px;">
+                            </div>
+                            <div class="form-group">
+                                <label>學員人數 *</label>
+                                <input type="number" class="service-quantity" min="1" value="1" required>
+                            </div>
+                            <div class="form-group">
+                                <label>課程堂數 *</label>
+                                <input type="number" class="service-sessions" min="1" value="8" required>
+                            </div>
+                            <div class="form-group">
+                                <label>每堂時長 (小時) *</label>
+                                <input type="number" class="service-hours" min="0.5" step="0.5" value="1.5" required>
+                            </div>
+                        </div>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>單價 (HKD/人/堂) *</label>
+                                <input type="number" class="service-price" min="0" step="0.01" placeholder="0.00" required>
+                            </div>
+                            <div class="form-group">
+                                <label>小計 (HKD)</label>
+                                <input type="number" class="service-subtotal" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>課程內容/備註</label>
+                            <textarea class="service-notes" placeholder="例如: 包含基本運球、投籃、傳球技巧，提供訓練器材"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-secondary" onclick="addServiceItem()" style="margin-bottom: 20px;">➕ 新增課程項目</button>
+
+                <h4 style="margin: 30px 0 15px; color: #5a4a3a;">額外項目 Additional Items</h4>
+                <div id="additional-items">
+                    <div class="additional-item" style="background: #f5e6d3; padding: 20px; border-radius: 15px; margin-bottom: 15px;">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>項目名稱</label>
+                                <select class="additional-name" onchange="handleAdditionalNameChange(this)">
+                                    <option value="">請選擇（可選）</option>
+                                    <option value="場地租用">場地租用</option>
+                                    <option value="器材租用">器材租用</option>
+                                    <option value="訓練服裝">訓練服裝</option>
+                                    <option value="保險費用">保險費用</option>
+                                    <option value="交通費用">交通費用</option>
+                                    <option value="證書費用">證書費用</option>
+                                    <option value="比賽報名費">比賽報名費</option>
+                                    <option value="其他">其他（手動輸入）</option>
+                                </select>
+                                <input type="text" class="additional-name-custom" placeholder="請輸入項目名稱" style="display: none; margin-top: 10px;">
+                            </div>
+                            <div class="form-group">
+                                <label>金額 (HKD)</label>
+                                <input type="number" class="additional-amount" min="0" step="0.01" placeholder="0.00">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>說明</label>
+                            <input type="text" class="additional-description" placeholder="例如: 每月場地租用費">
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-secondary" onclick="addAdditionalItem()" style="margin-bottom: 20px;">➕ 新增額外項目</button>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="discount">折扣 (HKD)</label>
+                        <input type="number" id="discount" name="discount" min="0" step="0.01" value="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="deposit">訂金 (HKD)</label>
+                        <input type="number" id="deposit" name="deposit" min="0" step="0.01" value="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="total-amount">總金額 (HKD) *</label>
+                        <input type="number" id="total-amount" name="totalAmount" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="balance-due">尾數 (HKD)</label>
+                        <input type="number" id="balance-due" name="balanceDue" readonly>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="payment-terms">付款條款</label>
+                    <textarea id="payment-terms" name="paymentTerms">付款方式：
+1. PayMe
+2. 轉數快 (FPS)
+3. 銀行轉帳
+4. 支票
+
+付款時間：
+- 報名時需繳付 50% 訂金
+- 課程開始前繳清餘款
+- 長期課程可按月分期付款
+
+退款政策：
+- 課程開始前 7 天取消：全額退款
+- 課程開始前 3-7 天取消：退還 50%
+- 課程開始後不設退款
+- 因天氣或場地問題取消課程將安排補課
+
+其他條款：
+- 學員需自備運動服裝及運動鞋
+- 如有傷患請提前告知教練
+- 缺席課堂不設補課或退款
+- 課程包含基本訓練器材使用</textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="quote-notes">備註</label>
+                    <textarea id="quote-notes" name="quoteNotes" placeholder="其他備註事項，例如：課程時間、地點、教練資歷等"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="validity-days">報價有效期 (天)</label>
+                    <input type="number" id="validity-days" name="validityDays" value="30" min="1">
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="resetQuotationForm()">🔄 重設</button>
+                    <button type="button" class="btn" onclick="previewQuotation()">👁️ 預覽</button>
+                    <button type="button" class="btn" onclick="generatePDF()">📄 匯出 PDF</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function initQuotationForm() {
+            const today = new Date();
+            const dateStr = today.getFullYear() + 
+                          String(today.getMonth() + 1).padStart(2, '0') + 
+                          String(today.getDate()).padStart(2, '0');
+            const randomNum = String(Math.floor(Math.random() * 1000)).padStart(3, '0');
+            document.getElementById('quote-number').value = 'TC' + dateStr + randomNum;
+            document.getElementById('quote-date').valueAsDate = new Date();
+            updateCalculations();
+        }
+
+        function addServiceItem() {
+            const container = document.getElementById('service-items');
+            const newItem = document.createElement('div');
+            newItem.className = 'service-item';
+            newItem.style.cssText = 'background: #f5e6d3; padding: 20px; border-radius: 15px; margin-bottom: 15px; position: relative;';
+            newItem.innerHTML = `
+                <button type="button" onclick="removeServiceItem(this)" style="position: absolute; top: 10px; right: 10px; background: #ff4444; color: white; border: none; border-radius: 50%; width: 30px; height: 30px; cursor: pointer; font-weight: bold;">×</button>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>課程類型 *</label>
+                        <select class="service-name" required onchange="handleServiceNameChange(this)">
+                            <option value="">請選擇</option>
+                            <option value="基礎籃球技巧班">基礎籃球技巧班</option>
+                            <option value="進階籃球訓練班">進階籃球訓練班</option>
+                            <option value="青少年籃球培訓">青少年籃球培訓</option>
+                            <option value="成人籃球訓練">成人籃球訓練</option>
+                            <option value="一對一私人教練">一對一私人教練</option>
+                            <option value="小組訓練課程">小組訓練課程 (4-8人)</option>
+                            <option value="學校籃球課程">學校籃球課程</option>
+                            <option value="企業團隊訓練">企業團隊訓練</option>
+                            <option value="暑期籃球訓練營">暑期籃球訓練營</option>
+                            <option value="週末籃球班">週末籃球班</option>
+                            <option value="投籃專項訓練">投籃專項訓練</option>
+                            <option value="運球技巧訓練">運球技巧訓練</option>
+                            <option value="防守技術訓練">防守技術訓練</option>
+                            <option value="體能訓練課程">體能訓練課程</option>
+                            <option value="戰術理解課程">戰術理解課程</option>
+                            <option value="其他">其他（手動輸入）</option>
+                        </select>
+                        <input type="text" class="service-name-custom" placeholder="請輸入課程名稱" style="display: none; margin-top: 10px;">
+                    </div>
+                    <div class="form-group">
+                        <label>學員人數 *</label>
+                        <input type="number" class="service-quantity" min="1" value="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label>課程堂數 *</label>
+                        <input type="number" class="service-sessions" min="1" value="8" required>
+                    </div>
+                    <div class="form-group">
+                        <label>每堂時長 (小時) *</label>
+                        <input type="number" class="service-hours" min="0.5" step="0.5" value="1.5" required>
+                    </div>
+                </div>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>單價 (HKD/人/堂) *</label>
+                        <input type="number" class="service-price" min="0" step="0.01" placeholder="0.00" required>
+                    </div>
+                    <div class="form-group">
+                        <label>小計 (HKD)</label>
+                        <input type="number" class="service-subtotal" readonly>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>課程內容/備註</label>
+                    <textarea class="service-notes" placeholder="例如: 包含基本運球、投籃、傳球技巧，提供訓練器材"></textarea>
+                </div>
+            `;
+            container.appendChild(newItem);
+            updateCalculations();
+        }
+
+        function handleServiceNameChange(selectElement) {
+            const serviceItem = selectElement.closest('.service-item');
+            const customInput = serviceItem.querySelector('.service-name-custom');
+            
+            if (selectElement.value === '其他') {
+                customInput.style.display = 'block';
+                customInput.required = true;
+            } else {
+                customInput.style.display = 'none';
+                customInput.required = false;
+                customInput.value = '';
+            }
+        }
+
+        function handleAdditionalNameChange(selectElement) {
+            const additionalItem = selectElement.closest('.additional-item');
+            const customInput = additionalItem.querySelector('.additional-name-custom');
+            
+            if (selectElement.value === '其他') {
+                customInput.style.display = 'block';
+            } else {
+                customInput.style.display = 'none';
+                customInput.value = '';
+            }
+        }
+
+        function addAdditionalItem() {
+            const container = document.getElementById('additional-items');
+            const newItem = document.createElement('div');
+            newItem.className = 'additional-item';
+            newItem.style.cssText = 'background: #f5e6d3; padding: 20px; border-radius: 15px; margin-bottom: 15px; position: relative;';
+            newItem.innerHTML = `
+                <button type="button" onclick="removeAdditionalItem(this)" style="position: absolute; top: 10px; right: 10px; background: #ff4444; color: white; border: none; border-radius: 50%; width: 30px; height: 30px; cursor: pointer; font-weight: bold;">×</button>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>項目名稱</label>
+                        <select class="additional-name" onchange="handleAdditionalNameChange(this)">
+                            <option value="">請選擇（可選）</option>
+                            <option value="場地租用">場地租用</option>
+                            <option value="器材租用">器材租用</option>
+                            <option value="訓練服裝">訓練服裝</option>
+                            <option value="保險費用">保險費用</option>
+                            <option value="交通費用">交通費用</option>
+                            <option value="證書費用">證書費用</option>
+                            <option value="比賽報名費">比賽報名費</option>
+                            <option value="其他">其他（手動輸入）</option>
+                        </select>
+                        <input type="text" class="additional-name-custom" placeholder="請輸入項目名稱" style="display: none; margin-top: 10px;">
+                    </div>
+                    <div class="form-group">
+                        <label>金額 (HKD)</label>
+                        <input type="number" class="additional-amount" min="0" step="0.01" placeholder="0.00">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>說明</label>
+                    <input type="text" class="additional-description" placeholder="例如: 每月場地租用費">
+                </div>
+            `;
+            container.appendChild(newItem);
+            updateCalculations();
+        }
+
+        function removeAdditionalItem(btn) {
+            btn.parentElement.remove();
+            updateCalculations();
+        }
+
+        function removeServiceItem(btn) {
+            btn.parentElement.remove();
+            updateCalculations();
+        }
+
+        function updateCalculations() {
+            document.querySelectorAll('.service-quantity, .service-sessions, .service-price').forEach(input => {
+                input.removeEventListener('input', calculateSubtotals);
+                input.addEventListener('input', calculateSubtotals);
+            });
+            
+            document.querySelectorAll('.additional-amount').forEach(input => {
+                input.removeEventListener('input', calculateTotal);
+                input.addEventListener('input', calculateTotal);
+            });
+            
+            document.getElementById('discount').removeEventListener('input', calculateTotal);
+            document.getElementById('discount').addEventListener('input', calculateTotal);
+            
+            document.getElementById('deposit').removeEventListener('input', calculateBalance);
+            document.getElementById('deposit').addEventListener('input', calculateBalance);
+            
+            calculateSubtotals();
+        }
+
+        function calculateSubtotals() {
+            document.querySelectorAll('.service-item').forEach(item => {
+                const quantity = parseFloat(item.querySelector('.service-quantity').value) || 0;
+                const sessions = parseFloat(item.querySelector('.service-sessions').value) || 0;
+                const price = parseFloat(item.querySelector('.service-price').value) || 0;
+                const subtotal = quantity * sessions * price;
+                item.querySelector('.service-subtotal').value = subtotal.toFixed(2);
+            });
+            calculateTotal();
+        }
+
+        function calculateTotal() {
+            let total = 0;
+            document.querySelectorAll('.service-subtotal').forEach(input => {
+                total += parseFloat(input.value) || 0;
+            });
+            
+            // Add additional items
+            document.querySelectorAll('.additional-amount').forEach(input => {
+                total += parseFloat(input.value) || 0;
+            });
+            
+            const discount = parseFloat(document.getElementById('discount').value) || 0;
+            const finalTotal = Math.max(0, total - discount);
+            document.getElementById('total-amount').value = finalTotal.toFixed(2);
+            
+            calculateBalance();
+        }
+
+        function calculateBalance() {
+            const total = parseFloat(document.getElementById('total-amount').value) || 0;
+            const deposit = parseFloat(document.getElementById('deposit').value) || 0;
+            const balance = Math.max(0, total - deposit);
+            document.getElementById('balance-due').value = balance.toFixed(2);
+        }
+
+        function resetQuotationForm() {
+            document.getElementById('quotation-form').reset();
+            const container = document.getElementById('service-items');
+            const items = container.querySelectorAll('.service-item');
+            for (let i = 1; i < items.length; i++) {
+                items[i].remove();
+            }
+            const additionalContainer = document.getElementById('additional-items');
+            const additionalItems = additionalContainer.querySelectorAll('.additional-item');
+            for (let i = 1; i < additionalItems.length; i++) {
+                additionalItems[i].remove();
+            }
+            initQuotationForm();
+        }
+
+        function previewQuotation() {
+            const data = getQuotationData();
+            if (!data) return;
+            
+            alert('教學課程報價單預覽\n\n' + 
+                  '報價單編號: ' + data.quoteNumber + '\n' +
+                  '客戶: ' + data.customerName + '\n' +
+                  '總金額: HKD ' + data.totalAmount + '\n\n' +
+                  '請點擊「匯出 PDF」生成完整報價單');
+        }
+
+        function getQuotationData() {
+            const form = document.getElementById('quotation-form');
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return null;
+            }
+            
+            const services = [];
+            document.querySelectorAll('.service-item').forEach(item => {
+                const selectElement = item.querySelector('.service-name');
+                const customInput = item.querySelector('.service-name-custom');
+                let serviceName = selectElement.value;
+                
+                if (serviceName === '其他') {
+                    serviceName = customInput.value || '其他課程';
+                }
+                
+                services.push({
+                    name: serviceName,
+                    quantity: item.querySelector('.service-quantity').value,
+                    sessions: item.querySelector('.service-sessions').value,
+                    hours: item.querySelector('.service-hours').value,
+                    price: item.querySelector('.service-price').value,
+                    subtotal: item.querySelector('.service-subtotal').value,
+                    notes: item.querySelector('.service-notes').value
+                });
+            });
+            
+            const additionalItems = [];
+            document.querySelectorAll('.additional-item').forEach(item => {
+                const selectElement = item.querySelector('.additional-name');
+                const customInput = item.querySelector('.additional-name-custom');
+                const amountInput = item.querySelector('.additional-amount');
+                const amount = parseFloat(amountInput.value) || 0;
+                
+                // Only include if there's an amount
+                if (amount > 0) {
+                    let itemName = selectElement.value;
+                    if (itemName === '其他') {
+                        itemName = customInput.value || '其他項目';
+                    }
+                    
+                    if (itemName) {
+                        additionalItems.push({
+                            name: itemName,
+                            amount: amount,
+                            description: item.querySelector('.additional-description').value
+                        });
+                    }
+                }
+            });
+            
+            return {
+                quoteNumber: document.getElementById('quote-number').value,
+                quoteDate: document.getElementById('quote-date').value,
+                customerName: document.getElementById('customer-name').value,
+                customerPhone: document.getElementById('customer-phone').value,
+                customerEmail: document.getElementById('customer-email').value,
+                customerAddress: document.getElementById('customer-address').value,
+                services: services,
+                additionalItems: additionalItems,
+                discount: document.getElementById('discount').value,
+                deposit: document.getElementById('deposit').value,
+                totalAmount: document.getElementById('total-amount').value,
+                balanceDue: document.getElementById('balance-due').value,
+                paymentTerms: document.getElementById('payment-terms').value,
+                quoteNotes: document.getElementById('quote-notes').value,
+                validityDays: document.getElementById('validity-days').value
+            };
+        }
+
+        function showMessage(elementId, message, type) {
+            const msgElement = document.getElementById(elementId);
+            msgElement.textContent = message;
+            msgElement.className = 'message show ' + type;
+            
+            setTimeout(() => {
+                msgElement.classList.remove('show');
+            }, 5000);
+        }
+
+        async function generatePDF() {
+            const data = getQuotationData();
+            if (!data) return;
+            
+            const formatMoney = (amount) => {
+                return parseFloat(amount).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+            };
+            
+            let logoBase64 = '';
+            try {
+                const logoImg = new Image();
+                await new Promise((resolve, reject) => {
+                    logoImg.onload = () => {
+                        try {
+                            const canvas = document.createElement('canvas');
+                            canvas.width = logoImg.width;
+                            canvas.height = logoImg.height;
+                            const ctx = canvas.getContext('2d');
+                            ctx.drawImage(logoImg, 0, 0);
+                            logoBase64 = canvas.toDataURL('image/jpeg');
+                            resolve();
+                        } catch (err) {
+                            console.warn('Canvas conversion failed:', err);
+                            resolve();
+                        }
+                    };
+                    logoImg.onerror = () => {
+                        console.warn('Logo loading failed');
+                        resolve();
+                    };
+                    logoImg.src = 'lalaref2.jpg';
+                });
+            } catch (error) {
+                console.warn('Logo loading failed, continuing without logo:', error);
+            }
+            
+            const pdfContainer = document.createElement('div');
+            pdfContainer.style.cssText = 'position: absolute; left: -9999px; width: 800px; background: white; padding: 40px; font-family: Arial, sans-serif;';
+            
+            const validUntil = new Date(data.quoteDate);
+            validUntil.setDate(validUntil.getDate() + parseInt(data.validityDays));
+            
+            pdfContainer.innerHTML = `
+                <div style="font-family: 'Microsoft JhengHei', Arial, sans-serif;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 3px solid #d4a574; padding-bottom: 20px;">
+                        <div style="display: flex; align-items: center; gap: 15px;">
+                            ${logoBase64 ? `<img src="${logoBase64}" alt="LaLaRef Logo" style="width: 80px; height: 80px; object-fit: contain;">` : ''}
+                            <div>
+                                <h1 style="color: #d4a574; font-size: 36px; margin: 0;">LaLaRef</h1>
+                                <h2 style="color: #5a4a3a; font-size: 24px; margin: 5px 0 0 0;">教學課程報價單</h2>
+                                <p style="color: #7a6a5a; font-size: 14px; margin: 5px 0 0 0;">Basketball Training Quotation</p>
+                            </div>
+                        </div>
+                        <div style="text-align: right;">
+                            <div style="font-size: 14px; margin-bottom: 5px;"><strong>報價單編號:</strong> ${data.quoteNumber}</div>
+                            <div style="font-size: 14px;"><strong>日期:</strong> ${data.quoteDate}</div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-bottom: 30px;">
+                        <h3 style="color: #5a4a3a; font-size: 18px; margin-bottom: 10px;">客戶資料 Client Information:</h3>
+                        <div style="background: #f5e6d3; padding: 15px; border-radius: 10px;">
+                            <div style="margin-bottom: 5px;"><strong>客戶名稱:</strong> ${data.customerName}</div>
+                            <div style="margin-bottom: 5px;"><strong>聯絡電話:</strong> ${data.customerPhone}</div>
+                            ${data.customerEmail ? `<div style="margin-bottom: 5px;"><strong>電郵:</strong> ${data.customerEmail}</div>` : ''}
+                            ${data.customerAddress ? `<div><strong>地址:</strong> ${data.customerAddress}</div>` : ''}
+                        </div>
+                    </div>
+                    
+                    <div style="margin-bottom: 30px;">
+                        <h3 style="color: #5a4a3a; font-size: 18px; margin-bottom: 10px;">教學課程項目 Training Programs:</h3>
+                        <table style="width: 100%; border-collapse: collapse;">
+                            <thead>
+                                <tr style="background: #d4a574; color: white;">
+                                    <th style="padding: 10px; text-align: left; border: 1px solid #c89860;">課程名稱</th>
+                                    <th style="padding: 10px; text-align: center; border: 1px solid #c89860; width: 70px;">學員人數</th>
+                                    <th style="padding: 10px; text-align: center; border: 1px solid #c89860; width: 70px;">堂數</th>
+                                    <th style="padding: 10px; text-align: center; border: 1px solid #c89860; width: 80px;">每堂時長<br>(小時)</th>
+                                    <th style="padding: 10px; text-align: right; border: 1px solid #c89860; width: 90px;">單價<br>(HKD/人/堂)</th>
+                                    <th style="padding: 10px; text-align: right; border: 1px solid #c89860; width: 100px;">小計 (HKD)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${data.services.map(service => `
+                                    <tr>
+                                        <td style="padding: 10px; border: 1px solid #ddd;">
+                                            ${service.name}
+                                            ${service.notes ? `<br><span style="font-size: 11px; color: #666;">${service.notes}</span>` : ''}
+                                        </td>
+                                        <td style="padding: 10px; text-align: center; border: 1px solid #ddd;">${service.quantity}</td>
+                                        <td style="padding: 10px; text-align: center; border: 1px solid #ddd;">${service.sessions}</td>
+                                        <td style="padding: 10px; text-align: center; border: 1px solid #ddd;">${service.hours}</td>
+                                        <td style="padding: 10px; text-align: right; border: 1px solid #ddd;">${formatMoney(service.price)}</td>
+                                        <td style="padding: 10px; text-align: right; border: 1px solid #ddd;">${formatMoney(service.subtotal)}</td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                        <div style="margin-top: 8px; font-size: 12px; color: #666;">
+                            * 小計 = 學員人數 × 堂數 × 單價
+                        </div>
+                    </div>
+                    
+                    ${data.additionalItems && data.additionalItems.length > 0 ? `
+                    <div style="margin-bottom: 30px;">
+                        <h3 style="color: #5a4a3a; font-size: 18px; margin-bottom: 10px;">額外項目 Additional Items:</h3>
+                        <table style="width: 100%; border-collapse: collapse;">
+                            <thead>
+                                <tr style="background: #d4a574; color: white;">
+                                    <th style="padding: 10px; text-align: left; border: 1px solid #c89860;">項目名稱</th>
+                                    <th style="padding: 10px; text-align: right; border: 1px solid #c89860; width: 150px;">金額 (HKD)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${data.additionalItems.map(item => `
+                                    <tr>
+                                        <td style="padding: 10px; border: 1px solid #ddd;">
+                                            ${item.name}
+                                            ${item.description ? `<br><span style="font-size: 11px; color: #666;">${item.description}</span>` : ''}
+                                        </td>
+                                        <td style="padding: 10px; text-align: right; border: 1px solid #ddd;">${formatMoney(item.amount)}</td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                    ` : ''}
+                    
+                    <div style="margin-bottom: 30px;">
+                        <div style="display: flex; justify-content: flex-end;">
+                            <div style="width: 300px;">
+                                <div style="display: flex; justify-content: space-between; padding: 8px; border-bottom: 1px solid #ddd;">
+                                    <span>課程小計 Course Subtotal:</span>
+                                    <span>HKD ${formatMoney(data.services.reduce((sum, s) => sum + parseFloat(s.subtotal), 0))}</span>
+                                </div>
+                                ${data.additionalItems && data.additionalItems.length > 0 ? `
+                                    <div style="display: flex; justify-content: space-between; padding: 8px; border-bottom: 1px solid #ddd;">
+                                        <span>額外項目小計 Additional Items:</span>
+                                        <span>HKD ${formatMoney(data.additionalItems.reduce((sum, item) => sum + parseFloat(item.amount), 0))}</span>
+                                    </div>
+                                ` : ''}
+                                ${parseFloat(data.discount) > 0 ? `
+                                    <div style="display: flex; justify-content: space-between; padding: 8px; border-bottom: 1px solid #ddd;">
+                                        <span>折扣 Discount:</span>
+                                        <span>HKD -${formatMoney(data.discount)}</span>
+                                    </div>
+                                ` : ''}
+                                <div style="display: flex; justify-content: space-between; padding: 12px; background: #d4a574; color: white; font-size: 18px; font-weight: bold;">
+                                    <span>總金額 Total:</span>
+                                    <span>HKD ${formatMoney(data.totalAmount)}</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; padding: 8px; border-bottom: 1px solid #ddd; margin-top: 10px;">
+                                    <span>訂金 Deposit:</span>
+                                    <span>HKD ${parseFloat(data.deposit) > 0 ? '-' : ''}${formatMoney(data.deposit)}</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; padding: 10px; background: #f5e6d3; font-size: 16px; font-weight: bold; color: #5a4a3a;">
+                                    <span>尾數 Balance Due:</span>
+                                    <span>HKD ${formatMoney(data.balanceDue)}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    ${data.paymentTerms ? `
+                        <div style="margin-bottom: 15px;">
+                            <h3 style="color: #5a4a3a; font-size: 14px; margin-bottom: 6px;">付款條款 Payment Terms:</h3>
+                            <div style="background: #f5e6d3; padding: 10px; border-radius: 8px; white-space: pre-wrap; font-size: 11px; line-height: 1.4;">${data.paymentTerms}</div>
+                        </div>
+                    ` : ''}
+                    
+                    ${data.quoteNotes ? `
+                        <div style="margin-bottom: 15px;">
+                            <h3 style="color: #5a4a3a; font-size: 14px; margin-bottom: 6px;">備註 Notes:</h3>
+                            <div style="background: #f5e6d3; padding: 10px; border-radius: 8px; white-space: pre-wrap; font-size: 11px; line-height: 1.4;">${data.quoteNotes}</div>
+                        </div>
+                    ` : ''}
+                    
+                    <div style="margin-top: 15px; font-size: 10px; color: #666;">
+                        <div>此報價單有效期至 (Valid until): ${validUntil.toISOString().split('T')[0]}</div>
+                    </div>
+                    
+                    <div style="margin-top: 20px; text-align: center; font-size: 11px; color: #999; padding-top: 15px; border-top: 1px solid #ddd;">
+                        <div style="margin-bottom: 5px;"><strong>LaLaRef - 專業籃球教學服務</strong></div>
+                        <div>Professional Basketball Training Service</div>
+                        <div style="margin-top: 5px;">電話 Tel: +852 8482 8484 | 網站 Web: www.lalaref.com</div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(pdfContainer);
+            
+            try {
+                const canvas = await html2canvas(pdfContainer, {
+                    scale: 1.5,
+                    useCORS: true,
+                    allowTaint: false,
+                    logging: false,
+                    backgroundColor: '#ffffff'
+                });
+                
+                const { jsPDF } = window.jspdf;
+                const imgWidth = 210;
+                const imgHeight = (canvas.height * imgWidth) / canvas.width;
+                
+                const pdf = new jsPDF('p', 'mm', 'a4');
+                const imgData = canvas.toDataURL('image/jpeg', 0.85);
+                
+                const pageHeight = 297;
+                
+                if (imgHeight <= pageHeight) {
+                    pdf.addImage(imgData, 'JPEG', 0, 0, imgWidth, imgHeight);
+                } else {
+                    let heightLeft = imgHeight;
+                    let position = 0;
+                    
+                    pdf.addImage(imgData, 'JPEG', 0, 0, imgWidth, imgHeight);
+                    heightLeft -= pageHeight;
+                    
+                    while (heightLeft > 10) {
+                        position += pageHeight;
+                        pdf.addPage();
+                        pdf.addImage(imgData, 'JPEG', 0, -position, imgWidth, imgHeight);
+                        heightLeft -= pageHeight;
+                    }
+                }
+                
+                pdf.save('LaLaRef_教學課程報價單_' + data.quoteNumber + '.pdf');
+                showMessage('quotation-message', 'PDF 已成功匯出', 'success');
+                
+            } catch (error) {
+                console.error('PDF generation error:', error);
+                showMessage('quotation-message', 'PDF 匯出失敗: ' + error.message, 'error');
+            } finally {
+                document.body.removeChild(pdfContainer);
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', initQuotationForm);
+    </script>
+</body>
+</html>
