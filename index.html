@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-HK">
 <head>
     <meta charset="UTF-8">
@@ -1371,45 +1371,20 @@
                             <span class="stat-label">客戶評分</span>
                         </div>
                     </div>
+                    <div style="display: flex; justify-content: center; margin-top: 80px;">
+                        <div class="logo-circle" style="width: 80px; height: 80px;">
+                            <img src="lalaref2.png" alt="LaLaRef 急單王 Logo" width="84" height="84" loading="eager" fetchpriority="high">
+                        </div>
+                    </div>
                 </div>
                 <div class="hero-right">
-                    <!-- Photo Gallery Carousel -->
-                    <div class="hero-gallery" role="region" aria-label="球場相片集" aria-roledescription="carousel">
+                    <!-- Video -->
+                    <div class="hero-gallery" role="region" aria-label="LaLaRef 影片">
                         <div class="gallery-viewport">
-                            <div class="gallery-track" id="galleryTrack">
-                                <div class="gallery-slide active">
-                                    <img src="lalaref2.png" alt="LaLaRef 急單王 Logo" width="400" height="300" loading="eager" fetchpriority="high">
-                                </div>
-                                <div class="gallery-slide">
-                                    <img src="pitch-photos/photo1.jpg" alt="球場實況 1" width="400" height="300" loading="lazy">
-                                </div>
-                                <div class="gallery-slide">
-                                    <img src="pitch-photos/photo2.jpg" alt="球場實況 2" width="400" height="300" loading="lazy">
-                                </div>
-                                <div class="gallery-slide">
-                                    <img src="pitch-photos/photo3.jpg" alt="球場實況 3" width="400" height="300" loading="lazy">
-                                </div>
-                                <div class="gallery-slide">
-                                    <img src="pitch-photos/photo4.jpg" alt="球場實況 4" width="400" height="300" loading="lazy">
-                                </div>
-                                <div class="gallery-slide">
-                                    <img src="pitch-photos/photo5.jpg" alt="球場實況 5" width="400" height="300" loading="lazy">
-                                </div>
-                                <div class="gallery-slide">
-                                    <img src="pitch-photos/photo6.jpg" alt="球場實況 6" width="400" height="300" loading="lazy">
-                                </div>
-                            </div>
-                        </div>
-                        <button class="gallery-btn gallery-prev" onclick="galleryNav(-1)" aria-label="上一張相片">‹</button>
-                        <button class="gallery-btn gallery-next" onclick="galleryNav(1)" aria-label="下一張相片">›</button>
-                        <div class="gallery-dots" role="tablist" aria-label="相片導航">
-                            <button class="gallery-dot active" onclick="galleryGo(0)" role="tab" aria-selected="true" aria-label="相片 1"></button>
-                            <button class="gallery-dot" onclick="galleryGo(1)" role="tab" aria-selected="false" aria-label="相片 2"></button>
-                            <button class="gallery-dot" onclick="galleryGo(2)" role="tab" aria-selected="false" aria-label="相片 3"></button>
-                            <button class="gallery-dot" onclick="galleryGo(3)" role="tab" aria-selected="false" aria-label="相片 4"></button>
-                            <button class="gallery-dot" onclick="galleryGo(4)" role="tab" aria-selected="false" aria-label="相片 5"></button>
-                            <button class="gallery-dot" onclick="galleryGo(5)" role="tab" aria-selected="false" aria-label="相片 6"></button>
-                            <button class="gallery-dot" onclick="galleryGo(6)" role="tab" aria-selected="false" aria-label="相片 7"></button>
+                            <video width="100%" height="100%" autoplay muted loop playsinline style="object-fit: cover;">
+                                <source src="video.mp4" type="video/mp4">
+                                你的瀏覽器不支援影片播放。
+                            </video>
                         </div>
                     </div>
                     <div class="website-url">www.lalaref.com</div>
@@ -1735,6 +1710,44 @@
                     </div>
                 </div>
             </section>
+            
+            <!-- Photo Gallery Carousel Section -->
+            <section style="margin-bottom: 60px;">
+                <h2>📸 球場實況</h2>
+                <div style="position: relative; max-width: 700px; margin: 0 auto;">
+                    <div style="border-radius: 30px; overflow: hidden; box-shadow: 15px 15px 30px rgba(0,0,0,0.15), -15px -15px 30px rgba(255,255,255,0.7), inset 3px 3px 6px rgba(255,255,255,0.5); aspect-ratio: 4/3; background: linear-gradient(145deg, #e8d4b8, #d4a574);">
+                        <div id="pitchGalleryTrack" style="display: flex; width: 100%; height: 100%; transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);">
+                            <div style="min-width: 100%; height: 100%;"><img src="pitch-photos/photo1.jpg" alt="球場實況 1" loading="lazy" style="width: 100%; height: 100%; object-fit: cover;"></div>
+                            <div style="min-width: 100%; height: 100%;"><img src="pitch-photos/photo2.jpg" alt="球場實況 2" loading="lazy" style="width: 100%; height: 100%; object-fit: cover;"></div>
+                            <div style="min-width: 100%; height: 100%;"><img src="pitch-photos/photo3.jpg" alt="球場實況 3" loading="lazy" style="width: 100%; height: 100%; object-fit: cover;"></div>
+                            <div style="min-width: 100%; height: 100%;"><img src="pitch-photos/photo4.jpg" alt="球場實況 4" loading="lazy" style="width: 100%; height: 100%; object-fit: cover;"></div>
+                            <div style="min-width: 100%; height: 100%;"><img src="pitch-photos/photo5.jpg" alt="球場實況 5" loading="lazy" style="width: 100%; height: 100%; object-fit: cover;"></div>
+                            <div style="min-width: 100%; height: 100%;"><img src="pitch-photos/photo6.jpg" alt="球場實況 6" loading="lazy" style="width: 100%; height: 100%; object-fit: cover;"></div>
+                        </div>
+                    </div>
+                    <button onclick="pitchNav(-1)" aria-label="上一張" style="position: absolute; top: 50%; left: -18px; transform: translateY(-50%); width: 44px; height: 44px; border: none; border-radius: 50%; background: linear-gradient(145deg, #f0dcc8, #e8d4b8); color: #5a4a3a; font-size: 1.5em; font-weight: 900; cursor: pointer; box-shadow: 8px 8px 16px rgba(0,0,0,0.15), -8px -8px 16px rgba(255,255,255,0.7); z-index: 2; display: flex; align-items: center; justify-content: center; line-height: 1; transition: all 0.3s ease;">‹</button>
+                    <button onclick="pitchNav(1)" aria-label="下一張" style="position: absolute; top: 50%; right: -18px; transform: translateY(-50%); width: 44px; height: 44px; border: none; border-radius: 50%; background: linear-gradient(145deg, #f0dcc8, #e8d4b8); color: #5a4a3a; font-size: 1.5em; font-weight: 900; cursor: pointer; box-shadow: 8px 8px 16px rgba(0,0,0,0.15), -8px -8px 16px rgba(255,255,255,0.7); z-index: 2; display: flex; align-items: center; justify-content: center; line-height: 1; transition: all 0.3s ease;">›</button>
+                    <div id="pitchDots" style="display: flex; justify-content: center; gap: 10px; margin-top: 18px;"></div>
+                </div>
+                <script>
+                (function(){
+                    var idx=0, total=6, track=document.getElementById('pitchGalleryTrack'), dotsC=document.getElementById('pitchDots');
+                    for(var i=0;i<total;i++){
+                        var d=document.createElement('button');
+                        d.style.cssText='width:12px;height:12px;border-radius:50%;border:none;cursor:pointer;padding:0;transition:all 0.3s ease;';
+                        d.setAttribute('aria-label','相片 '+(i+1));
+                        d.dataset.i=i;
+                        d.onclick=function(){go(+this.dataset.i);};
+                        dotsC.appendChild(d);
+                    }
+                    function go(n){idx=((n%total)+total)%total;track.style.transform='translateX(-'+idx*100+'%)';var dots=dotsC.children;for(var j=0;j<dots.length;j++){dots[j].style.background=j===idx?'linear-gradient(145deg,#d4a574,#c89860)':'linear-gradient(145deg,#e8d4b8,#dcc8ac)';dots[j].style.transform=j===idx?'scale(1.2)':'scale(1)';dots[j].style.boxShadow=j===idx?'inset 3px 3px 6px rgba(0,0,0,0.2),inset -3px -3px 6px rgba(255,255,255,0.3)':'4px 4px 8px rgba(0,0,0,0.1),-4px -4px 8px rgba(255,255,255,0.7)';}}
+                    window.pitchNav=function(d){go(idx+d);};
+                    go(0);
+                    setInterval(function(){go(idx+1);},4000);
+                })();
+                </script>
+            </section>
+
             <section class="info-section">
                 <h2>💡 服務特色</h2>
                 <div class="info-grid">
