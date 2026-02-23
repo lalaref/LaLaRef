@@ -7,9 +7,17 @@
     <!-- Homepage -->
     <url>
         <loc>https://www.lalaref.com/</loc>
-        <lastmod>2026-02-05</lastmod>
+        <lastmod>2026-02-23</lastmod>
         <changefreq>weekly</changefreq>
         <priority>1.0</priority>
+    </url>
+
+    <!-- English Version -->
+    <url>
+        <loc>https://www.lalaref.com/en.html</loc>
+        <lastmod>2026-02-23</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
     </url>
 
     <!-- Service Information Page -->
