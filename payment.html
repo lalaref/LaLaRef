@@ -121,20 +121,18 @@
             width: 100px;
             height: 100px;
             margin: 0 auto 25px;
-            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2.8em;
-            box-shadow: 10px 10px 20px rgba(0,0,0,0.15), -10px -10px 20px rgba(255,255,255,0.7), inset 3px 3px 6px rgba(255,255,255,0.5);
+        }
+        .payment-icon img {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
         }
         .payment-icon.payme {
-            background: linear-gradient(145deg, #db3b3b, #c43232);
-            color: white;
         }
         .payment-icon.fps {
-            background: linear-gradient(145deg, #00a651, #008c44);
-            color: white;
         }
 
         .payment-card h2 {
@@ -431,7 +429,7 @@
         <div class="payment-grid">
             <!-- PayMe -->
             <div class="payment-card">
-                <div class="payment-icon payme">💰</div>
+                <div class="payment-icon payme"><img src="images/payme.png" alt="PayMe Logo"></div>
                 <h2>PayMe</h2>
                 <p class="payment-subtitle">HSBC PayMe Payment</p>
 
@@ -442,7 +440,7 @@
 
             <!-- FPS -->
             <div class="payment-card">
-                <div class="payment-icon fps">⚡</div>
+                <div class="payment-icon fps"><img src="images/fpslogo.jpg" alt="FPS Logo"></div>
                 <h2>FPS</h2>
                 <p class="payment-subtitle">Faster Payment System</p>
 
