@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Payment Methods | LaLaRef Express | PayMe / FPS</title>
+    <meta name="description" content="LaLaRef basketball referee service payment methods - PayMe and FPS (Faster Payment System) accepted for quick and easy booking payments.">
+    <meta name="keywords" content="LaLaRef payment,referee payment,PayMe payment,FPS payment,basketball referee payment,referee booking payment">
+
+    <!-- Google Analytics 4 (GA4) -->
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-L1YNR24WBC', {
+            page_title: 'LaLaRef Payment Methods',
+            page_location: window.location.href
+        });
+        window.addEventListener('load', function() {
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = 'https://www.googletagmanager.com/gtag/js?id=G-L1YNR24WBC';
+            document.head.appendChild(script);
+        });
+    </script>
+
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6821440840277063"
+     crossorigin="anonymous"></script>
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.lalaref.com/payment.html">
+    <meta property="og:title" content="Payment Methods | LaLaRef Express">
+    <meta property="og:description" content="PayMe and FPS accepted for quick and easy referee booking payments.">
+    <meta property="og:image" content="https://www.lalaref.com/lalaref2.png">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://www.lalaref.com/payment.html">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/jpeg" href="lalaref2.jpg">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Microsoft JhengHei', 'PingFang TC', sans-serif;
+            line-height: 1.6;
+            color: #5a4a3a;
+            background: linear-gradient(135deg, #f5e6d3 0%, #e8d4b8 100%);
+            min-height: 100vh;
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            max-width: 1100px;
+            margin: 15px auto;
+            padding: 10px 30px;
+            font-size: 0.95em;
+        }
+        .breadcrumb a {
+            color: #d4a574;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.05em;
+        }
+        .breadcrumb a:hover { text-decoration: underline; }
+
+        /* Page Header */
+        .page-header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding: 50px 30px;
+            background: linear-gradient(145deg, #f0dcc8, #e8d4b8);
+            border-radius: 40px;
+            box-shadow: 20px 20px 40px rgba(0,0,0,0.15), -20px -20px 40px rgba(255,255,255,0.7);
+        }
+        .page-header h1 {
+            font-size: 2.8em;
+            color: #5a4a3a;
+            margin-bottom: 10px;
+            font-weight: 900;
+        }
+        .page-header p {
+            font-size: 1.2em;
+            color: #7a6a5a;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 30px;
+        }
+
+        /* Payment Methods Grid */
+        .payment-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+
+        /* Payment Card */
+        .payment-card {
+            background: linear-gradient(145deg, #f0dcc8, #e8d4b8);
+            border-radius: 35px;
+            padding: 45px 35px;
+            box-shadow: 15px 15px 30px rgba(0,0,0,0.15), -15px -15px 30px rgba(255,255,255,0.7), inset 3px 3px 6px rgba(255,255,255,0.5);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        .payment-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .payment-icon {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.8em;
+            box-shadow: 10px 10px 20px rgba(0,0,0,0.15), -10px -10px 20px rgba(255,255,255,0.7), inset 3px 3px 6px rgba(255,255,255,0.5);
+        }
+        .payment-icon.payme {
+            background: linear-gradient(145deg, #db3b3b, #c43232);
+            color: white;
+        }
+        .payment-icon.fps {
+            background: linear-gradient(145deg, #00a651, #008c44);
+            color: white;
+        }
+
+        .payment-card h2 {
+            font-size: 1.8em;
+            color: #5a4a3a;
+            margin-bottom: 8px;
+            font-weight: 900;
+        }
+        .payment-card .payment-subtitle {
+            font-size: 1em;
+            color: #7a6a5a;
+            margin-bottom: 25px;
+        }
+
+        /* QR Code Area */
+        .qr-placeholder {
+            width: 220px;
+            height: 220px;
+            margin: 0 auto 25px;
+            background: white;
+            border-radius: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: inset 8px 8px 16px rgba(0,0,0,0.08), inset -8px -8px 16px rgba(255,255,255,0.9);
+            overflow: hidden;
+        }
+        .qr-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            padding: 10px;
+        }
+        .qr-placeholder .qr-text {
+            color: #999;
+            font-size: 0.9em;
+            text-align: center;
+            padding: 20px;
+        }
+
+        /* Payment Details */
+        .payment-details {
+            text-align: left;
+            background: linear-gradient(145deg, #f5e6d3, #ede0cc);
+            border-radius: 20px;
+            padding: 20px 25px;
+            margin-top: 20px;
+            box-shadow: inset 5px 5px 10px rgba(0,0,0,0.05), inset -5px -5px 10px rgba(255,255,255,0.7);
+        }
+        .payment-details .detail-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(212,165,116,0.2);
+        }
+        .payment-details .detail-row:last-child {
+            border-bottom: none;
+        }
+        .detail-label {
+            font-weight: 700;
+            color: #7a6a5a;
+            font-size: 0.9em;
+        }
+        .detail-value {
+            font-weight: 900;
+            color: #5a4a3a;
+            font-size: 1.05em;
+        }
+        .detail-value.highlight {
+            color: #d4a574;
+        }
+
+        /* Copy Button */
+        .copy-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: linear-gradient(145deg, #d4a574, #c89860);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 15px;
+            font-size: 0.85em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 5px 5px 10px rgba(0,0,0,0.15), -5px -5px 10px rgba(255,255,255,0.3);
+            font-family: inherit;
+        }
+        .copy-btn:hover {
+            transform: translateY(-2px);
+        }
+        .copy-btn:active {
+            transform: scale(0.95);
+        }
+        .copy-btn.copied {
+            background: linear-gradient(145deg, #27ae60, #219a52);
+        }
+        .instructions {
+            background: linear-gradient(145deg, #f0dcc8, #e8d4b8);
+            border-radius: 35px;
+            padding: 45px 40px;
+            box-shadow: 15px 15px 30px rgba(0,0,0,0.15), -15px -15px 30px rgba(255,255,255,0.7), inset 3px 3px 6px rgba(255,255,255,0.5);
+            margin-bottom: 50px;
+        }
+        .instructions h2 {
+            font-size: 1.8em;
+            color: #5a4a3a;
+            margin-bottom: 30px;
+            font-weight: 900;
+            text-align: center;
+        }
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+        }
+        .step {
+            text-align: center;
+            padding: 25px 20px;
+            background: linear-gradient(145deg, #f5e6d3, #ede0cc);
+            border-radius: 25px;
+            box-shadow: 8px 8px 16px rgba(0,0,0,0.1), -8px -8px 16px rgba(255,255,255,0.7);
+        }
+        .step-number {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(145deg, #d4a574, #c89860);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4em;
+            font-weight: 900;
+            margin: 0 auto 15px;
+            box-shadow: 5px 5px 10px rgba(0,0,0,0.15), -5px -5px 10px rgba(255,255,255,0.3);
+        }
+        .step h3 {
+            font-size: 1.1em;
+            color: #5a4a3a;
+            margin-bottom: 8px;
+            font-weight: 800;
+        }
+        .step p {
+            font-size: 0.9em;
+            color: #7a6a5a;
+            line-height: 1.5;
+        }
+
+        /* Important Notes */
+        .notes {
+            background: linear-gradient(145deg, #f0dcc8, #e8d4b8);
+            border-radius: 35px;
+            padding: 40px;
+            box-shadow: 15px 15px 30px rgba(0,0,0,0.15), -15px -15px 30px rgba(255,255,255,0.7), inset 3px 3px 6px rgba(255,255,255,0.5);
+            margin-bottom: 50px;
+        }
+        .notes h2 {
+            font-size: 1.5em;
+            color: #5a4a3a;
+            margin-bottom: 20px;
+            font-weight: 900;
+        }
+        .notes ul {
+            list-style: none;
+            padding: 0;
+        }
+        .notes li {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(212,165,116,0.2);
+            font-size: 1em;
+            color: #5a4a3a;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        .notes li:last-child { border-bottom: none; }
+        .notes li::before {
+            content: '⚠️';
+            flex-shrink: 0;
+        }
+
+        /* WhatsApp CTA */
+        .whatsapp-cta {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .whatsapp-cta a {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: linear-gradient(145deg, #25d366, #20b358);
+            color: white;
+            text-decoration: none;
+            padding: 20px 45px;
+            border-radius: 35px;
+            font-size: 1.3em;
+            font-weight: 800;
+            box-shadow: 15px 15px 30px rgba(0,0,0,0.2), -15px -15px 30px rgba(255,255,255,0.7), inset 3px 3px 6px rgba(255,255,255,0.3);
+            transition: all 0.3s ease;
+        }
+        .whatsapp-cta a:hover {
+            transform: translateY(-5px);
+        }
+
+        /* WhatsApp Float */
+        .whatsapp-float {
+            position: fixed;
+            width: 70px;
+            height: 70px;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(145deg, #25d366, #20b358);
+            color: #FFF;
+            border-radius: 50%;
+            text-align: center;
+            font-size: 30px;
+            box-shadow: 15px 15px 30px rgba(0,0,0,0.2), -15px -15px 30px rgba(255,255,255,0.3);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        .whatsapp-float:hover {
+            transform: translateY(-5px) scale(1.05);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 40px 30px;
+            color: #7a6a5a;
+            font-size: 0.9em;
+        }
+        .footer a {
+            color: #d4a574;
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .page-header h1 { font-size: 2em; }
+            .page-header { padding: 35px 20px; border-radius: 30px; }
+
+            .payment-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            .payment-card { padding: 35px 25px; border-radius: 30px; }
+            .qr-placeholder { width: 200px; height: 200px; }
+
+            .instructions { padding: 30px 25px; border-radius: 30px; }
+            .steps { grid-template-columns: 1fr 1fr; }
+
+            .notes { padding: 30px 25px; border-radius: 30px; }
+        }
+
+        @media (max-width: 480px) {
+            .steps { grid-template-columns: 1fr; }
+            .payment-card h2 { font-size: 1.5em; }
+            .container { padding: 15px; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Back to Home -->
+    <nav class="breadcrumb" aria-label="Breadcrumb navigation">
+        <a href="index.html">← Back to Home</a>
+    </nav>
+
+    <!-- WhatsApp Float -->
+    <a href="https://wa.me/85284828484" class="whatsapp-float" target="_blank" rel="noopener noreferrer" aria-label="Contact us on WhatsApp">💬</a>
+
+    <div class="container">
+        <!-- Page Header -->
+        <header class="page-header">
+            <h1>💳 Payment Methods</h1>
+            <p>PayMe &amp; FPS Accepted · Quick &amp; Easy Payment</p>
+        </header>
+
+        <!-- Payment Methods -->
+        <div class="payment-grid">
+            <!-- PayMe -->
+            <div class="payment-card">
+                <div class="payment-icon payme">💰</div>
+                <h2>PayMe</h2>
+                <p class="payment-subtitle">HSBC PayMe Payment</p>
+
+                <div class="qr-placeholder">
+                    <img src="images/payme.jpg" alt="PayMe QR Code">
+                </div>
+            </div>
+
+            <!-- FPS -->
+            <div class="payment-card">
+                <div class="payment-icon fps">⚡</div>
+                <h2>FPS</h2>
+                <p class="payment-subtitle">Faster Payment System</p>
+
+                <div class="qr-placeholder">
+                    <img src="images/fps.jpg" alt="FPS QR Code">
+                </div>
+            </div>
+        </div>
+
+        <!-- Payment Steps -->
+        <div class="instructions">
+            <h2>📋 How to Pay</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Confirm Booking</h3>
+                    <p>Confirm match date, time, venue and number of referees via WhatsApp</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Choose Payment</h3>
+                    <p>Select PayMe or FPS to make your payment</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Complete Transfer</h3>
+                    <p>Scan the QR Code or enter the ID to complete payment</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h3>Send Screenshot</h3>
+                    <p>Send payment screenshot to WhatsApp for confirmation</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Important Notes -->
+        <div class="notes">
+            <h2>📌 Important Notes</h2>
+            <ul>
+                <li>Please complete payment within 24 hours after booking confirmation</li>
+                <li>Send payment screenshot to WhatsApp after completing the transfer</li>
+                <li>All payments are settled in Hong Kong Dollars (HKD)</li>
+            </ul>
+        </div>
+
+        <!-- WhatsApp CTA -->
+        <div class="whatsapp-cta">
+            <a href="https://wa.me/85284828484?text=Hi%2C%20I%20have%20a%20payment%20enquiry" target="_blank" rel="noopener noreferrer">
+                💬 WhatsApp Payment Enquiry
+            </a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>© 2025 <a href="index.html">LaLaRef Express</a> · Hong Kong Basketball Referee Service</p>
+    </footer>
+
+    <script>
+        function copyText(text, btn) {
+            navigator.clipboard.writeText(text).then(() => {
+                const original = btn.innerHTML;
+                btn.innerHTML = '✅ Copied';
+                btn.classList.add('copied');
+                setTimeout(() => {
+                    btn.innerHTML = original;
+                    btn.classList.remove('copied');
+                }, 2000);
+            }).catch(() => {
+                // Fallback for older browsers
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                const original = btn.innerHTML;
+                btn.innerHTML = '✅ Copied';
+                btn.classList.add('copied');
+                setTimeout(() => {
+                    btn.innerHTML = original;
+                    btn.classList.remove('copied');
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
