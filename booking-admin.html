@@ -483,6 +483,25 @@
         <div id="list-tab" class="tab-content">
             <div class="form-box">
                 <div class="message" id="list-message"></div>
+                
+                <!-- Earnings Summary -->
+                <div id="earnings-summary" style="background: linear-gradient(145deg, #d4a574, #c89860); color: white; padding: 20px; border-radius: 20px; margin-bottom: 20px; display: none;">
+                    <div style="display: flex; justify-content: space-around; flex-wrap: wrap; gap: 15px; text-align: center;">
+                        <div>
+                            <div style="font-size: 0.85em; opacity: 0.9;">總收費</div>
+                            <div style="font-size: 1.5em; font-weight: 900;" id="summary-total-income">$0</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 0.85em; opacity: 0.9;">總球證費用</div>
+                            <div style="font-size: 1.5em; font-weight: 900;" id="summary-total-referee-cost">$0</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 0.85em; opacity: 0.9;">總利潤</div>
+                            <div style="font-size: 1.5em; font-weight: 900;" id="summary-total-profit">$0</div>
+                        </div>
+                    </div>
+                </div>
+                
                 <div class="booking-list" id="booking-list">
                     <div class="empty-state">
                         <h3>📭 暫無預訂記錄</h3>
@@ -828,36 +847,34 @@ function doPost(e) {
 
         function renderBookings(bookings) {
             const listContainer = document.getElementById('booking-list');
+            const summaryEl = document.getElementById('earnings-summary');
             
-            if (bookings.length === 0) {
-                listContainer.innerHTML = `
-                    <div class="empty-state">
-                        <h3>📭 暫無預訂記錄</h3>
-                        <p>請新增第一個預訂</p>
-                    </div>
-                `;
+            if (bookings.length === 0 || bookings.filter(b => b.code && b.code.trim() !== '').length === 0) {
+                listContainer.innerHTML = '<div class="empty-state"><h3>📭 暫無預訂記錄</h3><p>請新增第一個預訂</p></div>';
+                summaryEl.style.display = 'none';
                 return;
             }
             
-            // Filter out empty rows
-            const validBookings = bookings.filter(b => b.code && b.code.trim() !== '');
-            
-            if (validBookings.length === 0) {
-                listContainer.innerHTML = `
-                    <div class="empty-state">
-                        <h3>📭 暫無預訂記錄</h3>
-                        <p>請新增第一個預訂</p>
-                    </div>
-                `;
-                return;
-            }
-            
+            const profitData = JSON.parse(localStorage.getItem('bookingProfitData') || '{}');
+            const removedBookings = JSON.parse(localStorage.getItem('removedBookings') || '[]');
+            const validBookings = bookings.filter(b => b.code && b.code.trim() !== '' && !removedBookings.includes(b.code));
             const sortedBookings = [...validBookings].reverse();
             
-            listContainer.innerHTML = sortedBookings.map(booking => `
-                <div class="booking-item">
+            summaryEl.style.display = 'block';
+            
+            listContainer.innerHTML = sortedBookings.map(booking => {
+                const code = booking.code || '';
+                const saved = profitData[code] || {};
+                const tc = saved.totalCost || '';
+                const rc = saved.refereeCost || '';
+                const profit = (parseFloat(tc) || 0) - (parseFloat(rc) || 0);
+                const profitColor = profit > 0 ? '#25d366' : profit < 0 ? '#ff4444' : '#5a4a3a';
+                
+                return `
+                <div class="booking-item" id="booking-${code}" style="position:relative;">
+                    <button onclick="removeBooking('${code}')" style="position:absolute;top:12px;right:12px;background:#ff4444;color:white;border:none;border-radius:50%;width:28px;height:28px;cursor:pointer;font-weight:bold;font-size:1em;line-height:28px;text-align:center;box-shadow:3px 3px 6px rgba(0,0,0,0.15);" title="移除此預訂">×</button>
                     <div class="booking-info">
-                        <h3>${booking.code || 'N/A'}<span class="status-badge status-${booking.status || 'pending'}">${getStatusText(booking.status)}</span></h3>
+                        <h3>${code || 'N/A'}<span class="status-badge status-${booking.status || 'pending'}">${getStatusText(booking.status)}</span></h3>
                         <div class="booking-details">
                             <div class="booking-detail"><strong>日期：</strong>${formatDate(booking.matchDate)}</div>
                             <div class="booking-detail"><strong>開始時間：</strong>${formatTime(booking.matchTime)}</div>
@@ -869,9 +886,77 @@ function doPost(e) {
                             <div class="booking-detail"><strong>付款：</strong>${booking.paymentStatus || 'N/A'}</div>
                             ${booking.refereeInfo ? `<div class="booking-detail"><strong>球證：</strong>${booking.refereeInfo}</div>` : ''}
                         </div>
+                        <div style="margin-top: 15px; padding: 15px; background: linear-gradient(145deg, #e8d4b8, #dcc8a8); border-radius: 15px;">
+                            <div style="font-weight: 700; color: #5a4a3a; margin-bottom: 10px; font-size: 0.95em;">💰 利潤計算</div>
+                            <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
+                                <div style="flex: 1; min-width: 110px;">
+                                    <label style="font-size: 0.8em; color: #7a6a5a; display: block; margin-bottom: 4px;">收費 (HKD)</label>
+                                    <input type="number" class="profit-total-cost" data-code="${code}" value="${tc}" placeholder="0" min="0" step="0.01" oninput="updateProfit('${code}')" style="width:100%;padding:8px 10px;border:none;border-radius:12px;background:linear-gradient(145deg,#f5e6d3,#ede0cc);box-shadow:inset 4px 4px 8px rgba(0,0,0,0.1),inset -4px -4px 8px rgba(255,255,255,0.7);font-size:0.95em;">
+                                </div>
+                                <div style="padding-top:18px;color:#7a6a5a;">−</div>
+                                <div style="flex: 1; min-width: 110px;">
+                                    <label style="font-size: 0.8em; color: #7a6a5a; display: block; margin-bottom: 4px;">球證費用 (HKD)</label>
+                                    <input type="number" class="profit-referee-cost" data-code="${code}" value="${rc}" placeholder="0" min="0" step="0.01" oninput="updateProfit('${code}')" style="width:100%;padding:8px 10px;border:none;border-radius:12px;background:linear-gradient(145deg,#f5e6d3,#ede0cc);box-shadow:inset 4px 4px 8px rgba(0,0,0,0.1),inset -4px -4px 8px rgba(255,255,255,0.7);font-size:0.95em;">
+                                </div>
+                                <div style="padding-top:18px;color:#7a6a5a;">=</div>
+                                <div style="flex: 1; min-width: 110px;">
+                                    <label style="font-size: 0.8em; color: #7a6a5a; display: block; margin-bottom: 4px;">利潤 (HKD)</label>
+                                    <div class="profit-result" data-code="${code}" style="padding:8px 10px;border-radius:12px;background:rgba(255,255,255,0.5);font-weight:900;font-size:1.1em;color:${profitColor};text-align:center;">$${profit.toFixed(2)}</div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            `).join('');
+                </div>`;
+            }).join('');
+            
+            updateEarningsSummary();
+        }
+
+        function removeBooking(code) {
+            if (!confirm('確定要移除此預訂 ' + code + ' 嗎？')) return;
+            const removed = JSON.parse(localStorage.getItem('removedBookings') || '[]');
+            if (!removed.includes(code)) removed.push(code);
+            localStorage.setItem('removedBookings', JSON.stringify(removed));
+            const el = document.getElementById('booking-' + code);
+            if (el) el.remove();
+            updateEarningsSummary();
+        }
+
+        function updateProfit(code) {
+            const tcInput = document.querySelector(`.profit-total-cost[data-code="${code}"]`);
+            const rcInput = document.querySelector(`.profit-referee-cost[data-code="${code}"]`);
+            const resultEl = document.querySelector(`.profit-result[data-code="${code}"]`);
+            
+            const tc = parseFloat(tcInput.value) || 0;
+            const rc = parseFloat(rcInput.value) || 0;
+            const profit = tc - rc;
+            
+            resultEl.textContent = '$' + profit.toFixed(2);
+            resultEl.style.color = profit > 0 ? '#25d366' : profit < 0 ? '#ff4444' : '#5a4a3a';
+            
+            // Save to localStorage
+            const profitData = JSON.parse(localStorage.getItem('bookingProfitData') || '{}');
+            profitData[code] = { totalCost: tcInput.value, refereeCost: rcInput.value };
+            localStorage.setItem('bookingProfitData', JSON.stringify(profitData));
+            
+            updateEarningsSummary();
+        }
+
+        function updateEarningsSummary() {
+            let totalIncome = 0, totalRefCost = 0;
+            document.querySelectorAll('.profit-total-cost').forEach(input => {
+                totalIncome += parseFloat(input.value) || 0;
+            });
+            document.querySelectorAll('.profit-referee-cost').forEach(input => {
+                totalRefCost += parseFloat(input.value) || 0;
+            });
+            const totalProfit = totalIncome - totalRefCost;
+            
+            document.getElementById('summary-total-income').textContent = '$' + totalIncome.toFixed(2);
+            document.getElementById('summary-total-referee-cost').textContent = '$' + totalRefCost.toFixed(2);
+            const profitEl = document.getElementById('summary-total-profit');
+            profitEl.textContent = '$' + totalProfit.toFixed(2);
+            profitEl.style.color = totalProfit >= 0 ? 'white' : '#ffcccc';
         }
 
         function getStatusText(status) {
@@ -1308,6 +1393,18 @@ function doPost(e) {
                     <!-- Validity -->
                     <div style="margin-top: 15px; font-size: 10px; color: #666;">
                         <div>此報價單有效期至 (Valid until): ${validUntil.toISOString().split('T')[0]}</div>
+                    </div>
+
+                    <!-- Company Chop 公司印章 -->
+                    <div style="margin-top: 30px; display: flex; justify-content: flex-end; align-items: center;">
+                        <div style="width: 90px; height: 90px; border: 3px solid #1a5276; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; transform: rotate(-8deg); opacity: 0.85; position: relative;">
+                            <div style="width: 78px; height: 78px; border: 1.5px solid #1a5276; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                                <div style="font-size: 10px; font-weight: bold; color: #1a5276; font-family: Microsoft JhengHei, sans-serif; letter-spacing: 1px;">LaLaRef</div>
+                                <div style="font-size: 8px; font-weight: bold; color: #1a5276; font-family: Microsoft JhengHei, sans-serif; margin-top: 2px;">急單王</div>
+                                <div style="width: 30px; height: 1px; background: #1a5276; margin: 3px 0;"></div>
+                                <div style="font-size: 6px; font-weight: bold; color: #1a5276; font-family: Microsoft JhengHei, sans-serif;">專業籃球球證服務</div>
+                            </div>
+                        </div>
                     </div>
                     
                     <!-- Footer -->
