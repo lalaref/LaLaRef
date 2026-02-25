@@ -612,16 +612,9 @@
                         <textarea id="payment-terms" name="paymentTerms" placeholder="例如: 比賽當日現金支付">付款方式：
 1. PayMe
 2. 轉數快 (FPS)
-3. 銀行轉帳
 
 付款時間：
-- 單次預訂：比賽當日或之前支付
-- 長期合作：每月結算，7 天內付款
-
-備註：
-- 如需取消預訂，請於比賽前 24 小時通知
-- 臨時取消或缺席將收取 50% 服務費用
-- 極端天氣或不可抗因素除外</textarea>
+- 確認訂單後, 預支付全款</textarea>
                     </div>
 
                     <div class="form-group">
@@ -1395,9 +1388,14 @@ function doPost(e) {
                         <div>此報價單有效期至 (Valid until): ${validUntil.toISOString().split('T')[0]}</div>
                     </div>
 
-                    <!-- Company Chop 公司印章 -->
-                    <div style="margin-top: 30px; display: flex; justify-content: flex-end; align-items: center;">
-                        <div style="width: 90px; height: 90px; border: 3px solid #1a5276; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; transform: rotate(-8deg); opacity: 0.85; position: relative;">
+                    <!-- Footer + Chop on same row -->
+                    <div style="margin-top: 20px; display: flex; justify-content: space-between; align-items: center; padding-top: 15px;">
+                        <div style="text-align: left; font-size: 11px; color: #999;">
+                            <div style="margin-bottom: 5px;"><strong>LaLaRef - 專業籃球球證服務</strong></div>
+                            <div>Professional Basketball Referee Service</div>
+                            <div style="margin-top: 5px;">電話 Tel: +852 8482 8484 | 網站 Web: www.lalaref.com</div>
+                        </div>
+                        <div style="width: 90px; height: 90px; border: 3px solid #1a5276; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; transform: rotate(-8deg); opacity: 0.85; flex-shrink: 0;">
                             <div style="width: 78px; height: 78px; border: 1.5px solid #1a5276; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center;">
                                 <div style="font-size: 10px; font-weight: bold; color: #1a5276; font-family: Microsoft JhengHei, sans-serif; letter-spacing: 1px;">LaLaRef</div>
                                 <div style="font-size: 8px; font-weight: bold; color: #1a5276; font-family: Microsoft JhengHei, sans-serif; margin-top: 2px;">急單王</div>
@@ -1405,13 +1403,6 @@ function doPost(e) {
                                 <div style="font-size: 6px; font-weight: bold; color: #1a5276; font-family: Microsoft JhengHei, sans-serif;">專業籃球球證服務</div>
                             </div>
                         </div>
-                    </div>
-                    
-                    <!-- Footer -->
-                    <div style="margin-top: 20px; text-align: center; font-size: 11px; color: #999; padding-top: 15px;">
-                        <div style="margin-bottom: 5px;"><strong>LaLaRef - 專業籃球球證服務</strong></div>
-                        <div>Professional Basketball Referee Service</div>
-                        <div style="margin-top: 5px;">電話 Tel: +852 8482 8484 | 網站 Web: www.lalaref.com</div>
                     </div>
                 </div>
             `;
