@@ -291,6 +291,14 @@
             } else {
                 console.log('Google Sheets URL configured:', sheetUrl.substring(0, 50) + '...');
             }
+            
+            // Auto-lookup if ?code= is in the URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const codeParam = urlParams.get('code');
+            if (codeParam) {
+                document.getElementById('booking-code').value = codeParam.toUpperCase();
+                document.getElementById('search-form').dispatchEvent(new Event('submit'));
+            }
         });
         
         document.getElementById('search-form').addEventListener('submit', async function(e) {
