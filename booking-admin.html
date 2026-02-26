@@ -1020,42 +1020,15 @@ function doPost(e) {
             }
             
             try {
-                // Fetch bookings first
                 const bookingsRes = await fetch(sheetUrl);
                 const data = await bookingsRes.json();
                 
-                // Try to fetch admin data (non-blocking, falls back to localStorage)
-                try {
-                    const adminRes = await fetch(sheetUrl + '?action=getAdminData');
-                    const adminText = await adminRes.text();
-                    const adminResult = JSON.parse(adminText);
-                    if (adminResult.success && adminResult.adminData && typeof adminResult.adminData === 'object') {
-                        adminDataCache = adminResult.adminData;
-                        // Sync to localStorage as cache
-                        const profitData = {};
-                        const removedBookings = [];
-                        const bookingEdits = {};
-                        for (const [code, ad] of Object.entries(adminDataCache)) {
-                            if (ad.removed) removedBookings.push(code);
-                            if (ad.totalCost || ad.refereeCost) profitData[code] = { totalCost: ad.totalCost, refereeCost: ad.refereeCost };
-                            if (ad.refereeInfo || ad.status || ad.paymentStatus || ad.venue || ad.notes) {
-                                const edits = {};
-                                if (ad.refereeInfo) edits.refereeInfo = ad.refereeInfo;
-                                if (ad.status) edits.status = ad.status;
-                                if (ad.paymentStatus) edits.paymentStatus = ad.paymentStatus;
-                                if (ad.venue) edits.venue = ad.venue;
-                                if (ad.notes) edits.notes = ad.notes;
-                                if (Object.keys(edits).length > 0) bookingEdits[code] = edits;
-                            }
-                        }
-                        localStorage.setItem('bookingProfitData', JSON.stringify(profitData));
-                        localStorage.setItem('removedBookings', JSON.stringify(removedBookings));
-                        localStorage.setItem('bookingEdits', JSON.stringify(bookingEdits));
-                    }
-                } catch(e) { console.warn('Admin data fetch skipped, using localStorage:', e.message); }
-                
                 if (data.success && data.bookings) {
+                    // Render immediately using localStorage data
                     renderBookings(data.bookings);
+                    
+                    // Then try to sync admin data from Google Sheets in background (don't await)
+                    fetchAdminDataInBackground();
                 } else {
                     showMessage('list-message', '載入失敗: ' + (data.message || '未知錯誤'), 'error');
                 }
@@ -1064,12 +1037,46 @@ function doPost(e) {
                 showMessage('list-message', '載入時發生錯誤: ' + error.message, 'error');
             }
         }
+        
+        function fetchAdminDataInBackground() {
+            fetch(sheetUrl + '?action=getAdminData')
+                .then(res => res.text())
+                .then(text => {
+                    try {
+                        const adminResult = JSON.parse(text);
+                        if (adminResult.success && adminResult.adminData && typeof adminResult.adminData === 'object') {
+                            adminDataCache = adminResult.adminData;
+                            const profitData = {};
+                            const removedBookings = [];
+                            const bookingEdits = {};
+                            for (const [code, ad] of Object.entries(adminDataCache)) {
+                                if (ad.removed) removedBookings.push(code);
+                                if (ad.totalCost || ad.refereeCost) profitData[code] = { totalCost: ad.totalCost, refereeCost: ad.refereeCost };
+                                if (ad.refereeInfo || ad.status || ad.paymentStatus || ad.venue || ad.notes) {
+                                    const edits = {};
+                                    if (ad.refereeInfo) edits.refereeInfo = ad.refereeInfo;
+                                    if (ad.status) edits.status = ad.status;
+                                    if (ad.paymentStatus) edits.paymentStatus = ad.paymentStatus;
+                                    if (ad.venue) edits.venue = ad.venue;
+                                    if (ad.notes) edits.notes = ad.notes;
+                                    if (Object.keys(edits).length > 0) bookingEdits[code] = edits;
+                                }
+                            }
+                            localStorage.setItem('bookingProfitData', JSON.stringify(profitData));
+                            localStorage.setItem('removedBookings', JSON.stringify(removedBookings));
+                            localStorage.setItem('bookingEdits', JSON.stringify(bookingEdits));
+                        }
+                    } catch(e) {}
+                })
+                .catch(() => {});
+        }
 
         function renderBookings(bookings) {
+          try {
             const listContainer = document.getElementById('booking-list');
             const summaryEl = document.getElementById('earnings-summary');
             
-            if (bookings.length === 0 || bookings.filter(b => b.code && b.code.trim() !== '').length === 0) {
+            if (bookings.length === 0 || bookings.filter(b => b.code && String(b.code).trim() !== '').length === 0) {
                 listContainer.innerHTML = '<div class="empty-state"><h3>📭 暫無預訂記錄</h3><p>請新增第一個預訂</p></div>';
                 summaryEl.style.display = 'none';
                 return;
@@ -1078,10 +1085,11 @@ function doPost(e) {
             const profitData = JSON.parse(localStorage.getItem('bookingProfitData') || '{}');
             const removedBookings = JSON.parse(localStorage.getItem('removedBookings') || '[]');
             const bookingEdits = JSON.parse(localStorage.getItem('bookingEdits') || '{}');
-            const validBookings = bookings.filter(b => b.code && b.code.trim() !== '' && !removedBookings.includes(b.code));
+            const validBookings = bookings.filter(b => b.code && String(b.code).trim() !== '' && !removedBookings.includes(String(b.code)));
             
             // Apply local edits
             validBookings.forEach(b => {
+                b.code = String(b.code);
                 const edits = bookingEdits[b.code];
                 if (edits) {
                     if (edits.refereeInfo !== undefined) b.refereeInfo = edits.refereeInfo;
@@ -1178,6 +1186,10 @@ function doPost(e) {
             }).join('');
             
             updateEarningsSummary();
+          } catch(err) {
+            console.error('renderBookings error:', err);
+            document.getElementById('booking-list').innerHTML = '<div class="empty-state"><h3>⚠️ 顯示錯誤</h3><p>' + err.message + '</p></div>';
+          }
         }
 
         function removeBooking(code) {
