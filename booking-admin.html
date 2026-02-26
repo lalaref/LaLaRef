@@ -854,6 +854,19 @@ function doPost(e) {
     return ContentService.createTextOutput(JSON.stringify({success: true, message: '已儲存'})).setMimeType(ContentService.MimeType.JSON);
   }
   
+  // Delete booking from main sheet
+  if (data.action === 'deleteBooking') {
+    const sheet = ss.getSheetByName('Bookings') || ss.getActiveSheet();
+    const allData = sheet.getDataRange().getValues();
+    for (let i = allData.length - 1; i >= 1; i--) {
+      if (String(allData[i][0]) === String(data.code)) {
+        sheet.deleteRow(i + 1);
+        return ContentService.createTextOutput(JSON.stringify({success: true, message: '已刪除'})).setMimeType(ContentService.MimeType.JSON);
+      }
+    }
+    return ContentService.createTextOutput(JSON.stringify({success: false, message: '找不到此預訂'})).setMimeType(ContentService.MimeType.JSON);
+  }
+  
   const sheet = ss.getSheetByName('Bookings') || ss.getActiveSheet();
   sheet.appendRow([
     data.code,
@@ -1044,14 +1057,16 @@ function doPost(e) {
                 .then(text => {
                     try {
                         const adminResult = JSON.parse(text);
-                        if (adminResult.success && adminResult.adminData && typeof adminResult.adminData === 'object') {
+                        if (adminResult.success && adminResult.adminData && typeof adminResult.adminData === 'object' && Object.keys(adminResult.adminData).length > 0) {
                             adminDataCache = adminResult.adminData;
-                            const profitData = {};
-                            const removedBookings = [];
-                            const bookingEdits = {};
+                            // Merge with existing localStorage (don't overwrite)
+                            const existingProfit = JSON.parse(localStorage.getItem('bookingProfitData') || '{}');
+                            const existingRemoved = JSON.parse(localStorage.getItem('removedBookings') || '[]');
+                            const existingEdits = JSON.parse(localStorage.getItem('bookingEdits') || '{}');
+                            
                             for (const [code, ad] of Object.entries(adminDataCache)) {
-                                if (ad.removed) removedBookings.push(code);
-                                if (ad.totalCost || ad.refereeCost) profitData[code] = { totalCost: ad.totalCost, refereeCost: ad.refereeCost };
+                                if (ad.removed && !existingRemoved.includes(code)) existingRemoved.push(code);
+                                if (ad.totalCost || ad.refereeCost) existingProfit[code] = { totalCost: ad.totalCost, refereeCost: ad.refereeCost };
                                 if (ad.refereeInfo || ad.status || ad.paymentStatus || ad.venue || ad.notes) {
                                     const edits = {};
                                     if (ad.refereeInfo) edits.refereeInfo = ad.refereeInfo;
@@ -1059,13 +1074,14 @@ function doPost(e) {
                                     if (ad.paymentStatus) edits.paymentStatus = ad.paymentStatus;
                                     if (ad.venue) edits.venue = ad.venue;
                                     if (ad.notes) edits.notes = ad.notes;
-                                    if (Object.keys(edits).length > 0) bookingEdits[code] = edits;
+                                    if (Object.keys(edits).length > 0) existingEdits[code] = { ...existingEdits[code], ...edits };
                                 }
                             }
-                            localStorage.setItem('bookingProfitData', JSON.stringify(profitData));
-                            localStorage.setItem('removedBookings', JSON.stringify(removedBookings));
-                            localStorage.setItem('bookingEdits', JSON.stringify(bookingEdits));
+                            localStorage.setItem('bookingProfitData', JSON.stringify(existingProfit));
+                            localStorage.setItem('removedBookings', JSON.stringify(existingRemoved));
+                            localStorage.setItem('bookingEdits', JSON.stringify(existingEdits));
                         }
+                        // If adminData is empty, don't touch localStorage
                     } catch(e) {}
                 })
                 .catch(() => {});
@@ -1194,12 +1210,35 @@ function doPost(e) {
 
         function removeBooking(code) {
             if (!confirm('確定要移除此預訂 ' + code + ' 嗎？')) return;
+            
+            // Remove from DOM immediately
+            const el = document.getElementById('booking-' + code);
+            if (el) el.remove();
+            
+            // Save to localStorage as backup
             const removed = JSON.parse(localStorage.getItem('removedBookings') || '[]');
             if (!removed.includes(code)) removed.push(code);
             localStorage.setItem('removedBookings', JSON.stringify(removed));
-            const el = document.getElementById('booking-' + code);
-            if (el) el.remove();
+            
             updateEarningsSummary();
+            
+            // Delete from Google Sheets
+            if (sheetUrl) {
+                fetch(sheetUrl, {
+                    method: 'POST',
+                    body: JSON.stringify({ action: 'deleteBooking', code: code })
+                }).then(res => {
+                    try { return res.json(); } catch(e) { return {}; }
+                }).then(result => {
+                    if (result && result.success) {
+                        showMessage('list-message', '預訂 ' + code + ' 已從 Google Sheets 刪除', 'success');
+                    }
+                }).catch(e => {
+                    console.warn('Delete from sheet failed:', e);
+                });
+            }
+            
+            // Also mark as removed in AdminData
             syncAdminToSheet(code, { removed: true });
         }
 
