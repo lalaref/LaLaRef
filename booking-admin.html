@@ -1027,8 +1027,6 @@ function doPost(e) {
             showMessage('list-message', '預訂 ' + code + ' 已更新', 'success');
             loadBookings(); // Refresh the list
         }
-            updateEarningsSummary();
-        }
 
         function updateProfit(code) {
             const tcInput = document.querySelector(`.profit-total-cost[data-code="${code}"]`);
