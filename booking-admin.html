@@ -364,7 +364,7 @@
             <button class="tab-btn active" onclick="switchTab('create')">➕ 新增預訂</button>
             <button class="tab-btn" onclick="switchTab('list')">📋 預訂列表</button>
             <button class="tab-btn" onclick="switchTab('quotation')">💰 報價單</button>
-            <button class="tab-btn" onclick="switchTab('invoice')">🧾 發票</button>
+            <button class="tab-btn" onclick="switchTab('invoice')">🧾 收據</button>
             <button class="tab-btn" onclick="switchTab('message')">📤 訊息</button>
             <button class="tab-btn" onclick="switchTab('config')">⚙️ 設定</button>
         </div>
@@ -641,7 +641,7 @@
         <!-- Invoice Tab -->
         <div id="invoice-tab" class="tab-content">
             <div class="form-box">
-                <h3 style="margin-bottom: 20px; color: #5a4a3a;">🧾 發票生成</h3>
+                <h3 style="margin-bottom: 20px; color: #5a4a3a;">🧾 收據生成</h3>
                 <div class="message" id="invoice-message"></div>
                 
                 <div class="form-grid">
@@ -650,7 +650,7 @@
                         <input type="text" id="invoice-quote-number" placeholder="例如: Q20260226001">
                     </div>
                     <div class="form-group">
-                        <label for="invoice-date">發票日期 *</label>
+                        <label for="invoice-date">收據日期 *</label>
                         <input type="date" id="invoice-date">
                     </div>
                 </div>
@@ -664,12 +664,12 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="invoice-notes">發票備註</label>
+                    <label for="invoice-notes">收據備註</label>
                     <textarea id="invoice-notes" placeholder="其他備註"></textarea>
                 </div>
                 <div class="form-actions">
                     <button type="button" class="btn btn-secondary" onclick="loadQuotationForInvoice()">📥 載入報價單資料</button>
-                    <button type="button" class="btn" onclick="generateInvoicePDF()">🧾 匯出發票 PDF</button>
+                    <button type="button" class="btn" onclick="generateInvoicePDF()">🧾 匯出收據 PDF</button>
                 </div>
                 
                 <div id="invoice-preview" style="display:none; margin-top: 20px; padding: 20px; background: #f5e6d3; border-radius: 15px;">
@@ -1824,7 +1824,7 @@ function doPost(e) {
             const invoiceNotes = document.getElementById('invoice-notes').value;
             
             if (!quoteNum || !invoiceDate) {
-                showMessage('invoice-message', '請填寫報價單編號及發票日期', 'error');
+                showMessage('invoice-message', '請填寫報價單編號及收據日期', 'error');
                 return;
             }
             const saved = JSON.parse(localStorage.getItem('savedQuotations') || '{}');
@@ -1834,7 +1834,7 @@ function doPost(e) {
                 return;
             }
             
-            const invoiceNumber = 'INV' + quoteNum.replace('Q', '');
+            const invoiceNumber = 'REC' + quoteNum.replace('Q', '');
             
             const formatMoney = (amount) => parseFloat(amount).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
             
@@ -1867,11 +1867,11 @@ function doPost(e) {
                             ${logoBase64 ? `<img src="${logoBase64}" style="width:80px;height:80px;object-fit:contain;">` : ''}
                             <div>
                                 <h1 style="color:#d4a574;font-size:36px;margin:0;">LaLaRef</h1>
-                                <h2 style="color:#5a4a3a;font-size:24px;margin:5px 0 0 0;">發票 INVOICE</h2>
+                                <h2 style="color:#5a4a3a;font-size:24px;margin:5px 0 0 0;">收據 RECEIPT</h2>
                             </div>
                         </div>
                         <div style="text-align:right;">
-                            <div style="font-size:14px;margin-bottom:5px;"><strong>發票編號:</strong> ${invoiceNumber}</div>
+                            <div style="font-size:14px;margin-bottom:5px;"><strong>收據編號:</strong> ${invoiceNumber}</div>
                             <div style="font-size:14px;margin-bottom:5px;"><strong>日期:</strong> ${invoiceDate}</div>
                             <div style="font-size:14px;"><strong>報價單編號:</strong> ${quoteNum}</div>
                         </div>
@@ -1922,7 +1922,6 @@ function doPost(e) {
                     </div>
                     <div style="margin-bottom:15px;">
                         <div style="font-size:13px;color:#5a4a3a;"><strong>付款方式:</strong> ${paymentMethod}</div>
-                        <div style="font-size:13px;color:#5a4a3a;margin-top:5px;"><strong>狀態:</strong> <span style="color:#25d366;font-weight:bold;">已付款 PAID</span></div>
                     </div>
                     ${invoiceNotes ? `<div style="margin-bottom:15px;"><h3 style="color:#5a4a3a;font-size:14px;margin-bottom:6px;">備註 Notes:</h3><div style="background:#f5e6d3;padding:10px;border-radius:8px;white-space:pre-wrap;font-size:11px;">${invoiceNotes}</div></div>` : ''}
                     <div style="margin-top:20px;display:flex;justify-content:space-between;align-items:center;padding-top:15px;">
@@ -1965,10 +1964,10 @@ function doPost(e) {
                         heightLeft -= pageHeight;
                     }
                 }
-                pdf.save('LaLaRef_發票_' + invoiceNumber + '.pdf');
-                showMessage('invoice-message', '發票 PDF 已成功匯出', 'success');
+                pdf.save('LaLaRef_收據_' + invoiceNumber + '.pdf');
+                showMessage('invoice-message', '收據 PDF 已成功匯出', 'success');
             } catch (error) {
-                showMessage('invoice-message', '發票匯出失敗: ' + error.message, 'error');
+                showMessage('invoice-message', '收據匯出失敗: ' + error.message, 'error');
             } finally {
                 document.body.removeChild(pdfContainer);
             }
