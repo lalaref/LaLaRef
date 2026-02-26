@@ -777,17 +777,40 @@ LaLaRef 急單王 ⚡</textarea>
                 <div style="margin-top: 30px; padding: 20px; background: #f5e6d3; border-radius: 15px;">
                     <h4 style="margin-bottom: 15px; color: #5a4a3a;">📝 Google Apps Script 程式碼</h4>
                     <p style="margin-bottom: 10px; color: #7a6a5a;">複製以下程式碼到 Google Sheets 的 Apps Script：</p>
-                    <textarea readonly style="width: 100%; height: 200px; font-family: monospace; font-size: 0.85em; padding: 10px; border-radius: 10px; border: 1px solid #d4a574;">
+                    <textarea readonly style="width: 100%; height: 500px; font-family: monospace; font-size: 0.85em; padding: 10px; border-radius: 10px; border: 1px solid #d4a574;">
 function doGet(e) {
-  const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const sheet = ss.getSheetByName('Bookings') || ss.getActiveSheet();
   const data = sheet.getDataRange().getValues();
   const headers = data[0];
   const rows = data.slice(1);
   
   const code = e.parameter.code;
+  const action = e.parameter.action;
+  
+  // Get admin data
+  if (action === 'getAdminData') {
+    const adminSheet = ss.getSheetByName('AdminData');
+    if (!adminSheet) return ContentService.createTextOutput(JSON.stringify({success: true, adminData: {}})).setMimeType(ContentService.MimeType.JSON);
+    const adminData = adminSheet.getDataRange().getValues();
+    if (adminData.length <= 1) return ContentService.createTextOutput(JSON.stringify({success: true, adminData: {}})).setMimeType(ContentService.MimeType.JSON);
+    const result = {};
+    for (let i = 1; i < adminData.length; i++) {
+      result[adminData[i][0]] = {
+        removed: adminData[i][1] === true || adminData[i][1] === 'true',
+        totalCost: adminData[i][2] || '',
+        refereeCost: adminData[i][3] || '',
+        refereeInfo: adminData[i][4] || '',
+        status: adminData[i][5] || '',
+        paymentStatus: adminData[i][6] || '',
+        venue: adminData[i][7] || '',
+        notes: adminData[i][8] || ''
+      };
+    }
+    return ContentService.createTextOutput(JSON.stringify({success: true, adminData: result})).setMimeType(ContentService.MimeType.JSON);
+  }
   
   if (code) {
-    // Search for specific booking
     const booking = rows.find(row => row[0] === code);
     if (booking) {
       const result = {};
@@ -797,7 +820,6 @@ function doGet(e) {
     return ContentService.createTextOutput(JSON.stringify({success: false, message: '找不到此預訂編號'})).setMimeType(ContentService.MimeType.JSON);
   }
   
-  // Return all bookings
   const bookings = rows.map(row => {
     const obj = {};
     headers.forEach((header, i) => obj[header] = row[i]);
@@ -808,9 +830,31 @@ function doGet(e) {
 }
 
 function doPost(e) {
-  const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
   const data = JSON.parse(e.postData.contents);
   
+  // Save admin data (edits, removals, profit)
+  if (data.action === 'saveAdminData') {
+    let adminSheet = ss.getSheetByName('AdminData');
+    if (!adminSheet) {
+      adminSheet = ss.insertSheet('AdminData');
+      adminSheet.appendRow(['code', 'removed', 'totalCost', 'refereeCost', 'refereeInfo', 'status', 'paymentStatus', 'venue', 'notes']);
+    }
+    const adminData = adminSheet.getDataRange().getValues();
+    let rowIndex = -1;
+    for (let i = 1; i < adminData.length; i++) {
+      if (adminData[i][0] === data.code) { rowIndex = i + 1; break; }
+    }
+    const rowData = [data.code, data.removed || false, data.totalCost || '', data.refereeCost || '', data.refereeInfo || '', data.status || '', data.paymentStatus || '', data.venue || '', data.notes || ''];
+    if (rowIndex > 0) {
+      adminSheet.getRange(rowIndex, 1, 1, rowData.length).setValues([rowData]);
+    } else {
+      adminSheet.appendRow(rowData);
+    }
+    return ContentService.createTextOutput(JSON.stringify({success: true, message: '已儲存'})).setMimeType(ContentService.MimeType.JSON);
+  }
+  
+  const sheet = ss.getSheetByName('Bookings') || ss.getActiveSheet();
   sheet.appendRow([
     data.code,
     data.matchDate,
@@ -943,6 +987,21 @@ function doPost(e) {
             return 'LR' + dateStr + randomNum;
         }
 
+        // Global admin data cache (from Google Sheets)
+        let adminDataCache = {};
+
+        async function syncAdminToSheet(code, data) {
+            if (!sheetUrl) return;
+            try {
+                await fetch(sheetUrl, {
+                    method: 'POST',
+                    body: JSON.stringify({ action: 'saveAdminData', code: code, ...data })
+                });
+            } catch(e) {
+                console.warn('Sync to sheet failed for ' + code, e);
+            }
+        }
+
         async function loadBookings() {
             if (!sheetUrl) {
                 document.getElementById('booking-list').innerHTML = `
@@ -955,10 +1014,42 @@ function doPost(e) {
             }
             
             try {
-                const response = await fetch(sheetUrl);
-                const data = await response.json();
+                // Fetch bookings and admin data in parallel
+                const [bookingsRes, adminRes] = await Promise.all([
+                    fetch(sheetUrl),
+                    fetch(sheetUrl + '?action=getAdminData').catch(() => null)
+                ]);
                 
-                console.log('Loaded data:', data); // Debug log
+                const data = await bookingsRes.json();
+                
+                if (adminRes) {
+                    try {
+                        const adminResult = await adminRes.json();
+                        if (adminResult.success && adminResult.adminData) {
+                            adminDataCache = adminResult.adminData;
+                            // Sync to localStorage as cache
+                            const profitData = {};
+                            const removedBookings = [];
+                            const bookingEdits = {};
+                            for (const [code, ad] of Object.entries(adminDataCache)) {
+                                if (ad.removed) removedBookings.push(code);
+                                if (ad.totalCost || ad.refereeCost) profitData[code] = { totalCost: ad.totalCost, refereeCost: ad.refereeCost };
+                                if (ad.refereeInfo || ad.status || ad.paymentStatus || ad.venue || ad.notes) {
+                                    const edits = {};
+                                    if (ad.refereeInfo) edits.refereeInfo = ad.refereeInfo;
+                                    if (ad.status) edits.status = ad.status;
+                                    if (ad.paymentStatus) edits.paymentStatus = ad.paymentStatus;
+                                    if (ad.venue) edits.venue = ad.venue;
+                                    if (ad.notes) edits.notes = ad.notes;
+                                    if (Object.keys(edits).length > 0) bookingEdits[code] = edits;
+                                }
+                            }
+                            localStorage.setItem('bookingProfitData', JSON.stringify(profitData));
+                            localStorage.setItem('removedBookings', JSON.stringify(removedBookings));
+                            localStorage.setItem('bookingEdits', JSON.stringify(bookingEdits));
+                        }
+                    } catch(e) { console.warn('Admin data fetch failed, using localStorage', e); }
+                }
                 
                 if (data.success && data.bookings) {
                     renderBookings(data.bookings);
@@ -1094,6 +1185,7 @@ function doPost(e) {
             const el = document.getElementById('booking-' + code);
             if (el) el.remove();
             updateEarningsSummary();
+            syncAdminToSheet(code, { removed: true });
         }
 
         function toggleEdit(code) {
@@ -1111,10 +1203,17 @@ function doPost(e) {
                 notes: document.getElementById('edit-notes-' + code).value
             };
             localStorage.setItem('bookingEdits', JSON.stringify(edits));
-            showMessage('list-message', '預訂 ' + code + ' 已更新', 'success');
-            loadBookings(); // Refresh the list
+            showMessage('list-message', '預訂 ' + code + ' 已更新（同步中...）', 'success');
+            
+            const profitData = JSON.parse(localStorage.getItem('bookingProfitData') || '{}');
+            const pd = profitData[code] || {};
+            syncAdminToSheet(code, { ...edits[code], totalCost: pd.totalCost || '', refereeCost: pd.refereeCost || '' }).then(() => {
+                showMessage('list-message', '預訂 ' + code + ' 已更新並同步', 'success');
+            });
+            loadBookings();
         }
 
+        let profitSyncTimers = {};
         function updateProfit(code) {
             const tcInput = document.querySelector(`.profit-total-cost[data-code="${code}"]`);
             const rcInput = document.querySelector(`.profit-referee-cost[data-code="${code}"]`);
@@ -1133,6 +1232,14 @@ function doPost(e) {
             localStorage.setItem('bookingProfitData', JSON.stringify(profitData));
             
             updateEarningsSummary();
+            
+            // Debounced sync to Google Sheets (1.5s after last keystroke)
+            clearTimeout(profitSyncTimers[code]);
+            profitSyncTimers[code] = setTimeout(() => {
+                const edits = JSON.parse(localStorage.getItem('bookingEdits') || '{}');
+                const ed = edits[code] || {};
+                syncAdminToSheet(code, { ...ed, totalCost: tcInput.value, refereeCost: rcInput.value });
+            }, 1500);
         }
 
         function updateEarningsSummary() {
