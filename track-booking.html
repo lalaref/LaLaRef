@@ -297,43 +297,28 @@
             const codeParam = urlParams.get('code');
             if (codeParam) {
                 document.getElementById('booking-code').value = codeParam.toUpperCase();
-                document.getElementById('search-form').dispatchEvent(new Event('submit'));
+                lookupBooking(codeParam.toUpperCase());
             }
         });
         
-        document.getElementById('search-form').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const code = document.getElementById('booking-code').value.trim().toUpperCase();
+        async function lookupBooking(code) {
             const errorMsg = document.getElementById('error-message');
             const resultBox = document.getElementById('result-box');
             
-            // Hide previous results
             resultBox.classList.remove('show');
             errorMsg.classList.remove('show');
             
-            // Re-check sheetUrl in case it was just set
-            sheetUrl = localStorage.getItem('sheetUrl') || '';
+            sheetUrl = localStorage.getItem('sheetUrl') || FALLBACK_SHEET_URL;
             
             if (!sheetUrl) {
                 errorMsg.textContent = '系統未設定，請先在管理頁面配置 Google Sheets';
                 errorMsg.classList.add('show');
-                console.error('No sheetUrl found in localStorage');
                 return;
             }
             
-            console.log('Searching for code:', code);
-            console.log('Using URL:', sheetUrl);
-            
             try {
-                const fetchUrl = sheetUrl + '?code=' + encodeURIComponent(code);
-                console.log('Fetching:', fetchUrl);
-                
-                const response = await fetch(fetchUrl);
-                console.log('Response status:', response.status);
-                
+                const response = await fetch(sheetUrl + '?code=' + encodeURIComponent(code));
                 const data = await response.json();
-                console.log('Search response:', data);
                 
                 if (data.success && data.booking) {
                     displayBooking(data.booking);
@@ -346,6 +331,12 @@
                 errorMsg.textContent = '查詢時發生錯誤: ' + error.message;
                 errorMsg.classList.add('show');
             }
+        }
+        
+        document.getElementById('search-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const code = document.getElementById('booking-code').value.trim().toUpperCase();
+            lookupBooking(code);
         });
 
         function displayBooking(booking) {
