@@ -365,6 +365,7 @@
             <button class="tab-btn" onclick="switchTab('list')">📋 預訂列表</button>
             <button class="tab-btn" onclick="switchTab('quotation')">💰 報價單</button>
             <button class="tab-btn" onclick="switchTab('invoice')">🧾 發票</button>
+            <button class="tab-btn" onclick="switchTab('message')">📤 訊息</button>
             <button class="tab-btn" onclick="switchTab('config')">⚙️ 設定</button>
         </div>
 
@@ -678,6 +679,32 @@
             </div>
         </div>
 
+        <!-- Message Tab -->
+        <div id="message-tab" class="tab-content">
+            <div class="form-box">
+                <h3 style="margin-bottom: 20px; color: #5a4a3a;">📤 客戶確認訊息</h3>
+                <div class="message" id="message-tab-message"></div>
+                
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="msg-booking-code">預訂編號 *</label>
+                        <input type="text" id="msg-booking-code" placeholder="例如: LR20260226001">
+                    </div>
+                </div>
+                <div class="form-actions" style="justify-content: flex-start;">
+                    <button type="button" class="btn" onclick="generateMessageFromCode()">📤 生成訊息</button>
+                </div>
+                
+                <div id="msg-output-area" style="display:none; margin-top: 20px;">
+                    <div class="form-group">
+                        <label>生成的訊息：</label>
+                        <textarea id="msg-output" readonly style="min-height: 300px; font-size: 0.95em; line-height: 1.6; white-space: pre-wrap;"></textarea>
+                    </div>
+                    <button type="button" class="btn" onclick="copyMessageOutput()">📋 複製訊息</button>
+                </div>
+            </div>
+        </div>
+
         <!-- Config Tab -->
         <div id="config-tab" class="tab-content">
             <div class="form-box">
@@ -791,8 +818,11 @@ function doPost(e) {
                 document.querySelector('.tab-btn:nth-child(4)').classList.add('active');
                 document.getElementById('invoice-tab').classList.add('active');
                 document.getElementById('invoice-date').valueAsDate = new Date();
-            } else {
+            } else if (tab === 'message') {
                 document.querySelector('.tab-btn:nth-child(5)').classList.add('active');
+                document.getElementById('message-tab').classList.add('active');
+            } else if (tab === 'config') {
+                document.querySelector('.tab-btn:nth-child(6)').classList.add('active');
                 document.getElementById('config-tab').classList.add('active');
             }
         }
@@ -1762,6 +1792,115 @@ function doPost(e) {
             } finally {
                 document.body.removeChild(pdfContainer);
             }
+        }
+        // Message Generation Functions
+        async function generateMessageFromCode() {
+            const code = document.getElementById('msg-booking-code').value.trim();
+            if (!code) {
+                showMessage('message-tab-message', '請輸入預訂編號', 'error');
+                return;
+            }
+            if (!sheetUrl) {
+                showMessage('message-tab-message', '請先在「設定」分頁配置 Google Sheets', 'error');
+                return;
+            }
+            
+            try {
+                showMessage('message-tab-message', '正在載入預訂資料...', 'success');
+                const response = await fetch(sheetUrl + '?code=' + encodeURIComponent(code));
+                const result = await response.json();
+                
+                if (result.success && result.booking) {
+                    const b = result.booking;
+                    // Apply local edits if any
+                    const bookingEdits = JSON.parse(localStorage.getItem('bookingEdits') || '{}');
+                    const edits = bookingEdits[code];
+                    if (edits) {
+                        if (edits.venue !== undefined) b.venue = edits.venue;
+                    }
+                    
+                    const msg = buildClientMessage(b);
+                    document.getElementById('msg-output').value = msg;
+                    document.getElementById('msg-output-area').style.display = 'block';
+                    showMessage('message-tab-message', '訊息已生成', 'success');
+                } else {
+                    showMessage('message-tab-message', '找不到此預訂編號: ' + code, 'error');
+                    document.getElementById('msg-output-area').style.display = 'none';
+                }
+            } catch (error) {
+                console.error('Error fetching booking:', error);
+                showMessage('message-tab-message', '載入失敗: ' + error.message, 'error');
+            }
+        }
+
+        function buildClientMessage(b) {
+            const code = b.code || '';
+            const matchDate = formatDate(b.matchDate);
+            const matchTime = formatTime(b.matchTime);
+            const matchEndTime = formatTime(b.matchEndTime);
+            const venue = b.venue || 'N/A';
+            const matchType = b.matchType || 'N/A';
+            const refereeCount = b.refereeCount || 'N/A';
+            const contactName = b.contactName || '';
+
+            return `你好 ${contactName}，
+
+感謝你的預訂！以下是你的訂單確認資料：
+
+📋 預訂編號：${code}
+📅 日期：${matchDate}
+🕐 時間：${matchTime} - ${matchEndTime}
+📍 地點：${venue}
+🏀 類型：${matchType}
+👨‍⚖️ 球證數量：${refereeCount}
+
+你可以隨時透過以下連結查詢預訂詳情：
+🔗 https://www.lalaref.com/track-booking.html
+輸入你的預訂編號：${code}
+
+如有任何問題，歡迎隨時聯絡我們。
+謝謝！🏀
+
+LaLaRef 急單王
+電話：+852 8482 8484
+網站：www.lalaref.com`;
+        }
+
+        function copyMessageOutput() {
+            const text = document.getElementById('msg-output').value;
+            navigator.clipboard.writeText(text).then(() => {
+                showMessage('message-tab-message', '訊息已複製到剪貼簿', 'success');
+            }).catch(() => {
+                // Fallback
+                document.getElementById('msg-output').select();
+                document.execCommand('copy');
+                showMessage('message-tab-message', '訊息已複製到剪貼簿', 'success');
+            });
+        }
+
+        function generateClientMessage(code) {
+            // Switch to message tab and pre-fill the code
+            switchTab('message');
+            document.getElementById('msg-booking-code').value = code;
+            generateMessageFromCode();
+        }
+
+        function copyClientMessage(code) {
+            // Quick copy from booking list - fetch and copy directly
+            if (!sheetUrl) return;
+            fetch(sheetUrl + '?code=' + encodeURIComponent(code))
+                .then(r => r.json())
+                .then(result => {
+                    if (result.success && result.booking) {
+                        const bookingEdits = JSON.parse(localStorage.getItem('bookingEdits') || '{}');
+                        const edits = bookingEdits[code];
+                        if (edits && edits.venue !== undefined) result.booking.venue = edits.venue;
+                        const msg = buildClientMessage(result.booking);
+                        navigator.clipboard.writeText(msg).then(() => {
+                            alert('訊息已複製到剪貼簿');
+                        });
+                    }
+                });
         }
     </script>
 </body>
