@@ -796,7 +796,9 @@ function doGet(e) {
     if (adminData.length <= 1) return ContentService.createTextOutput(JSON.stringify({success: true, adminData: {}})).setMimeType(ContentService.MimeType.JSON);
     const result = {};
     for (let i = 1; i < adminData.length; i++) {
-      result[adminData[i][0]] = {
+      const adminCode = String(adminData[i][0]).trim();
+      if (!adminCode) continue;
+      result[adminCode] = {
         removed: adminData[i][1] === true || adminData[i][1] === 'true',
         totalCost: adminData[i][2] || '',
         refereeCost: adminData[i][3] || '',
@@ -811,7 +813,7 @@ function doGet(e) {
   }
   
   if (code) {
-    const booking = rows.find(row => row[0] === code);
+    const booking = rows.find(row => String(row[0]).trim() === String(code).trim());
     if (booking) {
       const result = {};
       headers.forEach((header, i) => result[header] = booking[i]);
@@ -841,11 +843,12 @@ function doPost(e) {
       adminSheet.appendRow(['code', 'removed', 'totalCost', 'refereeCost', 'refereeInfo', 'status', 'paymentStatus', 'venue', 'notes']);
     }
     const adminData = adminSheet.getDataRange().getValues();
+    const codeToFind = String(data.code).trim();
     let rowIndex = -1;
     for (let i = 1; i < adminData.length; i++) {
-      if (adminData[i][0] === data.code) { rowIndex = i + 1; break; }
+      if (String(adminData[i][0]).trim() === codeToFind) { rowIndex = i + 1; break; }
     }
-    const rowData = [data.code, data.removed || false, data.totalCost || '', data.refereeCost || '', data.refereeInfo || '', data.status || '', data.paymentStatus || '', data.venue || '', data.notes || ''];
+    const rowData = [codeToFind, data.removed || false, data.totalCost || '', data.refereeCost || '', data.refereeInfo || '', data.status || '', data.paymentStatus || '', data.venue || '', data.notes || ''];
     if (rowIndex > 0) {
       adminSheet.getRange(rowIndex, 1, 1, rowData.length).setValues([rowData]);
     } else {
@@ -858,8 +861,9 @@ function doPost(e) {
   if (data.action === 'deleteBooking') {
     const sheet = ss.getSheetByName('Bookings') || ss.getActiveSheet();
     const allData = sheet.getDataRange().getValues();
+    const codeToDelete = String(data.code).trim();
     for (let i = allData.length - 1; i >= 1; i--) {
-      if (String(allData[i][0]) === String(data.code)) {
+      if (String(allData[i][0]).trim() === codeToDelete) {
         sheet.deleteRow(i + 1);
         return ContentService.createTextOutput(JSON.stringify({success: true, message: '已刪除'})).setMimeType(ContentService.MimeType.JSON);
       }
@@ -897,6 +901,12 @@ function doPost(e) {
     <script>
         let sheetUrl = localStorage.getItem('sheetUrl') || '';
         let editingId = null;
+
+        // Helper: escape HTML to prevent XSS and template breakage
+        function esc(str) {
+            if (str === null || str === undefined) return '';
+            return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;').replace(/`/g,'&#96;');
+        }
 
         // IMPORTANT: Set your Google Sheets URL here for production
         // This will be used if localStorage is empty (e.g., on external devices)
@@ -1002,6 +1012,7 @@ function doPost(e) {
 
         // Global admin data cache (from Google Sheets)
         let adminDataCache = {};
+        let lastBookingsData = null;
 
         async function syncAdminToSheet(code, data) {
             if (!sheetUrl) return;
@@ -1037,6 +1048,8 @@ function doPost(e) {
                 const data = await bookingsRes.json();
                 
                 if (data.success && data.bookings) {
+                    // Store for re-render after admin data sync
+                    lastBookingsData = data.bookings;
                     // Render immediately using localStorage data
                     renderBookings(data.bookings);
                     
@@ -1061,12 +1074,21 @@ function doPost(e) {
                             adminDataCache = adminResult.adminData;
                             // Merge with existing localStorage (don't overwrite)
                             const existingProfit = JSON.parse(localStorage.getItem('bookingProfitData') || '{}');
-                            const existingRemoved = JSON.parse(localStorage.getItem('removedBookings') || '[]');
+                            const existingRemoved = JSON.parse(localStorage.getItem('removedBookings') || '[]').map(c => String(c).trim());
                             const existingEdits = JSON.parse(localStorage.getItem('bookingEdits') || '{}');
+                            let changed = false;
                             
-                            for (const [code, ad] of Object.entries(adminDataCache)) {
-                                if (ad.removed && !existingRemoved.includes(code)) existingRemoved.push(code);
-                                if (ad.totalCost || ad.refereeCost) existingProfit[code] = { totalCost: ad.totalCost, refereeCost: ad.refereeCost };
+                            for (const [rawCode, ad] of Object.entries(adminDataCache)) {
+                                const code = String(rawCode).trim();
+                                if (!code) continue;
+                                if (ad.removed && !existingRemoved.includes(code)) {
+                                    existingRemoved.push(code);
+                                    changed = true;
+                                }
+                                if (ad.totalCost || ad.refereeCost) {
+                                    existingProfit[code] = { totalCost: ad.totalCost, refereeCost: ad.refereeCost };
+                                    changed = true;
+                                }
                                 if (ad.refereeInfo || ad.status || ad.paymentStatus || ad.venue || ad.notes) {
                                     const edits = {};
                                     if (ad.refereeInfo) edits.refereeInfo = ad.refereeInfo;
@@ -1074,17 +1096,25 @@ function doPost(e) {
                                     if (ad.paymentStatus) edits.paymentStatus = ad.paymentStatus;
                                     if (ad.venue) edits.venue = ad.venue;
                                     if (ad.notes) edits.notes = ad.notes;
-                                    if (Object.keys(edits).length > 0) existingEdits[code] = { ...existingEdits[code], ...edits };
+                                    if (Object.keys(edits).length > 0) {
+                                        existingEdits[code] = { ...existingEdits[code], ...edits };
+                                        changed = true;
+                                    }
                                 }
                             }
                             localStorage.setItem('bookingProfitData', JSON.stringify(existingProfit));
                             localStorage.setItem('removedBookings', JSON.stringify(existingRemoved));
                             localStorage.setItem('bookingEdits', JSON.stringify(existingEdits));
+                            
+                            // Re-render if admin data changed (e.g., removals from another browser)
+                            if (changed && lastBookingsData) {
+                                renderBookings(lastBookingsData);
+                            }
                         }
                         // If adminData is empty, don't touch localStorage
-                    } catch(e) {}
+                    } catch(e) { console.warn('Admin data parse error:', e); }
                 })
-                .catch(() => {});
+                .catch(e => { console.warn('Admin data fetch error:', e); });
         }
 
         function renderBookings(bookings) {
@@ -1099,9 +1129,15 @@ function doPost(e) {
             }
             
             const profitData = JSON.parse(localStorage.getItem('bookingProfitData') || '{}');
-            const removedBookings = JSON.parse(localStorage.getItem('removedBookings') || '[]');
+            const removedBookings = JSON.parse(localStorage.getItem('removedBookings') || '[]').map(c => String(c).trim());
             const bookingEdits = JSON.parse(localStorage.getItem('bookingEdits') || '{}');
-            const validBookings = bookings.filter(b => b.code && String(b.code).trim() !== '' && !removedBookings.includes(String(b.code)));
+            const validBookings = bookings.filter(b => {
+                if (!b.code) return false;
+                const c = String(b.code).trim();
+                if (c === '') return false;
+                if (removedBookings.includes(c)) return false;
+                return true;
+            });
             
             // Apply local edits
             validBookings.forEach(b => {
@@ -1128,32 +1164,32 @@ function doPost(e) {
                 const profitColor = profit > 0 ? '#25d366' : profit < 0 ? '#ff4444' : '#5a4a3a';
                 
                 return `
-                <div class="booking-item" id="booking-${code}" style="position:relative;">
-                    <button onclick="removeBooking('${code}')" style="position:absolute;top:12px;right:12px;background:#ff4444;color:white;border:none;border-radius:50%;width:28px;height:28px;cursor:pointer;font-weight:bold;font-size:1em;line-height:28px;text-align:center;box-shadow:3px 3px 6px rgba(0,0,0,0.15);" title="移除此預訂">×</button>
+                <div class="booking-item" id="booking-${esc(code)}" style="position:relative;">
+                    <button onclick="removeBooking('${esc(code)}')" style="position:absolute;top:12px;right:12px;background:#ff4444;color:white;border:none;border-radius:50%;width:28px;height:28px;cursor:pointer;font-weight:bold;font-size:1em;line-height:28px;text-align:center;box-shadow:3px 3px 6px rgba(0,0,0,0.15);" title="移除此預訂">×</button>
                     <div class="booking-info">
-                        <h3>${code || 'N/A'}<span class="status-badge status-${booking.status || 'pending'}">${getStatusText(booking.status)}</span></h3>
+                        <h3>${esc(code) || 'N/A'}<span class="status-badge status-${esc(booking.status) || 'pending'}">${getStatusText(booking.status)}</span></h3>
                         <div class="booking-details">
                             <div class="booking-detail"><strong>日期：</strong>${formatDate(booking.matchDate)}</div>
                             <div class="booking-detail"><strong>開始時間：</strong>${formatTime(booking.matchTime)}</div>
                             <div class="booking-detail"><strong>結束時間：</strong>${formatTime(booking.matchEndTime)}</div>
-                            <div class="booking-detail"><strong>地點：</strong>${booking.venue || 'N/A'}</div>
-                            <div class="booking-detail"><strong>類型：</strong>${booking.matchType || 'N/A'}</div>
-                            <div class="booking-detail"><strong>聯絡人：</strong>${booking.contactName || 'N/A'}</div>
-                            <div class="booking-detail"><strong>電話：</strong>${booking.contactPhone || 'N/A'}</div>
-                            <div class="booking-detail"><strong>付款：</strong>${booking.paymentStatus || 'N/A'}</div>
-                            ${booking.refereeInfo ? `<div class="booking-detail"><strong>球證：</strong>${booking.refereeInfo}</div>` : `<div class="booking-detail"><strong>球證：</strong><span style="color:#999;">未安排</span></div>`}
-                            ${booking.notes ? `<div class="booking-detail" style="grid-column:1/-1;"><strong>備註：</strong>${booking.notes}</div>` : ''}
+                            <div class="booking-detail"><strong>地點：</strong>${esc(booking.venue) || 'N/A'}</div>
+                            <div class="booking-detail"><strong>類型：</strong>${esc(booking.matchType) || 'N/A'}</div>
+                            <div class="booking-detail"><strong>聯絡人：</strong>${esc(booking.contactName) || 'N/A'}</div>
+                            <div class="booking-detail"><strong>電話：</strong>${esc(booking.contactPhone) || 'N/A'}</div>
+                            <div class="booking-detail"><strong>付款：</strong>${esc(booking.paymentStatus) || 'N/A'}</div>
+                            ${booking.refereeInfo ? `<div class="booking-detail"><strong>球證：</strong>${esc(booking.refereeInfo)}</div>` : `<div class="booking-detail"><strong>球證：</strong><span style="color:#999;">未安排</span></div>`}
+                            ${booking.notes ? `<div class="booking-detail" style="grid-column:1/-1;"><strong>備註：</strong>${esc(booking.notes)}</div>` : ''}
                         </div>
-                        <button onclick="toggleEdit('${code}')" style="margin-top:10px;padding:6px 16px;background:linear-gradient(145deg,#f0dcc8,#e8d4b8);border:none;border-radius:12px;color:#5a4a3a;font-size:0.85em;font-weight:700;cursor:pointer;box-shadow:4px 4px 8px rgba(0,0,0,0.1),-4px -4px 8px rgba(255,255,255,0.7);">✏️ 編輯</button>
-                        <div id="edit-${code}" style="display:none;margin-top:12px;padding:15px;background:linear-gradient(145deg,#f5e6d3,#ede0cc);border-radius:15px;">
+                        <button onclick="toggleEdit('${esc(code)}')" style="margin-top:10px;padding:6px 16px;background:linear-gradient(145deg,#f0dcc8,#e8d4b8);border:none;border-radius:12px;color:#5a4a3a;font-size:0.85em;font-weight:700;cursor:pointer;box-shadow:4px 4px 8px rgba(0,0,0,0.1),-4px -4px 8px rgba(255,255,255,0.7);">✏️ 編輯</button>
+                        <div id="edit-${esc(code)}" style="display:none;margin-top:12px;padding:15px;background:linear-gradient(145deg,#f5e6d3,#ede0cc);border-radius:15px;">
                             <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;">
                                 <div>
                                     <label style="font-size:0.8em;color:#7a6a5a;display:block;margin-bottom:4px;">👨‍⚖️ 球證安排</label>
-                                    <input type="text" id="edit-referee-${code}" value="${(booking.refereeInfo || '').replace(/"/g, '&quot;')}" placeholder="例如: 張三、李四" style="width:100%;padding:8px 10px;border:none;border-radius:12px;background:white;font-size:0.9em;">
+                                    <input type="text" id="edit-referee-${esc(code)}" value="${esc(booking.refereeInfo)}" placeholder="例如: 張三、李四" style="width:100%;padding:8px 10px;border:none;border-radius:12px;background:white;font-size:0.9em;">
                                 </div>
                                 <div>
                                     <label style="font-size:0.8em;color:#7a6a5a;display:block;margin-bottom:4px;">📊 預訂狀態</label>
-                                    <select id="edit-status-${code}" style="width:100%;padding:8px 10px;border:none;border-radius:12px;background:white;font-size:0.9em;">
+                                    <select id="edit-status-${esc(code)}" style="width:100%;padding:8px 10px;border:none;border-radius:12px;background:white;font-size:0.9em;">
                                         <option value="pending" ${booking.status === 'pending' ? 'selected' : ''}>待確認</option>
                                         <option value="confirmed" ${booking.status === 'confirmed' ? 'selected' : ''}>已確認</option>
                                         <option value="cancelled" ${booking.status === 'cancelled' ? 'selected' : ''}>已取消</option>
@@ -1161,7 +1197,7 @@ function doPost(e) {
                                 </div>
                                 <div>
                                     <label style="font-size:0.8em;color:#7a6a5a;display:block;margin-bottom:4px;">💰 付款狀態</label>
-                                    <select id="edit-payment-${code}" style="width:100%;padding:8px 10px;border:none;border-radius:12px;background:white;font-size:0.9em;">
+                                    <select id="edit-payment-${esc(code)}" style="width:100%;padding:8px 10px;border:none;border-radius:12px;background:white;font-size:0.9em;">
                                         <option value="未付款" ${booking.paymentStatus === '未付款' ? 'selected' : ''}>未付款</option>
                                         <option value="已付款" ${booking.paymentStatus === '已付款' ? 'selected' : ''}>已付款</option>
                                         <option value="部分付款" ${booking.paymentStatus === '部分付款' ? 'selected' : ''}>部分付款</option>
@@ -1169,31 +1205,31 @@ function doPost(e) {
                                 </div>
                                 <div>
                                     <label style="font-size:0.8em;color:#7a6a5a;display:block;margin-bottom:4px;">📍 地點</label>
-                                    <input type="text" id="edit-venue-${code}" value="${(booking.venue || '').replace(/"/g, '&quot;')}" style="width:100%;padding:8px 10px;border:none;border-radius:12px;background:white;font-size:0.9em;">
+                                    <input type="text" id="edit-venue-${esc(code)}" value="${esc(booking.venue)}" style="width:100%;padding:8px 10px;border:none;border-radius:12px;background:white;font-size:0.9em;">
                                 </div>
                             </div>
                             <div style="margin-top:10px;">
                                 <label style="font-size:0.8em;color:#7a6a5a;display:block;margin-bottom:4px;">📝 備註</label>
-                                <input type="text" id="edit-notes-${code}" value="${(booking.notes || '').replace(/"/g, '&quot;')}" placeholder="備註" style="width:100%;padding:8px 10px;border:none;border-radius:12px;background:white;font-size:0.9em;">
+                                <input type="text" id="edit-notes-${esc(code)}" value="${esc(booking.notes)}" placeholder="備註" style="width:100%;padding:8px 10px;border:none;border-radius:12px;background:white;font-size:0.9em;">
                             </div>
-                            <button onclick="saveBookingEdit('${code}')" style="margin-top:10px;padding:8px 20px;background:linear-gradient(145deg,#d4a574,#c89860);border:none;border-radius:12px;color:white;font-weight:700;cursor:pointer;font-size:0.9em;">💾 儲存</button>
+                            <button onclick="saveBookingEdit('${esc(code)}')" style="margin-top:10px;padding:8px 20px;background:linear-gradient(145deg,#d4a574,#c89860);border:none;border-radius:12px;color:white;font-weight:700;cursor:pointer;font-size:0.9em;">💾 儲存</button>
                         </div>
                         <div style="margin-top: 15px; padding: 15px; background: linear-gradient(145deg, #e8d4b8, #dcc8a8); border-radius: 15px;">
                             <div style="font-weight: 700; color: #5a4a3a; margin-bottom: 10px; font-size: 0.95em;">💰 利潤計算</div>
                             <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
                                 <div style="flex: 1; min-width: 110px;">
                                     <label style="font-size: 0.8em; color: #7a6a5a; display: block; margin-bottom: 4px;">收費 (HKD)</label>
-                                    <input type="number" class="profit-total-cost" data-code="${code}" value="${tc}" placeholder="0" min="0" step="0.01" oninput="updateProfit('${code}')" style="width:100%;padding:8px 10px;border:none;border-radius:12px;background:linear-gradient(145deg,#f5e6d3,#ede0cc);box-shadow:inset 4px 4px 8px rgba(0,0,0,0.1),inset -4px -4px 8px rgba(255,255,255,0.7);font-size:0.95em;">
+                                    <input type="number" class="profit-total-cost" data-code="${esc(code)}" value="${tc}" placeholder="0" min="0" step="0.01" oninput="updateProfit('${esc(code)}')" style="width:100%;padding:8px 10px;border:none;border-radius:12px;background:linear-gradient(145deg,#f5e6d3,#ede0cc);box-shadow:inset 4px 4px 8px rgba(0,0,0,0.1),inset -4px -4px 8px rgba(255,255,255,0.7);font-size:0.95em;">
                                 </div>
                                 <div style="padding-top:18px;color:#7a6a5a;">−</div>
                                 <div style="flex: 1; min-width: 110px;">
                                     <label style="font-size: 0.8em; color: #7a6a5a; display: block; margin-bottom: 4px;">球證費用 (HKD)</label>
-                                    <input type="number" class="profit-referee-cost" data-code="${code}" value="${rc}" placeholder="0" min="0" step="0.01" oninput="updateProfit('${code}')" style="width:100%;padding:8px 10px;border:none;border-radius:12px;background:linear-gradient(145deg,#f5e6d3,#ede0cc);box-shadow:inset 4px 4px 8px rgba(0,0,0,0.1),inset -4px -4px 8px rgba(255,255,255,0.7);font-size:0.95em;">
+                                    <input type="number" class="profit-referee-cost" data-code="${esc(code)}" value="${rc}" placeholder="0" min="0" step="0.01" oninput="updateProfit('${esc(code)}')" style="width:100%;padding:8px 10px;border:none;border-radius:12px;background:linear-gradient(145deg,#f5e6d3,#ede0cc);box-shadow:inset 4px 4px 8px rgba(0,0,0,0.1),inset -4px -4px 8px rgba(255,255,255,0.7);font-size:0.95em;">
                                 </div>
                                 <div style="padding-top:18px;color:#7a6a5a;">=</div>
                                 <div style="flex: 1; min-width: 110px;">
                                     <label style="font-size: 0.8em; color: #7a6a5a; display: block; margin-bottom: 4px;">利潤 (HKD)</label>
-                                    <div class="profit-result" data-code="${code}" style="padding:8px 10px;border-radius:12px;background:rgba(255,255,255,0.5);font-weight:900;font-size:1.1em;color:${profitColor};text-align:center;">$${profit.toFixed(2)}</div>
+                                    <div class="profit-result" data-code="${esc(code)}" style="padding:8px 10px;border-radius:12px;background:rgba(255,255,255,0.5);font-weight:900;font-size:1.1em;color:${profitColor};text-align:center;">$${profit.toFixed(2)}</div>
                                 </div>
                             </div>
                         </div>
@@ -1217,29 +1253,29 @@ function doPost(e) {
             
             // Save to localStorage as backup
             const removed = JSON.parse(localStorage.getItem('removedBookings') || '[]');
-            if (!removed.includes(code)) removed.push(code);
+            if (!removed.includes(String(code))) removed.push(String(code));
             localStorage.setItem('removedBookings', JSON.stringify(removed));
             
             updateEarningsSummary();
+            showMessage('list-message', '預訂 ' + code + ' 已移除', 'success');
             
-            // Delete from Google Sheets
+            // Delete from Google Sheets + mark in AdminData
             if (sheetUrl) {
                 fetch(sheetUrl, {
                     method: 'POST',
-                    body: JSON.stringify({ action: 'deleteBooking', code: code })
+                    redirect: 'follow',
+                    body: JSON.stringify({ action: 'deleteBooking', code: String(code) })
                 }).then(res => {
-                    try { return res.json(); } catch(e) { return {}; }
+                    try { return res.json(); } catch(e) { return { success: true }; }
                 }).then(result => {
-                    if (result && result.success) {
-                        showMessage('list-message', '預訂 ' + code + ' 已從 Google Sheets 刪除', 'success');
-                    }
+                    console.log('Delete result:', result);
                 }).catch(e => {
                     console.warn('Delete from sheet failed:', e);
                 });
+                
+                // Also mark as removed in AdminData for cross-browser sync
+                syncAdminToSheet(String(code), { removed: true });
             }
-            
-            // Also mark as removed in AdminData
-            syncAdminToSheet(code, { removed: true });
         }
 
         function toggleEdit(code) {
