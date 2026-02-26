@@ -993,10 +993,16 @@ function doPost(e) {
         async function syncAdminToSheet(code, data) {
             if (!sheetUrl) return;
             try {
-                await fetch(sheetUrl, {
+                const response = await fetch(sheetUrl, {
                     method: 'POST',
-                    body: JSON.stringify({ action: 'saveAdminData', code: code, ...data })
+                    body: JSON.stringify({ action: 'saveAdminData', code: code, ...data }),
+                    redirect: 'follow'
                 });
+                // Google Apps Script redirects, response may not be JSON
+                try {
+                    const result = await response.json();
+                    return result;
+                } catch(e) { return { success: true }; }
             } catch(e) {
                 console.warn('Sync to sheet failed for ' + code, e);
             }
@@ -1014,42 +1020,39 @@ function doPost(e) {
             }
             
             try {
-                // Fetch bookings and admin data in parallel
-                const [bookingsRes, adminRes] = await Promise.all([
-                    fetch(sheetUrl),
-                    fetch(sheetUrl + '?action=getAdminData').catch(() => null)
-                ]);
-                
+                // Fetch bookings first
+                const bookingsRes = await fetch(sheetUrl);
                 const data = await bookingsRes.json();
                 
-                if (adminRes) {
-                    try {
-                        const adminResult = await adminRes.json();
-                        if (adminResult.success && adminResult.adminData) {
-                            adminDataCache = adminResult.adminData;
-                            // Sync to localStorage as cache
-                            const profitData = {};
-                            const removedBookings = [];
-                            const bookingEdits = {};
-                            for (const [code, ad] of Object.entries(adminDataCache)) {
-                                if (ad.removed) removedBookings.push(code);
-                                if (ad.totalCost || ad.refereeCost) profitData[code] = { totalCost: ad.totalCost, refereeCost: ad.refereeCost };
-                                if (ad.refereeInfo || ad.status || ad.paymentStatus || ad.venue || ad.notes) {
-                                    const edits = {};
-                                    if (ad.refereeInfo) edits.refereeInfo = ad.refereeInfo;
-                                    if (ad.status) edits.status = ad.status;
-                                    if (ad.paymentStatus) edits.paymentStatus = ad.paymentStatus;
-                                    if (ad.venue) edits.venue = ad.venue;
-                                    if (ad.notes) edits.notes = ad.notes;
-                                    if (Object.keys(edits).length > 0) bookingEdits[code] = edits;
-                                }
+                // Try to fetch admin data (non-blocking, falls back to localStorage)
+                try {
+                    const adminRes = await fetch(sheetUrl + '?action=getAdminData');
+                    const adminText = await adminRes.text();
+                    const adminResult = JSON.parse(adminText);
+                    if (adminResult.success && adminResult.adminData && typeof adminResult.adminData === 'object') {
+                        adminDataCache = adminResult.adminData;
+                        // Sync to localStorage as cache
+                        const profitData = {};
+                        const removedBookings = [];
+                        const bookingEdits = {};
+                        for (const [code, ad] of Object.entries(adminDataCache)) {
+                            if (ad.removed) removedBookings.push(code);
+                            if (ad.totalCost || ad.refereeCost) profitData[code] = { totalCost: ad.totalCost, refereeCost: ad.refereeCost };
+                            if (ad.refereeInfo || ad.status || ad.paymentStatus || ad.venue || ad.notes) {
+                                const edits = {};
+                                if (ad.refereeInfo) edits.refereeInfo = ad.refereeInfo;
+                                if (ad.status) edits.status = ad.status;
+                                if (ad.paymentStatus) edits.paymentStatus = ad.paymentStatus;
+                                if (ad.venue) edits.venue = ad.venue;
+                                if (ad.notes) edits.notes = ad.notes;
+                                if (Object.keys(edits).length > 0) bookingEdits[code] = edits;
                             }
-                            localStorage.setItem('bookingProfitData', JSON.stringify(profitData));
-                            localStorage.setItem('removedBookings', JSON.stringify(removedBookings));
-                            localStorage.setItem('bookingEdits', JSON.stringify(bookingEdits));
                         }
-                    } catch(e) { console.warn('Admin data fetch failed, using localStorage', e); }
-                }
+                        localStorage.setItem('bookingProfitData', JSON.stringify(profitData));
+                        localStorage.setItem('removedBookings', JSON.stringify(removedBookings));
+                        localStorage.setItem('bookingEdits', JSON.stringify(bookingEdits));
+                    }
+                } catch(e) { console.warn('Admin data fetch skipped, using localStorage:', e.message); }
                 
                 if (data.success && data.bookings) {
                     renderBookings(data.bookings);
@@ -1203,14 +1206,15 @@ function doPost(e) {
                 notes: document.getElementById('edit-notes-' + code).value
             };
             localStorage.setItem('bookingEdits', JSON.stringify(edits));
-            showMessage('list-message', '預訂 ' + code + ' 已更新（同步中...）', 'success');
+            showMessage('list-message', '預訂 ' + code + ' 已更新', 'success');
             
+            // Re-render from localStorage immediately
+            loadBookings();
+            
+            // Sync to Google Sheets in background
             const profitData = JSON.parse(localStorage.getItem('bookingProfitData') || '{}');
             const pd = profitData[code] || {};
-            syncAdminToSheet(code, { ...edits[code], totalCost: pd.totalCost || '', refereeCost: pd.refereeCost || '' }).then(() => {
-                showMessage('list-message', '預訂 ' + code + ' 已更新並同步', 'success');
-            });
-            loadBookings();
+            syncAdminToSheet(code, { ...edits[code], totalCost: pd.totalCost || '', refereeCost: pd.refereeCost || '' });
         }
 
         let profitSyncTimers = {};
