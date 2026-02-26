@@ -702,6 +702,63 @@
                     </div>
                     <button type="button" class="btn" onclick="copyMessageOutput()">📋 複製訊息</button>
                 </div>
+
+                <hr style="border: none; border-top: 2px solid #d4a574; margin: 30px 0;">
+                <h3 style="margin-bottom: 20px; color: #5a4a3a;">📝 常用訊息範本</h3>
+
+                <div style="margin-bottom: 20px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                        <label style="font-weight: 700; color: #5a4a3a;">1. 查詢回覆 — 服務收費</label>
+                        <button type="button" class="btn" style="padding: 8px 18px; font-size: 0.85em;" onclick="copyGreeting(1)">📋 複製</button>
+                    </div>
+                    <textarea id="greeting-1" readonly style="width:100%; min-height: 320px; font-size: 0.9em; line-height: 1.6; white-space: pre-wrap; padding: 15px 20px; background: linear-gradient(145deg, #f5e6d3, #ede0cc); border: none; border-radius: 20px; box-shadow: inset 8px 8px 16px rgba(0,0,0,0.1), inset -8px -8px 16px rgba(255,255,255,0.7);">你好！多謝查詢 LaLaRef 急單王球證服務！🏀
+
+📋 球證服務收費
+* $220/小時/球證
+
+🎯 一條龍全套服務
+我們也提供專業賽事服務：
+* 活動相/比賽相：$200/小時
+* 紀錄台計分：$120/小時
+* 比賽錄影：$80/小時
+* 計分牌,計分紙,拍攝器材等設備：免費
+* 網上比分紀錄系統
+* 賽制設計及冠亞季決定
+
+💼 長期合作優惠
+歡迎長期合作，可享特別優惠價！
+
+請提供以下資料，我們會盡快為您安排：
+📅 比賽日期及時間
+📍 場地位置
+🏀 比賽類型（5x5 / 3x3）
+👥 需要球證數目
+
+期待為您服務！
+LaLaRef 急單王 ⚡</textarea>
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                        <label style="font-weight: 700; color: #5a4a3a;">2. 訂單確認 — 付款指引</label>
+                        <button type="button" class="btn" style="padding: 8px 18px; font-size: 0.85em;" onclick="copyGreeting(2)">📋 複製</button>
+                    </div>
+                    <textarea id="greeting-2" readonly style="width:100%; min-height: 220px; font-size: 0.9em; line-height: 1.6; white-space: pre-wrap; padding: 15px 20px; background: linear-gradient(145deg, #f5e6d3, #ede0cc); border: none; border-radius: 20px; box-shadow: inset 8px 8px 16px rgba(0,0,0,0.1), inset -8px -8px 16px rgba(255,255,255,0.7);">感謝你的訂單確認 ✅
+
+💳 付款方式
+請透過以下方式悉數付款以確認訂單：
+🔗 https://www.lalaref.com/payment.html
+
+方法 1: PayMe
+方法 2: 轉數快 (FPS)
+
+✅ 付款後請做
+1️⃣ 截圖付款記錄
+2️⃣ 透過 WhatsApp 傳送截圖
+
+LaLaRef 急單王 ⚡</textarea>
+                </div>
+
             </div>
         </div>
 
@@ -1843,9 +1900,7 @@ function doPost(e) {
             const refereeCount = b.refereeCount || 'N/A';
             const contactName = b.contactName || '';
 
-            return `你好 ${contactName}，
-
-感謝你的預訂！以下是你的訂單確認資料：
+            return `感謝你的預訂！以下是你的訂單確認資料：
 
 📋 預訂編號：${code}
 📅 日期：${matchDate}
@@ -1871,10 +1926,20 @@ LaLaRef 急單王
             navigator.clipboard.writeText(text).then(() => {
                 showMessage('message-tab-message', '訊息已複製到剪貼簿', 'success');
             }).catch(() => {
-                // Fallback
                 document.getElementById('msg-output').select();
                 document.execCommand('copy');
                 showMessage('message-tab-message', '訊息已複製到剪貼簿', 'success');
+            });
+        }
+
+        function copyGreeting(num) {
+            const text = document.getElementById('greeting-' + num).value;
+            navigator.clipboard.writeText(text).then(() => {
+                showMessage('message-tab-message', '範本 ' + num + ' 已複製到剪貼簿', 'success');
+            }).catch(() => {
+                document.getElementById('greeting-' + num).select();
+                document.execCommand('copy');
+                showMessage('message-tab-message', '範本 ' + num + ' 已複製到剪貼簿', 'success');
             });
         }
 
