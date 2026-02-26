@@ -896,7 +896,20 @@ function doPost(e) {
             
             const profitData = JSON.parse(localStorage.getItem('bookingProfitData') || '{}');
             const removedBookings = JSON.parse(localStorage.getItem('removedBookings') || '[]');
+            const bookingEdits = JSON.parse(localStorage.getItem('bookingEdits') || '{}');
             const validBookings = bookings.filter(b => b.code && b.code.trim() !== '' && !removedBookings.includes(b.code));
+            
+            // Apply local edits
+            validBookings.forEach(b => {
+                const edits = bookingEdits[b.code];
+                if (edits) {
+                    if (edits.refereeInfo !== undefined) b.refereeInfo = edits.refereeInfo;
+                    if (edits.status !== undefined) b.status = edits.status;
+                    if (edits.paymentStatus !== undefined) b.paymentStatus = edits.paymentStatus;
+                    if (edits.venue !== undefined) b.venue = edits.venue;
+                    if (edits.notes !== undefined) b.notes = edits.notes;
+                }
+            });
             const sortedBookings = [...validBookings].reverse();
             
             summaryEl.style.display = 'block';
@@ -923,7 +936,42 @@ function doPost(e) {
                             <div class="booking-detail"><strong>聯絡人：</strong>${booking.contactName || 'N/A'}</div>
                             <div class="booking-detail"><strong>電話：</strong>${booking.contactPhone || 'N/A'}</div>
                             <div class="booking-detail"><strong>付款：</strong>${booking.paymentStatus || 'N/A'}</div>
-                            ${booking.refereeInfo ? `<div class="booking-detail"><strong>球證：</strong>${booking.refereeInfo}</div>` : ''}
+                            ${booking.refereeInfo ? `<div class="booking-detail"><strong>球證：</strong>${booking.refereeInfo}</div>` : `<div class="booking-detail"><strong>球證：</strong><span style="color:#999;">未安排</span></div>`}
+                            ${booking.notes ? `<div class="booking-detail" style="grid-column:1/-1;"><strong>備註：</strong>${booking.notes}</div>` : ''}
+                        </div>
+                        <button onclick="toggleEdit('${code}')" style="margin-top:10px;padding:6px 16px;background:linear-gradient(145deg,#f0dcc8,#e8d4b8);border:none;border-radius:12px;color:#5a4a3a;font-size:0.85em;font-weight:700;cursor:pointer;box-shadow:4px 4px 8px rgba(0,0,0,0.1),-4px -4px 8px rgba(255,255,255,0.7);">✏️ 編輯</button>
+                        <div id="edit-${code}" style="display:none;margin-top:12px;padding:15px;background:linear-gradient(145deg,#f5e6d3,#ede0cc);border-radius:15px;">
+                            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;">
+                                <div>
+                                    <label style="font-size:0.8em;color:#7a6a5a;display:block;margin-bottom:4px;">👨‍⚖️ 球證安排</label>
+                                    <input type="text" id="edit-referee-${code}" value="${(booking.refereeInfo || '').replace(/"/g, '&quot;')}" placeholder="例如: 張三、李四" style="width:100%;padding:8px 10px;border:none;border-radius:12px;background:white;font-size:0.9em;">
+                                </div>
+                                <div>
+                                    <label style="font-size:0.8em;color:#7a6a5a;display:block;margin-bottom:4px;">📊 預訂狀態</label>
+                                    <select id="edit-status-${code}" style="width:100%;padding:8px 10px;border:none;border-radius:12px;background:white;font-size:0.9em;">
+                                        <option value="pending" ${booking.status === 'pending' ? 'selected' : ''}>待確認</option>
+                                        <option value="confirmed" ${booking.status === 'confirmed' ? 'selected' : ''}>已確認</option>
+                                        <option value="cancelled" ${booking.status === 'cancelled' ? 'selected' : ''}>已取消</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label style="font-size:0.8em;color:#7a6a5a;display:block;margin-bottom:4px;">💰 付款狀態</label>
+                                    <select id="edit-payment-${code}" style="width:100%;padding:8px 10px;border:none;border-radius:12px;background:white;font-size:0.9em;">
+                                        <option value="未付款" ${booking.paymentStatus === '未付款' ? 'selected' : ''}>未付款</option>
+                                        <option value="已付款" ${booking.paymentStatus === '已付款' ? 'selected' : ''}>已付款</option>
+                                        <option value="部分付款" ${booking.paymentStatus === '部分付款' ? 'selected' : ''}>部分付款</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label style="font-size:0.8em;color:#7a6a5a;display:block;margin-bottom:4px;">📍 地點</label>
+                                    <input type="text" id="edit-venue-${code}" value="${(booking.venue || '').replace(/"/g, '&quot;')}" style="width:100%;padding:8px 10px;border:none;border-radius:12px;background:white;font-size:0.9em;">
+                                </div>
+                            </div>
+                            <div style="margin-top:10px;">
+                                <label style="font-size:0.8em;color:#7a6a5a;display:block;margin-bottom:4px;">📝 備註</label>
+                                <input type="text" id="edit-notes-${code}" value="${(booking.notes || '').replace(/"/g, '&quot;')}" placeholder="備註" style="width:100%;padding:8px 10px;border:none;border-radius:12px;background:white;font-size:0.9em;">
+                            </div>
+                            <button onclick="saveBookingEdit('${code}')" style="margin-top:10px;padding:8px 20px;background:linear-gradient(145deg,#d4a574,#c89860);border:none;border-radius:12px;color:white;font-weight:700;cursor:pointer;font-size:0.9em;">💾 儲存</button>
                         </div>
                         <div style="margin-top: 15px; padding: 15px; background: linear-gradient(145deg, #e8d4b8, #dcc8a8); border-radius: 15px;">
                             <div style="font-weight: 700; color: #5a4a3a; margin-bottom: 10px; font-size: 0.95em;">💰 利潤計算</div>
@@ -958,6 +1006,27 @@ function doPost(e) {
             localStorage.setItem('removedBookings', JSON.stringify(removed));
             const el = document.getElementById('booking-' + code);
             if (el) el.remove();
+            updateEarningsSummary();
+        }
+
+        function toggleEdit(code) {
+            const el = document.getElementById('edit-' + code);
+            el.style.display = el.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function saveBookingEdit(code) {
+            const edits = JSON.parse(localStorage.getItem('bookingEdits') || '{}');
+            edits[code] = {
+                refereeInfo: document.getElementById('edit-referee-' + code).value,
+                status: document.getElementById('edit-status-' + code).value,
+                paymentStatus: document.getElementById('edit-payment-' + code).value,
+                venue: document.getElementById('edit-venue-' + code).value,
+                notes: document.getElementById('edit-notes-' + code).value
+            };
+            localStorage.setItem('bookingEdits', JSON.stringify(edits));
+            showMessage('list-message', '預訂 ' + code + ' 已更新', 'success');
+            loadBookings(); // Refresh the list
+        }
             updateEarningsSummary();
         }
 
