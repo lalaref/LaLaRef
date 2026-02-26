@@ -364,7 +364,7 @@
             <button class="tab-btn active" onclick="switchTab('create')">➕ 新增預訂</button>
             <button class="tab-btn" onclick="switchTab('list')">📋 預訂列表</button>
             <button class="tab-btn" onclick="switchTab('quotation')">💰 報價單</button>
-            <button class="tab-btn" onclick="switchTab('invoice')">🧾 收據</button>
+            <button class="tab-btn" onclick="switchTab('invoice')">🧾 Invoice</button>
             <button class="tab-btn" onclick="switchTab('message')">📤 訊息</button>
             <button class="tab-btn" onclick="switchTab('config')">⚙️ 設定</button>
         </div>
@@ -641,7 +641,7 @@
         <!-- Invoice Tab -->
         <div id="invoice-tab" class="tab-content">
             <div class="form-box">
-                <h3 style="margin-bottom: 20px; color: #5a4a3a;">🧾 收據生成</h3>
+                <h3 style="margin-bottom: 20px; color: #5a4a3a;">🧾 Invoice</h3>
                 <div class="message" id="invoice-message"></div>
                 
                 <div class="form-grid">
@@ -650,7 +650,7 @@
                         <input type="text" id="invoice-quote-number" placeholder="例如: Q20260226001">
                     </div>
                     <div class="form-group">
-                        <label for="invoice-date">收據日期 *</label>
+                        <label for="invoice-date">Invoice Date *</label>
                         <input type="date" id="invoice-date">
                     </div>
                 </div>
@@ -664,12 +664,12 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="invoice-notes">收據備註</label>
+                    <label for="invoice-notes">Invoice Notes</label>
                     <textarea id="invoice-notes" placeholder="其他備註"></textarea>
                 </div>
                 <div class="form-actions">
                     <button type="button" class="btn btn-secondary" onclick="loadQuotationForInvoice()">📥 載入報價單資料</button>
-                    <button type="button" class="btn" onclick="generateInvoicePDF()">🧾 匯出收據 PDF</button>
+                    <button type="button" class="btn" onclick="generateInvoicePDF()">🧾 Export Invoice PDF</button>
                 </div>
                 
                 <div id="invoice-preview" style="display:none; margin-top: 20px; padding: 20px; background: #f5e6d3; border-radius: 15px;">
@@ -1863,7 +1863,7 @@ function doPost(e) {
             const invoiceNotes = document.getElementById('invoice-notes').value;
             
             if (!quoteNum || !invoiceDate) {
-                showMessage('invoice-message', '請填寫報價單編號及收據日期', 'error');
+                showMessage('invoice-message', '請填寫報價單編號及 Invoice 日期', 'error');
                 return;
             }
             const saved = JSON.parse(localStorage.getItem('savedQuotations') || '{}');
@@ -1873,7 +1873,7 @@ function doPost(e) {
                 return;
             }
             
-            const invoiceNumber = 'REC' + quoteNum.replace('Q', '');
+            const invoiceNumber = 'INV' + quoteNum.replace('Q', '');
             
             const formatMoney = (amount) => parseFloat(amount).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
             
@@ -1906,11 +1906,11 @@ function doPost(e) {
                             ${logoBase64 ? `<img src="${logoBase64}" style="width:80px;height:80px;object-fit:contain;">` : ''}
                             <div>
                                 <h1 style="color:#d4a574;font-size:36px;margin:0;">LaLaRef</h1>
-                                <h2 style="color:#5a4a3a;font-size:24px;margin:5px 0 0 0;">收據 RECEIPT</h2>
+                                <h2 style="color:#5a4a3a;font-size:24px;margin:5px 0 0 0;">INVOICE</h2>
                             </div>
                         </div>
                         <div style="text-align:right;">
-                            <div style="font-size:14px;margin-bottom:5px;"><strong>收據編號:</strong> ${invoiceNumber}</div>
+                            <div style="font-size:14px;margin-bottom:5px;"><strong>Invoice No.:</strong> ${invoiceNumber}</div>
                             <div style="font-size:14px;margin-bottom:5px;"><strong>日期:</strong> ${invoiceDate}</div>
                             <div style="font-size:14px;"><strong>報價單編號:</strong> ${quoteNum}</div>
                         </div>
@@ -2003,10 +2003,10 @@ function doPost(e) {
                         heightLeft -= pageHeight;
                     }
                 }
-                pdf.save('LaLaRef_收據_' + invoiceNumber + '.pdf');
-                showMessage('invoice-message', '收據 PDF 已成功匯出', 'success');
+                pdf.save('LaLaRef_Invoice_' + invoiceNumber + '.pdf');
+                showMessage('invoice-message', 'Invoice PDF 已成功匯出', 'success');
             } catch (error) {
-                showMessage('invoice-message', '收據匯出失敗: ' + error.message, 'error');
+                showMessage('invoice-message', 'Invoice 匯出失敗: ' + error.message, 'error');
             } finally {
                 document.body.removeChild(pdfContainer);
             }
