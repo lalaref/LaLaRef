@@ -812,11 +812,14 @@ function doGet(e) {
     return ContentService.createTextOutput(JSON.stringify({success: true, adminData: result})).setMimeType(ContentService.MimeType.JSON);
   }
   
+  // Always use fixed column order to avoid header mismatch issues
+  const fixedHeaders = ['code','matchDate','matchTime','matchEndTime','venue','matchType','refereeCount','contactName','contactPhone','contactEmail','status','paymentStatus','refereeInfo','notes','createdAt'];
+  
   if (code) {
     const booking = rows.find(row => String(row[0]).trim() === String(code).trim());
     if (booking) {
       const result = {};
-      headers.forEach((header, i) => result[header] = booking[i]);
+      fixedHeaders.forEach((header, i) => { if (i < booking.length) result[header] = booking[i]; });
       return ContentService.createTextOutput(JSON.stringify({success: true, booking: result})).setMimeType(ContentService.MimeType.JSON);
     }
     return ContentService.createTextOutput(JSON.stringify({success: false, message: '找不到此預訂編號'})).setMimeType(ContentService.MimeType.JSON);
@@ -824,7 +827,7 @@ function doGet(e) {
   
   const bookings = rows.map(row => {
     const obj = {};
-    headers.forEach((header, i) => obj[header] = row[i]);
+    fixedHeaders.forEach((header, i) => { if (i < row.length) obj[header] = row[i]; });
     return obj;
   });
   
@@ -1045,9 +1048,17 @@ function doPost(e) {
             
             try {
                 const bookingsRes = await fetch(sheetUrl);
-                const data = await bookingsRes.json();
+                const text = await bookingsRes.text();
+                let data;
+                try {
+                    data = JSON.parse(text);
+                } catch(parseErr) {
+                    console.error('Failed to parse bookings response:', text.substring(0, 500));
+                    showMessage('list-message', '載入失敗: 回應格式錯誤', 'error');
+                    return;
+                }
                 
-                if (data.success && data.bookings) {
+                if (data.success && data.bookings && Array.isArray(data.bookings)) {
                     // Store for re-render after admin data sync
                     lastBookingsData = data.bookings;
                     // Render immediately using localStorage data
@@ -1122,12 +1133,6 @@ function doPost(e) {
             const listContainer = document.getElementById('booking-list');
             const summaryEl = document.getElementById('earnings-summary');
             
-            if (bookings.length === 0 || bookings.filter(b => b.code && String(b.code).trim() !== '').length === 0) {
-                listContainer.innerHTML = '<div class="empty-state"><h3>📭 暫無預訂記錄</h3><p>請新增第一個預訂</p></div>';
-                summaryEl.style.display = 'none';
-                return;
-            }
-            
             const profitData = JSON.parse(localStorage.getItem('bookingProfitData') || '{}');
             const removedBookings = JSON.parse(localStorage.getItem('removedBookings') || '[]').map(c => String(c).trim());
             const bookingEdits = JSON.parse(localStorage.getItem('bookingEdits') || '{}');
@@ -1138,6 +1143,12 @@ function doPost(e) {
                 if (removedBookings.includes(c)) return false;
                 return true;
             });
+            
+            if (validBookings.length === 0) {
+                listContainer.innerHTML = '<div class="empty-state"><h3>📭 暫無預訂記錄</h3><p>請新增第一個預訂</p></div>';
+                summaryEl.style.display = 'none';
+                return;
+            }
             
             // Apply local edits
             validBookings.forEach(b => {
@@ -1156,7 +1167,9 @@ function doPost(e) {
             summaryEl.style.display = 'block';
             
             listContainer.innerHTML = sortedBookings.map(booking => {
-                const code = booking.code || '';
+              try {
+                const code = String(booking.code || '').trim();
+                if (!code) return '';
                 const saved = profitData[code] || {};
                 const tc = saved.totalCost || '';
                 const rc = saved.refereeCost || '';
@@ -1235,6 +1248,10 @@ function doPost(e) {
                         </div>
                     </div>
                 </div>`;
+              } catch(itemErr) {
+                console.error('Render booking item error:', itemErr, booking);
+                return '';
+              }
             }).join('');
             
             updateEarningsSummary();
@@ -1247,14 +1264,16 @@ function doPost(e) {
         function removeBooking(code) {
             if (!confirm('確定要移除此預訂 ' + code + ' 嗎？')) return;
             
+            code = String(code).trim();
+            
+            // Save to localStorage FIRST (before any DOM or async operations)
+            const removed = JSON.parse(localStorage.getItem('removedBookings') || '[]');
+            if (!removed.includes(code)) removed.push(code);
+            localStorage.setItem('removedBookings', JSON.stringify(removed));
+            
             // Remove from DOM immediately
             const el = document.getElementById('booking-' + code);
             if (el) el.remove();
-            
-            // Save to localStorage as backup
-            const removed = JSON.parse(localStorage.getItem('removedBookings') || '[]');
-            if (!removed.includes(String(code))) removed.push(String(code));
-            localStorage.setItem('removedBookings', JSON.stringify(removed));
             
             updateEarningsSummary();
             showMessage('list-message', '預訂 ' + code + ' 已移除', 'success');
@@ -1264,17 +1283,21 @@ function doPost(e) {
                 fetch(sheetUrl, {
                     method: 'POST',
                     redirect: 'follow',
-                    body: JSON.stringify({ action: 'deleteBooking', code: String(code) })
-                }).then(res => {
-                    try { return res.json(); } catch(e) { return { success: true }; }
-                }).then(result => {
-                    console.log('Delete result:', result);
+                    body: JSON.stringify({ action: 'deleteBooking', code: code })
+                }).then(res => res.text())
+                .then(text => {
+                    try {
+                        const result = JSON.parse(text);
+                        console.log('Delete result:', result);
+                    } catch(e) {
+                        console.log('Delete response (non-JSON):', text.substring(0, 200));
+                    }
                 }).catch(e => {
                     console.warn('Delete from sheet failed:', e);
                 });
                 
                 // Also mark as removed in AdminData for cross-browser sync
-                syncAdminToSheet(String(code), { removed: true });
+                syncAdminToSheet(code, { removed: true });
             }
         }
 
@@ -1295,8 +1318,10 @@ function doPost(e) {
             localStorage.setItem('bookingEdits', JSON.stringify(edits));
             showMessage('list-message', '預訂 ' + code + ' 已更新', 'success');
             
-            // Re-render from localStorage immediately
-            loadBookings();
+            // Re-render using cached data (don't re-fetch from sheet to avoid duplicates)
+            if (lastBookingsData) {
+                renderBookings(lastBookingsData);
+            }
             
             // Sync to Google Sheets in background
             const profitData = JSON.parse(localStorage.getItem('bookingProfitData') || '{}');
