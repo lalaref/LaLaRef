@@ -874,26 +874,30 @@ function doPost(e) {
     return ContentService.createTextOutput(JSON.stringify({success: false, message: '找不到此預訂'})).setMimeType(ContentService.MimeType.JSON);
   }
   
-  const sheet = ss.getSheetByName('Bookings') || ss.getActiveSheet();
-  sheet.appendRow([
-    data.code,
-    data.matchDate,
-    data.matchTime,
-    data.matchEndTime,
-    data.venue,
-    data.matchType,
-    data.refereeCount,
-    data.contactName,
-    data.contactPhone,
-    data.contactEmail || '',
-    data.status,
-    data.paymentStatus,
-    data.refereeInfo || '',
-    data.notes || '',
-    new Date().toISOString()
-  ]);
+  // Only create new booking if no specific action was requested
+  if (!data.action) {
+    const sheet = ss.getSheetByName('Bookings') || ss.getActiveSheet();
+    sheet.appendRow([
+      data.code,
+      data.matchDate,
+      data.matchTime,
+      data.matchEndTime,
+      data.venue,
+      data.matchType,
+      data.refereeCount,
+      data.contactName,
+      data.contactPhone,
+      data.contactEmail || '',
+      data.status,
+      data.paymentStatus,
+      data.refereeInfo || '',
+      data.notes || '',
+      new Date().toISOString()
+    ]);
+    return ContentService.createTextOutput(JSON.stringify({success: true, message: '預訂已建立'})).setMimeType(ContentService.MimeType.JSON);
+  }
   
-  return ContentService.createTextOutput(JSON.stringify({success: true, message: '預訂已建立'})).setMimeType(ContentService.MimeType.JSON);
+  return ContentService.createTextOutput(JSON.stringify({success: false, message: '未知操作'})).setMimeType(ContentService.MimeType.JSON);
 }
 </textarea>
                 </div>
@@ -1144,14 +1148,23 @@ function doPost(e) {
                 return true;
             });
             
-            if (validBookings.length === 0) {
+            // Deduplicate by code — keep only the first occurrence
+            const seenCodes = new Set();
+            const uniqueBookings = validBookings.filter(b => {
+                const c = String(b.code).trim();
+                if (seenCodes.has(c)) return false;
+                seenCodes.add(c);
+                return true;
+            });
+            
+            if (uniqueBookings.length === 0) {
                 listContainer.innerHTML = '<div class="empty-state"><h3>📭 暫無預訂記錄</h3><p>請新增第一個預訂</p></div>';
                 summaryEl.style.display = 'none';
                 return;
             }
             
             // Apply local edits
-            validBookings.forEach(b => {
+            uniqueBookings.forEach(b => {
                 b.code = String(b.code);
                 const edits = bookingEdits[b.code];
                 if (edits) {
@@ -1162,7 +1175,7 @@ function doPost(e) {
                     if (edits.notes !== undefined) b.notes = edits.notes;
                 }
             });
-            const sortedBookings = [...validBookings].reverse();
+            const sortedBookings = [...uniqueBookings].reverse();
             
             summaryEl.style.display = 'block';
             
