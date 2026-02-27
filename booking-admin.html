@@ -1005,13 +1005,21 @@ function doPost(e) {
                 console.log('syncToSheet sending:', JSON.stringify(payload));
                 const response = await fetch(sheetUrl, {
                     method: 'POST',
+                    redirect: 'follow',
                     body: JSON.stringify(payload)
                 });
                 const text = await response.text();
                 console.log('syncToSheet response:', text.substring(0, 300));
                 try {
-                    return JSON.parse(text);
-                } catch(e) { return { success: true }; }
+                    const result = JSON.parse(text);
+                    if (!result.success) {
+                        console.warn('syncToSheet server error:', result.message);
+                    }
+                    return result;
+                } catch(e) { 
+                    console.warn('syncToSheet non-JSON response:', text.substring(0, 200));
+                    return { success: false }; 
+                }
             } catch(e) {
                 console.warn('Sync to sheet failed for ' + code, e);
             }
@@ -1057,10 +1065,8 @@ function doPost(e) {
             }
         }
         
-        // No longer needed — all data (edits, profit) now lives directly in the Bookings sheet columns.
-        // The loadBookings() fetch already returns totalCost/refereeCost/status/etc from the sheet.
+        // Sync sheet data → localStorage cache (so localStorage stays up-to-date with sheet)
         function fetchAdminDataInBackground() {
-            // Sync localStorage profit/edit data FROM the sheet data we already have
             if (!lastBookingsData) return;
             const profitData = JSON.parse(localStorage.getItem('bookingProfitData') || '{}');
             const editsData = JSON.parse(localStorage.getItem('bookingEdits') || '{}');
@@ -1068,25 +1074,29 @@ function doPost(e) {
             lastBookingsData.forEach(b => {
                 const code = String(b.code || '').trim();
                 if (!code) return;
-                // Sync profit from sheet → localStorage (sheet is source of truth)
+                // If sheet has profit data, update localStorage to match
                 if (b.totalCost || b.refereeCost) {
                     const tc = String(b.totalCost || '');
                     const rc = String(b.refereeCost || '');
-                    if (!profitData[code] || profitData[code].totalCost !== tc || profitData[code].refereeCost !== rc) {
-                        profitData[code] = { totalCost: tc, refereeCost: rc };
-                        changed = true;
+                    if (tc || rc) {
+                        if (!profitData[code] || profitData[code].totalCost !== tc || profitData[code].refereeCost !== rc) {
+                            profitData[code] = { totalCost: tc, refereeCost: rc };
+                            changed = true;
+                        }
                     }
                 }
-                // Sync edits from sheet → localStorage (sheet is source of truth)
-                const sheetEdits = {};
-                if (b.refereeInfo) sheetEdits.refereeInfo = b.refereeInfo;
-                if (b.status) sheetEdits.status = b.status;
-                if (b.paymentStatus) sheetEdits.paymentStatus = b.paymentStatus;
-                if (b.venue) sheetEdits.venue = b.venue;
-                if (b.notes) sheetEdits.notes = b.notes;
-                if (Object.keys(sheetEdits).length > 0) {
-                    editsData[code] = { ...editsData[code], ...sheetEdits };
-                    changed = true;
+                // If sheet has edit data, update localStorage to match
+                if (b.refereeInfo || b.status || b.paymentStatus || b.venue || b.notes) {
+                    const sheetEdits = {};
+                    if (b.refereeInfo) sheetEdits.refereeInfo = String(b.refereeInfo);
+                    if (b.status) sheetEdits.status = String(b.status);
+                    if (b.paymentStatus) sheetEdits.paymentStatus = String(b.paymentStatus);
+                    if (b.venue) sheetEdits.venue = String(b.venue);
+                    if (b.notes) sheetEdits.notes = String(b.notes);
+                    if (Object.keys(sheetEdits).length > 0) {
+                        editsData[code] = { ...editsData[code], ...sheetEdits };
+                        changed = true;
+                    }
                 }
             });
             if (changed) {
@@ -1100,8 +1110,9 @@ function doPost(e) {
             const listContainer = document.getElementById('booking-list');
             const summaryEl = document.getElementById('earnings-summary');
             
-            // Sheet data is now the source of truth — no more removedBookings or bookingEdits localStorage
+            // localStorage serves as reliable local cache; sheet data is used when available
             const profitData = JSON.parse(localStorage.getItem('bookingProfitData') || '{}');
+            const bookingEdits = JSON.parse(localStorage.getItem('bookingEdits') || '{}');
             const validBookings = bookings.filter(b => {
                 if (!b.code) return false;
                 const c = String(b.code).trim();
@@ -1124,9 +1135,18 @@ function doPost(e) {
                 return;
             }
             
-            // Use sheet data directly — no need to apply local edits overlay
+            // Merge: localStorage edits always override sheet data (they are more recent local changes)
             uniqueBookings.forEach(b => {
                 b.code = String(b.code);
+                const code = b.code.trim();
+                const edits = bookingEdits[code];
+                if (edits) {
+                    if (edits.refereeInfo !== undefined) b.refereeInfo = edits.refereeInfo;
+                    if (edits.status !== undefined) b.status = edits.status;
+                    if (edits.paymentStatus !== undefined) b.paymentStatus = edits.paymentStatus;
+                    if (edits.venue !== undefined) b.venue = edits.venue;
+                    if (edits.notes !== undefined) b.notes = edits.notes;
+                }
             });
             const sortedBookings = [...uniqueBookings].reverse();
             
@@ -1278,6 +1298,11 @@ function doPost(e) {
                 venue: document.getElementById('edit-venue-' + code).value,
                 notes: document.getElementById('edit-notes-' + code).value
             };
+            
+            // Save to localStorage as reliable local cache
+            const edits = JSON.parse(localStorage.getItem('bookingEdits') || '{}');
+            edits[code] = editData;
+            localStorage.setItem('bookingEdits', JSON.stringify(edits));
             
             // Update cached data directly so re-render shows the edit immediately
             if (lastBookingsData) {
