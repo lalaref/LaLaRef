@@ -1024,15 +1024,17 @@ function doPost(e) {
         async function syncAdminToSheet(code, data) {
             if (!sheetUrl) return;
             try {
+                const payload = { action: 'saveAdminData', code: code, ...data };
+                console.log('syncAdminToSheet sending:', JSON.stringify(payload));
                 const response = await fetch(sheetUrl, {
                     method: 'POST',
-                    body: JSON.stringify({ action: 'saveAdminData', code: code, ...data }),
+                    body: JSON.stringify(payload),
                     redirect: 'follow'
                 });
-                // Google Apps Script redirects, response may not be JSON
+                const text = await response.text();
+                console.log('syncAdminToSheet response:', text.substring(0, 300));
                 try {
-                    const result = await response.json();
-                    return result;
+                    return JSON.parse(text);
                 } catch(e) { return { success: true }; }
             } catch(e) {
                 console.warn('Sync to sheet failed for ' + code, e);
@@ -1331,9 +1333,11 @@ function doPost(e) {
             localStorage.setItem('bookingEdits', JSON.stringify(edits));
             showMessage('list-message', '預訂 ' + code + ' 已更新', 'success');
             
-            // Re-render using cached data (don't re-fetch from sheet to avoid duplicates)
+            // Re-render using cached data, or re-fetch if no cache
             if (lastBookingsData) {
                 renderBookings(lastBookingsData);
+            } else {
+                loadBookings();
             }
             
             // Sync to Google Sheets in background
