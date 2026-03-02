@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IndexNow Ping - LaLaRef</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',sans-serif;background:linear-gradient(135deg,#f5e6d3,#e8d4b8);min-height:100vh;padding:40px 20px;color:#5a4a3a}
+.box{max-width:700px;margin:0 auto;background:linear-gradient(145deg,#f0dcc8,#e8d4b8);padding:40px;border-radius:30px;box-shadow:15px 15px 30px rgba(0,0,0,.15),-15px -15px 30px rgba(255,255,255,.7)}
+h1{font-size:1.8em;color:#d4a574;margin-bottom:10px}
+.desc{color:#7a6a5a;margin-bottom:25px;line-height:1.6}
+.note{background:rgba(212,165,116,.15);padding:15px 20px;border-radius:15px;margin-bottom:25px;font-size:.9em;line-height:1.7}
+.note b{color:#d4a574}
+.row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid rgba(212,165,116,.2)}
+.row input{width:20px;height:20px;accent-color:#d4a574}
+.sel{color:#d4a574;cursor:pointer;font-weight:700;text-decoration:underline;display:inline-block;margin-bottom:15px}
+.btn{display:inline-block;padding:15px 35px;color:#fff;border:none;border-radius:25px;font-size:1.05em;font-weight:700;cursor:pointer;margin:20px 10px 0 0}
+.b1{background:linear-gradient(145deg,#d4a574,#c89860)}
+.b2{background:linear-gradient(145deg,#7a6a5a,#5a4a3a)}
+.btn:hover{opacity:.9}
+#out{margin-top:20px;padding:20px;background:rgba(255,255,255,.3);border-radius:15px;display:none;line-height:2}
+#out a{color:#d4a574;word-break:break-all}
+</style>
+</head>
+<body>
+<div class="box">
+<h1>IndexNow Ping Tool</h1>
+<p class="desc">Notify Bing and Yandex to re-crawl your updated pages faster.</p>
+<div class="note"><b>How:</b> Click Ping Bing or Ping Yandex. Clickable links appear. Click each link - blank page or OK means success (200/202).</div>
+<span class="sel" id="toggler">Select All / Deselect All</span>
+<div id="urls">
+<div class="row"><input type="checkbox" id="c0" value="https://www.lalaref.com/" checked><label for="c0">/ (Homepage)</label></div>
+<div class="row"><input type="checkbox" id="c1" value="https://www.lalaref.com/en.html" checked><label for="c1">/en.html (English)</label></div>
+<div class="row"><input type="checkbox" id="c2" value="https://www.lalaref.com/service.html" checked><label for="c2">/service.html (FAQ)</label></div>
+<div class="row"><input type="checkbox" id="c3" value="https://www.lalaref.com/news.html"><label for="c3">/news.html</label></div>
+<div class="row"><input type="checkbox" id="c4" value="https://www.lalaref.com/leagues.html"><label for="c4">/leagues.html</label></div>
+<div class="row"><input type="checkbox" id="c5" value="https://www.lalaref.com/payment.html"><label for="c5">/payment.html</label></div>
+<div class="row"><input type="checkbox" id="c6" value="https://www.lalaref.com/ref.html"><label for="c6">/ref.html</label></div>
+<div class="row"><input type="checkbox" id="c7" value="https://www.lalaref.com/afterservice.html"><label for="c7">/afterservice.html</label></div>
+</div>
+<div style="margin-top:20px">
+<button class="btn b1" id="bingBtn">Ping Bing</button>
+<button class="btn b2" id="yandexBtn">Ping Yandex</button>
+</div>
+<div id="out"></div>
+</div>
+<script>
+var K='a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6';
+var KL='https://www.lalaref.com/'+K+'.txt';
+document.getElementById('toggler').onclick=function(){
+var b=document.querySelectorAll('#urls input');
+var a=true;for(var i=0;i<b.length;i++)if(!b[i].checked)a=false;
+for(var i=0;i<b.length;i++)b[i].checked=!a;
+};
+function gen(e){
+var o=document.getElementById('out');
+var b=document.querySelectorAll('#urls input:checked');
+if(!b.length){o.style.display='block';o.innerHTML='Select at least one URL.';return;}
+var h=e==='bing'?'www.bing.com':'yandex.com';
+var n=e==='bing'?'Bing':'Yandex';
+var s='<b style="color:#25a356">'+n+' IndexNow links (click each):</b><br><br>';
+for(var i=0;i<b.length;i++){
+var u=b[i].value;
+var p='https://'+h+'/indexnow?url='+encodeURIComponent(u)+'&key='+K+'&keyLocation='+encodeURIComponent(KL);
+s+=(i+1)+'. <a href="'+p+'" target="_blank" rel="noopener">'+u+'</a><br>';
+}
+s+='<br><i style="color:#7a6a5a">Blank page = success (200/202).</i>';
+o.style.display='block';o.innerHTML=s;
+}
+document.getElementById('bingBtn').onclick=function(){gen('bing');};
+document.getElementById('yandexBtn').onclick=function(){gen('yandex');};
+</script>
+</body>
+</html>
