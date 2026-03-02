@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IndexNow Ping Tool - LaLaRef</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #f5e6d3 0%, #e8d4b8 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: #5a4a3a;
+        }
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: linear-gradient(145deg, #f0dcc8, #e8d4b8);
+            padding: 40px;
+            border-radius: 30px;
+            box-shadow: 15px 15px 30px rgba(0,0,0,0.15), -15px -15px 30px rgba(255,255,255,0.7);
+        }
+        h1 { font-size: 1.8em; color: #d4a574; margin-bottom: 10px; }
+        p.desc { color: #7a6a5a; margin-bottom: 30px; }
+        .url-list { margin-bottom: 20px; }
+        .url-item {
+            display: flex; align-items: center; gap: 10px;
+            padding: 10px 0; border-bottom: 1px solid rgba(212,165,116,0.2);
+        }
+        .url-item input[type="checkbox"] { width: 20px; height: 20px; accent-color: #d4a574; }
+        .url-item label { font-size: 0.95em; }
+        .btn {
+            display: inline-block; padding: 15px 40px;
+            background: linear-gradient(145deg, #d4a574, #c89860);
+            color: white; border: none; border-radius: 25px;
+            font-size: 1.1em; font-weight: 700; cursor: pointer;
+            box-shadow: 8px 8px 16px rgba(0,0,0,0.15), -8px -8px 16px rgba(255,255,255,0.3);
+            transition: all 0.3s ease; margin-top: 20px;
+        }
+        .btn:hover { transform: translateY(-3px); }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+        #results {
+            margin-top: 20px; padding: 20px;
+            background: rgba(255,255,255,0.3); border-radius: 15px;
+            font-family: monospace; font-size: 0.9em;
+            white-space: pre-wrap; display: none; max-height: 300px; overflow-y: auto;
+        }
+        .success { color: #25a356; }
+        .error { color: #d44; }
+        .select-all { color: #d4a574; cursor: pointer; font-weight: 700; text-decoration: underline; margin-bottom: 15px; display: inline-block; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔔 IndexNow Ping Tool</h1>
+        <p class="desc">Select pages to notify Bing/Yandex about content updates. Use this after deploying changes.</p>
+
+        <span class="select-all" onclick="toggleAll()">Select All / Deselect All</span>
+
+        <div class="url-list" id="urlList">
+            <div class="url-item">
+                <input type="checkbox" id="url1" value="https://www.lalaref.com/" checked>
+                <label for="url1">/ (首頁 Homepage)</label>
+            </div>
+            <div class="url-item">
+                <input type="checkbox" id="url2" value="https://www.lalaref.com/en.html" checked>
+                <label for="url2">/en.html (English)</label>
+            </div>
+            <div class="url-item">
+                <input type="checkbox" id="url3" value="https://www.lalaref.com/service.html" checked>
+                <label for="url3">/service.html (服務資訊 FAQ)</label>
+            </div>
+            <div class="url-item">
+                <input type="checkbox" id="url4" value="https://www.lalaref.com/news.html">
+                <label for="url4">/news.html (籃球新聞)</label>
+            </div>
+            <div class="url-item">
+                <input type="checkbox" id="url5" value="https://www.lalaref.com/leagues.html">
+                <label for="url5">/leagues.html (聯賽列表)</label>
+            </div>
+            <div class="url-item">
+                <input type="checkbox" id="url6" value="https://www.lalaref.com/payment.html">
+                <label for="url6">/payment.html (付款)</label>
+            </div>
+            <div class="url-item">
+                <input type="checkbox" id="url7" value="https://www.lalaref.com/ref.html">
+                <label for="url7">/ref.html (球證資料)</label>
+            </div>
+            <div class="url-item">
+                <input type="checkbox" id="url8" value="https://www.lalaref.com/afterservice.html">
+                <label for="url8">/afterservice.html (賽後問卷)</label>
+            </div>
+        </div>
+
+        <button class="btn" id="pingBtn" onclick="pingIndexNow()">🚀 Ping IndexNow</button>
+
+        <div id="results"></div>
+    </div>
+
+    <script>
+        const API_KEY = 'a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6';
+        const HOST = 'www.lalaref.com';
+
+        function toggleAll() {
+            const boxes = document.querySelectorAll('#urlList input[type="checkbox"]');
+            const allChecked = [...boxes].every(b => b.checked);
+            boxes.forEach(b => b.checked = !allChecked);
+        }
+
+        async function pingIndexNow() {
+            const btn = document.getElementById('pingBtn');
+            const results = document.getElementById('results');
+            const boxes = document.querySelectorAll('#urlList input[type="checkbox"]:checked');
+            const urls = [...boxes].map(b => b.value);
+
+            if (urls.length === 0) {
+                results.style.display = 'block';
+                results.innerHTML = '<span class="error">Please select at least one URL.</span>';
+                return;
+            }
+
+            btn.disabled = true;
+            btn.textContent = '⏳ Pinging...';
+            results.style.display = 'block';
+            results.innerHTML = 'Sending to IndexNow API...\n';
+
+            const payload = {
+                host: HOST,
+                key: API_KEY,
+                keyLocation: `https://${HOST}/${API_KEY}.txt`,
+                urlList: urls
+            };
+
+            try {
+                // Ping Bing
+                const bingResp = await fetch('https://www.bing.com/indexnow', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json; charset=utf-8' },
+                    body: JSON.stringify(payload)
+                });
+                results.innerHTML += `\nBing: ${bingResp.status} ${bingResp.statusText}`;
+                results.innerHTML += bingResp.ok
+                    ? ' <span class="success">✅ Success</span>'
+                    : ' <span class="error">❌ Failed</span>';
+
+                // Ping Yandex
+                const yandexResp = await fetch('https://yandex.com/indexnow', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json; charset=utf-8' },
+                    body: JSON.stringify(payload)
+                });
+                results.innerHTML += `\nYandex: ${yandexResp.status} ${yandexResp.statusText}`;
+                results.innerHTML += yandexResp.ok
+                    ? ' <span class="success">✅ Success</span>'
+                    : ' <span class="error">❌ Failed</span>';
+
+                results.innerHTML += '\n\n📋 URLs submitted:\n' + urls.map(u => '  • ' + u).join('\n');
+                results.innerHTML += '\n\n✅ Done! Bing/Yandex will re-crawl these pages soon.';
+
+            } catch (err) {
+                results.innerHTML += `\n<span class="error">Error: ${err.message}</span>`;
+                results.innerHTML += '\n\nNote: This tool must be run from https://www.lalaref.com/indexnow-ping.html';
+                results.innerHTML += '\n(CORS blocks requests from localhost/file://)';
+            }
+
+            btn.disabled = false;
+            btn.textContent = '🚀 Ping IndexNow';
+        }
+    </script>
+</body>
+</html>

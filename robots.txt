@@ -10,6 +10,7 @@ Disallow: /*.php$
 Disallow: /cdn-cgi/
 Disallow: /booking-admin.html
 Disallow: /track-booking.html
+Disallow: /indexnow-ping.html
 
 # Sitemap location
 Sitemap: https://www.lalaref.com/sitemap.xml
