@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
 
-    <!-- Homepage -->
+    <!-- Homepage (Chinese) -->
     <url>
         <loc>https://www.lalaref.com/</loc>
-        <lastmod>2026-02-23</lastmod>
+        <xhtml:link rel="alternate" hreflang="zh-HK" href="https://www.lalaref.com/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://www.lalaref.com/en.html"/>
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://www.lalaref.com/"/>
+        <lastmod>2026-03-02</lastmod>
         <changefreq>weekly</changefreq>
         <priority>1.0</priority>
     </url>
@@ -15,7 +19,10 @@
     <!-- English Version -->
     <url>
         <loc>https://www.lalaref.com/en.html</loc>
-        <lastmod>2026-02-23</lastmod>
+        <xhtml:link rel="alternate" hreflang="zh-HK" href="https://www.lalaref.com/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://www.lalaref.com/en.html"/>
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://www.lalaref.com/"/>
+        <lastmod>2026-03-02</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
     </url>
@@ -23,7 +30,7 @@
     <!-- Service Information Page -->
     <url>
         <loc>https://www.lalaref.com/service.html</loc>
-        <lastmod>2026-02-06</lastmod>
+        <lastmod>2026-03-02</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
     </url>
@@ -31,7 +38,7 @@
     <!-- Basketball News Page -->
     <url>
         <loc>https://www.lalaref.com/news.html</loc>
-        <lastmod>2026-02-06</lastmod>
+        <lastmod>2026-03-02</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
@@ -39,33 +46,41 @@
     <!-- Hong Kong Basketball Leagues Page -->
     <url>
         <loc>https://www.lalaref.com/leagues.html</loc>
-        <lastmod>2026-02-09</lastmod>
+        <lastmod>2026-03-02</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
 
-    <!-- Add more pages as your site grows -->
-    <!-- Example:
+    <!-- Payment Page -->
     <url>
-        <loc>https://www.lalaref.com/about</loc>
-        <lastmod>2026-01-22</lastmod>
+        <loc>https://www.lalaref.com/payment.html</loc>
+        <lastmod>2026-03-02</lastmod>
         <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
+        <priority>0.6</priority>
     </url>
-    
+
+    <!-- Referee Profile Page -->
     <url>
-        <loc>https://www.lalaref.com/services</loc>
-        <lastmod>2026-01-22</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>https://www.lalaref.com/contact</loc>
-        <lastmod>2026-01-22</lastmod>
+        <loc>https://www.lalaref.com/ref.html</loc>
+        <lastmod>2026-03-02</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
-    -->
+
+    <!-- Teaching Quotation Page -->
+    <url>
+        <loc>https://www.lalaref.com/teaching-quotation.html</loc>
+        <lastmod>2026-03-02</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+
+    <!-- After Service Feedback -->
+    <url>
+        <loc>https://www.lalaref.com/afterservice.html</loc>
+        <lastmod>2026-03-02</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
 
 </urlset>

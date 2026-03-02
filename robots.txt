@@ -1,4 +1,5 @@
-# robots.txt for LaLaRef 急單王 緊急球證預訂服務
+# robots.txt for LaLaRef 急單王 - 香港籃球球證預訂服務
+# Hong Kong Basketball Referee Booking Service
 
 User-agent: *
 Allow: /
@@ -7,24 +8,59 @@ Disallow: /private/
 Disallow: /cgi-bin/
 Disallow: /*.php$
 Disallow: /cdn-cgi/
+Disallow: /booking-admin.html
+Disallow: /track-booking.html
 
 # Sitemap location
 Sitemap: https://www.lalaref.com/sitemap.xml
 
-# Crawl-delay (optional, adjust if needed)
+# Crawl-delay (optional)
 Crawl-delay: 1
 
-# Specific bot rules
+# Google
 User-agent: Googlebot
 Allow: /
 
+User-agent: Googlebot-Image
+Allow: /
+
+# Bing
 User-agent: Bingbot
 Allow: /
 
+# AI Search Engines & Platforms - ALLOW for GEO/AIO visibility
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+User-agent: YouBot
+Allow: /
+
+# Yahoo
 User-agent: Slurp
 Allow: /
 
-# Block bad bots (optional)
+# Rate limit aggressive crawlers
 User-agent: AhrefsBot
 Crawl-delay: 10
 
