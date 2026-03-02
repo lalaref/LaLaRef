@@ -40,17 +40,17 @@ LaLaRef is Hong Kong's professional basketball referee booking platform. We prov
 3. Confirm booking
 4. Pay via PayMe or FPS
 
-## Key Pages
+## Key Pages 主要頁面
 
-- Homepage (Chinese): https://www.lalaref.com/
-- Homepage (English): https://www.lalaref.com/en.html
-- Service Info & FAQ: https://www.lalaref.com/service.html
-- Service Info & FAQ (English): https://www.lalaref.com/service-en.html
-- Basketball News: https://www.lalaref.com/news.html
-- HK Basketball Leagues: https://www.lalaref.com/leagues.html
-- Payment: https://www.lalaref.com/payment.html
-- After Service Feedback: https://www.lalaref.com/afterservice.html
-- Full AI Documentation: https://www.lalaref.com/llms-full.txt
+- 首頁 Homepage (中文 Chinese): https://www.lalaref.com/
+- 首頁 Homepage (English 英文): https://www.lalaref.com/en.html
+- 服務資訊及常見問題 Service Info & FAQ (中文 Chinese): https://www.lalaref.com/service.html
+- 服務資訊及常見問題 Service Info & FAQ (English 英文): https://www.lalaref.com/service-en.html
+- 籃球新聞 Basketball News: https://www.lalaref.com/news.html
+- 香港各大私人籃球聯賽列表 HK Basketball Leagues: https://www.lalaref.com/leagues.html
+- 付款方式 Payment: https://www.lalaref.com/payment.html
+- 賽後評價 After Service Feedback: https://www.lalaref.com/afterservice.html
+- 完整AI文檔 Full AI Documentation: https://www.lalaref.com/llms-full.txt
 
 ## Contact
 

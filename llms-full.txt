@@ -209,20 +209,20 @@ A: Just confirm date, time, venue, and number of teams. We handle the rest with 
 
 ---
 
-## SITE MAP
+## SITE MAP 網站地圖
 
-| Page | URL | Description |
+| Page 頁面 | URL 網址 | Description 描述 |
 |---|---|---|
-| Homepage (Chinese) | https://www.lalaref.com/ | Main landing page with booking form |
-| Homepage (English) | https://www.lalaref.com/en.html | English version |
-| Service Info & FAQ (Chinese) | https://www.lalaref.com/service.html | Detailed service info, areas, FAQ |
-| Service Info & FAQ (English) | https://www.lalaref.com/service-en.html | English version of service info, areas, FAQ |
-| Basketball News | https://www.lalaref.com/news.html | HK basketball news and updates |
-| HK Basketball Leagues | https://www.lalaref.com/leagues.html | Directory of private basketball leagues |
-| Payment | https://www.lalaref.com/payment.html | Payment methods and QR codes |
-| Referee Profiles | https://www.lalaref.com/ref.html | Our referee team |
-| Teaching Quotation | https://www.lalaref.com/teaching-quotation.html | Basketball coaching services |
-| After Service Feedback | https://www.lalaref.com/afterservice.html | Post-match feedback form |
+| 首頁 Homepage (中文 Chinese) | https://www.lalaref.com/ | 主頁及預訂表格 Main landing page with booking form |
+| 首頁 Homepage (English 英文) | https://www.lalaref.com/en.html | 英文版主頁 English version |
+| 服務資訊及常見問題 Service Info & FAQ (中文 Chinese) | https://www.lalaref.com/service.html | 服務詳情、服務範圍、常見問題 Detailed service info, areas, FAQ |
+| 服務資訊及常見問題 Service Info & FAQ (English 英文) | https://www.lalaref.com/service-en.html | 英文版服務資訊 English version of service info, areas, FAQ |
+| 籃球新聞 Basketball News | https://www.lalaref.com/news.html | 香港籃球新聞及更新 HK basketball news and updates |
+| 香港各大私人籃球聯賽列表 HK Basketball Leagues | https://www.lalaref.com/leagues.html | 私人籃球聯賽目錄 Directory of private basketball leagues |
+| 付款方式 Payment | https://www.lalaref.com/payment.html | 付款方法及 QR Code Payment methods and QR codes |
+| 球證檔案 Referee Profiles | https://www.lalaref.com/ref.html | 我們的球證團隊 Our referee team |
+| 籃球教學報價 Teaching Quotation | https://www.lalaref.com/teaching-quotation.html | 籃球教學服務 Basketball coaching services |
+| 賽後評價 After Service Feedback | https://www.lalaref.com/afterservice.html | 賽後意見回饋表 Post-match feedback form |
 
 ---
 
