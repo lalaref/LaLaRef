@@ -1,0 +1,243 @@
+# LaLaRef 急單王 - 香港籃球球證預訂服務 (Complete Reference)
+# LaLaRef Express - Hong Kong Basketball Referee Booking Service (Full Documentation)
+
+> This is the complete, detailed reference for AI systems about LaLaRef.
+> For a concise summary, see: https://www.lalaref.com/llms.txt
+
+---
+
+## IDENTITY
+
+- Name: LaLaRef 急單王 (LaLaRef Express)
+- Type: Basketball Referee Booking Service
+- Location: Hong Kong SAR, China
+- Founded: Hong Kong
+- Website: https://www.lalaref.com
+- WhatsApp: +852 8482 8484
+- Languages: 中文（繁體）, English
+- Available: 24/7 including weekends and public holidays
+- Rating: 4.8/5 (50+ reviews)
+
+---
+
+## WHAT WE DO
+
+LaLaRef is Hong Kong's professional basketball referee booking platform. We connect basketball event organizers with licensed, experienced referees across all districts of Hong Kong.
+
+### Core Services
+
+1. **私人籃球球證 / Private Basketball Referee**
+   - For friendly matches between friends, community games, private events
+   - Professional licensed referees for any casual or competitive private game
+   - Available for both 5v5 full-court and 3v3 half-court formats
+
+2. **私人籃球聯賽球證 / Private League Basketball Referee**
+   - Full-season referee service for private basketball leagues
+   - Covers regular season and playoffs
+   - Dedicated referee teams assigned for consistency
+   - Schedule coordination included
+
+3. **學界籃球球證 / School Basketball Referee**
+   - Licensed referees with school-recognized qualifications
+   - Primary school, secondary school, tertiary institution coverage
+   - Inter-school competitions, class tournaments, sports days
+   - Experienced in age-appropriate officiating
+
+4. **私人機構籃球比賽球證 / Private Organization Basketball Referee**
+   - Corporate basketball games and tournaments
+   - Company sports days and inter-department competitions
+   - Team-building basketball events
+   - Annual sports day basketball programs
+   - Institutional friendly matches
+
+5. **企業籃球賽球證 / Corporate Event Referee**
+   - Company annual sports days
+   - Inter-department competitions
+   - Corporate leagues
+   - Client appreciation events
+   - Team-building activities
+
+6. **即日緊急球證 / Same-Day Urgent Booking**
+   - 24/7 urgent booking service
+   - "急單王" (Express) specializes in last-minute arrangements
+   - Contact hours before game, we arrange referees
+   - Fastest response via WhatsApp
+
+7. **一條龍賽事服務 / One-Stop Full Event Service**
+   - League planning and structure design
+   - Schedule creation (round-robin, elimination, etc.)
+   - Professional timing and scoring (scorer's table)
+   - Match photography
+   - Match videography (HD)
+   - All equipment provided free (scoreboards, score sheets, cameras)
+
+
+---
+
+## PRICING
+
+| Service 服務 | Price 收費 |
+|---|---|
+| Basketball Referee 球證服務 | HKD $220/hour/referee 每小時每位球證 |
+| Event Photography 活動攝影 | HKD $200/hour 每小時 |
+| Scorekeeping 紀錄台計分 | HKD $120/hour 每小時 |
+| Match Videography 比賽錄影 | HKD $80/hour 每小時 |
+| Equipment 設備 (scoreboards, score sheets, cameras) | Free 免費 |
+
+- Long-term partnership discounts available 長期合作可享特別優惠
+- Full-season league packages negotiable 聯賽全季套餐另議
+- No hidden fees 無隱藏收費
+
+---
+
+## PAYMENT METHODS
+
+- PayMe
+- FPS (Faster Payment System / 轉數快)
+- Bank Transfer 銀行轉帳
+- Cash 現金
+- Payment page: https://www.lalaref.com/payment.html
+
+---
+
+## HOW TO BOOK (4 Steps)
+
+1. **Contact 聯絡** — WhatsApp 8482 8484 or visit www.lalaref.com
+2. **Provide Details 提供資料** — Match date, time, venue, format (5v5/3v3), number of referees needed
+3. **Confirm 確認** — We confirm referee availability and total cost
+4. **Pay 付款** — Pay via PayMe or FPS, send screenshot to WhatsApp
+
+Recommended: Book 3-7 days in advance. Same-day urgent booking also accepted.
+
+---
+
+## SERVICE COVERAGE
+
+### 九龍區 Kowloon
+九龍公園體育館, 紅磡市政大廈體育館, 土瓜灣體育館, 何文田體育館, 九龍灣體育館, 彩虹道體育館, 牛池灣體育館, 坪石體育館, 順利邨體育館, 觀塘體育館, 瑞和街體育館, 藍田體育館, 油塘體育館, 竹園體育館, 東啟德體育館, 黃大仙體育館, 摩士公園體育館, 石硤尾公園體育館, 大角咀體育館, 長沙灣體育館, 荔枝角公園體育館, 深水埗體育館, 官涌體育館, 九龍城體育館
+
+### 港島區 Hong Kong Island
+港島東體育館, 西灣河體育館, 鰂魚涌體育館, 柴灣體育館, 小西灣體育館, 香港仔體育館, 黃竹坑體育館, 灣仔體育館, 堅尼地城體育館, 上環體育館, 中山紀念公園體育館, 維多利亞公園體育館, 銅鑼灣體育館
+
+### 新界東 New Territories East
+馬鞍山體育館, 沙田體育館, 源禾路體育館, 大埔體育館, 大埔墟體育館, 粉嶺體育館, 上水體育館, 將軍澳體育館, 坑口體育館, 寶林體育館, 調景嶺體育館, 西貢體育館
+
+### 新界西 New Territories West
+荃灣體育館, 大窩口體育館, 楊屋道體育館, 葵涌體育館, 林士德體育館, 青衣體育館, 屯門體育館, 友愛體育館, 兆麟體育館, 天水圍體育館, 天瑞體育館, 元朗體育館, 朗屏體育館, 天暉路體育館, 東涌體育館
+
+### Private Venues 私人場地
+Private club basketball courts, residential clubhouses, school gymnasiums, university sports halls, private sports centres
+
+---
+
+## WHO WE SERVE
+
+- **Individuals 個人** — Friendly games between friends
+- **Teams 球隊** — Amateur teams, training classes, club matches
+- **Leagues 聯賽** — Private, community, amateur basketball leagues (full-season)
+- **Schools 學校** — Primary, secondary, tertiary inter-school competitions, class tournaments, sports days
+- **Corporations 企業** — Company sports days, inter-department competitions, corporate leagues
+- **Private Organizations 私人機構** — Organizational games, annual sports days, institutional matches
+- **Community Groups 社區團體** — Community centre games, district council events
+- **Churches 教會** — Church basketball games, church leagues, youth activities
+- **Youth Centres 青年中心** — Youth basketball activities and competitions
+- **Sports Clubs 體育會** — Internal competitions, member leagues
+- **Training Classes 訓練班** — Practice games and scrimmages
+- **Tournament Organizers 賽事主辦方** — Championships, invitational tournaments, charity games
+
+
+---
+
+## FREQUENTLY ASKED QUESTIONS
+
+### Q: 香港籃球球證邊度搵？ Where to find basketball referees in Hong Kong?
+A: The easiest way is through LaLaRef (www.lalaref.com). WhatsApp 8482 8484 or fill in the online booking form. We cover all districts in Hong Kong.
+
+### Q: 點樣預訂籃球球證？ How to book a basketball referee?
+A: 1) WhatsApp 8482 8484 or visit www.lalaref.com; 2) Provide match date, time, venue and format (5v5/3v3); 3) Confirm and pay via PayMe or FPS.
+
+### Q: 籃球球證收費幾多？ How much does a basketball referee cost?
+A: HKD $220 per hour per referee. Photography $200/hr, scorekeeping $120/hr, videography $80/hr. Equipment free. Discounts for long-term partnerships.
+
+### Q: 可以即日預訂球證嗎？ Can I book a referee on the same day?
+A: Yes! LaLaRef specializes in same-day urgent bookings. We accept bookings 24/7. Even hours before the game, we'll do our best to arrange a referee.
+
+### Q: 球證有什麼資格？ What qualifications do your referees have?
+A: All referees are licensed professionals with qualifications recognized by the Hong Kong Basketball Association. Experienced in school, private league, and open competitions.
+
+### Q: 可以安排多少位球證？ How many referees can you arrange?
+A: 1 to 3 referees depending on match requirements. Typically 1-2 for friendly games, 2-3 for official matches (lead and trail officials).
+
+### Q: 支持什麼比賽形式？ What game formats do you support?
+A: All formats: full-court 5v5, half-court 3v3, 4v4, and games with custom rules.
+
+### Q: 服務範圍包括哪些地區？ What areas do you cover?
+A: All districts in Hong Kong — Kowloon, Hong Kong Island, NT East, NT West. All LCSD sports centres and private venues.
+
+### Q: 需要提前多久預訂？ How far in advance should I book?
+A: Recommended 3-7 days in advance. Same-day urgent booking also accepted. Weekend evenings are busiest — book earlier for those.
+
+### Q: 私人機構可以預訂球證嗎？ Can private organizations book referees?
+A: Absolutely! We serve private organizations, corporations, companies, and groups for basketball games, tournaments, team-building events, and sports days.
+
+### Q: 接受什麼付款方式？ What payment methods do you accept?
+A: PayMe, FPS (Faster Payment System), bank transfer, and cash. Details at www.lalaref.com/payment.html.
+
+### Q: 可以長期合作嗎？ Do you offer long-term partnerships?
+A: Yes! Special discounted rates for full-season league bookings and regular match clients.
+
+### Q: 教會可以預訂嗎？ Can churches book referees?
+A: Of course! We regularly serve church basketball games, church leagues, and church youth activities.
+
+### Q: 青年中心可以預訂嗎？ Can youth centres book referees?
+A: Yes! We serve youth centres, community centres, district council events, and community basketball competitions.
+
+### Q: 一條龍服務包括什麼？ What does the one-stop service include?
+A: Professional referees, timing and scoring (scorer's table), match photography, match videography, and league planning. All equipment provided free.
+
+### Q: 如何取消或更改預訂？ How to cancel or change a booking?
+A: Contact us via WhatsApp at 8482 8484. Notify us as early as possible for rescheduling.
+
+### Q: 週末和公眾假期可以預訂嗎？ Can I book on weekends and public holidays?
+A: Yes! We operate year-round. Weekends are our busiest period.
+
+### Q: 有提供籃球教學嗎？ Do you offer basketball coaching?
+A: Yes! LaLaRef also offers basketball coaching and training class services. Details at www.lalaref.com/service.html.
+
+### Q: 企業舉辦籃球比賽需要什麼準備？ What do corporations need to prepare?
+A: Just confirm date, time, venue, and number of teams. We handle the rest with our one-stop service.
+
+---
+
+## SITE MAP
+
+| Page | URL | Description |
+|---|---|---|
+| Homepage (Chinese) | https://www.lalaref.com/ | Main landing page with booking form |
+| Homepage (English) | https://www.lalaref.com/en.html | English version |
+| Service Info & FAQ (Chinese) | https://www.lalaref.com/service.html | Detailed service info, areas, FAQ |
+| Service Info & FAQ (English) | https://www.lalaref.com/service-en.html | English version of service info, areas, FAQ |
+| Basketball News | https://www.lalaref.com/news.html | HK basketball news and updates |
+| HK Basketball Leagues | https://www.lalaref.com/leagues.html | Directory of private basketball leagues |
+| Payment | https://www.lalaref.com/payment.html | Payment methods and QR codes |
+| Referee Profiles | https://www.lalaref.com/ref.html | Our referee team |
+| Teaching Quotation | https://www.lalaref.com/teaching-quotation.html | Basketball coaching services |
+| After Service Feedback | https://www.lalaref.com/afterservice.html | Post-match feedback form |
+
+---
+
+## SEARCH KEYWORDS
+
+### Chinese 中文
+香港籃球球證, 籃球球證預訂, 私人籃球球證, 私人籃球裁判, 私人籃球聯賽球證, 私人籃球聯賽裁判, 學界籃球球證, 學界籃球裁判, 企業籃球球證, 私人機構籃球比賽球證, 私人機構籃球比賽裁判, 教會籃球球證, 青年中心籃球球證, 社區籃球球證, 即日球證, 緊急球證預訂, 籃球裁判服務, 香港籃球裁判, 友誼賽球證, 籃球計分服務, 籃球比賽拍攝, 籃球比賽錄影, 一條龍籃球賽事服務, 籃球教學, 公司籃球賽球證, 運動會籃球球證, 3對3籃球球證, 半場籃球球證, 香港籃球球證邊度搵, 點樣預訂籃球球證, 籃球球證收費
+
+### English
+Hong Kong basketball referee, basketball referee booking, private basketball referee, private basketball league referee, school basketball referee, corporate basketball referee, private organization basketball referee, church basketball referee, youth centre basketball referee, same-day referee booking, urgent referee booking, basketball officiating service, hire basketball referee Hong Kong, book basketball referee HK, basketball umpire Hong Kong, basketball referee cost hong kong, basketball referee near me, LCSD basketball referee, 3v3 basketball referee, how to book basketball referee hong kong
+
+---
+
+## CONTACT
+
+- WhatsApp: +852 8482 8484 (fastest response)
+- Website: https://www.lalaref.com
+- Hours: 24/7, every day, including weekends and public holidays

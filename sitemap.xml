@@ -27,9 +27,21 @@
         <priority>0.9</priority>
     </url>
 
-    <!-- Service Information Page -->
+    <!-- Service Information Page (Chinese) -->
     <url>
         <loc>https://www.lalaref.com/service.html</loc>
+        <xhtml:link rel="alternate" hreflang="zh-HK" href="https://www.lalaref.com/service.html"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://www.lalaref.com/service-en.html"/>
+        <lastmod>2026-03-02</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+
+    <!-- Service Information Page (English) -->
+    <url>
+        <loc>https://www.lalaref.com/service-en.html</loc>
+        <xhtml:link rel="alternate" hreflang="zh-HK" href="https://www.lalaref.com/service.html"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://www.lalaref.com/service-en.html"/>
         <lastmod>2026-03-02</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
