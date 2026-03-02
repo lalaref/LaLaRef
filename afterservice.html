@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>賽後服務問卷 | After Service Feedback | LaLaRef 急單王</title>
+    <meta name="description" content="LaLaRef 賽後服務問卷 - 感謝您使用我們的球證服務，請花幾分鐘填寫問卷，幫助我們提升服務質素。">
+    <meta name="robots" content="noindex, nofollow">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/jpeg" href="lalaref2.jpg">
+    <link rel="apple-touch-icon" sizes="180x180" href="lalaref2.jpg">
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Microsoft JhengHei', 'PingFang TC', sans-serif;
+            line-height: 1.6;
+            color: #5a4a3a;
+            background: linear-gradient(135deg, #f5e6d3 0%, #e8d4b8 100%);
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .page-header {
+            background: linear-gradient(145deg, #d4a574, #c89860);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15), inset 2px 2px 4px rgba(255,255,255,0.3);
+        }
+        .page-header img {
+            width: 80px; height: 80px; border-radius: 50%; margin-bottom: 15px;
+            box-shadow: 8px 8px 16px rgba(0,0,0,0.2), -8px -8px 16px rgba(255,255,255,0.3);
+        }
+        .page-header h1 { font-size: 2em; font-weight: 900; margin-bottom: 8px; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); }
+        .page-header p { font-size: 1.1em; opacity: 0.95; }
+
+        /* Main Container */
+        .main-container {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 0 20px 40px;
+        }
+
+        /* Form Card */
+        .form-card {
+            background: linear-gradient(145deg, #f0dcc8, #e8d4b8);
+            padding: 40px;
+            border-radius: 30px;
+            margin-bottom: 25px;
+            box-shadow: 15px 15px 30px rgba(0,0,0,0.15), -15px -15px 30px rgba(255,255,255,0.7),
+                inset 3px 3px 6px rgba(255,255,255,0.5), inset -3px -3px 6px rgba(0,0,0,0.1);
+        }
+        .form-card h2 {
+            font-size: 1.4em; color: #5a4a3a; margin-bottom: 25px; font-weight: 800;
+            display: flex; align-items: center; gap: 10px;
+        }
+
+        /* Star Rating */
+        .star-rating { display: flex; gap: 8px; margin-bottom: 10px; flex-direction: row-reverse; justify-content: flex-end; }
+        .star-rating input { display: none; }
+        .star-rating label {
+            font-size: 2.5em; color: #dcc8ac; cursor: pointer; transition: all 0.2s ease;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        .star-rating label:hover,
+        .star-rating label:hover ~ label,
+        .star-rating input:checked ~ label { color: #d4a574; transform: scale(1.1); }
+        .rating-text { font-size: 0.95em; color: #7a6a5a; font-weight: 600; min-height: 24px; margin-top: 5px; }
+
+        /* Checkbox / Radio Options */
+        .option-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .option-item {
+            display: flex; align-items: center; gap: 10px;
+            padding: 14px 18px;
+            background: linear-gradient(145deg, #f5e6d3, #ede0cc);
+            border-radius: 20px;
+            cursor: pointer;
+            box-shadow: 6px 6px 12px rgba(0,0,0,0.1), -6px -6px 12px rgba(255,255,255,0.7);
+            transition: all 0.3s ease;
+            font-size: 0.95em; font-weight: 600;
+        }
+        .option-item:hover { transform: translateY(-2px); }
+        .option-item input[type="checkbox"],
+        .option-item input[type="radio"] {
+            width: 20px; height: 20px; accent-color: #d4a574; cursor: pointer; flex-shrink: 0;
+        }
+        .option-item.selected {
+            background: linear-gradient(145deg, #d4a574, #c89860); color: white;
+            box-shadow: inset 5px 5px 10px rgba(0,0,0,0.15), inset -5px -5px 10px rgba(255,255,255,0.3);
+        }
+
+        /* Input Fields */
+        .input-group { margin-bottom: 20px; }
+        .input-group:last-child { margin-bottom: 0; }
+        .input-group label {
+            display: block; margin-bottom: 10px; font-weight: 800; color: #5a4a3a;
+            font-size: 0.9em; letter-spacing: 0.5px;
+        }
+        .input-group input[type="text"],
+        .input-group input[type="url"],
+        .input-group textarea {
+            width: 100%; padding: 16px 22px;
+            background: linear-gradient(145deg, #f0dcc8, #e8d4b8);
+            border: none; border-radius: 20px; color: #5a4a3a;
+            font-size: 1em; font-family: inherit;
+            box-shadow: inset 8px 8px 16px rgba(0,0,0,0.1), inset -8px -8px 16px rgba(255,255,255,0.7);
+            transition: all 0.3s ease;
+        }
+        .input-group input:focus,
+        .input-group textarea:focus {
+            outline: none;
+            box-shadow: inset 10px 10px 20px rgba(0,0,0,0.15), inset -10px -10px 20px rgba(255,255,255,0.8);
+        }
+        .input-group textarea { resize: vertical; min-height: 120px; }
+        .hint { display: block; margin-top: 6px; font-size: 0.85em; color: #7a6a5a; font-style: italic; }
+
+        /* Photo Upload */
+        .upload-area {
+            border: 3px dashed #d4a574; border-radius: 25px; padding: 40px 20px;
+            text-align: center; cursor: pointer; transition: all 0.3s ease;
+            background: linear-gradient(145deg, #f5e6d3, #ede0cc);
+        }
+        .upload-area:hover { background: linear-gradient(145deg, #ede0cc, #e8d4b8); transform: translateY(-2px); }
+        .upload-area .upload-icon { font-size: 3em; margin-bottom: 10px; }
+        .upload-area p { color: #7a6a5a; font-weight: 600; }
+        .upload-area small { color: #9a8a7a; }
+        .upload-area input[type="file"] { display: none; }
+        .preview-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 10px; margin-top: 15px;
+        }
+        .preview-item {
+            position: relative; border-radius: 15px; overflow: hidden; aspect-ratio: 1;
+            box-shadow: 5px 5px 10px rgba(0,0,0,0.1), -5px -5px 10px rgba(255,255,255,0.5);
+        }
+        .preview-item img { width: 100%; height: 100%; object-fit: cover; }
+        .preview-item .remove-btn {
+            position: absolute; top: 5px; right: 5px; width: 24px; height: 24px;
+            background: rgba(231,76,60,0.9); color: white; border: none; border-radius: 50%;
+            cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center;
+        }
+
+        /* Submit Button */
+        .submit-section { text-align: center; margin-top: 10px; }
+        .submit-btn {
+            background: linear-gradient(145deg, #d4a574, #c89860);
+            color: white; border: none; padding: 22px 60px;
+            font-size: 1.3em; font-weight: 800; border-radius: 30px;
+            cursor: pointer; transition: all 0.3s ease; letter-spacing: 2px;
+            box-shadow: 15px 15px 30px rgba(0,0,0,0.2), -15px -15px 30px rgba(255,255,255,0.7),
+                inset 3px 3px 6px rgba(255,255,255,0.3);
+        }
+        .submit-btn:hover { transform: translateY(-5px); }
+        .submit-btn:active { transform: translateY(0); }
+        .submit-btn:focus-visible { outline: 3px solid #5a4a3a; outline-offset: 4px; }
+
+        /* Success Message */
+        .success-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5); z-index: 9999;
+            align-items: center; justify-content: center;
+        }
+        .success-overlay.show { display: flex; }
+        .success-box {
+            background: linear-gradient(145deg, #f0dcc8, #e8d4b8);
+            padding: 50px 40px; border-radius: 30px; text-align: center; max-width: 450px; margin: 20px;
+            box-shadow: 20px 20px 40px rgba(0,0,0,0.3), -20px -20px 40px rgba(255,255,255,0.5);
+        }
+        .success-box .icon { font-size: 4em; margin-bottom: 15px; }
+        .success-box h3 { font-size: 1.5em; color: #5a4a3a; margin-bottom: 10px; }
+        .success-box p { color: #7a6a5a; margin-bottom: 20px; line-height: 1.8; }
+        .success-box a {
+            display: inline-block; padding: 14px 35px;
+            background: linear-gradient(145deg, #d4a574, #c89860); color: white;
+            text-decoration: none; border-radius: 25px; font-weight: 800;
+            box-shadow: 8px 8px 16px rgba(0,0,0,0.15), -8px -8px 16px rgba(255,255,255,0.3);
+        }
+
+        /* Footer */
+        .page-footer {
+            background: linear-gradient(145deg, #d4a574, #c89860);
+            color: white; padding: 30px 20px; text-align: center;
+            border-radius: 30px 30px 0 0; margin: 0 20px;
+            box-shadow: 0 -10px 20px rgba(0,0,0,0.1);
+        }
+        .page-footer p { font-size: 0.95em; opacity: 0.9; }
+        .page-footer a { color: white; text-decoration: underline; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .page-header h1 { font-size: 1.5em; }
+            .form-card { padding: 25px 18px; border-radius: 25px; }
+            .option-grid { grid-template-columns: 1fr; }
+            .star-rating label { font-size: 2em; }
+            .submit-btn { padding: 18px 40px; font-size: 1.1em; }
+        }
+
+        /* Reduced Motion */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important; transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="page-header">
+        <img src="lalaref2.png" alt="LaLaRef Logo" width="80" height="80" loading="eager">
+        <h1>📋 賽後服務問卷</h1>
+        <p>After Service Feedback</p>
+    </div>
+
+    <div class="main-container">
+        <form id="afterserviceForm" novalidate>
+
+            <!-- 1. Service Rating -->
+            <div class="form-card">
+                <h2>⭐ 服務評分 Service Rating</h2>
+                <p style="margin-bottom: 15px; color: #7a6a5a;">請為我們的球證服務評分 / Please rate our referee service</p>
+                <div class="star-rating" role="radiogroup" aria-label="服務評分">
+                    <input type="radio" id="star5" name="rating" value="5"><label for="star5" aria-label="5 stars">★</label>
+                    <input type="radio" id="star4" name="rating" value="4"><label for="star4" aria-label="4 stars">★</label>
+                    <input type="radio" id="star3" name="rating" value="3"><label for="star3" aria-label="3 stars">★</label>
+                    <input type="radio" id="star2" name="rating" value="2"><label for="star2" aria-label="2 stars">★</label>
+                    <input type="radio" id="star1" name="rating" value="1"><label for="star1" aria-label="1 star">★</label>
+                </div>
+                <div class="rating-text" id="ratingText"></div>
+            </div>
+
+            <!-- 2. Where did you hear about LaLaRef -->
+            <div class="form-card">
+                <h2>📢 從哪裡認識 LaLaRef？ How did you hear about us?</h2>
+                <div class="option-grid">
+                    <label class="option-item"><input type="checkbox" name="source" value="whatsapp"> WhatsApp 群組</label>
+                    <label class="option-item"><input type="checkbox" name="source" value="facebook"> Facebook</label>
+                    <label class="option-item"><input type="checkbox" name="source" value="instagram"> Instagram</label>
+                    <label class="option-item"><input type="checkbox" name="source" value="google"> Google 搜尋</label>
+                    <label class="option-item"><input type="checkbox" name="source" value="friend"> 朋友介紹 Friend Referral</label>
+                    <label class="option-item"><input type="checkbox" name="source" value="league"> 聯賽 / 比賽 League</label>
+                    <label class="option-item"><input type="checkbox" name="source" value="school"> 學校 School</label>
+                    <label class="option-item"><input type="checkbox" name="source" value="other"> 其他 Other</label>
+                </div>
+                <div class="input-group" id="otherSourceGroup" style="margin-top: 15px; display: none;">
+                    <input type="text" id="otherSource" name="otherSource" placeholder="請說明 / Please specify">
+                </div>
+            </div>
+
+            <!-- 3. Comments -->
+            <div class="form-card">
+                <h2>💬 服務意見 Comments</h2>
+                <p style="margin-bottom: 15px; color: #7a6a5a;">歡迎以中文或英文留言 / Feel free to write in Chinese or English</p>
+                <div class="input-group">
+                    <textarea id="comments" name="comments" placeholder="請分享您對 LaLaRef 球證服務的意見或建議...&#10;Please share your feedback on LaLaRef referee service..." rows="5"></textarea>
+                </div>
+            </div>
+
+            <!-- 4. Organization Info & Photos -->
+            <div class="form-card">
+                <h2>🏢 機構資料 Organization Info</h2>
+                <p style="margin-bottom: 20px; color: #7a6a5a;">分享您的機構資料及比賽照片，我們會在網站展示合作夥伴及賽事詳情<br>Share your organization details and match photos for our website showcase</p>
+                
+                <div class="input-group">
+                    <label for="orgName">機構名稱 Organization Name</label>
+                    <input type="text" id="orgName" name="orgName" placeholder="例如：XX 籃球會 / e.g. XX Basketball Club">
+                </div>
+                <div class="input-group">
+                    <label for="orgWebsite">機構網站 / 社交媒體 Website / Social Media</label>
+                    <input type="url" id="orgWebsite" name="orgWebsite" placeholder="https:// 或 Instagram / Facebook 連結">
+                    <span class="hint">可填寫網站、Instagram 或 Facebook 專頁連結</span>
+                </div>
+                <div class="input-group">
+                    <label>比賽照片及影片 Match Photos and Videos</label>
+                    <div class="upload-area" id="uploadArea" role="button" tabindex="0" aria-label="上傳比賽照片及影片">
+                        <div class="upload-icon">📸🎬</div>
+                        <p>點擊或拖放照片/影片到此處</p>
+                        <p>Click or drag photos/videos here</p>
+                        <small>支援 JPG, PNG, MP4, MOV (最多 5 個檔案，照片最大 5MB，影片最大 50MB)</small>
+                        <input type="file" id="photoUpload" name="photos" accept="image/jpeg,image/png,video/mp4,video/quicktime" multiple>
+                    </div>
+                    <div class="preview-grid" id="previewGrid"></div>
+                    <span class="hint">照片及影片將用於 LaLaRef 網站展示賽事及合作夥伴 / Photos & videos will be featured on our website</span>
+                </div>
+                <div class="input-group">
+                    <label>照片/影片下載連結 Photo/Video Download Links</label>
+                    <p style="margin-bottom: 10px; font-size: 0.9em; color: #7a6a5a;">如有雲端連結（Google Drive、Dropbox 等），可在此貼上<br>Paste cloud links (Google Drive, Dropbox, etc.) if available</p>
+                    <div id="linksList">
+                        <div class="link-row" style="display: flex; gap: 10px; margin-bottom: 10px; align-items: center;">
+                            <input type="url" name="mediaLinks[]" class="media-link" placeholder="https://drive.google.com/... 或 Dropbox 連結" style="flex: 1;">
+                        </div>
+                    </div>
+                    <button type="button" id="addLinkBtn" style="background: linear-gradient(145deg, #f5e6d3, #ede0cc); border: 2px dashed #d4a574; border-radius: 15px; padding: 10px 20px; color: #d4a574; font-weight: 700; cursor: pointer; font-family: inherit; font-size: 0.9em; transition: all 0.3s ease; box-shadow: 4px 4px 8px rgba(0,0,0,0.08), -4px -4px 8px rgba(255,255,255,0.5);">＋ 新增連結 Add Link</button>
+                </div>
+            </div>
+
+            <!-- Submit -->
+            <div class="form-card submit-section">
+                <button type="submit" class="submit-btn">📨 提交問卷 Submit</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Success Overlay -->
+    <div class="success-overlay" id="successOverlay">
+        <div class="success-box">
+            <div class="icon">🎉</div>
+            <h3>感謝您的回饋！</h3>
+            <p>Thank you for your feedback!<br>您的意見對我們非常重要。</p>
+            <a href="index.html">返回首頁 Back to Home</a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="page-footer">
+        <p>&copy; 2026 LaLaRef | <a href="index.html">返回首頁</a> | WhatsApp: <a href="https://wa.me/85284828484">8482 8484</a></p>
+    </div>
+
+    <script>
+    (function() {
+        'use strict';
+
+        // Star rating text
+        var ratingLabels = {
+            '5': '⭐ 非常滿意 Excellent',
+            '4': '😊 滿意 Good',
+            '3': '😐 一般 Average',
+            '2': '😕 不太滿意 Below Average',
+            '1': '😞 不滿意 Poor'
+        };
+        document.querySelectorAll('.star-rating input').forEach(function(input) {
+            input.addEventListener('change', function() {
+                document.getElementById('ratingText').textContent = ratingLabels[this.value] || '';
+            });
+        });
+
+        // Checkbox highlight
+        document.querySelectorAll('.option-item input[type="checkbox"]').forEach(function(cb) {
+            cb.addEventListener('change', function() {
+                this.closest('.option-item').classList.toggle('selected', this.checked);
+                // Show/hide other source input
+                if (this.value === 'other') {
+                    document.getElementById('otherSourceGroup').style.display = this.checked ? 'block' : 'none';
+                }
+            });
+        });
+
+        // Add link rows
+        document.getElementById('addLinkBtn').addEventListener('click', function() {
+            var list = document.getElementById('linksList');
+            var row = document.createElement('div');
+            row.className = 'link-row';
+            row.style.cssText = 'display:flex;gap:10px;margin-bottom:10px;align-items:center;';
+            row.innerHTML = '<input type="url" name="mediaLinks[]" class="media-link" placeholder="https://drive.google.com/... 或 Dropbox 連結" style="flex:1;"><button type="button" class="remove-link-btn" aria-label="移除連結" style="width:36px;height:36px;border:none;border-radius:50%;background:linear-gradient(145deg,#e74c3c,#c0392b);color:white;font-size:1.2em;cursor:pointer;flex-shrink:0;box-shadow:4px 4px 8px rgba(0,0,0,0.1);">×</button>';
+            row.querySelector('.remove-link-btn').addEventListener('click', function() { row.remove(); });
+            list.appendChild(row);
+        });
+
+        // Photo upload
+        var uploadArea = document.getElementById('uploadArea');
+        var fileInput = document.getElementById('photoUpload');
+        var previewGrid = document.getElementById('previewGrid');
+        var uploadedFiles = [];
+
+        uploadArea.addEventListener('click', function() { fileInput.click(); });
+        uploadArea.addEventListener('keydown', function(e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fileInput.click(); } });
+
+        uploadArea.addEventListener('dragover', function(e) { e.preventDefault(); this.style.borderColor = '#c89860'; });
+        uploadArea.addEventListener('dragleave', function() { this.style.borderColor = '#d4a574'; });
+        uploadArea.addEventListener('drop', function(e) {
+            e.preventDefault(); this.style.borderColor = '#d4a574';
+            handleFiles(e.dataTransfer.files);
+        });
+
+        fileInput.addEventListener('change', function() { handleFiles(this.files); });
+
+        function handleFiles(files) {
+            Array.from(files).forEach(function(file) {
+                if (uploadedFiles.length >= 5) { alert('最多上傳 5 個檔案 / Maximum 5 files'); return; }
+                var isVideo = file.type.match('video/(mp4|quicktime)');
+                var isImage = file.type.match('image/(jpeg|png)');
+                if (!isImage && !isVideo) { alert('只支援 JPG/PNG/MP4/MOV 格式 / Only JPG, PNG, MP4, MOV supported'); return; }
+                var maxSize = isVideo ? 50 * 1024 * 1024 : 5 * 1024 * 1024;
+                if (file.size > maxSize) { alert(isVideo ? '影片過大，最大 50MB / Video too large, max 50MB' : '照片過大，最大 5MB / Photo too large, max 5MB'); return; }
+
+                uploadedFiles.push(file);
+                var div = document.createElement('div');
+                div.className = 'preview-item';
+
+                if (isVideo) {
+                    var video = document.createElement('video');
+                    video.src = URL.createObjectURL(file);
+                    video.muted = true; video.playsInline = true; video.style.cssText = 'width:100%;height:100%;object-fit:cover;';
+                    video.addEventListener('loadeddata', function() { this.currentTime = 1; });
+                    div.appendChild(video);
+                    var badge = document.createElement('span');
+                    badge.textContent = '🎬';
+                    badge.style.cssText = 'position:absolute;bottom:5px;left:5px;background:rgba(0,0,0,0.6);color:white;border-radius:8px;padding:2px 6px;font-size:12px;';
+                    div.appendChild(badge);
+                } else {
+                    var reader = new FileReader();
+                    reader.onload = function(e) {
+                        var img = document.createElement('img');
+                        img.src = e.target.result; img.alt = 'Preview';
+                        div.insertBefore(img, div.firstChild);
+                    };
+                    reader.readAsDataURL(file);
+                }
+
+                var removeBtn = document.createElement('button');
+                removeBtn.type = 'button'; removeBtn.className = 'remove-btn';
+                removeBtn.setAttribute('aria-label', '移除檔案'); removeBtn.textContent = '×';
+                removeBtn.addEventListener('click', function() {
+                    var idx = Array.from(previewGrid.children).indexOf(div);
+                    uploadedFiles.splice(idx, 1); div.remove();
+                });
+                div.appendChild(removeBtn);
+                previewGrid.appendChild(div);
+            });
+        }
+
+        // Form submission → WhatsApp
+        document.getElementById('afterserviceForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            var rating = document.querySelector('input[name="rating"]:checked');
+            var sources = Array.from(document.querySelectorAll('input[name="source"]:checked')).map(function(cb) { return cb.value === 'other' ? '其他: ' + (document.getElementById('otherSource').value || '-') : cb.parentElement.textContent.trim(); });
+            var comments = document.getElementById('comments').value.trim();
+            var orgName = document.getElementById('orgName').value.trim();
+            var orgWebsite = document.getElementById('orgWebsite').value.trim();
+
+            var msg = '📋 *LaLaRef 賽後服務問卷*\n\n';
+            msg += '⭐ *服務評分:* ' + (rating ? rating.value + '/5 ' + ratingLabels[rating.value] : '未評分') + '\n\n';
+            msg += '📢 *從哪裡認識 LaLaRef:*\n' + (sources.length ? sources.join(', ') : '未選擇') + '\n\n';
+            if (comments) msg += '💬 *服務意見:*\n' + comments + '\n\n';
+            if (orgName) msg += '🏢 *機構名稱:* ' + orgName + '\n';
+            if (orgWebsite) msg += '🌐 *機構網站:* ' + orgWebsite + '\n';
+            if (uploadedFiles.length > 0) msg += '\n📸 *比賽照片/影片:* ' + uploadedFiles.length + ' 個檔案（將在對話中傳送）\n';
+            var links = Array.from(document.querySelectorAll('.media-link')).map(function(el) { return el.value.trim(); }).filter(Boolean);
+            if (links.length > 0) msg += '\n🔗 *下載連結:*\n' + links.join('\n') + '\n';
+            msg += '\n---\n感謝您的回饋！';
+
+            var url = 'https://wa.me/85284828484?text=' + encodeURIComponent(msg);
+            window.open(url, '_blank', 'noopener,noreferrer');
+
+            document.getElementById('successOverlay').classList.add('show');
+        });
+
+        // Close overlay on click outside
+        document.getElementById('successOverlay').addEventListener('click', function(e) {
+            if (e.target === this) this.classList.remove('show');
+        });
+    })();
+    </script>
+</body>
+</html>
