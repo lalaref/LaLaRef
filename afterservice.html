@@ -250,16 +250,7 @@
                     <span class="hint">可填寫網站、Instagram 或 Facebook 專頁連結</span>
                 </div>
 
-                <div class="input-group">
-                    <label>照片/影片下載連結 Photo/Video Download Links</label>
-                    <p style="margin-bottom: 10px; font-size: 0.9em; color: #7a6a5a;">如有雲端連結（Google Drive、Dropbox 等），可在此貼上<br>Paste cloud links (Google Drive, Dropbox, etc.) if available</p>
-                    <div id="linksList">
-                        <div class="link-row" style="display: flex; gap: 10px; margin-bottom: 10px; align-items: center;">
-                            <input type="url" name="mediaLinks[]" class="media-link" placeholder="https://drive.google.com/... 或 Dropbox 連結" style="flex: 1;">
-                        </div>
-                    </div>
-                    <button type="button" id="addLinkBtn" style="background: linear-gradient(145deg, #f5e6d3, #ede0cc); border: 2px dashed #d4a574; border-radius: 15px; padding: 10px 20px; color: #d4a574; font-weight: 700; cursor: pointer; font-family: inherit; font-size: 0.9em; transition: all 0.3s ease; box-shadow: 4px 4px 8px rgba(0,0,0,0.08), -4px -4px 8px rgba(255,255,255,0.5);">＋ 新增連結 Add Link</button>
-                </div>
+
             </div>
 
             <!-- Submit -->
@@ -313,16 +304,7 @@
             });
         });
 
-        // Add link rows
-        document.getElementById('addLinkBtn').addEventListener('click', function() {
-            var list = document.getElementById('linksList');
-            var row = document.createElement('div');
-            row.className = 'link-row';
-            row.style.cssText = 'display:flex;gap:10px;margin-bottom:10px;align-items:center;';
-            row.innerHTML = '<input type="url" name="mediaLinks[]" class="media-link" placeholder="https://drive.google.com/... 或 Dropbox 連結" style="flex:1;"><button type="button" class="remove-link-btn" aria-label="移除連結" style="width:36px;height:36px;border:none;border-radius:50%;background:linear-gradient(145deg,#e74c3c,#c0392b);color:white;font-size:1.2em;cursor:pointer;flex-shrink:0;box-shadow:4px 4px 8px rgba(0,0,0,0.1);">×</button>';
-            row.querySelector('.remove-link-btn').addEventListener('click', function() { row.remove(); });
-            list.appendChild(row);
-        });
+
 
 
 
@@ -342,8 +324,6 @@
             if (comments) msg += '💬 *服務意見:*\n' + comments + '\n\n';
             if (orgName) msg += '🏢 *機構名稱:* ' + orgName + '\n';
             if (orgWebsite) msg += '🌐 *機構網站:* ' + orgWebsite + '\n';
-            var links = Array.from(document.querySelectorAll('.media-link')).map(function(el) { return el.value.trim(); }).filter(Boolean);
-            if (links.length > 0) msg += '\n🔗 *下載連結:*\n' + links.join('\n') + '\n';
             msg += '\n---\n感謝您的回饋！';
 
             var url = 'https://wa.me/85284828484?text=' + encodeURIComponent(msg);
