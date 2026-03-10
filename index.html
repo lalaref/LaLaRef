@@ -1678,7 +1678,7 @@
                                 <option value="">請選擇場地</option>
                                 <optgroup label="九龍區">
                                     <option value="九龍公園體育館">九龍公園體育館</option>
-                                    <option value="紅磡市政大廈">紅磡市政大廈</option>
+                                    <option value="紅磡市政大廈體育館">紅磡市政大廈體育館</option>
                                     <option value="土瓜灣體育館">土瓜灣體育館</option>
                                     <option value="九龍灣體育館">九龍灣體育館</option>
                                     <option value="牛頭角體育館">牛頭角體育館</option>
@@ -1686,6 +1686,7 @@
                                     <option value="長沙灣體育館">長沙灣體育館</option>
                                     <option value="北河街體育館">北河街體育館</option>
                                     <option value="保安道體育館">保安道體育館</option>
+                                    <option value="佛光街體育館">佛光街體育館</option>
                                     <option value="九龍城體育館">九龍城體育館</option>
                                     <option value="彩虹道體育館">彩虹道體育館</option>
                                     <option value="竹園體育館">竹園體育館</option>
@@ -1728,8 +1729,13 @@
                                     <option value="堅尼地城體育館">堅尼地城體育館</option>
                                     <option value="薄扶林體育館">薄扶林體育館</option>
                                     <option value="赤柱體育館">赤柱體育館</option>
+                                    <option value="香港公園體育館">香港公園體育館</option>
+                                    <option value="上環體育館">上環體育館</option>
+                                    <option value="駱克道體育館">駱克道體育館</option>
+                                    <option value="黃泥涌體育館">黃泥涌體育館</option>
+                                    <option value="漁光道體育館">漁光道體育館</option>
                                 </optgroup>
-                                <optgroup label="新界">
+                                <optgroup label="新界區">
                                     <option value="沙田體育館">沙田體育館</option>
                                     <option value="源禾路體育館">源禾路體育館</option>
                                     <option value="顯徑體育館">顯徑體育館</option>
@@ -1780,7 +1786,10 @@
                                     <option value="林士德體育館">林士德體育館</option>
                                     <option value="青衣體育館">青衣體育館</option>
                                     <option value="長發體育館">長發體育館</option>
+                                    <option value="楓樹窩體育館">楓樹窩體育館</option>
+                                    <option value="荔景體育館">荔景體育館</option>
                                     <option value="北葵涌鄧肇堅體育館">北葵涌鄧肇堅體育館</option>
+                                    <option value="大窩口體育館">大窩口體育館</option>
                                     <option value="青衣西南體育館">青衣西南體育館</option>
                                     <option value="和興體育館">和興體育館</option>
                                     <option value="石圍角體育館">石圍角體育館</option>
@@ -1819,25 +1828,34 @@
                     <div class="form-section">
                         <h3>👨‍⚖️ 球證需求</h3>
                         <div class="input-group">
-                            <label>球證數量 *</label>
-                            <div class="ref-count-buttons">
-                                <button type="button" class="ref-count-btn active" data-value="1">1 位</button>
-                                <button type="button" class="ref-count-btn" data-value="2">2 位</button>
-                            </div>
-                            <input type="hidden" id="refCount" name="refCount" value="1" required>
+                            <label for="refCount">球證數量 *</label>
+                            <select id="refCount" name="refCount" required aria-required="true" style="width:100%;padding:14px 18px;border:none;border-radius:15px;font-size:1em;color:#5a4a3a;background:linear-gradient(145deg,#f5e6d3,#ede0cc);box-shadow:inset 4px 4px 8px rgba(0,0,0,0.1),inset -4px -4px 8px rgba(255,255,255,0.7);outline:none;appearance:auto;">
+                                <option value="1">1 位</option>
+                                <option value="2">2 位</option>
+                                <option value="3">3 位</option>
+                                <option value="4">4 位</option>
+                                <option value="5">5 位</option>
+                                <option value="6">6 位</option>
+                                <option value="7">7 位</option>
+                                <option value="8">8 位</option>
+                                <option value="9">9 位</option>
+                                <option value="10">10 位</option>
+                            </select>
                         </div>
                         <div class="input-group">
-                            <label for="hourlyRate">每小時收費(港幣)*</label>
-                            <input type="number" 
-                                   id="hourlyRate" 
-                                   name="hourlyRate" 
-                                   placeholder="例如:300" 
-                                   min="100" 
-                                   step="20" 
-                                   required
-                                   aria-required="true"
-                                   aria-describedby="hourlyRate-error">
-                            <span id="hourlyRate-error" class="error-message" role="alert">請輸入每小時收費</span>
+                            <label for="scorerCount">⏱️ 計時計分員數量</label>
+                            <select id="scorerCount" name="scorerCount" style="width:100%;padding:14px 18px;border:none;border-radius:15px;font-size:1em;color:#5a4a3a;background:linear-gradient(145deg,#f5e6d3,#ede0cc);box-shadow:inset 4px 4px 8px rgba(0,0,0,0.1),inset -4px -4px 8px rgba(255,255,255,0.7);outline:none;appearance:auto;">
+                                <option value="0">不需要</option>
+                                <option value="1">1 位</option>
+                                <option value="2">2 位</option>
+                                <option value="3">3 位</option>
+                                <option value="4">4 位</option>
+                                <option value="5">5 位</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label for="otherServices">🎯 其他服務</label>
+                            <textarea id="otherServices" name="otherServices" rows="2" placeholder="例如：攝影、錄影、聯賽策劃等"></textarea>
                         </div>
                         <div class="input-group">
                             <label for="remarks">備註</label>
@@ -2132,6 +2150,7 @@
             </div>
             <div class="footer-bottom">
                 <p>&copy; 2026 LaLaRef</p>
+                <p style="margin-top: 10px; font-size: 0.85em;"><a href="privacy.html" style="color: rgba(255,255,255,0.8); text-decoration: none; font-weight: 400; display: inline; margin: 0; padding: 0; background: none; box-shadow: none; border-radius: 0; text-transform: none; letter-spacing: 0;">私隱政策 Privacy Policy</a></p>
             </div>
         </footer>
     </div>
@@ -2145,8 +2164,9 @@
                 dateInput: null,
                 gameFormatInput: null,
                 refCountInput: null,
+                scorerCountInput: null,
+                otherServicesInput: null,
                 bookingForm: null,
-                hourlyRate: null,
                 announcer: null
             };
             
@@ -2164,8 +2184,9 @@
             function initFormHandlers() {
                 elements.gameFormatInput = document.getElementById('gameFormat');
                 elements.refCountInput = document.getElementById('refCount');
+                elements.scorerCountInput = document.getElementById('scorerCount');
+                elements.otherServicesInput = document.getElementById('otherServices');
                 elements.bookingForm = document.getElementById('bookingForm');
-                elements.hourlyRate = document.getElementById('hourlyRate');
                 
                 // Event delegation for button clicks (more efficient)
                 document.body.addEventListener('click', function(e) {
@@ -2178,12 +2199,7 @@
                         elements.gameFormatInput.value = target.getAttribute('data-value');
                     }
                     
-                    // Referee count buttons
-                    if (target.classList.contains('ref-count-btn')) {
-                        document.querySelectorAll('.ref-count-btn').forEach(btn => btn.classList.remove('active'));
-                        target.classList.add('active');
-                        elements.refCountInput.value = target.getAttribute('data-value');
-                    }
+                    // Referee count buttons - removed, now using select dropdown
                 });
                 
                 // Form validation
@@ -2235,7 +2251,8 @@
                         venueDetails: document.getElementById('venueDetails').value,
                         gameFormat: elements.gameFormatInput.value,
                         refCount: elements.refCountInput.value,
-                        hourlyRate: elements.hourlyRate.value,
+                        scorerCount: elements.scorerCountInput.value,
+                        otherServices: elements.otherServicesInput.value,
                         remarks: document.getElementById('remarks').value
                     };
                     
@@ -2246,7 +2263,10 @@
                     let message = `🏀 *LaLaRef 急單王 - 籃球球證預訂*\n\n📅 *比賽資訊*\n日期:${formattedDate}\n開始時間:${formData.matchTimeStart}\n結束時間:${formData.matchTimeEnd}\n\n📍 *比賽地點*\n場地:${formData.venue}\n`;
                     
                     if (formData.venueDetails) message += `場地詳情:${formData.venueDetails}\n`;
-                    message += `\n🏀 *比賽類型*\n形式:${gameFormatText}\n\n👨‍⚖️ *球證需求*\n球證數量:${formData.refCount} 位\n每小時收費:HK$ ${formData.hourlyRate}\n\n`;
+                    message += `\n🏀 *比賽類型*\n形式:${gameFormatText}\n\n👨‍⚖️ *球證需求*\n球證數量:${formData.refCount} 位\n`;
+                    if (formData.scorerCount > 0) message += `⏱️ 計時計分員:${formData.scorerCount} 位\n`;
+                    if (formData.otherServices) message += `🎯 其他服務:${formData.otherServices}\n`;
+                    message += `\n`;
                     if (formData.remarks) message += `📝 *備註*\n${formData.remarks}\n\n`;
                     message += `---\n收到您的查詢後，我們會盡快回覆!`;
                     
@@ -2261,11 +2281,6 @@
                     }, 100);
                 });
                 
-                // Hourly rate validation
-                elements.hourlyRate.addEventListener('input', function(e) {
-                    const value = parseFloat(e.target.value);
-                    if (value < 0) e.target.value = 0;
-                });
                 
                 // Keyboard navigation
                 document.addEventListener('keydown', function(e) {
