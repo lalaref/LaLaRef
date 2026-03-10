@@ -1826,6 +1826,16 @@
                         </div>
                     </div>
                     <div class="form-section">
+                        <h3>🏢 機構/公司資料</h3>
+                        <div class="input-group">
+                            <label for="orgName">機構/公司名稱</label>
+                            <input type="text" 
+                                   id="orgName" 
+                                   name="orgName" 
+                                   placeholder="例如：ABC 公司（如適用）">
+                        </div>
+                    </div>
+                    <div class="form-section">
                         <h3>👨‍⚖️ 球證需求</h3>
                         <div class="input-group">
                             <label for="refCount">球證數量 *</label>
@@ -2250,6 +2260,7 @@
                         venue: document.getElementById('venue').value,
                         venueDetails: document.getElementById('venueDetails').value,
                         gameFormat: elements.gameFormatInput.value,
+                        orgName: document.getElementById('orgName').value,
                         refCount: elements.refCountInput.value,
                         scorerCount: elements.scorerCountInput.value,
                         otherServices: elements.otherServicesInput.value,
@@ -2263,6 +2274,7 @@
                     let message = `🏀 *LaLaRef 急單王 - 籃球球證預訂*\n\n📅 *比賽資訊*\n日期:${formattedDate}\n開始時間:${formData.matchTimeStart}\n結束時間:${formData.matchTimeEnd}\n\n📍 *比賽地點*\n場地:${formData.venue}\n`;
                     
                     if (formData.venueDetails) message += `場地詳情:${formData.venueDetails}\n`;
+                    if (formData.orgName) message += `\n🏢 *機構/公司*\n名稱:${formData.orgName}\n`;
                     message += `\n🏀 *比賽類型*\n形式:${gameFormatText}\n\n👨‍⚖️ *球證需求*\n球證數量:${formData.refCount} 位\n`;
                     if (formData.scorerCount > 0) message += `⏱️ 計時計分員:${formData.scorerCount} 位\n`;
                     if (formData.otherServices) message += `🎯 其他服務:${formData.otherServices}\n`;

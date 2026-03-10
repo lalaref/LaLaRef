@@ -1815,6 +1815,16 @@
                         </div>
                     </div>
                     <div class="form-section">
+                        <h3>🏢 Organization / Company</h3>
+                        <div class="input-group">
+                            <label for="orgName">Organization / Company Name</label>
+                            <input type="text" 
+                                   id="orgName" 
+                                   name="orgName" 
+                                   placeholder="e.g. ABC Company (if applicable)">
+                        </div>
+                    </div>
+                    <div class="form-section">
                         <h3>ðŸ‘¨â€âš–ï¸ Referee Requirements</h3>
                         <div class="input-group">
                             <label for="refCount">Number of Referees *</label>
@@ -2239,6 +2249,7 @@
                         venue: document.getElementById('venue').value,
                         venueDetails: document.getElementById('venueDetails').value,
                         gameFormat: elements.gameFormatInput.value,
+                        orgName: document.getElementById('orgName').value,
                         refCount: elements.refCountInput.value,
                         scorerCount: elements.scorerCountInput.value,
                         otherServices: elements.otherServicesInput.value,
@@ -2252,6 +2263,7 @@
                     let message = `ðŸ€ *LaLaRef Express - Basketball Referee Booking*\n\nðŸ“… *Match Info*\nDate: ${formattedDate}\nStart Time: ${formData.matchTimeStart}\nEnd Time: ${formData.matchTimeEnd}\n\nðŸ“ *Match Venue*\nVenue: ${formData.venue}\n`;
                     
                     if (formData.venueDetails) message += `Venue Details: ${formData.venueDetails}\n`;
+                    if (formData.orgName) message += `\n🏢 *Organization/Company*\nName: ${formData.orgName}\n`;
                     message += `\nðŸ€ *Match Details*\nFormat: ${gameFormatText}\n\nðŸ‘¨â€âš–ï¸ *Referee Requirements*\nNumber of Referees: ${formData.refCount}\n`;
                     if (formData.scorerCount > 0) message += `⏱️ Scorer/Timekeeper: ${formData.scorerCount}\n`;
                     if (formData.otherServices) message += `🎯 Other Services: ${formData.otherServices}\n`;
