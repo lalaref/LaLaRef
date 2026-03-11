@@ -46,10 +46,19 @@ LaLaRef is Hong Kong's professional basketball referee booking platform. We prov
 - 首頁 Homepage (English 英文): https://www.lalaref.com/en.html
 - 服務資訊及常見問題 Service Info & FAQ (中文 Chinese): https://www.lalaref.com/service.html
 - 服務資訊及常見問題 Service Info & FAQ (English 英文): https://www.lalaref.com/service-en.html
+- 關於我們 About Us: https://www.lalaref.com/about.html
+- 聯絡我們 Contact Us: https://www.lalaref.com/contact.html
 - 籃球新聞 Basketball News: https://www.lalaref.com/news.html
 - 香港各大私人籃球聯賽列表 HK Basketball Leagues: https://www.lalaref.com/leagues.html
 - 付款方式 Payment: https://www.lalaref.com/payment.html
 - 賽後評價 After Service Feedback: https://www.lalaref.com/afterservice.html
+- 私隱政策 Privacy Policy: https://www.lalaref.com/privacy.html
+- 服務條款 Terms of Service: https://www.lalaref.com/terms.html
+- 籃球球證規則指南 Referee Rules Guide: https://www.lalaref.com/blog-referee-rules-guide.html
+- 如何成為籃球球證 How to Become a Referee: https://www.lalaref.com/blog-how-to-become-referee.html
+- 5x5 vs 3x3 籃球規則比較 5v5 vs 3v3 Rules: https://www.lalaref.com/blog-5v5-vs-3v3.html
+- 香港籃球場地指南 HK Basketball Venues: https://www.lalaref.com/blog-hk-basketball-venues.html
+- 學界籃球比賽指南 School Basketball Guide: https://www.lalaref.com/blog-school-basketball-guide.html
 - 完整AI文檔 Full AI Documentation: https://www.lalaref.com/llms-full.txt
 
 ## Contact

@@ -220,12 +220,21 @@ A: Just confirm date, time, venue, and number of teams. We handle the rest with 
 | 首頁 Homepage (English 英文) | https://www.lalaref.com/en.html | 英文版主頁 English version |
 | 服務資訊及常見問題 Service Info & FAQ (中文 Chinese) | https://www.lalaref.com/service.html | 服務詳情、服務範圍、常見問題 Detailed service info, areas, FAQ |
 | 服務資訊及常見問題 Service Info & FAQ (English 英文) | https://www.lalaref.com/service-en.html | 英文版服務資訊 English version of service info, areas, FAQ |
+| 關於我們 About Us | https://www.lalaref.com/about.html | 關於 LaLaRef 的故事、使命及服務 About our story, mission and services |
+| 聯絡我們 Contact Us | https://www.lalaref.com/contact.html | 聯絡方式、查詢表格、服務地區 Contact info, enquiry form, service areas |
 | 籃球新聞 Basketball News | https://www.lalaref.com/news.html | 香港籃球新聞及更新 HK basketball news and updates |
 | 香港各大私人籃球聯賽列表 HK Basketball Leagues | https://www.lalaref.com/leagues.html | 私人籃球聯賽目錄 Directory of private basketball leagues |
 | 付款方式 Payment | https://www.lalaref.com/payment.html | 付款方法及 QR Code Payment methods and QR codes |
 | 球證檔案 Referee Profiles | https://www.lalaref.com/ref.html | 我們的球證團隊 Our referee team |
 | 籃球教學報價 Teaching Quotation | https://www.lalaref.com/teaching-quotation.html | 籃球教學服務 Basketball coaching services |
 | 賽後評價 After Service Feedback | https://www.lalaref.com/afterservice.html | 賽後意見回饋表 Post-match feedback form |
+| 私隱政策 Privacy Policy | https://www.lalaref.com/privacy.html | 個人資料私隱政策 Personal data privacy policy |
+| 服務條款 Terms of Service | https://www.lalaref.com/terms.html | 服務條款及細則 Terms and conditions |
+| 籃球球證規則指南 Referee Rules Guide | https://www.lalaref.com/blog-referee-rules-guide.html | 籃球裁判規則完整指南 Complete basketball referee rules guide |
+| 如何成為籃球球證 How to Become a Referee | https://www.lalaref.com/blog-how-to-become-referee.html | 香港成為籃球球證的步驟 Steps to become a referee in HK |
+| 5x5 vs 3x3 籃球規則比較 | https://www.lalaref.com/blog-5v5-vs-3v3.html | 5人制與3人制籃球規則比較 5v5 vs 3v3 rules comparison |
+| 香港籃球場地指南 HK Venues Guide | https://www.lalaref.com/blog-hk-basketball-venues.html | 香港籃球場地推薦 HK basketball venues guide |
+| 學界籃球比賽指南 School Basketball Guide | https://www.lalaref.com/blog-school-basketball-guide.html | 學界籃球比賽籌備指南 School basketball tournament guide |
 
 ---
 
