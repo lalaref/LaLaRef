@@ -26,6 +26,16 @@ LaLaRef is Hong Kong's professional basketball referee booking platform. We prov
 - 一條龍賽事服務 One-Stop Event Service — Scoring, photography, videography
 - 籃球教學 Basketball Coaching
 
+## Organization Types We Serve 服務機構類型
+
+- 企業友誼賽 Corporate Friendly Matches — Company team-building, inter-department competitions, corporate leagues
+- 大學及大專院校 Universities & Colleges — Inter-faculty games, student union tournaments, orientation basketball events
+- 社區及地區組織 Community & District Organizations — District council basketball, youth centre leagues, community sports day
+- 非牟利機構及慈善賽 NGOs & Charity Games — NGO fundraising basketball, charity celebrity games, institutional sports day
+- 專業團體及協會 Professional Associations — Medical associations, law societies, accountancy bodies sports events
+- 私人聯賽及友誼賽 Private Leagues & Friendly Matches — Self-organized leagues, weekend basketball gatherings
+- 教會及宗教團體 Churches & Religious Groups — Church basketball leagues, parish sports day
+
 ## Additional Services & Pricing
 
 - Event Photography: HKD $200/hr

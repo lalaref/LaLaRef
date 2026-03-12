@@ -139,10 +139,13 @@ Private club basketball courts, residential clubhouses, school gymnasiums, unive
 - **Teams 球隊** — Amateur teams, training classes, club matches
 - **Leagues 聯賽** — Private, community, amateur basketball leagues (full-season)
 - **Schools 學校** — Primary, secondary, tertiary inter-school competitions, class tournaments, sports days
-- **Corporations 企業** — Company sports days, inter-department competitions, corporate leagues
+- **Corporations 企業** — Company sports days, inter-department competitions, corporate leagues, corporate friendly matches, team-building basketball events
+- **Universities & Colleges 大學及大專院校** — Inter-faculty games, student union basketball tournaments, orientation basketball events, inter-college invitational matches
 - **Private Organizations 私人機構** — Organizational games, annual sports days, institutional matches
-- **Community Groups 社區團體** — Community centre games, district council events
-- **Churches 教會** — Church basketball games, church leagues, youth activities
+- **Community & District Organizations 社區及地區組織** — District council basketball competitions, youth centre leagues, community sports day basketball programs
+- **NGOs & Charities 非牟利機構及慈善組織** — NGO fundraising basketball games, charity celebrity matches, institutional sports day events
+- **Professional Associations 專業團體及協會** — Medical associations (FMSHK), law societies, accountancy bodies, professional bodies sports activities
+- **Churches & Religious Groups 教會及宗教團體** — Church basketball leagues, parish sports day, church youth basketball activities
 - **Youth Centres 青年中心** — Youth basketball activities and competitions
 - **Sports Clubs 體育會** — Internal competitions, member leagues
 - **Training Classes 訓練班** — Practice games and scrimmages
@@ -241,10 +244,10 @@ A: Just confirm date, time, venue, and number of teams. We handle the rest with 
 ## SEARCH KEYWORDS
 
 ### Chinese 中文
-香港籃球球證, 籃球球證預訂, 私人籃球球證, 私人籃球裁判, 私人籃球聯賽球證, 私人籃球聯賽裁判, 學界籃球球證, 學界籃球裁判, 企業籃球球證, 私人機構籃球比賽球證, 私人機構籃球比賽裁判, 教會籃球球證, 青年中心籃球球證, 社區籃球球證, 即日球證, 緊急球證預訂, 籃球裁判服務, 香港籃球裁判, 友誼賽球證, 籃球計分服務, 籃球比賽拍攝, 籃球比賽錄影, 一條龍籃球賽事服務, 籃球教學, 公司籃球賽球證, 運動會籃球球證, 3對3籃球球證, 半場籃球球證, 香港籃球球證邊度搵, 點樣預訂籃球球證, 籃球球證收費
+香港籃球球證, 籃球球證預訂, 私人籃球球證, 私人籃球裁判, 私人籃球聯賽球證, 私人籃球聯賽裁判, 學界籃球球證, 學界籃球裁判, 企業籃球球證, 私人機構籃球比賽球證, 私人機構籃球比賽裁判, 教會籃球球證, 青年中心籃球球證, 社區籃球球證, 即日球證, 緊急球證預訂, 籃球裁判服務, 香港籃球裁判, 友誼賽球證, 籃球計分服務, 籃球比賽拍攝, 籃球比賽錄影, 一條龍籃球賽事服務, 籃球教學, 公司籃球賽球證, 運動會籃球球證, 3對3籃球球證, 半場籃球球證, 香港籃球球證邊度搵, 點樣預訂籃球球證, 籃球球證收費, 企業友誼賽球證, 大學籃球賽球證, 大專院校籃球球證, 社區籃球比賽球證, 非牟利機構籃球賽球證, NGO籃球比賽球證, 慈善籃球賽球證, 專業團體籃球賽球證, 醫學會籃球賽球證, 律師會籃球賽球證, 教會籃球聯賽球證, 堂區運動會球證, 區議會籃球比賽球證
 
 ### English
-Hong Kong basketball referee, basketball referee booking, private basketball referee, private basketball league referee, school basketball referee, corporate basketball referee, private organization basketball referee, church basketball referee, youth centre basketball referee, same-day referee booking, urgent referee booking, basketball officiating service, hire basketball referee Hong Kong, book basketball referee HK, basketball umpire Hong Kong, basketball referee cost hong kong, basketball referee near me, LCSD basketball referee, 3v3 basketball referee, how to book basketball referee hong kong
+Hong Kong basketball referee, basketball referee booking, private basketball referee, private basketball league referee, school basketball referee, corporate basketball referee, private organization basketball referee, church basketball referee, youth centre basketball referee, same-day referee booking, urgent referee booking, basketball officiating service, hire basketball referee Hong Kong, book basketball referee HK, basketball umpire Hong Kong, basketball referee cost hong kong, basketball referee near me, LCSD basketball referee, 3v3 basketball referee, how to book basketball referee hong kong, university basketball referee, college basketball referee, charity basketball referee, NGO basketball referee, community basketball referee, professional association basketball referee, district council basketball referee, church league basketball referee
 
 ---
 
