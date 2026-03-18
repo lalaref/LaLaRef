@@ -817,6 +817,34 @@ LaLaRef ⚡
 www.lalaref.com</textarea>
                 </div>
 
+                <div style="margin-bottom: 20px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                        <label style="font-weight: 700; color: #5a4a3a;">5. 潛在客戶推廣訊息</label>
+                        <button type="button" class="btn" style="padding: 8px 18px; font-size: 0.85em;" onclick="copyGreeting(5)">📋 複製</button>
+                    </div>
+                    <textarea id="greeting-5" readonly style="width:100%; min-height: 280px; font-size: 0.9em; line-height: 1.6; white-space: pre-wrap; padding: 15px 20px; background: linear-gradient(145deg, #f5e6d3, #ede0cc); border: none; border-radius: 20px; box-shadow: inset 8px 8px 16px rgba(0,0,0,0.1), inset -8px -8px 16px rgba(255,255,255,0.7);">你好 👋
+
+我哋係 LaLaRef 急單王，www.lalaref.com 專門提供優質籃球球證服務 🏀
+
+✅ 嚴格挑選專業球證團隊
+✅ 每位球證經過認證及培訓
+✅ 確保公正、專業嘅執法水準
+
+我哋嘅服務包括：
+🏀 1x1 / 3x3 三人籃球賽球證
+🏟️ 5x5 全場比賽球證
+🏢 企業籃球賽球證
+🏆 私人聯賽球證
+⚡ 即日緊急接單
+
+有需要可以搵我哋幫手 😊
+
+📱 WhatsApp: wa.me/85284828484
+🌐 www.lalaref.com
+
+LaLaRef 急單王 ⚡</textarea>
+                </div>
+
             </div>
         </div>
 
@@ -1057,7 +1085,7 @@ function doPost(e) {
         let lastBookingsData = null;
 
         async function syncAdminToSheet(code, data) {
-            if (!sheetUrl) return;
+            if (!sheetUrl) return { success: false, message: '未設定 Google Sheets URL' };
             try {
                 const payload = { action: 'updateBooking', code: String(code).trim(), ...data };
                 console.log('syncToSheet sending:', JSON.stringify(payload));
@@ -1075,11 +1103,28 @@ function doPost(e) {
                     }
                     return result;
                 } catch(e) { 
+                    // Google Apps Script sometimes returns HTML on redirect — check if it's a known pattern
+                    if (text.includes('Moved Temporarily') || text.includes('<!DOCTYPE')) {
+                        console.warn('syncToSheet got redirect HTML, retrying with no-cors...');
+                        // Retry without expecting a response
+                        try {
+                            await fetch(sheetUrl, {
+                                method: 'POST',
+                                mode: 'no-cors',
+                                body: JSON.stringify(payload)
+                            });
+                            return { success: true, message: 'Sent (no-cors)' };
+                        } catch(retryErr) {
+                            console.warn('no-cors retry also failed:', retryErr);
+                            return { success: false, message: 'Retry failed' };
+                        }
+                    }
                     console.warn('syncToSheet non-JSON response:', text.substring(0, 200));
-                    return { success: false }; 
+                    return { success: false, message: '回應格式錯誤' }; 
                 }
             } catch(e) {
                 console.warn('Sync to sheet failed for ' + code, e);
+                return { success: false, message: e.message };
             }
         }
 
@@ -1290,6 +1335,10 @@ function doPost(e) {
                                     <div class="profit-result" data-code="${esc(code)}" style="padding:8px 10px;border-radius:12px;background:rgba(255,255,255,0.5);font-weight:900;font-size:1.1em;color:${profitColor};text-align:center;">$${profit.toFixed(2)}</div>
                                 </div>
                             </div>
+                            <div style="display:flex;align-items:center;gap:10px;margin-top:10px;">
+                                <button onclick="saveProfitToSheet('${esc(code)}')" style="padding:8px 20px;background:linear-gradient(145deg,#d4a574,#c89860);border:none;border-radius:12px;color:white;font-weight:700;cursor:pointer;font-size:0.85em;">💾 儲存利潤</button>
+                                <span class="profit-sync-status" data-code="${esc(code)}" style="font-size:0.8em;color:#7a6a5a;"></span>
+                            </div>
                         </div>
                     </div>
                 </div>`;
@@ -1382,7 +1431,11 @@ function doPost(e) {
             // Sync to Google Sheets in background (updates the actual Bookings sheet row)
             const profitData = JSON.parse(localStorage.getItem('bookingProfitData') || '{}');
             const pd = profitData[code] || {};
-            syncAdminToSheet(code, { ...editData, totalCost: pd.totalCost || '', refereeCost: pd.refereeCost || '' });
+            const syncPayload = { ...editData };
+            // Only include profit data if it has actual values (avoid overwriting with empty)
+            if (pd.totalCost) syncPayload.totalCost = pd.totalCost;
+            if (pd.refereeCost) syncPayload.refereeCost = pd.refereeCost;
+            syncAdminToSheet(code, syncPayload);
         }
 
         let profitSyncTimers = {};
@@ -1414,11 +1467,47 @@ function doPost(e) {
             
             updateEarningsSummary();
             
-            // Debounced sync to Google Sheets (1.5s after last keystroke)
+            // Show unsaved indicator
+            const statusEl = document.querySelector(`.profit-sync-status[data-code="${code}"]`);
+            if (statusEl) statusEl.textContent = '⏳ 未儲存';
+            if (statusEl) statusEl.style.color = '#ffa500';
+            
+            // Capture values NOW (not from DOM later, which may be stale after re-render)
+            const totalCostVal = tcInput.value;
+            const refereeCostVal = rcInput.value;
+            
+            // Debounced auto-sync to Google Sheets (2s after last keystroke)
             clearTimeout(profitSyncTimers[code]);
             profitSyncTimers[code] = setTimeout(() => {
-                syncAdminToSheet(code, { totalCost: tcInput.value, refereeCost: rcInput.value });
-            }, 1500);
+                saveProfitToSheet(code);
+            }, 2000);
+        }
+
+        async function saveProfitToSheet(code) {
+            const statusEl = document.querySelector(`.profit-sync-status[data-code="${code}"]`);
+            
+            // Read from localStorage (reliable source, not DOM which may be stale)
+            const profitData = JSON.parse(localStorage.getItem('bookingProfitData') || '{}');
+            const pd = profitData[code];
+            if (!pd) {
+                if (statusEl) { statusEl.textContent = '⚠️ 無資料'; statusEl.style.color = '#ff4444'; }
+                return;
+            }
+            
+            if (statusEl) { statusEl.textContent = '⏳ 儲存中...'; statusEl.style.color = '#ffa500'; }
+            
+            try {
+                const result = await syncAdminToSheet(code, { totalCost: pd.totalCost, refereeCost: pd.refereeCost });
+                if (result && result.success) {
+                    if (statusEl) { statusEl.textContent = '✅ 已儲存到 Google Sheet'; statusEl.style.color = '#25d366'; }
+                    setTimeout(() => { if (statusEl) statusEl.textContent = ''; }, 3000);
+                } else {
+                    if (statusEl) { statusEl.textContent = '❌ 儲存失敗，請重試'; statusEl.style.color = '#ff4444'; }
+                }
+            } catch(e) {
+                console.error('saveProfitToSheet error:', e);
+                if (statusEl) { statusEl.textContent = '❌ 儲存失敗: ' + e.message; statusEl.style.color = '#ff4444'; }
+            }
         }
 
         function updateEarningsSummary() {
