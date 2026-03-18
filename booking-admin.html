@@ -876,6 +876,26 @@ function doGet(e) {
   // Fixed column order: A=code, B=matchDate, C=matchTime, D=matchEndTime, E=venue, F=matchType, G=refereeCount, H=contactName, I=contactPhone, J=contactEmail, K=status, L=paymentStatus, M=refereeInfo, N=notes, O=createdAt, P=totalCost, Q=refereeCost
   const fixedHeaders = ['code','matchDate','matchTime','matchEndTime','venue','matchType','refereeCount','contactName','contactPhone','contactEmail','status','paymentStatus','refereeInfo','notes','createdAt','totalCost','refereeCost'];
   
+  // GET-based update (more reliable than POST for Google Apps Script)
+  if (action === 'update' && code) {
+    const allData = sheet.getDataRange().getValues();
+    const codeToFind = String(code).trim();
+    for (var i = 1; i < allData.length; i++) {
+      if (String(allData[i][0]).trim() === codeToFind) {
+        var row = i + 1;
+        if (e.parameter.status !== undefined) sheet.getRange(row, 11).setValue(e.parameter.status);
+        if (e.parameter.paymentStatus !== undefined) sheet.getRange(row, 12).setValue(e.parameter.paymentStatus);
+        if (e.parameter.refereeInfo !== undefined) sheet.getRange(row, 13).setValue(e.parameter.refereeInfo);
+        if (e.parameter.notes !== undefined) sheet.getRange(row, 14).setValue(e.parameter.notes);
+        if (e.parameter.venue !== undefined) sheet.getRange(row, 5).setValue(e.parameter.venue);
+        if (e.parameter.totalCost !== undefined) sheet.getRange(row, 16).setValue(e.parameter.totalCost);
+        if (e.parameter.refereeCost !== undefined) sheet.getRange(row, 17).setValue(e.parameter.refereeCost);
+        return ContentService.createTextOutput(JSON.stringify({success: true, message: 'Updated'})).setMimeType(ContentService.MimeType.JSON);
+      }
+    }
+    return ContentService.createTextOutput(JSON.stringify({success: false, message: 'Not found'})).setMimeType(ContentService.MimeType.JSON);
+  }
+  
   if (code) {
     const booking = rows.find(row => String(row[0]).trim() === String(code).trim());
     if (booking) {
@@ -1085,45 +1105,33 @@ function doPost(e) {
         let lastBookingsData = null;
 
         async function syncAdminToSheet(code, data) {
-            if (!sheetUrl) return { success: false, message: '未設定 Google Sheets URL' };
+            if (!sheetUrl) return { success: false, message: 'No sheet URL' };
             try {
-                const payload = { action: 'updateBooking', code: String(code).trim(), ...data };
-                console.log('syncToSheet sending:', JSON.stringify(payload));
-                const response = await fetch(sheetUrl, {
-                    method: 'POST',
-                    redirect: 'follow',
-                    body: JSON.stringify(payload)
-                });
+                // Use GET-based update (most reliable with Google Apps Script redirects)
+                const params = new URLSearchParams();
+                params.set('action', 'update');
+                params.set('code', String(code).trim());
+                if (data.totalCost !== undefined && data.totalCost !== '') params.set('totalCost', data.totalCost);
+                if (data.refereeCost !== undefined && data.refereeCost !== '') params.set('refereeCost', data.refereeCost);
+                if (data.status !== undefined) params.set('status', data.status);
+                if (data.paymentStatus !== undefined) params.set('paymentStatus', data.paymentStatus);
+                if (data.refereeInfo !== undefined) params.set('refereeInfo', data.refereeInfo);
+                if (data.notes !== undefined) params.set('notes', data.notes);
+                if (data.venue !== undefined) params.set('venue', data.venue);
+                const url = sheetUrl + '?' + params.toString();
+                console.log('syncToSheet GET:', url);
+                const response = await fetch(url);
                 const text = await response.text();
-                console.log('syncToSheet response:', text.substring(0, 300));
+                console.log('syncToSheet response:', text.substring(0, 500));
                 try {
                     const result = JSON.parse(text);
-                    if (!result.success) {
-                        console.warn('syncToSheet server error:', result.message);
-                    }
                     return result;
-                } catch(e) { 
-                    // Google Apps Script sometimes returns HTML on redirect — check if it's a known pattern
-                    if (text.includes('Moved Temporarily') || text.includes('<!DOCTYPE')) {
-                        console.warn('syncToSheet got redirect HTML, retrying with no-cors...');
-                        // Retry without expecting a response
-                        try {
-                            await fetch(sheetUrl, {
-                                method: 'POST',
-                                mode: 'no-cors',
-                                body: JSON.stringify(payload)
-                            });
-                            return { success: true, message: 'Sent (no-cors)' };
-                        } catch(retryErr) {
-                            console.warn('no-cors retry also failed:', retryErr);
-                            return { success: false, message: 'Retry failed' };
-                        }
-                    }
-                    console.warn('syncToSheet non-JSON response:', text.substring(0, 200));
-                    return { success: false, message: '回應格式錯誤' }; 
+                } catch(parseErr) {
+                    console.warn('syncToSheet non-JSON:', text.substring(0, 200));
+                    return { success: false, message: 'Non-JSON response - please redeploy Apps Script' };
                 }
             } catch(e) {
-                console.warn('Sync to sheet failed for ' + code, e);
+                console.warn('syncToSheet failed:', e);
                 return { success: false, message: e.message };
             }
         }
@@ -1493,16 +1501,36 @@ function doPost(e) {
                 if (statusEl) { statusEl.textContent = '⚠️ 無資料'; statusEl.style.color = '#ff4444'; }
                 return;
             }
-            
+
             if (statusEl) { statusEl.textContent = '⏳ 儲存中...'; statusEl.style.color = '#ffa500'; }
-            
+
             try {
                 const result = await syncAdminToSheet(code, { totalCost: pd.totalCost, refereeCost: pd.refereeCost });
                 if (result && result.success) {
-                    if (statusEl) { statusEl.textContent = '✅ 已儲存到 Google Sheet'; statusEl.style.color = '#25d366'; }
-                    setTimeout(() => { if (statusEl) statusEl.textContent = ''; }, 3000);
+                    // Verify by fetching the booking back from sheet
+                    if (statusEl) { statusEl.textContent = '⏳ 驗證中...'; statusEl.style.color = '#ffa500'; }
+                    try {
+                        const verifyRes = await fetch(sheetUrl + '?code=' + encodeURIComponent(code));
+                        const verifyData = await verifyRes.json();
+                        if (verifyData.success && verifyData.booking) {
+                            const sheetTC = String(verifyData.booking.totalCost || '');
+                            const sheetRC = String(verifyData.booking.refereeCost || '');
+                            if (sheetTC === String(pd.totalCost) || sheetRC === String(pd.refereeCost)) {
+                                if (statusEl) { statusEl.textContent = '✅ 已儲存並驗證'; statusEl.style.color = '#25d366'; }
+                            } else {
+                                if (statusEl) { statusEl.textContent = '⚠️ 已發送但驗證不符 (Sheet: ' + sheetTC + '/' + sheetRC + ')'; statusEl.style.color = '#ffa500'; }
+                                console.warn('Verify mismatch - sent:', pd, 'sheet has:', verifyData.booking.totalCost, verifyData.booking.refereeCost);
+                            }
+                        } else {
+                            if (statusEl) { statusEl.textContent = '✅ 已發送 (無法驗證)'; statusEl.style.color = '#25d366'; }
+                        }
+                    } catch(verifyErr) {
+                        if (statusEl) { statusEl.textContent = '✅ 已發送 (驗證失敗)'; statusEl.style.color = '#25d366'; }
+                    }
+                    setTimeout(() => { if (statusEl) statusEl.textContent = ''; }, 5000);
                 } else {
-                    if (statusEl) { statusEl.textContent = '❌ 儲存失敗，請重試'; statusEl.style.color = '#ff4444'; }
+                    const msg = (result && result.message) ? result.message : '未知錯誤';
+                    if (statusEl) { statusEl.textContent = '❌ 儲存失敗: ' + msg; statusEl.style.color = '#ff4444'; }
                 }
             } catch(e) {
                 console.error('saveProfitToSheet error:', e);
