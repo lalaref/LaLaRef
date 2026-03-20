@@ -11,7 +11,7 @@
         <xhtml:link rel="alternate" hreflang="zh-HK" href="https://www.lalaref.com/"/>
         <xhtml:link rel="alternate" hreflang="en" href="https://www.lalaref.com/en.html"/>
         <xhtml:link rel="alternate" hreflang="x-default" href="https://www.lalaref.com/"/>
-        <lastmod>2026-03-11</lastmod>
+        <lastmod>2026-03-20</lastmod>
         <changefreq>weekly</changefreq>
         <priority>1.0</priority>
     </url>
@@ -22,7 +22,7 @@
         <xhtml:link rel="alternate" hreflang="zh-HK" href="https://www.lalaref.com/"/>
         <xhtml:link rel="alternate" hreflang="en" href="https://www.lalaref.com/en.html"/>
         <xhtml:link rel="alternate" hreflang="x-default" href="https://www.lalaref.com/"/>
-        <lastmod>2026-03-11</lastmod>
+        <lastmod>2026-03-20</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
     </url>
@@ -32,7 +32,7 @@
         <loc>https://www.lalaref.com/service.html</loc>
         <xhtml:link rel="alternate" hreflang="zh-HK" href="https://www.lalaref.com/service.html"/>
         <xhtml:link rel="alternate" hreflang="en" href="https://www.lalaref.com/service-en.html"/>
-        <lastmod>2026-03-02</lastmod>
+        <lastmod>2026-03-20</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
     </url>
@@ -42,7 +42,7 @@
         <loc>https://www.lalaref.com/service-en.html</loc>
         <xhtml:link rel="alternate" hreflang="zh-HK" href="https://www.lalaref.com/service.html"/>
         <xhtml:link rel="alternate" hreflang="en" href="https://www.lalaref.com/service-en.html"/>
-        <lastmod>2026-03-02</lastmod>
+        <lastmod>2026-03-20</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
     </url>
@@ -50,7 +50,7 @@
     <!-- Basketball News Page -->
     <url>
         <loc>https://www.lalaref.com/news.html</loc>
-        <lastmod>2026-03-02</lastmod>
+        <lastmod>2026-03-20</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
@@ -58,7 +58,7 @@
     <!-- Hong Kong Basketball Leagues Page -->
     <url>
         <loc>https://www.lalaref.com/leagues.html</loc>
-        <lastmod>2026-03-02</lastmod>
+        <lastmod>2026-03-20</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -66,7 +66,7 @@
     <!-- About Us Page -->
     <url>
         <loc>https://www.lalaref.com/about.html</loc>
-        <lastmod>2026-03-10</lastmod>
+        <lastmod>2026-03-20</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
@@ -74,7 +74,7 @@
     <!-- Contact Us Page -->
     <url>
         <loc>https://www.lalaref.com/contact.html</loc>
-        <lastmod>2026-03-10</lastmod>
+        <lastmod>2026-03-20</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
@@ -82,7 +82,7 @@
     <!-- Payment Page -->
     <url>
         <loc>https://www.lalaref.com/payment.html</loc>
-        <lastmod>2026-03-02</lastmod>
+        <lastmod>2026-03-20</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.6</priority>
     </url>
@@ -90,7 +90,7 @@
     <!-- Referee Profile Page -->
     <url>
         <loc>https://www.lalaref.com/ref.html</loc>
-        <lastmod>2026-03-02</lastmod>
+        <lastmod>2026-03-20</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
@@ -98,7 +98,7 @@
     <!-- Teaching Quotation Page -->
     <url>
         <loc>https://www.lalaref.com/teaching-quotation.html</loc>
-        <lastmod>2026-03-02</lastmod>
+        <lastmod>2026-03-20</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.6</priority>
     </url>
@@ -106,7 +106,7 @@
     <!-- After Service Feedback -->
     <url>
         <loc>https://www.lalaref.com/afterservice.html</loc>
-        <lastmod>2026-03-02</lastmod>
+        <lastmod>2026-03-20</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.5</priority>
     </url>
@@ -114,7 +114,7 @@
     <!-- Privacy Policy -->
     <url>
         <loc>https://www.lalaref.com/privacy.html</loc>
-        <lastmod>2026-03-10</lastmod>
+        <lastmod>2026-03-20</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.4</priority>
     </url>
@@ -122,7 +122,7 @@
     <!-- Terms of Service -->
     <url>
         <loc>https://www.lalaref.com/terms.html</loc>
-        <lastmod>2026-03-10</lastmod>
+        <lastmod>2026-03-20</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.4</priority>
     </url>
@@ -130,40 +130,48 @@
     <!-- Blog: Basketball Referee Rules Guide -->
     <url>
         <loc>https://www.lalaref.com/blog-referee-rules-guide.html</loc>
-        <lastmod>2026-03-10</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.7</priority>
+        <lastmod>2026-03-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
     </url>
 
     <!-- Blog: How to Become a Referee in HK -->
     <url>
         <loc>https://www.lalaref.com/blog-how-to-become-referee.html</loc>
-        <lastmod>2026-03-10</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.7</priority>
+        <lastmod>2026-03-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
     </url>
 
     <!-- Blog: 5v5 vs 3v3 Basketball Rules Comparison -->
     <url>
         <loc>https://www.lalaref.com/blog-5v5-vs-3v3.html</loc>
-        <lastmod>2026-03-10</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.7</priority>
+        <lastmod>2026-03-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
     </url>
 
     <!-- Blog: HK Basketball Venues Guide -->
     <url>
         <loc>https://www.lalaref.com/blog-hk-basketball-venues.html</loc>
-        <lastmod>2026-03-10</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.7</priority>
+        <lastmod>2026-03-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
     </url>
 
     <!-- Blog: School Basketball Tournament Guide -->
     <url>
         <loc>https://www.lalaref.com/blog-school-basketball-guide.html</loc>
-        <lastmod>2026-03-10</lastmod>
-        <changefreq>monthly</changefreq>
+        <lastmod>2026-03-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- Competition Bracket Page -->
+    <url>
+        <loc>https://www.lalaref.com/competition.html</loc>
+        <lastmod>2026-03-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.7</priority>
     </url>
 

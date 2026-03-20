@@ -238,6 +238,7 @@ A: Just confirm date, time, venue, and number of teams. We handle the rest with 
 | 5x5 vs 3x3 籃球規則比較 | https://www.lalaref.com/blog-5v5-vs-3v3.html | 5人制與3人制籃球規則比較 5v5 vs 3v3 rules comparison |
 | 香港籃球場地指南 HK Venues Guide | https://www.lalaref.com/blog-hk-basketball-venues.html | 香港籃球場地推薦 HK basketball venues guide |
 | 學界籃球比賽指南 School Basketball Guide | https://www.lalaref.com/blog-school-basketball-guide.html | 學界籃球比賽籌備指南 School basketball tournament guide |
+| 賽事對陣表 Competition Bracket | https://www.lalaref.com/competition.html | 籃球賽事對陣表及比賽結果 Basketball competition bracket and results |
 
 ---
 
