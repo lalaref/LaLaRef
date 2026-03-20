@@ -858,7 +858,10 @@ LaLaRef 急單王 ⚡</textarea>
                     <label for="sheet-url">Google Apps Script 網址</label>
                     <input type="url" id="sheet-url" class="config-input" placeholder="https://script.google.com/macros/s/...../exec">
                     <button class="btn save-config-btn" onclick="saveConfig()">💾 儲存設定</button>
+                    <button class="btn btn-secondary save-config-btn" onclick="verifyDeployment()" style="margin-left:10px;">🔍 驗證部署</button>
                 </div>
+                
+                <div id="deploy-status" style="display:none; margin-top:15px; padding:15px; border-radius:15px; font-weight:700;"></div>
 
                 <div style="margin-top: 30px; padding: 20px; background: #f5e6d3; border-radius: 15px;">
                     <h4 style="margin-bottom: 15px; color: #5a4a3a;">📝 Google Apps Script 程式碼</h4>
@@ -1066,6 +1069,53 @@ function doPost(e) {
             document.getElementById('setup-notice').style.display = 'none';
         }
 
+        async function verifyDeployment() {
+            const statusEl = document.getElementById('deploy-status');
+            if (!sheetUrl) {
+                statusEl.style.display = 'block';
+                statusEl.style.background = '#fff3cd';
+                statusEl.style.color = '#856404';
+                statusEl.textContent = '⚠️ 請先儲存 Google Apps Script 網址';
+                return;
+            }
+            statusEl.style.display = 'block';
+            statusEl.style.background = '#d1ecf1';
+            statusEl.style.color = '#0c5460';
+            statusEl.textContent = '⏳ 正在驗證部署...';
+            try {
+                // Send a test update with a dummy code to check if the action=update handler exists
+                const testUrl = sheetUrl + '?action=update&code=__DEPLOY_TEST__&totalCost=0';
+                const res = await fetch(testUrl, { redirect: 'follow' });
+                const text = await res.text();
+                let result;
+                try { result = JSON.parse(text); } catch(e) { result = null; }
+                
+                if (result && result.success && result.booking) {
+                    // Got a READ response back — the update handler doesn't exist
+                    statusEl.style.background = '#f8d7da';
+                    statusEl.style.color = '#721c24';
+                    statusEl.innerHTML = '❌ Apps Script 版本過舊！<br><span style="font-weight:400;font-size:0.9em;">你的 Apps Script 沒有 update handler。請複製下方最新程式碼，到 Google Apps Script 貼上並重新部署（新增部署，不是管理部署）。</span>';
+                } else if (result && result.message && result.message.includes('not found')) {
+                    // Got "Booking not found" — this means the update handler EXISTS and works
+                    statusEl.style.background = '#d4edda';
+                    statusEl.style.color = '#155724';
+                    statusEl.textContent = '✅ Apps Script 已正確部署！update handler 正常運作。';
+                } else if (result && result.success) {
+                    statusEl.style.background = '#d4edda';
+                    statusEl.style.color = '#155724';
+                    statusEl.textContent = '✅ Apps Script 已正確部署！';
+                } else {
+                    statusEl.style.background = '#fff3cd';
+                    statusEl.style.color = '#856404';
+                    statusEl.innerHTML = '⚠️ 無法確認部署狀態<br><span style="font-weight:400;font-size:0.9em;">回應: ' + (text || '(空白)').substring(0, 100) + '</span>';
+                }
+            } catch(e) {
+                statusEl.style.background = '#f8d7da';
+                statusEl.style.color = '#721c24';
+                statusEl.textContent = '❌ 連接失敗: ' + e.message;
+            }
+        }
+
         document.getElementById('booking-form').addEventListener('submit', async function(e) {
             e.preventDefault();
             
@@ -1140,6 +1190,13 @@ function doPost(e) {
                 
                 try {
                     const result = JSON.parse(text);
+                    // CRITICAL: Detect false positive — if the response contains "booking" object,
+                    // it means the Apps Script returned a READ response, not an UPDATE response.
+                    // The update handler returns {success:true, message:"Updated via GET"} — no "booking" key.
+                    if (result.success && result.booking) {
+                        console.error('syncToSheet: Got READ response instead of UPDATE — Apps Script 需要重新部署！');
+                        return { success: false, message: '⚠️ Apps Script 未更新！請到「設定」分頁複製最新程式碼，然後在 Google Apps Script 重新部署。' };
+                    }
                     return result;
                 } catch(e) {
                     // Google Apps Script often returns HTML after redirect - treat as success if HTTP was OK
@@ -1534,7 +1591,8 @@ function doPost(e) {
                     if (statusEl) { statusEl.textContent = '✅ 已儲存'; statusEl.style.color = '#25d366'; }
                     setTimeout(() => { if (statusEl) statusEl.textContent = ''; }, 5000);
                 } else {
-                    if (statusEl) { statusEl.textContent = '❌ 儲存失敗 - 請確認已重新部署 Apps Script'; statusEl.style.color = '#ff4444'; }
+                    const msg = (result && result.message) || '儲存失敗';
+                    if (statusEl) { statusEl.textContent = '❌ ' + msg; statusEl.style.color = '#ff4444'; }
                 }
             } catch(e) {
                 console.error('saveProfitToSheet error:', e);
