@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml"
+        xmlns:video="http://www.google.com/schemas/sitemap-video/1.1"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
@@ -173,6 +174,22 @@
         <lastmod>2026-03-20</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>
+    </url>
+
+    <!-- Video Watch Page -->
+    <url>
+        <loc>https://www.lalaref.com/video.html</loc>
+        <lastmod>2026-03-20</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+        <video:video>
+            <video:thumbnail_loc>https://www.lalaref.com/lalaref2.png</video:thumbnail_loc>
+            <video:title>LaLaRef 急單王 - 香港籃球球證服務介紹</video:title>
+            <video:description>LaLaRef 急單王提供全港籃球球證預訂服務。九龍、港島、新界全覆蓋，即日緊急接單，持牌專業球證團隊，學界認可資格，24/7接單。</video:description>
+            <video:content_loc>https://www.lalaref.com/video.mp4</video:content_loc>
+            <video:publication_date>2025-01-01T00:00:00+08:00</video:publication_date>
+            <video:family_friendly>yes</video:family_friendly>
+        </video:video>
     </url>
 
 </urlset>
