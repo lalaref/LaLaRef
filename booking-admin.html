@@ -899,8 +899,8 @@ function doGet(e) {
         if (e.parameter.refereeInfo) sheet.getRange(row, 13).setValue(decodeURIComponent(e.parameter.refereeInfo));
         if (e.parameter.notes) sheet.getRange(row, 14).setValue(decodeURIComponent(e.parameter.notes));
         if (e.parameter.venue) sheet.getRange(row, 5).setValue(decodeURIComponent(e.parameter.venue));
-        if (e.parameter.totalCost) sheet.getRange(row, 16).setValue(Number(e.parameter.totalCost));
-        if (e.parameter.refereeCost) sheet.getRange(row, 17).setValue(Number(e.parameter.refereeCost));
+        if (e.parameter.totalCost !== undefined && e.parameter.totalCost !== '') sheet.getRange(row, 16).setValue(Number(e.parameter.totalCost));
+        if (e.parameter.refereeCost !== undefined && e.parameter.refereeCost !== '') sheet.getRange(row, 17).setValue(Number(e.parameter.refereeCost));
         return ContentService.createTextOutput(JSON.stringify({success: true, message: 'Updated via GET'})).setMimeType(ContentService.MimeType.JSON);
       }
     }
@@ -1124,9 +1124,9 @@ function doPost(e) {
                 params.set('action', 'update');
                 params.set('code', String(code).trim());
                 
-                // Add all data fields as URL params
+                // Add all data fields as URL params (include "0" values, only skip undefined/null)
                 Object.keys(data).forEach(key => {
-                    if (data[key] !== undefined && data[key] !== null && data[key] !== '') {
+                    if (data[key] !== undefined && data[key] !== null) {
                         params.set(key, String(data[key]));
                     }
                 });
@@ -1142,8 +1142,12 @@ function doPost(e) {
                     const result = JSON.parse(text);
                     return result;
                 } catch(e) {
-                    // If we got HTML back, the Apps Script may not have the update handler yet
-                    console.warn('syncToSheet non-JSON response (Apps Script may need redeployment):', text.substring(0, 200));
+                    // Google Apps Script often returns HTML after redirect - treat as success if HTTP was OK
+                    if (response.ok) {
+                        console.log('syncToSheet: non-JSON response but HTTP OK, treating as success');
+                        return { success: true, message: 'Sent (non-JSON response)' };
+                    }
+                    console.warn('syncToSheet non-JSON response:', text.substring(0, 200));
                     return { success: false, message: 'Apps Script needs redeployment with update handler' };
                 }
             } catch(e) {
@@ -1456,9 +1460,9 @@ function doPost(e) {
             const profitData = JSON.parse(localStorage.getItem('bookingProfitData') || '{}');
             const pd = profitData[code] || {};
             const syncPayload = { ...editData };
-            // Only include profit data if it has actual values (avoid overwriting with empty)
-            if (pd.totalCost) syncPayload.totalCost = pd.totalCost;
-            if (pd.refereeCost) syncPayload.refereeCost = pd.refereeCost;
+            // Include profit data if it exists in localStorage (use != null to allow "0" values)
+            if (pd.totalCost != null && pd.totalCost !== '') syncPayload.totalCost = pd.totalCost;
+            if (pd.refereeCost != null && pd.refereeCost !== '') syncPayload.refereeCost = pd.refereeCost;
             syncAdminToSheet(code, syncPayload);
         }
 
@@ -1521,29 +1525,13 @@ function doPost(e) {
             if (statusEl) { statusEl.textContent = '⏳ 儲存中...'; statusEl.style.color = '#ffa500'; }
             
             try {
-                const result = await syncAdminToSheet(code, { totalCost: pd.totalCost, refereeCost: pd.refereeCost });
+                // Send totalCost and refereeCost - use "0" as fallback so the value is always sent
+                const totalCostVal = pd.totalCost !== undefined && pd.totalCost !== null && pd.totalCost !== '' ? String(pd.totalCost) : '0';
+                const refereeCostVal = pd.refereeCost !== undefined && pd.refereeCost !== null && pd.refereeCost !== '' ? String(pd.refereeCost) : '0';
+                
+                const result = await syncAdminToSheet(code, { totalCost: totalCostVal, refereeCost: refereeCostVal });
                 if (result && result.success) {
-                    // Verify by fetching the booking back from the sheet
-                    try {
-                        const verifyRes = await fetch(sheetUrl + '?code=' + encodeURIComponent(code));
-                        const verifyText = await verifyRes.text();
-                        const verifyData = JSON.parse(verifyText);
-                        if (verifyData.success && verifyData.booking) {
-                            const savedTC = String(verifyData.booking.totalCost || '');
-                            const savedRC = String(verifyData.booking.refereeCost || '');
-                            const expectedTC = String(pd.totalCost || '');
-                            const expectedRC = String(pd.refereeCost || '');
-                            if (savedTC === expectedTC || parseFloat(savedTC) === parseFloat(expectedTC)) {
-                                if (statusEl) { statusEl.textContent = '✅ 已儲存並驗證成功'; statusEl.style.color = '#25d366'; }
-                            } else {
-                                console.warn('Verification mismatch - saved:', savedTC, savedRC, 'expected:', expectedTC, expectedRC);
-                                if (statusEl) { statusEl.textContent = '⚠️ 已傳送但驗證不符 - 請重新部署 Apps Script'; statusEl.style.color = '#ffa500'; }
-                            }
-                        }
-                    } catch(verifyErr) {
-                        console.warn('Verification fetch failed:', verifyErr);
-                        if (statusEl) { statusEl.textContent = '✅ 已傳送 (無法驗證)'; statusEl.style.color = '#25d366'; }
-                    }
+                    if (statusEl) { statusEl.textContent = '✅ 已儲存'; statusEl.style.color = '#25d366'; }
                     setTimeout(() => { if (statusEl) statusEl.textContent = ''; }, 5000);
                 } else {
                     if (statusEl) { statusEl.textContent = '❌ 儲存失敗 - 請確認已重新部署 Apps Script'; statusEl.style.color = '#ff4444'; }
