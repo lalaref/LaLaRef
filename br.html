@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>商業登記 | Business Registration | LaLa Xolutions Co.</title>
+<meta name="description" content="LaLa Xolutions Co. 商業登記文件 — Business Registration Document for project pitching and partnership verification.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/jpeg" href="lalaref2.jpg">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',-apple-system,BlinkMacSystemFont,'Microsoft JhengHei','PingFang TC',sans-serif;line-height:1.6;color:#5a4a3a;background:linear-gradient(135deg,#f5e6d3,#e8d4b8);min-height:100vh}
+
+/* Navbar */
+.nb{background:linear-gradient(145deg,#d4a574,#c89860);padding:15px 0;box-shadow:0 10px 20px rgba(0,0,0,.15);position:sticky;top:0;z-index:100}
+.nc{max-width:1100px;margin:0 auto;padding:0 30px;display:flex;justify-content:space-between;align-items:center}
+.nl{color:#fff;font-size:1.5em;font-weight:900;text-decoration:none}
+.nk{display:flex;gap:30px}
+.nk a{color:#fff;text-decoration:none;font-weight:700;transition:all .3s;padding:8px 16px;border-radius:20px}
+.nk a:hover{background:rgba(255,255,255,.2)}
+.hb{display:none;flex-direction:column;cursor:pointer;padding:5px}
+.hb span{width:25px;height:3px;background:#fff;margin:3px 0;transition:.3s;border-radius:3px}
+.hb.active span:nth-child(1){transform:rotate(-45deg) translate(-5px,6px)}
+.hb.active span:nth-child(2){opacity:0}
+.hb.active span:nth-child(3){transform:rotate(45deg) translate(-5px,-6px)}
+
+/* Breadcrumb */
+.bc{max-width:1100px;margin:20px auto;padding:0 30px;font-size:.9em;color:#7a6a5a}
+.bc a{color:#d4a574;text-decoration:none;font-weight:600}
+
+/* Content */
+.ct{max-width:1100px;margin:0 auto;padding:40px 30px}
+
+/* Page Header */
+.ph{text-align:center;margin-bottom:50px;padding:50px 30px;background:linear-gradient(145deg,#f0dcc8,#e8d4b8);border-radius:40px;box-shadow:20px 20px 40px rgba(0,0,0,.15),-20px -20px 40px rgba(255,255,255,.7)}
+.ph h1{font-size:2.5em;color:#5a4a3a;margin-bottom:10px;font-weight:900}
+.ph p{font-size:1.1em;color:#7a6a5a;max-width:600px;margin:0 auto}
+
+/* Company Info Cards */
+.info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:25px;margin-bottom:40px}
+.info-card{background:linear-gradient(145deg,#f0dcc8,#e8d4b8);padding:30px 25px;border-radius:25px;box-shadow:10px 10px 20px rgba(0,0,0,.1),-10px -10px 20px rgba(255,255,255,.5);transition:transform .3s}
+.info-card:hover{transform:translateY(-5px)}
+.info-card .icon{font-size:2em;margin-bottom:12px}
+.info-card h3{color:#d4a574;font-size:1.2em;margin-bottom:8px;font-weight:800}
+.info-card p{font-size:.95em;color:#5a4a3a;line-height:1.7}
+.info-card .en{color:#7a6a5a;font-size:.88em;font-style:italic;margin-top:6px}
+
+/* PDF Viewer Section */
+.pdf-section{background:linear-gradient(145deg,#f0dcc8,#e8d4b8);border-radius:30px;padding:35px;margin-bottom:40px;box-shadow:15px 15px 30px rgba(0,0,0,.12),-15px -15px 30px rgba(255,255,255,.7)}
+.pdf-section h2{font-size:1.5em;color:#d4a574;margin-bottom:20px;font-weight:900;text-align:center}
+.pdf-wrapper{background:#fff;border-radius:20px;overflow:hidden;box-shadow:8px 8px 16px rgba(0,0,0,.1),-8px -8px 16px rgba(255,255,255,.3);position:relative}
+.pdf-actions{display:flex;gap:15px;justify-content:center;margin-top:25px;flex-wrap:wrap}
+.pdf-actions a{display:inline-flex;align-items:center;gap:8px;padding:14px 30px;border-radius:25px;text-decoration:none;font-weight:800;font-size:1em;transition:all .3s}
+.btn-primary{background:linear-gradient(145deg,#d4a574,#c89860);color:#fff;box-shadow:8px 8px 16px rgba(0,0,0,.15),-8px -8px 16px rgba(255,255,255,.2)}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:12px 12px 24px rgba(0,0,0,.2),-12px -12px 24px rgba(255,255,255,.3)}
+.btn-secondary{background:linear-gradient(145deg,#e8d4b8,#dcc8a8);color:#5a4a3a;box-shadow:8px 8px 16px rgba(0,0,0,.1),-8px -8px 16px rgba(255,255,255,.5)}
+.btn-secondary:hover{transform:translateY(-3px)}
+
+/* Trust Badge */
+.trust-section{display:flex;align-items:center;gap:20px;background:linear-gradient(145deg,#e8d4b8,#dcc8a8);padding:25px 30px;border-radius:25px;margin-bottom:40px;box-shadow:10px 10px 20px rgba(0,0,0,.1),-10px -10px 20px rgba(255,255,255,.5)}
+.trust-icon{font-size:2.5em;flex-shrink:0}
+.trust-text h3{color:#5a4a3a;font-size:1.1em;font-weight:800;margin-bottom:4px}
+.trust-text p{color:#7a6a5a;font-size:.92em}
+
+/* CTA */
+.cs{text-align:center;padding:50px 40px;background:linear-gradient(145deg,#d4a574,#c89860);border-radius:35px;margin-top:40px;box-shadow:15px 15px 30px rgba(0,0,0,.15),-15px -15px 30px rgba(255,255,255,.3)}
+.cs h2{color:#fff;font-size:1.8em;margin-bottom:15px;font-weight:900}
+.cs p{color:#fff;font-size:1.1em;margin-bottom:25px}
+.cs a.cb{display:inline-block;padding:16px 40px;background:linear-gradient(145deg,#f0dcc8,#e8d4b8);color:#5a4a3a;text-decoration:none;border-radius:25px;font-weight:900;font-size:1.1em;box-shadow:8px 8px 16px rgba(0,0,0,.15),-8px -8px 16px rgba(255,255,255,.2);transition:all .3s}
+.cs a.cb:hover{transform:translateY(-4px)}
+
+/* WhatsApp FAB */
+.wf{position:fixed;width:70px;height:70px;bottom:30px;right:30px;background:linear-gradient(145deg,#25d366,#20b358);color:#FFF;border-radius:50%;box-shadow:15px 15px 30px rgba(0,0,0,.2),-15px -15px 30px rgba(255,255,255,.3);z-index:1000;display:flex;align-items:center;justify-content:center;transition:all .3s;text-decoration:none}
+.wf:hover{transform:translateY(-8px) scale(1.05)}
+
+/* Footer */
+footer{background:linear-gradient(145deg,#d4a574,#c89860);color:#fff;padding:50px 30px 30px;border-radius:40px 40px 0 0;margin:40px 20px 0}
+</style>
+</head>
+<body>
+<nav class="nb"><div class="nc"><a href="index.html" class="nl">LaLaRef 急單王</a><div class="hb" onclick="toggleMenu()" aria-label="選單" role="button" tabindex="0"><span></span><span></span><span></span></div><div class="nk" id="navLinks"><a href="index.html">首頁</a><a href="service.html">服務資訊</a><a href="about.html">關於我們</a><a href="contact.html">聯絡我們</a></div></div></nav>
+
+<nav class="bc" aria-label="麵包屑導航"><a href="index.html">首頁</a> <span style="margin:0 8px">›</span> <a href="about.html">關於我們</a> <span style="margin:0 8px">›</span> <span>商業登記</span></nav>
+
+<a href="https://wa.me/85284828484?text=你好！我想查詢合作機會" class="wf" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp 聯絡"><svg viewBox="0 0 32 32" width="30" height="30" fill="white"><path d="M16 0C7.164 0 0 7.164 0 16c0 2.825.738 5.488 2.031 7.813L.281 30.594l7.031-1.844A15.923 15.923 0 0016 32c8.836 0 16-7.164 16-16S24.836 0 16 0zm0 29.25c-2.406 0-4.719-.656-6.719-1.875l-.469-.281-4.875 1.281 1.313-4.781-.313-.5A13.173 13.173 0 012.75 16C2.75 8.681 8.681 2.75 16 2.75S29.25 8.681 29.25 16 23.319 29.25 16 29.25zm7.25-9.906c-.406-.188-2.375-1.156-2.75-1.281-.375-.125-.656-.188-.938.188-.281.375-1.063 1.281-1.313 1.563-.25.281-.5.313-.906.125-.406-.188-1.719-.625-3.281-2-.219-.188-2.031-1.781-2.281-2.156-.25-.375-.031-.594.156-.781.156-.156.406-.406.594-.594.188-.188.25-.313.375-.531.125-.219.063-.406-.031-.594-.094-.188-.938-2.219-1.281-3.031-.344-.781-.688-.656-.938-.656-.25 0-.531-.031-.813-.031s-.75.094-1.125.469c-.375.375-1.438 1.406-1.438 3.438s1.469 3.969 1.656 4.25c.188.281 2.625 4 6.375 5.625.906.375 1.594.594 2.125.781.875.281 1.688.25 2.313.156.719-.094 2.188-.875 2.5-1.719.313-.844.313-1.563.219-1.719-.094-.156-.375-.25-.781-.438z"/></svg></a>
+
+<div class="ct">
+<header class="ph">
+<p style="font-size:2em;font-weight:900;color:#5a4a3a;letter-spacing:3px;margin-bottom:8px;line-height:1.2">LaLa Xolutions Co.</p>
+<div style="width:60px;height:3px;background:linear-gradient(90deg,#d4a574,#c89860);margin:0 auto 20px;border-radius:3px"></div>
+<h1>📄 商業登記文件</h1>
+<p>Business Registration Document</p>
+<p style="margin-top:10px;font-size:.95em;color:#9a8a7a">合法註冊公司，值得信賴的合作夥伴</p>
+</header>
+
+<!-- Company Info Cards -->
+<div class="info-grid">
+<div class="info-card">
+<div class="icon">🏀</div>
+<h3>營運品牌</h3>
+<p>LaLaRef 急單王 — 香港專業籃球球證預訂平台</p>
+<p class="en">Operating Brand — Professional Basketball Referee Booking Platform</p>
+</div>
+<div class="info-card">
+<div class="icon">📍</div>
+<h3>服務地區</h3>
+<p>香港特別行政區 — 全港18區覆蓋</p>
+<p class="en">Hong Kong SAR — All 18 Districts</p>
+</div>
+<div class="info-card">
+<div class="icon">📧</div>
+<h3>聯絡方式</h3>
+<p>WhatsApp: <a href="https://wa.me/85284828484" style="color:#d4a574;font-weight:700">8482 8484</a><br>Email: <a href="mailto:enquiry@lalaref.com" style="color:#d4a574;font-weight:700">enquiry@lalaref.com</a></p>
+<p class="en">Contact Information</p>
+</div>
+</div>
+
+<!-- Trust Badge -->
+<div class="trust-section">
+<div class="trust-icon">✅</div>
+<div class="trust-text">
+<h3>合法註冊 · 正規經營</h3>
+<p>LaLa Xolutions Co. 為香港特別行政區合法註冊公司，持有有效商業登記證。以下為本公司商業登記文件，供合作夥伴及客戶查閱核實。</p>
+<p style="margin-top:4px;font-style:italic;color:#9a8a7a;font-size:.88em">Legally registered company in Hong Kong SAR with valid Business Registration. Document available below for partner and client verification.</p>
+</div>
+</div>
+
+<!-- PDF Viewer -->
+<div class="pdf-section">
+<h2>📋 商業登記證 Business Registration Certificate</h2>
+<div class="pdf-wrapper" style="position:relative">
+<canvas id="pdfCanvas" style="width:100%;display:block"></canvas>
+<!-- Blur overlay for address - adjust top/left/width/height as needed -->
+<div id="blurOverlay" style="position:absolute;top:25%;left:19%;width:27%;height:2%;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);background:rgba(240,220,200,.3);border-radius:8px;pointer-events:none"></div>
+</div>
+<div class="pdf-actions">
+<a href="images/br.pdf" target="_blank" rel="noopener noreferrer" class="btn-primary">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+新視窗開啟 Open in New Tab
+</a>
+<a href="images/br.pdf" download class="btn-secondary">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+下載文件 Download PDF
+</a>
+</div>
+</div>
+
+<!-- CTA -->
+<div class="cs">
+<h2>有興趣合作？</h2>
+<p>歡迎聯絡我們洽談合作方案</p>
+<a href="https://wa.me/85284828484?text=你好！我想查詢合作機會" class="cb" target="_blank" rel="noopener noreferrer">WhatsApp 聯絡: 8482 8484</a>
+</div>
+</div>
+
+<footer><div style="max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:30px;margin-bottom:30px"><div><h4 style="font-size:1.1em;margin-bottom:15px;font-weight:900;letter-spacing:1px">LaLaRef 急單王</h4><p style="line-height:1.8;font-size:.95em">香港專業籃球球證<br>即日緊急接單<br>持牌專業球證 • 24/7接單</p></div><div><h4 style="font-size:1.1em;margin-bottom:15px;font-weight:900;letter-spacing:1px">聯絡方式</h4><p style="line-height:1.8;font-size:.95em">📱 WhatsApp: <a href="https://wa.me/85284828484" style="color:#fff;text-decoration:none;font-weight:600">8482 8484</a><br>📧 <a href="mailto:enquiry@lalaref.com" style="color:#fff;text-decoration:none;font-weight:600">enquiry@lalaref.com</a><br>📍 服務地區: 全港覆蓋</p></div><div><h4 style="font-size:1.1em;margin-bottom:15px;font-weight:900;letter-spacing:1px">網站連結</h4><p style="line-height:1.8;font-size:.95em"><a href="about.html" style="color:#fff;text-decoration:none;font-weight:600">關於我們</a><br><a href="contact.html" style="color:#fff;text-decoration:none;font-weight:600">聯絡我們</a><br><a href="privacy.html" style="color:#fff;text-decoration:none;font-weight:600">私隱政策</a><br><a href="terms.html" style="color:#fff;text-decoration:none;font-weight:600">服務條款</a></p></div></div><div style="text-align:center;padding-top:20px;border-top:1px solid rgba(255,255,255,.3);font-size:.9em;color:rgba(255,255,255,.8)"><p>&copy; 2026 LaLa Xolutions Co.</p><p style="margin-top:8px"><a href="privacy.html" style="color:rgba(255,255,255,.8);margin:0 8px;text-decoration:none">私隱政策</a> | <a href="terms.html" style="color:rgba(255,255,255,.8);margin:0 8px;text-decoration:none">服務條款</a> | <a href="contact.html" style="color:rgba(255,255,255,.8);margin:0 8px;text-decoration:none">聯絡我們</a> | <a href="about.html" style="color:rgba(255,255,255,.8);margin:0 8px;text-decoration:none">關於我們</a></p></div></footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+pdfjsLib.getDocument('images/br.pdf').promise.then(function(pdf){
+  pdf.getPage(1).then(function(page){
+    var canvas=document.getElementById('pdfCanvas');
+    var ctx=canvas.getContext('2d');
+    var scale=2;
+    var viewport=page.getViewport({scale:scale});
+    canvas.width=viewport.width;
+    canvas.height=viewport.height;
+    page.render({canvasContext:ctx,viewport:viewport});
+  });
+});
+</script>
+<script>
+function toggleMenu(){document.querySelector('.hb').classList.toggle('active');document.getElementById('navLinks').classList.toggle('active')}
+document.querySelectorAll('.nk a').forEach(function(a){a.addEventListener('click',function(){document.querySelector('.hb').classList.remove('active');document.getElementById('navLinks').classList.remove('active')})});
+</script>
+</body>
+</html>
