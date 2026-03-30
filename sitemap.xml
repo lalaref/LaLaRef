@@ -168,6 +168,22 @@
         <priority>0.8</priority>
     </url>
 
+    <!-- Blog: Scorer Timer Role (Table Officials) -->
+    <url>
+        <loc>https://www.lalaref.com/blog-scorer-timer-role.html</loc>
+        <lastmod>2026-03-30</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- Greater Bay Area / Guangdong Service (Simplified Chinese) -->
+    <url>
+        <loc>https://www.lalaref.com/china.html</loc>
+        <lastmod>2026-03-30</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
     <!-- Competition Bracket Page -->
     <url>
         <loc>https://www.lalaref.com/competition.html</loc>
