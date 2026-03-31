@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>企業籃球活動方案 | LaLaRef 急單王 | 公司籃球賽 · Team Building · 員工聯賽</title>
+    <meta name="description" content="LaLaRef 為企業度身訂造籃球活動方案 — 公司內部籃球聯賽、部門友誼賽、Team Building 運動日。一條龍策劃執行，HR/Marketing 零煩惱。">
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" type="image/jpeg" href="lalaref2.jpg">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Microsoft JhengHei', 'PingFang TC', sans-serif;
+            line-height: 1.6; color: #5a4a3a;
+            background: linear-gradient(135deg, #f5e6d3 0%, #e8d4b8 100%);
+            min-height: 100vh;
+        }
+
+        /* ── Hero ── */
+        .hero {
+            background: linear-gradient(145deg, #f0dcc8, #e8d4b8);
+            border-radius: 40px; margin: 20px; padding: 70px 40px 60px;
+            box-shadow: 20px 20px 40px rgba(0,0,0,.15), -20px -20px 40px rgba(255,255,255,.7),
+                inset 5px 5px 10px rgba(255,255,255,.5);
+            text-align: center; position: relative; overflow: hidden;
+        }
+        .hero::before {
+            content: '🏀'; position: absolute; top: -40px; right: -30px;
+            font-size: 220px; opacity: .04; transform: rotate(-15deg);
+        }
+        .hero .logo { width: 120px; height: 120px; border-radius: 50%; object-fit: contain;
+            background: linear-gradient(145deg,#d4a574,#c89860); padding: 4px;
+            box-shadow: 8px 8px 16px rgba(0,0,0,.12), -8px -8px 16px rgba(255,255,255,.6);
+            margin-bottom: 25px; position: relative; z-index: 1; }
+        .hero .kicker { font-size: .95em; color: #d4a574; font-weight: 800; letter-spacing: 3px;
+            text-transform: uppercase; margin-bottom: 10px; position: relative; z-index: 1; }
+        .hero h1 { font-size: 2.6em; font-weight: 900; color: #5a4a3a; line-height: 1.25;
+            margin-bottom: 18px; position: relative; z-index: 1; }
+        .hero h1 em { font-style: normal; color: #d4a574; }
+        .hero .lead { font-size: 1.15em; color: #7a6a5a; max-width: 680px; margin: 0 auto 30px;
+            line-height: 1.8; position: relative; z-index: 1; }
+        .hero-cta { display: inline-flex; align-items: center; gap: 10px;
+            padding: 16px 38px; border-radius: 30px; font-weight: 900; font-size: 1.1em;
+            text-decoration: none; color: white; transition: all .3s;
+            background: linear-gradient(145deg,#d4a574,#c89860);
+            box-shadow: 10px 10px 20px rgba(0,0,0,.15), -5px -5px 10px rgba(255,255,255,.3);
+            position: relative; z-index: 1; }
+        .hero-cta:hover { transform: translateY(-4px) scale(1.03); }
+
+        /* ── Section base ── */
+        .section {
+            background: linear-gradient(145deg,#f0dcc8,#e8d4b8);
+            border-radius: 35px; margin: 25px 20px; padding: 50px 40px;
+            box-shadow: 15px 15px 30px rgba(0,0,0,.12), -15px -15px 30px rgba(255,255,255,.7),
+                inset 3px 3px 6px rgba(255,255,255,.4);
+        }
+        .section h2 { font-size: 2em; color: #5a4a3a; font-weight: 900; text-align: center; margin-bottom: 12px; }
+        .section h2::after { content: ''; display: block; width: 50px; height: 4px;
+            background: #d4a574; border-radius: 10px; margin: 14px auto 0; }
+        .section .desc { text-align: center; color: #7a6a5a; font-size: 1.05em;
+            max-width: 720px; margin: 0 auto 38px; line-height: 1.8; }
+
+        /* ── Pain‑point cards ── */
+        .pain-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 22px; }
+        .pain-card {
+            background: linear-gradient(145deg,#e8d4b8,#dcc8ac);
+            border-radius: 25px; padding: 32px 24px; text-align: center;
+            box-shadow: 10px 10px 20px rgba(0,0,0,.1), -10px -10px 20px rgba(255,255,255,.6);
+            transition: transform .3s;
+        }
+        .pain-card:hover { transform: translateY(-5px); }
+        .pain-icon { font-size: 2.4em; margin-bottom: 12px; }
+        .pain-card h3 { font-size: 1.15em; color: #d4a574; font-weight: 800; margin-bottom: 8px; }
+        .pain-card p { font-size: .92em; color: #5a4a3a; line-height: 1.65; }
+
+        /* ── Package cards ── */
+        .pkg-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 25px; }
+        .pkg-card {
+            background: linear-gradient(145deg,#e8d4b8,#dcc8ac);
+            border-radius: 25px; padding: 35px 25px;
+            box-shadow: 10px 10px 20px rgba(0,0,0,.1), -10px -10px 20px rgba(255,255,255,.6);
+            transition: transform .3s; position: relative; overflow: hidden;
+        }
+        .pkg-card:hover { transform: translateY(-5px); }
+        .pkg-card.highlight {
+            background: linear-gradient(145deg,#d4a574,#c89860); color: white;
+            box-shadow: 15px 15px 30px rgba(0,0,0,.2), -15px -15px 30px rgba(255,255,255,.3);
+            transform: scale(1.02);
+        }
+        .pkg-card.highlight:hover { transform: scale(1.02) translateY(-5px); }
+        .pkg-card.highlight h3, .pkg-card.highlight .pkg-price,
+        .pkg-card.highlight p, .pkg-card.highlight li { color: white; }
+        .pkg-card.highlight li::before { color: #f0dcc8; }
+        .hot-tag { position: absolute; top: 14px; right: -28px;
+            background: #f0dcc8; color: #5a4a3a; padding: 3px 36px;
+            font-size: .72em; font-weight: 800; transform: rotate(45deg); }
+        .pkg-card h3 { font-size: 1.3em; color: #5a4a3a; font-weight: 900; margin-bottom: 6px; }
+        .pkg-sub { font-size: .88em; color: #7a6a5a; margin-bottom: 14px; }
+        .pkg-price { font-size: 1.7em; font-weight: 900; color: #d4a574; margin-bottom: 18px; }
+        .pkg-price span { font-size: .48em; font-weight: 600; }
+        .pkg-card ul { list-style: none; padding: 0; }
+        .pkg-card li { padding: 7px 0 7px 22px; position: relative; font-size: .9em;
+            color: #5a4a3a; border-bottom: 1px solid rgba(0,0,0,.04); }
+        .pkg-card li::before { content: '✓'; position: absolute; left: 0; color: #d4a574; font-weight: 900; }
+
+        /* ── Scenario showcase ── */
+        .scenario-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 22px; }
+        .scenario {
+            display: flex; gap: 18px; align-items: flex-start;
+            background: linear-gradient(145deg,#e8d4b8,#dcc8ac);
+            border-radius: 25px; padding: 28px;
+            box-shadow: 10px 10px 20px rgba(0,0,0,.1), -10px -10px 20px rgba(255,255,255,.6);
+        }
+        .scenario-icon {
+            font-size: 1.8em; flex-shrink: 0; width: 55px; height: 55px;
+            display: flex; align-items: center; justify-content: center;
+            background: linear-gradient(145deg,#d4a574,#c89860); border-radius: 16px;
+            box-shadow: 5px 5px 10px rgba(0,0,0,.1), -5px -5px 10px rgba(255,255,255,.5);
+        }
+        .scenario h3 { font-size: 1.1em; color: #5a4a3a; font-weight: 800; margin-bottom: 5px; }
+        .scenario p { font-size: .9em; color: #7a6a5a; line-height: 1.6; }
+
+        /* ── Included items ── */
+        .included-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 18px; }
+        .inc-item {
+            background: linear-gradient(145deg,#e8d4b8,#dcc8ac);
+            border-radius: 22px; padding: 28px 18px; text-align: center;
+            box-shadow: 8px 8px 16px rgba(0,0,0,.08), -8px -8px 16px rgba(255,255,255,.6);
+        }
+        .inc-item .ic { font-size: 2em; margin-bottom: 10px; }
+        .inc-item h4 { font-size: 1em; color: #5a4a3a; font-weight: 800; margin-bottom: 4px; }
+        .inc-item p { font-size: .82em; color: #7a6a5a; }
+
+        /* ── Testimonial ── */
+        .testi-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 22px; }
+        .testi {
+            background: linear-gradient(145deg,#e8d4b8,#dcc8ac);
+            border-radius: 25px; padding: 30px;
+            box-shadow: 10px 10px 20px rgba(0,0,0,.1), -10px -10px 20px rgba(255,255,255,.6);
+        }
+        .testi .stars { color: #d4a574; font-size: 1.1em; margin-bottom: 10px; }
+        .testi blockquote { font-size: .95em; color: #5a4a3a; line-height: 1.7;
+            font-style: italic; margin-bottom: 14px; }
+        .testi .author { font-size: .85em; color: #7a6a5a; font-weight: 700; }
+
+        /* ── FAQ ── */
+        .faq-list { max-width: 800px; margin: 0 auto; }
+        .faq-item {
+            background: linear-gradient(145deg,#e8d4b8,#dcc8ac);
+            border-radius: 20px; margin-bottom: 14px; overflow: hidden;
+            box-shadow: 8px 8px 16px rgba(0,0,0,.08), -8px -8px 16px rgba(255,255,255,.6);
+        }
+        .faq-q {
+            padding: 22px 28px; cursor: pointer; font-weight: 800; font-size: 1.05em;
+            color: #5a4a3a; display: flex; justify-content: space-between; align-items: center;
+            user-select: none;
+        }
+        .faq-q .arrow { color: #d4a574; font-size: 1.3em; transition: transform .3s; }
+        .faq-a { max-height: 0; overflow: hidden; transition: max-height .35s ease;
+            padding: 0 28px; color: #5a4a3a; font-size: .95em; line-height: 1.75; }
+        .faq-item.open .faq-a { max-height: 300px; padding-bottom: 22px; }
+        .faq-item.open .arrow { transform: rotate(45deg); }
+
+        /* ── CTA ── */
+        .cta {
+            background: linear-gradient(145deg,#d4a574,#c89860);
+            border-radius: 40px; margin: 25px 20px 40px; padding: 60px 40px;
+            text-align: center; color: white; position: relative; overflow: hidden;
+            box-shadow: 20px 20px 40px rgba(0,0,0,.2), -20px -20px 40px rgba(255,255,255,.3);
+        }
+        .cta::before { content: ''; position: absolute; top: -60px; right: -60px;
+            width: 220px; height: 220px; background: rgba(255,255,255,.08); border-radius: 50%; }
+        .cta::after { content: ''; position: absolute; bottom: -40px; left: -40px;
+            width: 160px; height: 160px; background: rgba(0,0,0,.06); border-radius: 50%; }
+        .cta h2 { font-size: 2.2em; font-weight: 900; margin-bottom: 12px; color: white; position: relative; z-index: 1; }
+        .cta h2::after { background: white; }
+        .cta > p { font-size: 1.1em; margin-bottom: 28px; line-height: 1.8;
+            max-width: 650px; margin-left: auto; margin-right: auto; position: relative; z-index: 1; }
+        .cta-btns { display: flex; gap: 18px; justify-content: center; flex-wrap: wrap; position: relative; z-index: 1; }
+        .btn {
+            display: inline-flex; align-items: center; gap: 10px;
+            padding: 17px 38px; border-radius: 30px; font-weight: 900; font-size: 1.05em;
+            text-decoration: none; transition: all .3s; border: none; cursor: pointer;
+        }
+        .btn-light { background: linear-gradient(145deg,#f0dcc8,#e8d4b8); color: #5a4a3a;
+            box-shadow: 10px 10px 20px rgba(0,0,0,.2), -10px -10px 20px rgba(255,255,255,.2); }
+        .btn-wa { background: linear-gradient(145deg,#25d366,#20b358); color: white;
+            box-shadow: 10px 10px 20px rgba(0,0,0,.2); }
+        .btn:hover { transform: translateY(-4px) scale(1.03); }
+        .cta .contact-info { margin-top: 22px; font-size: .92em; opacity: .9; position: relative; z-index: 1; }
+
+        /* ── Footer ── */
+        .footer { text-align: center; padding: 28px 20px; color: #7a6a5a; font-size: .83em; }
+        .footer a { color: #d4a574; text-decoration: none; font-weight: 700; }
+
+        /* ── Responsive ── */
+        @media (max-width:900px) {
+            .pain-grid, .pkg-grid, .testi-grid { grid-template-columns: 1fr; }
+            .scenario-grid { grid-template-columns: 1fr; }
+            .included-grid { grid-template-columns: repeat(2,1fr); }
+            .pkg-card.highlight { transform: none; }
+            .pkg-card.highlight:hover { transform: translateY(-5px); }
+        }
+        @media (max-width:600px) {
+            .hero { padding: 50px 22px 45px; margin: 10px; }
+            .hero h1 { font-size: 1.7em; }
+            .section { margin: 15px 10px; padding: 35px 20px; }
+            .section h2 { font-size: 1.5em; }
+            .included-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+            .cta { margin: 15px 10px 30px; padding: 40px 20px; }
+            .cta h2 { font-size: 1.5em; }
+            .btn { padding: 14px 28px; font-size: .95em; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== HERO ===== -->
+    <div class="hero">
+        <img src="lalaref2.png" alt="LaLaRef Logo" class="logo" width="120" height="120">
+        <div class="kicker">Corporate Basketball Events</div>
+        <h1>公司想搞籃球活動？<br><em>我哋幫你一手包辦。</em></h1>
+        <p class="lead">
+            唔使煩場地、球證、計分、拍攝⋯⋯ LaLaRef 為你的企業度身訂造籃球活動方案，<br>
+            由策劃到執行全程跟進，HR / Marketing 只需要負責享受比賽。
+        </p>
+        <a href="https://wa.me/85284828484?text=你好！我想了解企業籃球活動方案" 
+           class="hero-cta" target="_blank" rel="noopener noreferrer">
+            📱 WhatsApp 免費諮詢
+        </a>
+    </div>
+
+    <!-- ===== 痛點共鳴 ===== -->
+    <div class="section">
+        <h2>😩 搞公司籃球活動好頭痛？</h2>
+        <p class="desc">我們明白 HR 和 Marketing 同事的煩惱 — 以下場景是不是似曾相識？</p>
+        <div class="pain-grid">
+            <div class="pain-card">
+                <div class="pain-icon">🤯</div>
+                <h3>搵球證好麻煩</h3>
+                <p>上網搵極都搵唔到可靠的球證，唔知邊度搵、唔知收費、唔知質素如何。</p>
+            </div>
+            <div class="pain-card">
+                <div class="pain-icon">📋</div>
+                <h3>策劃工作量大</h3>
+                <p>賽制點設計？賽程點排？計分邊個負責？拍攝要另外搵人？一大堆瑣碎事。</p>
+            </div>
+            <div class="pain-card">
+                <div class="pain-icon">😰</div>
+                <h3>怕搞得唔專業</h3>
+                <p>老闆期望高，同事期待大，但自己又唔熟籃球，怕搞出嚟唔夠專業。</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 解決方案 ===== -->
+    <div class="section">
+        <h2>✅ LaLaRef 幫你全部搞掂</h2>
+        <p class="desc">一個 WhatsApp 訊息，我們就會為你安排好所有事情。</p>
+        <div class="included-grid">
+            <div class="inc-item">
+                <div class="ic">⚖️</div>
+                <h4>專業球證</h4>
+                <p>持牌認可球證到場執法</p>
+            </div>
+            <div class="inc-item">
+                <div class="ic">📊</div>
+                <h4>計時計分</h4>
+                <p>專人負責紀錄台工作</p>
+            </div>
+            <div class="inc-item">
+                <div class="ic">📸</div>
+                <h4>活動攝影</h4>
+                <p>專業相片記錄精彩時刻</p>
+            </div>
+            <div class="inc-item">
+                <div class="ic">🎬</div>
+                <h4>比賽錄影</h4>
+                <p>全場高清錄影留念</p>
+            </div>
+            <div class="inc-item">
+                <div class="ic">🏆</div>
+                <h4>賽制設計</h4>
+                <p>根據人數設計最佳賽制</p>
+            </div>
+            <div class="inc-item">
+                <div class="ic">📅</div>
+                <h4>賽程編排</h4>
+                <p>合理安排比賽時間表</p>
+            </div>
+            <div class="inc-item">
+                <div class="ic">🎤</div>
+                <h4>現場 MC</h4>
+                <p>炒熱氣氛帶動全場</p>
+            </div>
+            <div class="inc-item">
+                <div class="ic">🎁</div>
+                <h4>頒獎安排</h4>
+                <p>獎盃獎牌 MVP 頒獎禮</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 活動方案 ===== -->
+    <div class="section">
+        <h2>📦 企業活動方案</h2>
+        <p class="desc">三個方案任你揀，亦可根據需求度身訂造。所有方案均包含專業球證。</p>
+        <div class="pkg-grid">
+            <div class="pkg-card">
+                <h3>🏀 輕鬆友誼賽</h3>
+                <p class="pkg-sub">適合：部門友誼賽、小型活動</p>
+                <div class="pkg-price">HKD 2,000+ <span>/ 場</span></div>
+                <ul>
+                    <li>專業持牌球證 1-2 名</li>
+                    <li>計時計分紀錄服務</li>
+                    <li>計分牌及計分紙提供</li>
+                    <li>5x5 全場 或 3x3 半場</li>
+                    <li>賽前規則簡介</li>
+                    <li>全港任何場地</li>
+                </ul>
+            </div>
+            <div class="pkg-card highlight">
+                <div class="hot-tag">最受歡迎</div>
+                <h3>🏆 企業錦標賽</h3>
+                <p class="pkg-sub">適合：公司運動日、年度比賽</p>
+                <div class="pkg-price">HKD 8,000+ <span>/ 日</span></div>
+                <ul>
+                    <li>專業球證團隊全日駐場</li>
+                    <li>賽制設計及賽程編排</li>
+                    <li>計時計分專業紀錄</li>
+                    <li>活動攝影服務</li>
+                    <li>全場比賽錄影</li>
+                    <li>數據統計及排名表</li>
+                    <li>頒獎禮安排</li>
+                    <li>社交媒體精華片段</li>
+                </ul>
+            </div>
+            <div class="pkg-card">
+                <h3>👑 季度聯賽</h3>
+                <p class="pkg-sub">適合：長期員工聯賽、跨部門聯賽</p>
+                <div class="pkg-price">HKD 20,000+ <span>/ 季</span></div>
+                <ul>
+                    <li>整季聯賽策劃及管理</li>
+                    <li>每場專業球證及紀錄台</li>
+                    <li>聯賽專屬網頁及排名</li>
+                    <li>每場攝影及錄影</li>
+                    <li>球員數據統計系統</li>
+                    <li>季後賽及總決賽安排</li>
+                    <li>MVP / 最佳射手等獎項</li>
+                    <li>年度精華影片製作</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 適用場景 ===== -->
+    <div class="section">
+        <h2>🎯 適用場景</h2>
+        <p class="desc">無論什麼規模、什麼目的，我們都有經驗處理。</p>
+        <div class="scenario-grid">
+            <div class="scenario">
+                <div class="scenario-icon">🏢</div>
+                <div>
+                    <h3>公司運動日 / Sports Day</h3>
+                    <p>年度公司運動日加入籃球項目，提升員工參與度。我們負責整個籃球環節的策劃和執行。</p>
+                </div>
+            </div>
+            <div class="scenario">
+                <div class="scenario-icon">🤝</div>
+                <div>
+                    <h3>Team Building 活動</h3>
+                    <p>透過籃球比賽促進團隊合作，打破部門隔閡。比起食飯唱K，運動更能建立真正的團隊默契。</p>
+                </div>
+            </div>
+            <div class="scenario">
+                <div class="scenario-icon">🏆</div>
+                <div>
+                    <h3>部門 / 分公司對抗賽</h3>
+                    <p>IT vs Marketing？香港 vs 深圳？部門對抗賽是最受歡迎的企業活動之一。</p>
+                </div>
+            </div>
+            <div class="scenario">
+                <div class="scenario-icon">🎉</div>
+                <div>
+                    <h3>週年慶 / 節日活動</h3>
+                    <p>公司週年慶、聖誕派對、新年活動加入籃球元素，為慶祝活動增添活力和歡樂。</p>
+                </div>
+            </div>
+            <div class="scenario">
+                <div class="scenario-icon">💼</div>
+                <div>
+                    <h3>客戶招待活動</h3>
+                    <p>邀請客戶一齊打波，輕鬆的運動氛圍比正式飯局更容易建立關係和信任。</p>
+                </div>
+            </div>
+            <div class="scenario">
+                <div class="scenario-icon">🏅</div>
+                <div>
+                    <h3>員工福利聯賽</h3>
+                    <p>每月一次的員工籃球聯賽，提升員工歸屬感和滿意度，是最具性價比的員工福利之一。</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 客戶評價 ===== -->
+    <div class="section">
+        <h2>💬 企業客戶評價</h2>
+        <p class="desc">聽聽合作過的 HR 和 Marketing 同事怎麼說。</p>
+        <div class="testi-grid">
+            <div class="testi">
+                <div class="stars">⭐⭐⭐⭐⭐</div>
+                <blockquote>「公司第一次搞籃球比賽，完全唔識搞，LaLaRef 由頭到尾幫我哋安排晒，同事都玩得好開心，老闆都讚好！」</blockquote>
+                <div class="author">— K. Chan · HR Manager · 金融公司</div>
+            </div>
+            <div class="testi">
+                <div class="stars">⭐⭐⭐⭐⭐</div>
+                <blockquote>「搵咗 LaLaRef 搞部門對抗賽，球證好專業，攝影師影到好多靚相，放上公司 IG 好多 like。下年一定再搞！」</blockquote>
+                <div class="author">— M. Wong · Marketing Lead · 科技公司</div>
+            </div>
+            <div class="testi">
+                <div class="stars">⭐⭐⭐⭐⭐</div>
+                <blockquote>「我哋公司每季都搵 LaLaRef 搞員工聯賽，佢哋好準時、好專業，最重要係完全唔使我操心，推薦！」</blockquote>
+                <div class="author">— T. Lam · People & Culture · 地產公司</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== FAQ ===== -->
+    <div class="section">
+        <h2>❓ 常見問題</h2>
+        <p class="desc">企業客戶最常問的問題，一次過解答。</p>
+        <div class="faq-list">
+            <div class="faq-item">
+                <div class="faq-q" onclick="toggleFaq(this)">
+                    我哋公司同事唔係好識打波，適合搞籃球活動嗎？
+                    <span class="arrow">+</span>
+                </div>
+                <div class="faq-a">完全適合！我們會根據參加者的水平調整賽制和規則，例如用 3x3 半場、縮短比賽時間、放寬犯規尺度等，確保所有人都能享受比賽樂趣。我們的球證經驗豐富，懂得控制比賽節奏，讓新手也能玩得開心。</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q" onclick="toggleFaq(this)">
+                    需要提前多久預訂？
+                    <span class="arrow">+</span>
+                </div>
+                <div class="faq-a">建議提前 2-4 星期預訂，讓我們有充足時間為你設計最佳方案。不過我們是「急單王」，即使只有幾天時間，我們都會盡力配合。熱門時段（週末、公眾假期）建議更早預訂。</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q" onclick="toggleFaq(this)">
+                    場地需要我們自己安排嗎？
+                    <span class="arrow">+</span>
+                </div>
+                <div class="faq-a">場地通常由客戶安排（因為大部分公司有自己慣用的場地或已預訂康文署體育館）。如果你需要場地建議，我們可以根據你的地區和人數推薦合適的場地。</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q" onclick="toggleFaq(this)">
+                    可以開公司發票嗎？
+                    <span class="arrow">+</span>
+                </div>
+                <div class="faq-a">可以。我們可以提供正式發票（Invoice）及收據，方便你的公司報銷。付款方式接受銀行轉帳、PayMe 及 FPS。</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q" onclick="toggleFaq(this)">
+                    如果比賽當日落雨點算？
+                    <span class="arrow">+</span>
+                </div>
+                <div class="faq-a">如果是室內場地則不受影響。如果是戶外場地，我們會提前與你溝通後備方案，可以改期或調整安排。我們的政策是以客戶利益為先，會靈活處理。</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q" onclick="toggleFaq(this)">
+                    最少需要幾多人先可以搞？
+                    <span class="arrow">+</span>
+                </div>
+                <div class="faq-a">最少 6 人就可以搞一場 3x3 半場比賽。如果想搞 5x5 全場，建議至少 10-12 人。人數越多，我們可以設計更豐富的賽制（例如分組循環賽 + 淘汰賽）。</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== CTA ===== -->
+    <div class="cta">
+        <h2>📞 免費諮詢 · 度身報價</h2>
+        <p>
+            唔確定邊個方案適合？無問題。<br>
+            WhatsApp 我哋講下你嘅需求，我哋會免費為你度身設計方案和報價。
+        </p>
+        <div class="cta-btns">
+            <a href="https://wa.me/85284828484?text=你好！我係公司HR/Marketing，想了解企業籃球活動方案" 
+               class="btn btn-wa" target="_blank" rel="noopener noreferrer">
+                <svg viewBox="0 0 32 32" width="22" height="22" fill="white">
+                    <path d="M16 0C7.164 0 0 7.164 0 16c0 2.825.738 5.488 2.031 7.813L.281 30.594l7.031-1.844A15.923 15.923 0 0016 32c8.836 0 16-7.164 16-16S24.836 0 16 0zm0 29.25c-2.406 0-4.719-.656-6.719-1.875l-.469-.281-4.875 1.281 1.313-4.781-.313-.5A13.173 13.173 0 012.75 16C2.75 8.681 8.681 2.75 16 2.75S29.25 8.681 29.25 16 23.319 29.25 16 29.25zm7.25-9.906c-.406-.188-2.375-1.156-2.75-1.281-.375-.125-.656-.188-.938.188-.281.375-1.063 1.281-1.313 1.563-.25.281-.5.313-.906.125-.406-.188-1.719-.625-3.281-2-.219-.188-2.031-1.781-2.281-2.156-.25-.375-.031-.594.156-.781.156-.156.406-.406.594-.594.188-.188.25-.313.375-.531.125-.219.063-.406-.031-.594-.094-.188-.938-2.219-1.281-3.031-.344-.781-.688-.656-.938-.656-.25 0-.531-.031-.813-.031s-.75.094-1.125.469c-.375.375-1.438 1.406-1.438 3.438s1.469 3.969 1.656 4.25c.188.281 2.625 4 6.375 5.625.906.375 1.594.594 2.125.781.875.281 1.688.25 2.313.156.719-.094 2.188-.875 2.5-1.719.313-.844.313-1.563.219-1.719-.094-.156-.375-.25-.781-.438z"/>
+                </svg>
+                WhatsApp 免費諮詢
+            </a>
+            <a href="mailto:info@lalaref.com?subject=企業籃球活動查詢" class="btn btn-light">
+                ✉️ 電郵查詢
+            </a>
+        </div>
+        <p class="contact-info">
+            🌐 www.lalaref.com &nbsp;|&nbsp; 📱 8482 8484 &nbsp;|&nbsp; ✉️ info@lalaref.com
+        </p>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>© 2025-2026 <a href="https://www.lalaref.com">LaLaRef 急單王</a> — 香港專業籃球賽事服務</p>
+        <p style="margin-top:4px;">本頁面僅供企業合作洽談參考，實際方案及報價可根據需求調整</p>
+    </div>
+
+    <script>
+    function toggleFaq(el) {
+        const item = el.parentElement;
+        const wasOpen = item.classList.contains('open');
+        document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+        if (!wasOpen) item.classList.add('open');
+    }
+    </script>
+</body>
+</html>
