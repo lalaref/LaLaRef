@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-HK">
 <head>
     <meta charset="UTF-8">
@@ -345,7 +345,7 @@
     <div class="container">
         <div class="header">
             <h1>📋 預訂管理系統</h1>
-            <p>使用 Google Sheets 管理球證預訂</p>
+            <p>使用 Google Sheets 管理球證/裁判預訂</p>
         </div>
 
         <div class="setup-notice" id="setup-notice">
@@ -408,12 +408,12 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="referee-count">👨‍⚖️ 球證數量 *</label>
+                            <label for="referee-count">👨‍⚖️ 球證/裁判數量 *</label>
                             <select id="referee-count" name="refereeCount" required>
                                 <option value="">請選擇</option>
-                                <option value="1">1 位球證</option>
-                                <option value="2">2 位球證</option>
-                                <option value="3">3 位球證</option>
+                                <option value="1">1 位球證/裁判</option>
+                                <option value="2">2 位球證/裁判</option>
+                                <option value="3">3 位球證/裁判</option>
                             </select>
                         </div>
                     </div>
@@ -456,7 +456,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="referee-info">👨‍⚖️ 球證安排</label>
+                        <label for="referee-info">👨‍⚖️ 球證/裁判安排</label>
                         <input type="text" id="referee-info" name="refereeInfo" placeholder="例如: 張三、李四">
                     </div>
 
@@ -494,7 +494,7 @@
                             <div style="font-size: 1.5em; font-weight: 900;" id="summary-total-income">$0</div>
                         </div>
                         <div>
-                            <div style="font-size: 0.85em; opacity: 0.9;">總球證費用</div>
+                            <div style="font-size: 0.85em; opacity: 0.9;">總球證/裁判費用</div>
                             <div style="font-size: 1.5em; font-weight: 900;" id="summary-total-referee-cost">$0</div>
                         </div>
                         <div>
@@ -559,14 +559,14 @@
                                     <label>服務名稱 *</label>
                                     <select class="service-name" required onchange="handleServiceNameChange(this)">
                                         <option value="">請選擇</option>
-                                        <option value="5x5 全場球證服務">5x5 全場球證服務</option>
-                                        <option value="3x3 半場球證服務">3x3 半場球證服務</option>
+                                        <option value="5x5 全場球證/裁判服務">5x5 全場球證/裁判服務</option>
+                                        <option value="3x3 半場球證/裁判服務">3x3 半場球證/裁判服務</option>
                                         <option value="其他">其他（手動輸入）</option>
                                     </select>
                                     <input type="text" class="service-name-custom" placeholder="請輸入服務名稱" style="display: none; margin-top: 10px;">
                                 </div>
                                 <div class="form-group">
-                                    <label>球證數量 *</label>
+                                    <label>球證/裁判數量 *</label>
                                     <input type="number" class="service-quantity" min="1" value="1" required>
                                 </div>
                                 <div class="form-group">
@@ -584,7 +584,7 @@
                             </div>
                             <div class="form-group">
                                 <label>備註</label>
-                                <input type="text" class="service-notes" placeholder="例如: 包含2位持牌球證">
+                                <input type="text" class="service-notes" placeholder="例如: 包含2位持牌球證/裁判">
                             </div>
                         </div>
                     </div>
@@ -711,10 +711,10 @@
                         <label style="font-weight: 700; color: #5a4a3a;">1. 查詢回覆 — 服務收費</label>
                         <button type="button" class="btn" style="padding: 8px 18px; font-size: 0.85em;" onclick="copyGreeting(1)">📋 複製</button>
                     </div>
-                    <textarea id="greeting-1" readonly style="width:100%; min-height: 320px; font-size: 0.9em; line-height: 1.6; white-space: pre-wrap; padding: 15px 20px; background: linear-gradient(145deg, #f5e6d3, #ede0cc); border: none; border-radius: 20px; box-shadow: inset 8px 8px 16px rgba(0,0,0,0.1), inset -8px -8px 16px rgba(255,255,255,0.7);">你好！多謝查詢 LaLaRef 急單王球證服務！🏀
+                    <textarea id="greeting-1" readonly style="width:100%; min-height: 320px; font-size: 0.9em; line-height: 1.6; white-space: pre-wrap; padding: 15px 20px; background: linear-gradient(145deg, #f5e6d3, #ede0cc); border: none; border-radius: 20px; box-shadow: inset 8px 8px 16px rgba(0,0,0,0.1), inset -8px -8px 16px rgba(255,255,255,0.7);">你好！多謝查詢 LaLaRef 急單王球證/裁判服務！🏀
 
-📋 球證服務收費
-* $220/小時/球證
+📋 球證/裁判服務收費
+* $220/小時/球證/裁判
 
 🎯 一條龍全套服務
 我們也提供專業賽事服務：
@@ -732,7 +732,7 @@
 📅 比賽日期及時間
 📍 場地位置
 🏀 比賽類型（5x5 / 3x3）
-👥 需要球證數目
+👥 需要球證/裁判數目
 
 期待為您服務！
 LaLaRef 急單王 ⚡
@@ -768,7 +768,7 @@ LaLaRef 急單王 ⚡
                         <label style="font-weight: 700; color: #5a4a3a;">3. 賽後回饋 — 中文版</label>
                         <button type="button" class="btn" style="padding: 8px 18px; font-size: 0.85em;" onclick="copyGreeting(3)">📋 複製</button>
                     </div>
-                    <textarea id="greeting-3" readonly style="width:100%; min-height: 380px; font-size: 0.9em; line-height: 1.6; white-space: pre-wrap; padding: 15px 20px; background: linear-gradient(145deg, #f5e6d3, #ede0cc); border: none; border-radius: 20px; box-shadow: inset 8px 8px 16px rgba(0,0,0,0.1), inset -8px -8px 16px rgba(255,255,255,0.7);">你好！感謝使用 LaLaRef 急單王的球證服務！🏀
+                    <textarea id="greeting-3" readonly style="width:100%; min-height: 380px; font-size: 0.9em; line-height: 1.6; white-space: pre-wrap; padding: 15px 20px; background: linear-gradient(145deg, #f5e6d3, #ede0cc); border: none; border-radius: 20px; box-shadow: inset 8px 8px 16px rgba(0,0,0,0.1), inset -8px -8px 16px rgba(255,255,255,0.7);">你好！感謝使用 LaLaRef 急單王的球證/裁判服務！🏀
 
 感恩今日的比賽順利進行！🙏
 
@@ -832,17 +832,17 @@ www.lalaref.com
                     </div>
                     <textarea id="greeting-5" readonly style="width:100%; min-height: 280px; font-size: 0.9em; line-height: 1.6; white-space: pre-wrap; padding: 15px 20px; background: linear-gradient(145deg, #f5e6d3, #ede0cc); border: none; border-radius: 20px; box-shadow: inset 8px 8px 16px rgba(0,0,0,0.1), inset -8px -8px 16px rgba(255,255,255,0.7);">你好 👋
 
-我哋係 LaLaRef 急單王，www.lalaref.com 專門提供優質籃球球證服務 🏀
+我哋係 LaLaRef 急單王，www.lalaref.com 專門提供優質籃球球證/裁判服務 🏀
 
-✅ 嚴格挑選專業球證團隊
-✅ 每位球證經過認證及培訓
+✅ 嚴格挑選專業球證/裁判團隊
+✅ 每位球證/裁判經過認證及培訓
 ✅ 確保公正、專業嘅執法水準
 
 我哋嘅服務包括：
-🏀 1x1 / 3x3 三人籃球賽球證
-🏟️ 5x5 全場比賽球證
-🏢 企業籃球賽球證
-🏆 私人聯賽球證
+🏀 1x1 / 3x3 三人籃球賽球證/裁判
+🏟️ 5x5 全場比賽球證/裁判
+🏢 企業籃球賽球證/裁判
+🏆 私人聯賽球證/裁判
 ⚡ 即日緊急接單
 
 有需要可以搵我哋幫手 😊
@@ -1375,14 +1375,14 @@ function doPost(e) {
                             <div class="booking-detail"><strong>聯絡人：</strong>${esc(booking.contactName) || 'N/A'}</div>
                             <div class="booking-detail"><strong>電話：</strong>${esc(booking.contactPhone) || 'N/A'}</div>
                             <div class="booking-detail"><strong>付款：</strong>${esc(booking.paymentStatus) || 'N/A'}</div>
-                            ${booking.refereeInfo ? `<div class="booking-detail"><strong>球證：</strong>${esc(booking.refereeInfo)}</div>` : `<div class="booking-detail"><strong>球證：</strong><span style="color:#999;">未安排</span></div>`}
+                            ${booking.refereeInfo ? `<div class="booking-detail"><strong>球證/裁判：</strong>${esc(booking.refereeInfo)}</div>` : `<div class="booking-detail"><strong>球證/裁判：</strong><span style="color:#999;">未安排</span></div>`}
                             ${booking.notes ? `<div class="booking-detail" style="grid-column:1/-1;"><strong>備註：</strong>${esc(booking.notes)}</div>` : ''}
                         </div>
                         <button onclick="toggleEdit('${esc(code)}')" style="margin-top:10px;padding:6px 16px;background:linear-gradient(145deg,#f0dcc8,#e8d4b8);border:none;border-radius:12px;color:#5a4a3a;font-size:0.85em;font-weight:700;cursor:pointer;box-shadow:4px 4px 8px rgba(0,0,0,0.1),-4px -4px 8px rgba(255,255,255,0.7);">✏️ 編輯</button>
                         <div id="edit-${esc(code)}" style="display:none;margin-top:12px;padding:15px;background:linear-gradient(145deg,#f5e6d3,#ede0cc);border-radius:15px;">
                             <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;">
                                 <div>
-                                    <label style="font-size:0.8em;color:#7a6a5a;display:block;margin-bottom:4px;">👨‍⚖️ 球證安排</label>
+                                    <label style="font-size:0.8em;color:#7a6a5a;display:block;margin-bottom:4px;">👨‍⚖️ 球證/裁判安排</label>
                                     <input type="text" id="edit-referee-${esc(code)}" value="${esc(booking.refereeInfo)}" placeholder="例如: 張三、李四" style="width:100%;padding:8px 10px;border:none;border-radius:12px;background:white;font-size:0.9em;">
                                 </div>
                                 <div>
@@ -1421,7 +1421,7 @@ function doPost(e) {
                                 </div>
                                 <div style="padding-top:18px;color:#7a6a5a;">−</div>
                                 <div style="flex: 1; min-width: 110px;">
-                                    <label style="font-size: 0.8em; color: #7a6a5a; display: block; margin-bottom: 4px;">球證費用 (HKD)</label>
+                                    <label style="font-size: 0.8em; color: #7a6a5a; display: block; margin-bottom: 4px;">球證/裁判費用 (HKD)</label>
                                     <input type="number" class="profit-referee-cost" data-code="${esc(code)}" value="${rc}" placeholder="0" min="0" step="0.01" oninput="updateProfit('${esc(code)}')" style="width:100%;padding:8px 10px;border:none;border-radius:12px;background:linear-gradient(145deg,#f5e6d3,#ede0cc);box-shadow:inset 4px 4px 8px rgba(0,0,0,0.1),inset -4px -4px 8px rgba(255,255,255,0.7);font-size:0.95em;">
                                 </div>
                                 <div style="padding-top:18px;color:#7a6a5a;">=</div>
@@ -1736,14 +1736,14 @@ function doPost(e) {
                         <label>服務名稱 *</label>
                         <select class="service-name" required onchange="handleServiceNameChange(this)">
                             <option value="">請選擇</option>
-                            <option value="5x5 全場球證服務">5x5 全場球證服務</option>
-                            <option value="3x3 半場球證服務">3x3 半場球證服務</option>
+                            <option value="5x5 全場球證/裁判服務">5x5 全場球證/裁判服務</option>
+                            <option value="3x3 半場球證/裁判服務">3x3 半場球證/裁判服務</option>
                             <option value="其他">其他（手動輸入）</option>
                         </select>
                         <input type="text" class="service-name-custom" placeholder="請輸入服務名稱" style="display: none; margin-top: 10px;">
                     </div>
                     <div class="form-group">
-                        <label>球證數量 *</label>
+                        <label>球證/裁判數量 *</label>
                         <input type="number" class="service-quantity" min="1" value="1" required>
                     </div>
                     <div class="form-group">
@@ -1761,7 +1761,7 @@ function doPost(e) {
                 </div>
                 <div class="form-group">
                     <label>備註</label>
-                    <input type="text" class="service-notes" placeholder="例如: 包含2位持牌球證">
+                    <input type="text" class="service-notes" placeholder="例如: 包含2位持牌球證/裁判">
                 </div>
             `;
             container.appendChild(newItem);
@@ -1991,7 +1991,7 @@ function doPost(e) {
                             <thead>
                                 <tr style="background: #d4a574; color: white;">
                                     <th style="padding: 10px; text-align: left; border: 1px solid #c89860;">服務名稱</th>
-                                    <th style="padding: 10px; text-align: center; border: 1px solid #c89860; width: 70px;">球證數量</th>
+                                    <th style="padding: 10px; text-align: center; border: 1px solid #c89860; width: 70px;">球證/裁判數量</th>
                                     <th style="padding: 10px; text-align: center; border: 1px solid #c89860; width: 70px;">小時</th>
                                     <th style="padding: 10px; text-align: right; border: 1px solid #c89860; width: 90px;">單價<br>(HKD/小時)</th>
                                     <th style="padding: 10px; text-align: right; border: 1px solid #c89860; width: 100px;">小計 (HKD)</th>
@@ -2013,7 +2013,7 @@ function doPost(e) {
                             </tbody>
                         </table>
                         <div style="margin-top: 8px; font-size: 12px; color: #666;">
-                            * 小計 = 球證數量 × 小時 × 單價
+                            * 小計 = 球證/裁判數量 × 小時 × 單價
                         </div>
                     </div>
                     
@@ -2071,7 +2071,7 @@ function doPost(e) {
                     <!-- Footer + Chop on same row -->
                     <div style="margin-top: 20px; display: flex; justify-content: space-between; align-items: center; padding-top: 15px;">
                         <div style="text-align: center; font-size: 11px; color: #999; flex: 1;">
-                            <div style="margin-bottom: 5px;"><strong>LaLaRef - 專業籃球球證服務</strong></div>
+                            <div style="margin-bottom: 5px;"><strong>LaLaRef - 專業籃球球證/裁判服務</strong></div>
                             <div>Professional Basketball Referee Service</div>
                             <div style="margin-top: 5px;">電話 Tel: +852 8482 8484 | 網站 Web: www.lalaref.com</div>
                         </div>
@@ -2080,7 +2080,7 @@ function doPost(e) {
                                 <div style="font-size: 10px; font-weight: bold; color: #1a5276; font-family: Microsoft JhengHei, sans-serif; letter-spacing: 1px;">LaLaRef</div>
                                 <div style="font-size: 8px; font-weight: bold; color: #1a5276; font-family: Microsoft JhengHei, sans-serif; margin-top: 2px;">急單王</div>
                                 <div style="width: 30px; height: 1px; background: #1a5276; margin: 3px 0;"></div>
-                                <div style="font-size: 6px; font-weight: bold; color: #1a5276; font-family: Microsoft JhengHei, sans-serif;">專業籃球球證服務</div>
+                                <div style="font-size: 6px; font-weight: bold; color: #1a5276; font-family: Microsoft JhengHei, sans-serif;">專業籃球球證/裁判服務</div>
                             </div>
                         </div>
                     </div>
@@ -2243,7 +2243,7 @@ function doPost(e) {
                             <thead>
                                 <tr style="background:#d4a574;color:white;">
                                     <th style="padding:10px;text-align:left;border:1px solid #c89860;">服務名稱</th>
-                                    <th style="padding:10px;text-align:center;border:1px solid #c89860;width:70px;">球證數量</th>
+                                    <th style="padding:10px;text-align:center;border:1px solid #c89860;width:70px;">球證/裁判數量</th>
                                     <th style="padding:10px;text-align:center;border:1px solid #c89860;width:70px;">小時</th>
                                     <th style="padding:10px;text-align:right;border:1px solid #c89860;width:90px;">單價<br>(HKD/小時)</th>
                                     <th style="padding:10px;text-align:right;border:1px solid #c89860;width:100px;">小計 (HKD)</th>
@@ -2278,7 +2278,7 @@ function doPost(e) {
                     ${invoiceNotes ? `<div style="margin-bottom:15px;"><h3 style="color:#5a4a3a;font-size:14px;margin-bottom:6px;">備註 Notes:</h3><div style="background:#f5e6d3;padding:10px;border-radius:8px;white-space:pre-wrap;font-size:11px;">${invoiceNotes}</div></div>` : ''}
                     <div style="margin-top:20px;display:flex;justify-content:space-between;align-items:center;padding-top:15px;">
                         <div style="text-align:center;font-size:11px;color:#999;flex:1;">
-                            <div style="margin-bottom:5px;"><strong>LaLaRef - 專業籃球球證服務</strong></div>
+                            <div style="margin-bottom:5px;"><strong>LaLaRef - 專業籃球球證/裁判服務</strong></div>
                             <div>Professional Basketball Referee Service</div>
                             <div style="margin-top:5px;">電話 Tel: +852 8482 8484 | 網站 Web: www.lalaref.com</div>
                         </div>
@@ -2287,7 +2287,7 @@ function doPost(e) {
                                 <div style="font-size:10px;font-weight:bold;color:#1a5276;letter-spacing:1px;">LaLaRef</div>
                                 <div style="font-size:8px;font-weight:bold;color:#1a5276;margin-top:2px;">急單王</div>
                                 <div style="width:30px;height:1px;background:#1a5276;margin:3px 0;"></div>
-                                <div style="font-size:6px;font-weight:bold;color:#1a5276;">專業籃球球證服務</div>
+                                <div style="font-size:6px;font-weight:bold;color:#1a5276;">專業籃球球證/裁判服務</div>
                             </div>
                         </div>
                     </div>
@@ -2375,7 +2375,7 @@ function doPost(e) {
 🕐 時間：${matchTime} - ${matchEndTime}
 📍 地點：${venue}
 🏀 類型：${matchType}
-👨‍⚖️ 球證數量：${refereeCount}
+👨‍⚖️ 球證/裁判數量：${refereeCount}
 
 你可以隨時透過以下連結查詢預訂詳情：
 🔗 https://www.lalaref.com/track-booking.html?code=${code}
