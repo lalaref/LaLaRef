@@ -427,7 +427,7 @@ async function loadTab() {
 
 // ============ TODAY'S MATCHES ============
 async function loadToday() {
-    const res = await api({ action: 'getTodayMatches' });
+    const res = await api({ action: 'getTodayMatches', username: currentUser.username });
     const content = document.getElementById('content');
     if (!res.success) { content.innerHTML = '<div class="empty">載入失敗</div>'; return; }
     
@@ -629,7 +629,7 @@ async function changeMonth(delta) {
 }
 
 async function fetchAdminSummary() {
-    const res = await api({ action: 'getMonthlySummary', year: summaryYear, month: summaryMonth });
+    const res = await api({ action: 'getMonthlySummary', year: summaryYear, month: summaryMonth, adminUsername: currentUser.username });
     const el = document.getElementById('summaryContent');
     if (!res.success || res.summaries.length === 0) {
         el.innerHTML = '<div class="empty">本月暫無記錄</div>';

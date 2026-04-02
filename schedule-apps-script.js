@@ -44,9 +44,9 @@ function handleRequest(e) {
       case 'assignReferee': result = assignReferee(JSON.parse(params.data)); break;
       case 'removeAssignment': result = removeAssignment(params.assignmentId); break;
       case 'getMySchedule': result = getMySchedule(params.username); break;
-      case 'getTodayMatches': result = getTodayMatches(); break;
+      case 'getTodayMatches': result = getTodayMatches(params.username); break;
       case 'updateAssignmentStatus': result = updateAssignmentStatus(params.assignmentId, params.status); break;
-      case 'getMonthlySummary': result = getMonthlySummary(params.year, params.month, params.refereeUsername || ''); break;
+      case 'getMonthlySummary': result = getMonthlySummary(params.year, params.month, params.refereeUsername || '', params.adminUsername || ''); break;
       case 'setHourlyRate': result = setHourlyRate(params.refereeUsername, params.rate); break;
       case 'registerUser': result = registerUser(JSON.parse(params.data)); break;
       case 'changePassword': result = changePassword(params.username, params.oldPassword, params.newPassword); break;
@@ -151,7 +151,7 @@ function getMatches(username) {
   
   const matches = [];
   for (let i = 1; i < data.length; i++) {
-    if (data[i][9] !== 'deleted') {
+    if (data[i][9] !== 'deleted' && data[i][10] === username) {
       const matchId = data[i][0];
       const refs = [];
       for (let j = 1; j < aData.length; j++) {
@@ -318,7 +318,7 @@ function getMySchedule(username) {
   return { success: true, schedule };
 }
 
-function getTodayMatches() {
+function getTodayMatches(username) {
   const today = Utilities.formatDate(new Date(), 'Asia/Hong_Kong', 'yyyy-MM-dd');
   const mSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Matches');
   const aSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Assignments');
@@ -333,7 +333,7 @@ function getTodayMatches() {
   const todayMatches = [];
   for (let i = 1; i < mData.length; i++) {
     const matchDate = Utilities.formatDate(new Date(mData[i][1]), 'Asia/Hong_Kong', 'yyyy-MM-dd');
-    if (matchDate === today && mData[i][9] !== 'deleted') {
+    if (matchDate === today && mData[i][9] !== 'deleted' && mData[i][10] === username) {
       const matchId = mData[i][0];
       const refs = [];
       for (let j = 1; j < aData.length; j++) {
@@ -352,7 +352,7 @@ function getTodayMatches() {
 }
 
 // ============ MONTHLY SUMMARY ============
-function getMonthlySummary(year, month, refereeUsername) {
+function getMonthlySummary(year, month, refereeUsername, adminUsername) {
   const mSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Matches');
   const aSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Assignments');
   const uSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Users');
@@ -378,6 +378,8 @@ function getMonthlySummary(year, month, refereeUsername) {
   const matchMap = {};
   for (let i = 1; i < mData.length; i++) {
     if (mData[i][9] === 'deleted') continue;
+    // Filter by admin if provided
+    if (adminUsername && mData[i][10] !== adminUsername) continue;
     const d = new Date(mData[i][1]);
     const mYear = d.getFullYear();
     const mMonth = d.getMonth() + 1;
