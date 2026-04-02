@@ -200,7 +200,10 @@ body{font-family:'Segoe UI',-apple-system,BlinkMacSystemFont,'Microsoft JhengHei
     </div>
     <div class="form-group" id="otherVenueGroup" style="display:none"><label>自訂場地</label><input type="text" id="mVenueOther" placeholder="輸入場地名稱"></div>
     <div class="form-group"><label>場地詳情</label><input type="text" id="mVenueDetails" placeholder="例：3樓A場"></div>
-    <div class="form-group"><label>球證數量</label><select id="mRefCount"><option value="1">1</option><option value="2" selected>2</option><option value="3">3</option></select></div>
+    <div class="form-row">
+      <div class="form-group"><label>聯賽名稱</label><input type="text" id="mOrgName" placeholder="例：ACE Spade / SBL / 友誼賽"></div>
+      <div class="form-group"><label>球證數量</label><select id="mRefCount"><option value="1">1</option><option value="2" selected>2</option><option value="3">3</option></select></div>
+    </div>
     <button class="btn-sm btn-primary" style="width:100%;padding:14px;font-size:1em;margin-top:10px" onclick="saveMatch()">💾 儲存</button>
   </div>
 </div>
@@ -330,13 +333,13 @@ async function loadToday() {
         res.matches.forEach(m => {
             html += `<div class="card"><h3>🏀 ${m.venue} — ${m.format}</h3><div class="meta">
                 <strong>時間：</strong>${m.timeStart} - ${m.timeEnd}<br>
-                ${m.orgName ? `<strong>機構：</strong>${m.orgName}<br>` : ''}
+                ${m.orgName ? `<strong>聯賽：</strong>${m.orgName}<br>` : ''}
                 <strong>球證：</strong>`;
             if (m.referees.length === 0) {
                 html += '<span style="color:#e74c3c">未分配</span>';
             } else {
                 m.referees.forEach(r => {
-                    const waMsg = encodeURIComponent(`🏀 LaLaRef 球證通知\n\n📅 日期：今天\n⏰ 時間：${m.timeStart} - ${m.timeEnd}\n📍 場地：${m.venue}\n🏀 形式：${m.format}\n\n請準時到場，謝謝！`);
+                    const waMsg = encodeURIComponent(`🏀 LaLaRef 球證通知\n\n📅 日期：今天\n⏰ 時間：${m.timeStart} - ${m.timeEnd}\n📍 場地：${m.venue}\n🏀 形式：${m.format}${m.orgName ? '\n🏆 聯賽：' + m.orgName : ''}\n\n請準時到場，謝謝！`);
                     const waLink = r.phone ? `https://wa.me/852${r.phone}?text=${waMsg}` : '#';
                     let statusBadge = '';
                     if (r.status === 'arrived') statusBadge = '<span class="badge badge-arrived">📍 已到場</span>';
@@ -399,6 +402,7 @@ async function loadMatches() {
             html += `<div class="card"><h3>${badge} ${m.venue} — ${m.format}</h3><div class="meta">
                 <strong>日期：</strong>${mDate}<br>
                 <strong>時間：</strong>${m.timeStart} - ${m.timeEnd}<br>
+                ${m.orgName ? `<strong>聯賽：</strong>${m.orgName}<br>` : ''}
                 <strong>需要球證：</strong>${m.refCount} 位
                 ${refsHtml}
             </div><div class="actions">
@@ -477,6 +481,7 @@ async function loadMySchedule() {
             <strong>日期：</strong>${sDate}<br>
             <strong>時間：</strong>${s.timeStart} - ${s.timeEnd}<br>
             <strong>形式：</strong>${s.format}<br>
+            ${s.orgName ? `<strong>聯賽：</strong>${s.orgName}<br>` : ''}
             <strong>角色：</strong>${s.role}<br>
             ${s.venueDetails ? `<strong>場地詳情：</strong>${s.venueDetails}` : ''}
         </div>${confirmHtml}</div>`;
@@ -649,6 +654,7 @@ async function openMatchModal(matchId) {
             }
             document.getElementById('mVenueDetails').value = m.venueDetails || '';
             document.getElementById('mFormat').value = m.format;
+            document.getElementById('mOrgName').value = m.orgName || '';
             document.getElementById('mRefCount').value = m.refCount || 2;
         }
     } else {
@@ -660,6 +666,7 @@ async function openMatchModal(matchId) {
         document.getElementById('mVenueOther').value = '';
         document.getElementById('mVenueDetails').value = '';
         document.getElementById('mFormat').value = '5x5';
+        document.getElementById('mOrgName').value = '';
         document.getElementById('mRefCount').value = '2';
     }
     openModal('matchModal');
@@ -676,7 +683,7 @@ async function saveMatch() {
         venue: venue,
         venueDetails: document.getElementById('mVenueDetails').value,
         format: document.getElementById('mFormat').value,
-        orgName: '',
+        orgName: document.getElementById('mOrgName').value,
         refCount: document.getElementById('mRefCount').value,
         createdBy: currentUser.username
     };
