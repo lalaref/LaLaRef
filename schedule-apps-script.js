@@ -46,6 +46,8 @@ function handleRequest(e) {
       case 'getMySchedule': result = getMySchedule(params.username); break;
       case 'getTodayMatches': result = getTodayMatches(); break;
       case 'updateAssignmentStatus': result = updateAssignmentStatus(params.assignmentId, params.status); break;
+      case 'getMonthlySummary': result = getMonthlySummary(params.year, params.month, params.refereeUsername || ''); break;
+      case 'setHourlyRate': result = setHourlyRate(params.refereeUsername, params.rate); break;
       default: result = { success: false, message: 'Unknown action' };
     }
     return ContentService.createTextOutput(JSON.stringify(result)).setMimeType(ContentService.MimeType.JSON);
@@ -284,4 +286,101 @@ function getTodayMatches() {
     }
   }
   return { success: true, matches: todayMatches };
+}
+
+// ============ MONTHLY SUMMARY ============
+function getMonthlySummary(year, month, refereeUsername) {
+  const mSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Matches');
+  const aSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Assignments');
+  const uSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Users');
+  const rSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Rates');
+  const mData = mSheet.getDataRange().getValues();
+  const aData = aSheet.getDataRange().getValues();
+  const uData = uSheet.getDataRange().getValues();
+  
+  // Build user map
+  const userMap = {};
+  for (let i = 1; i < uData.length; i++) userMap[uData[i][0]] = { name: uData[i][2], phone: uData[i][3] };
+  
+  // Build rates map (referee -> hourlyRate)
+  const ratesMap = {};
+  if (rSheet) {
+    const rData = rSheet.getDataRange().getValues();
+    for (let i = 1; i < rData.length; i++) {
+      ratesMap[rData[i][0]] = parseFloat(rData[i][1]) || 0;
+    }
+  }
+  
+  // Build match map
+  const matchMap = {};
+  for (let i = 1; i < mData.length; i++) {
+    if (mData[i][9] === 'deleted') continue;
+    const d = new Date(mData[i][1]);
+    const mYear = d.getFullYear();
+    const mMonth = d.getMonth() + 1;
+    if (mYear == year && mMonth == month) {
+      matchMap[mData[i][0]] = {
+        id: mData[i][0], date: Utilities.formatDate(d, 'Asia/Hong_Kong', 'yyyy-MM-dd'),
+        timeStart: mData[i][2], timeEnd: mData[i][3], venue: mData[i][4], format: mData[i][6]
+      };
+    }
+  }
+  
+  // Group assignments by referee for the month
+  const refSummary = {};
+  for (let i = 1; i < aData.length; i++) {
+    if (aData[i][4] === 'removed') continue;
+    const matchId = aData[i][1];
+    const match = matchMap[matchId];
+    if (!match) continue;
+    
+    const refUser = aData[i][2];
+    // If filtering by referee
+    if (refereeUsername && refUser !== refereeUsername) continue;
+    
+    if (!refSummary[refUser]) {
+      const u = userMap[refUser] || {};
+      refSummary[refUser] = { username: refUser, name: u.name || refUser, phone: u.phone || '', hourlyRate: ratesMap[refUser] || 0, matches: [], totalHours: 0, totalPay: 0 };
+    }
+    
+    // Calculate hours
+    let hours = 2; // default
+    try {
+      const [sh, sm] = match.timeStart.split(':').map(Number);
+      const [eh, em] = match.timeEnd.split(':').map(Number);
+      hours = (eh + em/60) - (sh + sm/60);
+      if (hours < 0) hours += 24;
+    } catch(e) {}
+    
+    refSummary[refUser].matches.push({ ...match, role: aData[i][3], hours: Math.round(hours * 100) / 100 });
+    refSummary[refUser].totalHours += hours;
+  }
+  
+  // Calculate totals
+  const summaries = Object.values(refSummary).map(s => {
+    s.totalHours = Math.round(s.totalHours * 100) / 100;
+    s.totalPay = Math.round(s.totalHours * s.hourlyRate * 100) / 100;
+    s.matches.sort((a, b) => a.date.localeCompare(b.date));
+    return s;
+  });
+  
+  return { success: true, summaries, year: parseInt(year), month: parseInt(month) };
+}
+
+function setHourlyRate(refereeUsername, rate) {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  let rSheet = ss.getSheetByName('Rates');
+  if (!rSheet) {
+    rSheet = ss.insertSheet('Rates');
+    rSheet.appendRow(['username', 'hourlyRate']);
+  }
+  const data = rSheet.getDataRange().getValues();
+  for (let i = 1; i < data.length; i++) {
+    if (data[i][0] === refereeUsername) {
+      rSheet.getRange(i+1, 2).setValue(parseFloat(rate));
+      return { success: true, message: '時薪已更新' };
+    }
+  }
+  rSheet.appendRow([refereeUsername, parseFloat(rate)]);
+  return { success: true, message: '時薪已設定' };
 }
