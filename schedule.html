@@ -139,6 +139,7 @@ body{font-family:'Segoe UI',-apple-system,BlinkMacSystemFont,'Microsoft JhengHei
     <h1>🏀 LaLaRef 球證排程</h1>
     <div class="user-info">
       <span id="userName"></span>
+      <button id="topAddMatch" style="display:none" onclick="openMatchModal()" class="btn-sm btn-primary">➕ 新增比賽</button>
       <button onclick="logout()">登出</button>
     </div>
   </div>
@@ -377,11 +378,13 @@ function showApp() {
     if (currentUser.role === 'admin') {
         document.getElementById('adminTabs').style.display = 'flex';
         document.getElementById('refTabs').style.display = 'none';
+        document.getElementById('topAddMatch').style.display = 'inline-block';
         currentTab = 'today';
         loadTab();
     } else {
         document.getElementById('adminTabs').style.display = 'none';
         document.getElementById('refTabs').style.display = 'flex';
+        document.getElementById('topAddMatch').style.display = 'none';
         currentTab = 'mySchedule';
         loadTab();
     }
