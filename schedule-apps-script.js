@@ -48,6 +48,7 @@ function handleRequest(e) {
       case 'updateAssignmentStatus': result = updateAssignmentStatus(params.assignmentId, params.status); break;
       case 'getMonthlySummary': result = getMonthlySummary(params.year, params.month, params.refereeUsername || ''); break;
       case 'setHourlyRate': result = setHourlyRate(params.refereeUsername, params.rate); break;
+      case 'registerUser': result = registerUser(JSON.parse(params.data)); break;
       default: result = { success: false, message: 'Unknown action' };
     }
     return ContentService.createTextOutput(JSON.stringify(result)).setMimeType(ContentService.MimeType.JSON);
@@ -66,6 +67,25 @@ function login(username, password) {
     }
   }
   return { success: false, message: '用戶名或密碼錯誤' };
+}
+
+function registerUser(data) {
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Users');
+  const rows = sheet.getDataRange().getValues();
+  // Check if username already exists
+  for (let i = 1; i < rows.length; i++) {
+    if (rows[i][0] === data.username) {
+      return { success: false, message: '用戶名已存在，請選擇其他用戶名' };
+    }
+  }
+  // Referee accounts are active immediately; Admin accounts need approval (active=false)
+  const isActive = data.role === 'referee' ? true : false;
+  sheet.appendRow([data.username, data.password, data.name, data.phone, data.role, isActive]);
+  if (data.role === 'referee') {
+    return { success: true, message: '球證帳戶已建立' };
+  } else {
+    return { success: true, message: 'Admin 帳戶申請已提交，待審批' };
+  }
 }
 
 // ============ REFEREES ============

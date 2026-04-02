@@ -96,11 +96,41 @@ body{font-family:'Segoe UI',-apple-system,BlinkMacSystemFont,'Microsoft JhengHei
 <div id="loginScreen">
   <div class="login-box">
     <h2>🏀 球證排程系統</h2>
-    <p style="color:#7a6a5a;margin-bottom:25px;font-size:.95em">LaLaRef 急單王 — 內部管理系統</p>
-    <input type="text" id="loginUser" placeholder="用戶名" autocomplete="username">
-    <input type="password" id="loginPass" placeholder="密碼" autocomplete="current-password">
-    <button class="btn" onclick="doLogin()">登入</button>
-    <div id="loginError" class="error"></div>
+    <p style="color:#7a6a5a;margin-bottom:20px;font-size:.95em">歡迎聯繫 Admin 申請聯賽帳戶</p>
+    <div id="loginForm">
+      <input type="text" id="loginUser" placeholder="用戶名" autocomplete="username">
+      <input type="password" id="loginPass" placeholder="密碼" autocomplete="current-password">
+      <button class="btn" onclick="doLogin()">登入</button>
+      <div id="loginError" class="error"></div>
+      <div style="margin-top:20px;display:flex;gap:8px;flex-wrap:wrap;justify-content:center">
+        <button class="btn-sm btn-outline" onclick="showRegister('referee')">👨‍⚖️ 球證帳戶申請</button>
+        <button class="btn-sm btn-outline" onclick="showRegister('admin')">🏢 Admin 帳戶申請</button>
+      </div>
+      <p style="margin-top:15px;font-size:.85em;color:#7a6a5a">忘記密碼？<a href="https://wa.me/85284828484?text=你好！我忘記了球證排程系統的密碼，請幫我重設。" target="_blank" style="color:#d4a574;font-weight:700">WhatsApp 84828484 取回</a></p>
+    </div>
+    <!-- Referee Registration -->
+    <div id="registerRefForm" style="display:none">
+      <h3 style="color:#d4a574;margin-bottom:15px;font-size:1.1em">👨‍⚖️ 球證帳戶申請</h3>
+      <input type="text" id="regRefUsername" placeholder="用戶名（登入用）">
+      <input type="text" id="regRefPassword" placeholder="密碼">
+      <input type="text" id="regRefName" placeholder="姓名">
+      <input type="tel" id="regRefPhone" placeholder="電話（WhatsApp）">
+      <button class="btn" onclick="submitRefRegister()">提交申請</button>
+      <div id="regRefMsg" class="error"></div>
+      <p style="margin-top:12px"><a href="#" onclick="showLoginForm()" style="color:#d4a574;font-size:.9em">← 返回登入</a></p>
+    </div>
+    <!-- Admin Registration -->
+    <div id="registerAdminForm" style="display:none">
+      <h3 style="color:#d4a574;margin-bottom:15px;font-size:1.1em">🏢 Admin 帳戶申請（聯賽管理）</h3>
+      <input type="text" id="regAdminUsername" placeholder="用戶名（登入用）">
+      <input type="text" id="regAdminPassword" placeholder="密碼">
+      <input type="text" id="regAdminName" placeholder="姓名 / 聯賽名稱">
+      <input type="tel" id="regAdminPhone" placeholder="電話（WhatsApp）">
+      <button class="btn" onclick="submitAdminRegister()">提交申請</button>
+      <div id="regAdminMsg" class="error"></div>
+      <p style="margin-top:8px;font-size:.82em;color:#7a6a5a">* Admin 帳戶需經審批後方可使用</p>
+      <p style="margin-top:8px"><a href="#" onclick="showLoginForm()" style="color:#d4a574;font-size:.9em">← 返回登入</a></p>
+    </div>
   </div>
 </div>
 
@@ -278,9 +308,67 @@ function logout() {
     localStorage.removeItem('scheduleUser');
     document.getElementById('appScreen').style.display = 'none';
     document.getElementById('loginScreen').style.display = 'block';
+    showLoginForm();
+}
+
+function showLoginForm() {
+    document.getElementById('loginForm').style.display = 'block';
+    document.getElementById('registerRefForm').style.display = 'none';
+    document.getElementById('registerAdminForm').style.display = 'none';
     document.getElementById('loginUser').value = '';
     document.getElementById('loginPass').value = '';
     document.getElementById('loginError').textContent = '';
+}
+
+function showRegister(type) {
+    document.getElementById('loginForm').style.display = 'none';
+    document.getElementById('registerRefForm').style.display = type === 'referee' ? 'block' : 'none';
+    document.getElementById('registerAdminForm').style.display = type === 'admin' ? 'block' : 'none';
+}
+
+async function submitRefRegister() {
+    const data = {
+        username: document.getElementById('regRefUsername').value.trim(),
+        password: document.getElementById('regRefPassword').value.trim(),
+        name: document.getElementById('regRefName').value.trim(),
+        phone: document.getElementById('regRefPhone').value.trim(),
+        role: 'referee'
+    };
+    const msg = document.getElementById('regRefMsg');
+    if (!data.username || !data.password || !data.name || !data.phone) { msg.textContent = '請填寫所有欄位'; return; }
+    msg.textContent = '提交中...';
+    msg.style.color = '#7a6a5a';
+    const res = await api({ action: 'registerUser', data });
+    if (res.success) {
+        msg.style.color = '#27ae60';
+        msg.textContent = '✅ 球證帳戶已建立，可以直接登入！';
+        setTimeout(() => { showLoginForm(); document.getElementById('loginUser').value = data.username; }, 1500);
+    } else {
+        msg.style.color = '#e74c3c';
+        msg.textContent = res.message || '申請失敗';
+    }
+}
+
+async function submitAdminRegister() {
+    const data = {
+        username: document.getElementById('regAdminUsername').value.trim(),
+        password: document.getElementById('regAdminPassword').value.trim(),
+        name: document.getElementById('regAdminName').value.trim(),
+        phone: document.getElementById('regAdminPhone').value.trim(),
+        role: 'admin'
+    };
+    const msg = document.getElementById('regAdminMsg');
+    if (!data.username || !data.password || !data.name || !data.phone) { msg.textContent = '請填寫所有欄位'; return; }
+    msg.textContent = '提交中...';
+    msg.style.color = '#7a6a5a';
+    const res = await api({ action: 'registerUser', data });
+    if (res.success) {
+        msg.style.color = '#27ae60';
+        msg.textContent = '✅ Admin 帳戶申請已提交，待審批後可登入。';
+    } else {
+        msg.style.color = '#e74c3c';
+        msg.textContent = res.message || '申請失敗';
+    }
 }
 
 function showApp() {
