@@ -140,6 +140,7 @@ body{font-family:'Segoe UI',-apple-system,BlinkMacSystemFont,'Microsoft JhengHei
     <div class="user-info">
       <span id="userName"></span>
       <button id="topAddMatch" style="display:none" onclick="openMatchModal()" class="btn-sm btn-primary">➕ 新增比賽</button>
+      <button onclick="openChangePwModal()" style="background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.3);color:#fff;padding:6px 12px;border-radius:15px;cursor:pointer;font-size:.8em">🔑</button>
       <button onclick="logout()">登出</button>
     </div>
   </div>
@@ -266,6 +267,19 @@ body{font-family:'Segoe UI',-apple-system,BlinkMacSystemFont,'Microsoft JhengHei
   </div>
 </div>
 
+<!-- ============ CHANGE PASSWORD MODAL ============ -->
+<div class="modal-overlay" id="changePwModal">
+  <div class="modal">
+    <button class="close-btn" onclick="closeModal('changePwModal')">&times;</button>
+    <h2>🔑 更改密碼</h2>
+    <div class="form-group"><label>舊密碼</label><input type="password" id="cpOldPw" placeholder="輸入目前密碼"></div>
+    <div class="form-group"><label>新密碼</label><input type="password" id="cpNewPw" placeholder="輸入新密碼"></div>
+    <div class="form-group"><label>確認新密碼</label><input type="password" id="cpConfirmPw" placeholder="再次輸入新密碼"></div>
+    <button class="btn-sm btn-primary" style="width:100%;padding:14px;font-size:1em;margin-top:10px" onclick="doChangePassword()">💾 更新密碼</button>
+    <div id="cpMsg" class="error" style="margin-top:10px"></div>
+  </div>
+</div>
+
 <script>
 // ============================================================
 // CONFIG — 請將此 URL 替換為你的 Google Apps Script 部署 URL
@@ -374,7 +388,7 @@ async function submitAdminRegister() {
 function showApp() {
     document.getElementById('loginScreen').style.display = 'none';
     document.getElementById('appScreen').style.display = 'block';
-    document.getElementById('userName').textContent = `👤 ${currentUser.name} (${currentUser.role === 'admin' ? '管理員' : '球證'})`;
+    document.getElementById('userName').textContent = currentUser.role === 'admin' ? `🏆 ${currentUser.name}` : `👤 ${currentUser.name} (球證)`;
     if (currentUser.role === 'admin') {
         document.getElementById('adminTabs').style.display = 'flex';
         document.getElementById('refTabs').style.display = 'none';
@@ -571,7 +585,8 @@ async function loadMySchedule() {
             <strong>日期：</strong>${sDate}<br>
             <strong>時間：</strong>${s.timeStart} - ${s.timeEnd}<br>
             <strong>形式：</strong>${s.format}<br>
-            ${s.orgName ? `<strong>聯賽：</strong>${s.orgName}<br>` : ''}
+            ${s.leagueName ? `<strong>聯賽：</strong>${s.leagueName}<br>` : ''}
+            ${s.orgName ? `<strong>賽事：</strong>${s.orgName}<br>` : ''}
             <strong>角色：</strong>${s.role}<br>
             ${s.venueDetails ? `<strong>場地詳情：</strong>${s.venueDetails}` : ''}
         </div>${confirmHtml}</div>`;
@@ -878,6 +893,35 @@ async function saveReferee() {
         loadTab();
     } else {
         alert(res.message || '新增失敗');
+    }
+}
+
+// ============ CHANGE PASSWORD ============
+function openChangePwModal() {
+    document.getElementById('cpOldPw').value = '';
+    document.getElementById('cpNewPw').value = '';
+    document.getElementById('cpConfirmPw').value = '';
+    document.getElementById('cpMsg').textContent = '';
+    openModal('changePwModal');
+}
+
+async function doChangePassword() {
+    const oldPw = document.getElementById('cpOldPw').value.trim();
+    const newPw = document.getElementById('cpNewPw').value.trim();
+    const confirmPw = document.getElementById('cpConfirmPw').value.trim();
+    const msg = document.getElementById('cpMsg');
+    
+    if (!oldPw || !newPw || !confirmPw) { msg.style.color='#e74c3c'; msg.textContent = '請填寫所有欄位'; return; }
+    if (newPw !== confirmPw) { msg.style.color='#e74c3c'; msg.textContent = '新密碼不一致'; return; }
+    if (newPw.length < 4) { msg.style.color='#e74c3c'; msg.textContent = '新密碼至少 4 個字元'; return; }
+    
+    msg.style.color='#7a6a5a'; msg.textContent = '更新中...';
+    const res = await api({ action: 'changePassword', username: currentUser.username, oldPassword: oldPw, newPassword: newPw });
+    if (res.success) {
+        msg.style.color='#27ae60'; msg.textContent = '✅ 密碼已更新';
+        setTimeout(() => closeModal('changePwModal'), 1200);
+    } else {
+        msg.style.color='#e74c3c'; msg.textContent = res.message || '更新失敗';
     }
 }
 

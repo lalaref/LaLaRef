@@ -49,6 +49,7 @@ function handleRequest(e) {
       case 'getMonthlySummary': result = getMonthlySummary(params.year, params.month, params.refereeUsername || ''); break;
       case 'setHourlyRate': result = setHourlyRate(params.refereeUsername, params.rate); break;
       case 'registerUser': result = registerUser(JSON.parse(params.data)); break;
+      case 'changePassword': result = changePassword(params.username, params.oldPassword, params.newPassword); break;
       default: result = { success: false, message: 'Unknown action' };
     }
     return ContentService.createTextOutput(JSON.stringify(result)).setMimeType(ContentService.MimeType.JSON);
@@ -86,6 +87,21 @@ function registerUser(data) {
   } else {
     return { success: true, message: 'Admin 帳戶申請已提交，待審批' };
   }
+}
+
+function changePassword(username, oldPassword, newPassword) {
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Users');
+  const rows = sheet.getDataRange().getValues();
+  for (let i = 1; i < rows.length; i++) {
+    if (rows[i][0] === username) {
+      if (rows[i][1] !== oldPassword) {
+        return { success: false, message: '舊密碼不正確' };
+      }
+      sheet.getRange(i+1, 2).setValue(newPassword);
+      return { success: true, message: '密碼已更新' };
+    }
+  }
+  return { success: false, message: '找不到用戶' };
 }
 
 // ============ REFEREES ============
@@ -266,15 +282,26 @@ function updateAssignmentStatus(assignmentId, status) {
 function getMySchedule(username) {
   const aSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Assignments');
   const mSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Matches');
+  const uSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Users');
   const aData = aSheet.getDataRange().getValues();
   const mData = mSheet.getDataRange().getValues();
+  const uData = uSheet.getDataRange().getValues();
+  
+  // Build user map for admin names (league names)
+  const userMap = {};
+  for (let i = 1; i < uData.length; i++) {
+    userMap[uData[i][0]] = { name: uData[i][2], role: uData[i][4] };
+  }
   
   const matchMap = {};
   for (let i = 1; i < mData.length; i++) {
+    const createdBy = mData[i][10] || '';
+    const creator = userMap[createdBy] || {};
     matchMap[mData[i][0]] = {
       id: mData[i][0], date: mData[i][1], timeStart: mData[i][2], timeEnd: mData[i][3],
       venue: mData[i][4], venueDetails: mData[i][5], format: mData[i][6],
-      orgName: mData[i][7], status: mData[i][9]
+      orgName: mData[i][7], status: mData[i][9], createdBy: createdBy,
+      leagueName: creator.role === 'admin' ? creator.name : ''
     };
   }
   
