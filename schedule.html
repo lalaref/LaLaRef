@@ -105,7 +105,22 @@ body{font-family:'Segoe UI',-apple-system,BlinkMacSystemFont,'Microsoft JhengHei
       <div style="margin-top:20px;display:flex;gap:8px;flex-wrap:wrap;justify-content:center">
         <a href="https://wa.me/85284828484?text=你好！我想申請聯賽帳戶（球證排程系統）" target="_blank" class="btn-sm btn-wa" style="text-decoration:none;padding:10px 20px;font-size:.95em">🏆 聯賽帳戶申請</a>
       </div>
-      <p style="margin-top:15px;font-size:.85em;color:#7a6a5a">忘記密碼？請聯絡你們的聯賽 Admin</p>
+      <p style="margin-top:15px;font-size:.85em;color:#7a6a5a">
+        <a href="#" onclick="showChangePwLogin()" style="color:#d4a574;font-weight:700">🔑 更改密碼</a>
+        <span style="margin:0 8px">|</span>
+        忘記密碼？請聯絡你們的聯賽 Admin
+      </p>
+    </div>
+    <!-- Change Password on Login Page -->
+    <div id="changePwLoginForm" style="display:none">
+      <h3 style="color:#d4a574;margin-bottom:15px;font-size:1.1em">🔑 更改密碼</h3>
+      <input type="text" id="cpLoginUser" placeholder="用戶名">
+      <input type="password" id="cpLoginOldPw" placeholder="舊密碼">
+      <input type="password" id="cpLoginNewPw" placeholder="新密碼">
+      <input type="password" id="cpLoginConfirmPw" placeholder="確認新密碼">
+      <button class="btn" onclick="doChangePwLogin()">更新密碼</button>
+      <div id="cpLoginMsg" class="error" style="margin-top:10px"></div>
+      <p style="margin-top:12px"><a href="#" onclick="showLoginForm()" style="color:#d4a574;font-size:.9em">← 返回登入</a></p>
     </div>
     <!-- Referee Registration -->
     <div id="registerRefForm" style="display:none">
@@ -329,6 +344,7 @@ function showLoginForm() {
     document.getElementById('loginForm').style.display = 'block';
     document.getElementById('registerRefForm').style.display = 'none';
     document.getElementById('registerAdminForm').style.display = 'none';
+    document.getElementById('changePwLoginForm').style.display = 'none';
     document.getElementById('loginUser').value = '';
     document.getElementById('loginPass').value = '';
     document.getElementById('loginError').textContent = '';
@@ -336,8 +352,38 @@ function showLoginForm() {
 
 function showRegister(type) {
     document.getElementById('loginForm').style.display = 'none';
+    document.getElementById('changePwLoginForm').style.display = 'none';
     document.getElementById('registerRefForm').style.display = type === 'referee' ? 'block' : 'none';
     document.getElementById('registerAdminForm').style.display = type === 'admin' ? 'block' : 'none';
+}
+
+function showChangePwLogin() {
+    document.getElementById('loginForm').style.display = 'none';
+    document.getElementById('registerRefForm').style.display = 'none';
+    document.getElementById('registerAdminForm').style.display = 'none';
+    document.getElementById('changePwLoginForm').style.display = 'block';
+    document.getElementById('cpLoginMsg').textContent = '';
+}
+
+async function doChangePwLogin() {
+    const username = document.getElementById('cpLoginUser').value.trim();
+    const oldPw = document.getElementById('cpLoginOldPw').value.trim();
+    const newPw = document.getElementById('cpLoginNewPw').value.trim();
+    const confirmPw = document.getElementById('cpLoginConfirmPw').value.trim();
+    const msg = document.getElementById('cpLoginMsg');
+    
+    if (!username || !oldPw || !newPw || !confirmPw) { msg.style.color='#e74c3c'; msg.textContent = '請填寫所有欄位'; return; }
+    if (newPw !== confirmPw) { msg.style.color='#e74c3c'; msg.textContent = '新密碼不一致'; return; }
+    if (newPw.length < 4) { msg.style.color='#e74c3c'; msg.textContent = '新密碼至少 4 個字元'; return; }
+    
+    msg.style.color='#7a6a5a'; msg.textContent = '更新中...';
+    const res = await api({ action: 'changePassword', username, oldPassword: oldPw, newPassword: newPw });
+    if (res.success) {
+        msg.style.color='#27ae60'; msg.textContent = '✅ 密碼已更新，請用新密碼登入';
+        setTimeout(() => showLoginForm(), 2000);
+    } else {
+        msg.style.color='#e74c3c'; msg.textContent = res.message || '更新失敗';
+    }
 }
 
 async function submitRefRegister() {
