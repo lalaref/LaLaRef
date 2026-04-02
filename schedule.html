@@ -379,11 +379,28 @@ async function loadMatches() {
             else if (mDate > today) badge = '<span class="badge badge-upcoming">即將</span>';
             else badge = '<span class="badge badge-past">已過</span>';
             
+            // Build referee assignment status
+            let refsHtml = '';
+            if (m.referees && m.referees.length > 0) {
+                refsHtml = '<div style="margin-top:8px"><strong>已分配球證：</strong>';
+                m.referees.forEach(r => {
+                    let sBadge = '';
+                    if (r.status === 'arrived') sBadge = '<span class="badge badge-arrived">📍 已到場</span>';
+                    else if (r.status === 'confirmed') sBadge = '<span class="badge badge-confirmed">✅ 已確認</span>';
+                    else if (r.status === 'notified') sBadge = '<span class="badge badge-notified">📨 已通知</span>';
+                    else sBadge = '<span class="badge badge-assigned">⏳ 待通知</span>';
+                    refsHtml += `<div style="display:flex;align-items:center;gap:6px;margin:3px 0;flex-wrap:wrap"><span>${r.name} (${r.role})</span> ${sBadge}</div>`;
+                });
+                refsHtml += '</div>';
+            } else {
+                refsHtml = '<div style="margin-top:8px;color:#e74c3c"><strong>⚠️ 未分配球證</strong></div>';
+            }
+            
             html += `<div class="card"><h3>${badge} ${m.venue} — ${m.format}</h3><div class="meta">
                 <strong>日期：</strong>${mDate}<br>
                 <strong>時間：</strong>${m.timeStart} - ${m.timeEnd}<br>
-                ${m.orgName ? `<strong>機構：</strong>${m.orgName}<br>` : ''}
                 <strong>需要球證：</strong>${m.refCount} 位
+                ${refsHtml}
             </div><div class="actions">
                 <button class="btn-sm btn-success" onclick="openAssignModal('${m.id}','${m.venue}','${mDate}','${m.timeStart}')">👨‍⚖️ 分配球證</button>
                 <button class="btn-sm btn-outline" onclick="openMatchModal('${m.id}')">✏️ 編輯</button>

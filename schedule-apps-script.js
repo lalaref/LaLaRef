@@ -104,15 +104,31 @@ function updateReferee(data) {
 // ============ MATCHES ============
 function getMatches(username) {
   const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Matches');
+  const aSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Assignments');
+  const uSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Users');
   const data = sheet.getDataRange().getValues();
+  const aData = aSheet.getDataRange().getValues();
+  const uData = uSheet.getDataRange().getValues();
+  
+  const userMap = {};
+  for (let i = 1; i < uData.length; i++) userMap[uData[i][0]] = { name: uData[i][2], phone: uData[i][3] };
+  
   const matches = [];
   for (let i = 1; i < data.length; i++) {
     if (data[i][9] !== 'deleted') {
+      const matchId = data[i][0];
+      const refs = [];
+      for (let j = 1; j < aData.length; j++) {
+        if (aData[j][1] === matchId && aData[j][4] !== 'removed') {
+          const u = userMap[aData[j][2]] || {};
+          refs.push({ name: u.name || aData[j][2], phone: u.phone || '', status: aData[j][4], role: aData[j][3], assignmentId: aData[j][0] });
+        }
+      }
       matches.push({
-        id: data[i][0], date: data[i][1], timeStart: data[i][2], timeEnd: data[i][3],
+        id: matchId, date: data[i][1], timeStart: data[i][2], timeEnd: data[i][3],
         venue: data[i][4], venueDetails: data[i][5], format: data[i][6],
         orgName: data[i][7], refCount: data[i][8], status: data[i][9],
-        createdBy: data[i][10], createdAt: data[i][11]
+        createdBy: data[i][10], createdAt: data[i][11], referees: refs
       });
     }
   }
