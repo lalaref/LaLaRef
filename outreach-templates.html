@@ -1,0 +1,1379 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LaLaRef 外展訊息範本 | Outreach Message Templates</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" type="image/jpeg" href="lalaref2.jpg">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Microsoft JhengHei', 'PingFang TC', sans-serif;
+            line-height: 1.6; color: #5a4a3a;
+            background: linear-gradient(135deg, #f5e6d3 0%, #e8d4b8 100%);
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .page-header {
+            background: linear-gradient(145deg, #f0dcc8, #e8d4b8);
+            border-radius: 40px; margin: 20px; padding: 50px 40px;
+            box-shadow: 20px 20px 40px rgba(0,0,0,.15), -20px -20px 40px rgba(255,255,255,.7),
+                inset 5px 5px 10px rgba(255,255,255,.5);
+            text-align: center;
+        }
+        .page-header h1 { font-size: 2.4em; font-weight: 900; color: #5a4a3a; margin-bottom: 10px; }
+        .page-header p { font-size: 1.05em; color: #7a6a5a; max-width: 650px; margin: 0 auto; }
+
+        /* Tab Navigation */
+        .tab-nav {
+            display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;
+            margin: 25px 20px 0; padding: 0 20px;
+        }
+        .tab-btn {
+            padding: 12px 24px; border-radius: 25px; border: none; cursor: pointer;
+            font-weight: 800; font-size: .95em; transition: all .3s;
+            background: linear-gradient(145deg, #e8d4b8, #dcc8ac);
+            color: #5a4a3a;
+            box-shadow: 6px 6px 12px rgba(0,0,0,.1), -6px -6px 12px rgba(255,255,255,.6);
+        }
+        .tab-btn:hover { transform: translateY(-2px); }
+        .tab-btn.active {
+            background: linear-gradient(145deg, #d4a574, #c89860); color: white;
+            box-shadow: 8px 8px 16px rgba(0,0,0,.15), -4px -4px 8px rgba(255,255,255,.3);
+        }
+
+        /* Section */
+        .section {
+            background: linear-gradient(145deg, #f0dcc8, #e8d4b8);
+            border-radius: 35px; margin: 25px 20px; padding: 45px 35px;
+            box-shadow: 15px 15px 30px rgba(0,0,0,.12), -15px -15px 30px rgba(255,255,255,.7),
+                inset 3px 3px 6px rgba(255,255,255,.4);
+            display: none;
+        }
+        .section.active { display: block; }
+        .section h2 { font-size: 1.8em; color: #5a4a3a; font-weight: 900; margin-bottom: 8px; }
+        .section h2::after { content: ''; display: block; width: 50px; height: 4px;
+            background: #d4a574; border-radius: 10px; margin: 12px 0 0; }
+        .section .intro { color: #7a6a5a; font-size: .95em; margin-bottom: 30px; line-height: 1.7; max-width: 800px; }
+
+        /* Message Card */
+        .msg-card {
+            background: linear-gradient(145deg, #e8d4b8, #dcc8ac);
+            border-radius: 25px; padding: 30px; margin-bottom: 22px;
+            box-shadow: 10px 10px 20px rgba(0,0,0,.1), -10px -10px 20px rgba(255,255,255,.6);
+        }
+        .msg-header { display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 15px; flex-wrap: wrap; gap: 10px; }
+        .msg-label { display: flex; align-items: center; gap: 10px; }
+        .msg-label .icon { font-size: 1.5em; }
+        .msg-label h3 { font-size: 1.15em; color: #5a4a3a; font-weight: 800; }
+        .msg-tag {
+            display: inline-block; padding: 4px 14px; border-radius: 15px; font-size: .75em;
+            font-weight: 700; letter-spacing: .5px;
+        }
+        .tag-cold { background: #b8d4e8; color: #3a5a6a; }
+        .tag-warm { background: #e8d4b8; color: #6a5a3a; }
+        .tag-follow { background: #d4e8b8; color: #4a6a3a; }
+        .tag-sponsor { background: #e8b8d4; color: #6a3a5a; }
+
+        .msg-meta { display: flex; gap: 15px; margin-bottom: 15px; flex-wrap: wrap; }
+        .meta-item { font-size: .82em; color: #7a6a5a; font-weight: 600; }
+        .meta-item span { color: #d4a574; font-weight: 800; }
+
+        .msg-content {
+            background: white; border-radius: 18px; padding: 25px;
+            font-size: .93em; line-height: 1.8; color: #4a3a2a;
+            white-space: pre-wrap; position: relative;
+            box-shadow: inset 3px 3px 6px rgba(0,0,0,.05);
+        }
+        .msg-content .placeholder {
+            background: #fff3e0; color: #d4a574; padding: 1px 6px; border-radius: 4px;
+            font-weight: 700; font-size: .9em;
+        }
+
+        .copy-btn {
+            margin-top: 12px; padding: 10px 22px; border-radius: 20px; border: none;
+            cursor: pointer; font-weight: 800; font-size: .88em;
+            background: linear-gradient(145deg, #d4a574, #c89860); color: white;
+            box-shadow: 5px 5px 10px rgba(0,0,0,.1), -3px -3px 6px rgba(255,255,255,.3);
+            transition: all .3s;
+        }
+        .copy-btn:hover { transform: translateY(-2px); }
+        .copy-btn.copied { background: linear-gradient(145deg, #25d366, #20b358); }
+
+        /* Tips box */
+        .tips-box {
+            background: linear-gradient(145deg, #d4a574, #c89860);
+            border-radius: 22px; padding: 25px 28px; margin-top: 25px; color: white;
+            box-shadow: 10px 10px 20px rgba(0,0,0,.12);
+        }
+        .tips-box h4 { font-size: 1.1em; font-weight: 800; margin-bottom: 10px; }
+        .tips-box ul { padding-left: 20px; font-size: .9em; line-height: 1.9; }
+
+        @media (max-width:600px) {
+            .page-header { padding: 35px 20px; margin: 10px; }
+            .page-header h1 { font-size: 1.6em; }
+            .section { margin: 15px 10px; padding: 30px 18px; }
+            .tab-nav { margin: 15px 10px 0; }
+            .tab-btn { padding: 10px 16px; font-size: .85em; }
+            .msg-content { padding: 18px; font-size: .88em; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="page-header">
+        <h1>📨 LaLaRef 外展訊息範本</h1>
+        <p>針對不同平台和場景的 outreach 訊息模板，直接複製修改即可使用。<span class="placeholder">[橙色]</span> 部分需要替換為實際資料。</p>
+    </div>
+
+    <div class="tab-nav">
+        <button class="tab-btn active" onclick="showTab('email')">✉️ Email</button>
+        <button class="tab-btn" onclick="showTab('linkedin')">💼 LinkedIn</button>
+        <button class="tab-btn" onclick="showTab('whatsapp')">💬 WhatsApp</button>
+        <button class="tab-btn" onclick="showTab('ig')">📸 IG DM</button>
+        <button class="tab-btn" onclick="showTab('sponsor')">🤝 贊助邀請</button>
+        <button class="tab-btn" onclick="showTab('threads')">🧵 Threads</button>
+        <button class="tab-btn" onclick="showTab('corp-threads')">🏢 公司比賽 Threads</button>
+        <button class="tab-btn" onclick="showTab('followup')">🔄 Follow-up</button>
+    </div>
+
+    <!-- ===== EMAIL ===== -->
+    <div class="section active" id="tab-email">
+        <h2>✉️ Email 範本</h2>
+        <p class="intro">適合發送給企業 HR / Marketing / Admin 部門。建議用公司 email 或 info@lalaref.com 發送，顯得更專業。</p>
+
+        <!-- Email 1: Cold outreach to HR -->
+        <div class="msg-card">
+            <div class="msg-header">
+                <div class="msg-label">
+                    <span class="icon">📧</span>
+                    <h3>Cold Email — 致 HR 部門</h3>
+                </div>
+                <span class="msg-tag tag-cold">Cold Outreach</span>
+            </div>
+            <div class="msg-meta">
+                <div class="meta-item">Subject: <span>為貴公司員工打造專屬籃球活動 — 一條龍策劃服務</span></div>
+            </div>
+            <div class="msg-content" id="email1"><span class="placeholder">[稱呼]</span> 你好！
+
+我係 LaLaRef 急單王嘅 <span class="placeholder">[你的名字]</span>，我哋係香港專業籃球賽事服務團隊，專門為企業及機構策劃籃球活動。
+
+留意到 <span class="placeholder">[公司名稱]</span> 一直重視員工福利同團隊建設，所以想同你分享我哋嘅企業籃球活動方案。
+
+我哋可以為貴公司提供：
+🏀 一條龍籃球活動策劃（賽制設計、賽程編排）
+⚖️ 專業持牌球證裁判團隊
+📊 計時計分及數據統計
+📸 活動攝影及錄影服務
+
+無論係公司運動日、部門友誼賽、Team Building 活動，我哋都有豐富經驗。過去已為超過 50 間企業提供服務，客戶評分 4.8/5。
+
+方案由 HKD $2,000 起，可根據貴公司需求度身訂造。
+
+如有興趣了解更多，歡迎回覆此電郵或 WhatsApp 8482 8484，我可以為你安排一個 15 分鐘嘅免費諮詢。
+
+祝工作順利！
+
+<span class="placeholder">[你的名字]</span>
+LaLaRef 急單王
+📱 8482 8484
+🌐 www.lalaref.com
+✉️ info@lalaref.com</div>
+            <button class="copy-btn" onclick="copyMsg('email1')">📋 複製訊息</button>
+        </div>
+
+        <!-- Email 2: Cold outreach to Marketing -->
+        <div class="msg-card">
+            <div class="msg-header">
+                <div class="msg-label">
+                    <span class="icon">📧</span>
+                    <h3>Cold Email — 致 Marketing 部門</h3>
+                </div>
+                <span class="msg-tag tag-cold">Cold Outreach</span>
+            </div>
+            <div class="msg-meta">
+                <div class="meta-item">Subject: <span>籃球賽事贊助合作 — 接觸年輕活躍消費群</span></div>
+            </div>
+            <div class="msg-content" id="email2"><span class="placeholder">[稱呼]</span> 你好！
+
+我係 LaLaRef 嘅 <span class="placeholder">[你的名字]</span>。LaLaRef 係香港領先嘅籃球賽事服務平台，每季為超過 20 個聯賽提供服務，接觸數千名活躍嘅年輕運動愛好者。
+
+我留意到 <span class="placeholder">[公司名稱/品牌]</span> 嘅目標客群同我哋嘅受眾高度吻合，所以想探討一下合作機會。
+
+我哋可以提供嘅贊助回報包括：
+🏆 聯賽冠名贊助權
+📱 社交媒體深度合作（每季 8+ 帖文）
+🎬 品牌影片製作及植入
+👕 參賽隊伍球衣 Logo 展示
+📸 賽事現場品牌曝光
+
+贊助方案由 HKD $5,000/季起，我哋亦歡迎以產品或服務形式贊助。
+
+附上我哋嘅合作方案供參考：<span class="placeholder">[proposal.html 連結]</span>
+
+如有興趣進一步了解，歡迎回覆或 WhatsApp 8482 8484 傾下。
+
+Best regards,
+
+<span class="placeholder">[你的名字]</span>
+LaLaRef 急單王
+📱 8482 8484 ｜ 🌐 www.lalaref.com</div>
+            <button class="copy-btn" onclick="copyMsg('email2')">📋 複製訊息</button>
+        </div>
+
+        <!-- Email 3: English version -->
+        <div class="msg-card">
+            <div class="msg-header">
+                <div class="msg-label">
+                    <span class="icon">📧</span>
+                    <h3>Cold Email — English Version (MNC / Expat HR)</h3>
+                </div>
+                <span class="msg-tag tag-cold">Cold Outreach</span>
+            </div>
+            <div class="msg-meta">
+                <div class="meta-item">Subject: <span>Corporate Basketball Events — Hassle-Free Team Building for Your Company</span></div>
+            </div>
+            <div class="msg-content" id="email3">Hi <span class="placeholder">[Name]</span>,
+
+I'm <span class="placeholder">[Your Name]</span> from LaLaRef, Hong Kong's leading basketball event service provider. We help companies organize professional basketball activities — from casual friendly matches to full-season corporate leagues.
+
+I noticed that <span class="placeholder">[Company Name]</span> values employee wellness and team building, so I thought our services might be a great fit.
+
+What we offer:
+🏀 End-to-end event planning (format design, scheduling)
+⚖️ Licensed professional referees
+📊 Scorekeeping & statistics
+📸 Photography & videography
+
+We've served 50+ corporate clients with a 4.8/5 satisfaction rating. Packages start from HKD $2,000 per event, fully customizable to your needs.
+
+Would you be open to a quick 15-minute chat to explore how we can support your next team event?
+
+Feel free to reply to this email or reach us on WhatsApp at +852 8482 8484.
+
+Best regards,
+
+<span class="placeholder">[Your Name]</span>
+LaLaRef — Basketball Event Services
+📱 +852 8482 8484
+🌐 www.lalaref.com</div>
+            <button class="copy-btn" onclick="copyMsg('email3')">📋 複製訊息</button>
+        </div>
+
+        <div class="tips-box">
+            <h4>💡 Email 發送小貼士</h4>
+            <ul>
+                <li>Subject line 要簡短有力，避免太 salesy 的字眼（免費、優惠等）</li>
+                <li>盡量找到對方的名字，避免用「Dear Sir/Madam」</li>
+                <li>週二至週四上午 9-11 點發送，開信率最高</li>
+                <li>如果 3 天無回覆，發 follow-up（見 Follow-up 分頁）</li>
+                <li>可以附上 corporate.html 或 proposal.html 的連結作為參考</li>
+                <li>用公司 email 發送比 Gmail 更專業</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- ===== LINKEDIN ===== -->
+    <div class="section" id="tab-linkedin">
+        <h2>💼 LinkedIn 範本</h2>
+        <p class="intro">LinkedIn 訊息要短、要 personal。先 connect，再發訊息。避免一上來就 hard sell。</p>
+
+        <div class="msg-card">
+            <div class="msg-header">
+                <div class="msg-label">
+                    <span class="icon">🔗</span>
+                    <h3>Connection Request Note（加好友附言）</h3>
+                </div>
+                <span class="msg-tag tag-cold">第一步</span>
+            </div>
+            <div class="msg-meta">
+                <div class="meta-item">字數限制: <span>300 字元</span></div>
+            </div>
+            <div class="msg-content" id="li1">Hi <span class="placeholder">[Name]</span>，我係 LaLaRef 嘅 <span class="placeholder">[你的名字]</span>，專門幫企業策劃籃球活動同 Team Building。留意到你喺 <span class="placeholder">[公司名稱]</span> 負責 <span class="placeholder">[HR/Marketing/員工活動]</span>，想 connect 交流下。🏀</div>
+            <button class="copy-btn" onclick="copyMsg('li1')">📋 複製訊息</button>
+        </div>
+
+        <div class="msg-card">
+            <div class="msg-header">
+                <div class="msg-label">
+                    <span class="icon">💬</span>
+                    <h3>LinkedIn DM — Accept 後第一條訊息</h3>
+                </div>
+                <span class="msg-tag tag-warm">Warm Outreach</span>
+            </div>
+            <div class="msg-content" id="li2">Hi <span class="placeholder">[Name]</span>，多謝 accept！
+
+想簡單介紹下，LaLaRef 係香港嘅籃球賽事服務團隊，我哋幫企業搞籃球活動 — 由球證、計分、攝影到成個聯賽管理都包辦。
+
+之前幫過唔少公司搞 Sports Day 同部門友誼賽，同事反應都好正面。
+
+唔知 <span class="placeholder">[公司名稱]</span> 有冇興趣了解下？我可以 send 個方案俾你參考，完全 no obligation 😊
+
+www.lalaref.com</div>
+            <button class="copy-btn" onclick="copyMsg('li2')">📋 複製訊息</button>
+        </div>
+
+        <div class="msg-card">
+            <div class="msg-header">
+                <div class="msg-label">
+                    <span class="icon">💬</span>
+                    <h3>LinkedIn DM — English Version</h3>
+                </div>
+                <span class="msg-tag tag-warm">Warm Outreach</span>
+            </div>
+            <div class="msg-content" id="li3">Hi <span class="placeholder">[Name]</span>, thanks for connecting!
+
+I run LaLaRef, a basketball event service in Hong Kong. We help companies organize basketball activities — referees, scorekeeping, photography, full league management.
+
+We've worked with 50+ corporate clients for Sports Days, team building events, and internal leagues.
+
+Would <span class="placeholder">[Company Name]</span> be interested in something like this for your team? Happy to share our corporate package — no strings attached 🏀
+
+www.lalaref.com</div>
+            <button class="copy-btn" onclick="copyMsg('li3')">📋 複製訊息</button>
+        </div>
+
+        <div class="msg-card">
+            <div class="msg-header">
+                <div class="msg-label">
+                    <span class="icon">📝</span>
+                    <h3>LinkedIn Post（自己發帖吸引 inbound）</h3>
+                </div>
+                <span class="msg-tag tag-warm">Content Marketing</span>
+            </div>
+            <div class="msg-content" id="li4">上個月幫一間 <span class="placeholder">[行業]</span> 公司搞咗場部門籃球對抗賽 🏀
+
+IT vs Marketing，最後打到加時先分出勝負 😂
+
+HR 同事話：「搞咗咁多年 Team Building，呢次同事反應最好。」
+
+其實搞一場公司籃球活動唔使好複雜：
+✅ 6 個人就可以開波
+✅ 唔識打波都可以參加（我哋會調整規則）
+✅ 球證、計分、攝影一條龍搞掂
+✅ 2 小時就搞完，唔阻工作
+
+如果你公司都想試下用籃球做 Team Building，歡迎 DM 我傾下 💪
+
+#TeamBuilding #企業活動 #籃球 #HongKong #HR #EmployeeEngagement #CorporateEvents</div>
+            <button class="copy-btn" onclick="copyMsg('li4')">📋 複製訊息</button>
+        </div>
+
+        <div class="tips-box">
+            <h4>💡 LinkedIn 小貼士</h4>
+            <ul>
+                <li>先 connect，等對方 accept 後再發訊息，唔好用 InMail hard sell</li>
+                <li>訊息要短，LinkedIn DM 太長冇人睇</li>
+                <li>提及對方公司名或職位，顯示你有做功課</li>
+                <li>定期發 post 分享活動花絮，建立 credibility</li>
+                <li>Target: HR Manager, People & Culture, Marketing Manager, Office Manager, Admin Manager</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- ===== WHATSAPP ===== -->
+    <div class="section" id="tab-whatsapp">
+        <h2>💬 WhatsApp 範本</h2>
+        <p class="intro">WhatsApp 訊息要簡短直接，唔好太長。適合已經有對方電話號碼，或者透過其他渠道取得聯繫後跟進。</p>
+
+        <div class="msg-card">
+            <div class="msg-header">
+                <div class="msg-label">
+                    <span class="icon">📱</span>
+                    <h3>WhatsApp — 初次聯繫（中文）</h3>
+                </div>
+                <span class="msg-tag tag-cold">Cold Outreach</span>
+            </div>
+            <div class="msg-content" id="wa1"><span class="placeholder">[稱呼]</span> 你好！我係 LaLaRef 嘅 <span class="placeholder">[你的名字]</span> 🏀
+
+我哋係香港專業籃球賽事服務團隊，專門幫企業搞籃球活動，包括：
+⚖️ 專業球證
+📊 計時計分
+📸 攝影錄影
+🏆 賽制設計
+
+想了解下 <span class="placeholder">[公司名稱]</span> 有冇興趣為員工搞一場籃球活動？方案由 $2,000 起，我哋可以度身訂造 😊
+
+詳情可以睇下：www.lalaref.com
+
+方便嘅話可以傾下？🙏</div>
+            <button class="copy-btn" onclick="copyMsg('wa1')">📋 複製訊息</button>
+        </div>
+
+        <div class="msg-card">
+            <div class="msg-header">
+                <div class="msg-label">
+                    <span class="icon">📱</span>
+                    <h3>WhatsApp — 初次聯繫（English）</h3>
+                </div>
+                <span class="msg-tag tag-cold">Cold Outreach</span>
+            </div>
+            <div class="msg-content" id="wa2">Hi <span class="placeholder">[Name]</span>! I'm <span class="placeholder">[Your Name]</span> from LaLaRef 🏀
+
+We're a professional basketball event service in HK. We help companies organize basketball activities with:
+⚖️ Licensed referees
+📊 Scorekeeping
+📸 Photography & video
+🏆 Event planning
+
+Would <span class="placeholder">[Company Name]</span> be interested in a basketball team building event? Packages from HKD $2,000.
+
+More info: www.lalaref.com
+
+Happy to chat if you're interested! 😊</div>
+            <button class="copy-btn" onclick="copyMsg('wa2')">📋 複製訊息</button>
+        </div>
+
+        <div class="msg-card">
+            <div class="msg-header">
+                <div class="msg-label">
+                    <span class="icon">📱</span>
+                    <h3>WhatsApp — 轉介紹 / 有人推薦</h3>
+                </div>
+                <span class="msg-tag tag-warm">Warm Outreach</span>
+            </div>
+            <div class="msg-content" id="wa3"><span class="placeholder">[稱呼]</span> 你好！我係 LaLaRef 嘅 <span class="placeholder">[你的名字]</span>。
+
+<span class="placeholder">[推薦人名字]</span> 介紹我聯絡你，話 <span class="placeholder">[公司名稱]</span> 可能有興趣搞公司籃球活動。
+
+我哋之前幫 <span class="placeholder">[推薦人公司]</span> 搞過 <span class="placeholder">[活動類型]</span>，佢哋反應好好。
+
+如果你有興趣了解下，我可以 send 個方案俾你參考，或者約個時間傾下？
+
+WhatsApp: 8482 8484
+www.lalaref.com 🏀</div>
+            <button class="copy-btn" onclick="copyMsg('wa3')">📋 複製訊息</button>
+        </div>
+
+        <div class="tips-box">
+            <h4>💡 WhatsApp 小貼士</h4>
+            <ul>
+                <li>唔好一次過 send 太多訊息，一條搞掂</li>
+                <li>用 emoji 但唔好太多，2-3 個就夠</li>
+                <li>避免星期一早上同星期五下午發送</li>
+                <li>如果對方已讀不回，等 3-5 天再 follow up</li>
+                <li>可以附上活動相片增加說服力</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- ===== IG DM ===== -->
+    <div class="section" id="tab-ig">
+        <h2>📸 Instagram DM 範本</h2>
+        <p class="intro">IG DM 要更 casual、更短。適合聯繫品牌、運動相關公司、或者有搞活動嘅機構。</p>
+
+        <div class="msg-card">
+            <div class="msg-header">
+                <div class="msg-label">
+                    <span class="icon">📸</span>
+                    <h3>IG DM — 致品牌 / 運動公司</h3>
+                </div>
+                <span class="msg-tag tag-cold">Cold Outreach</span>
+            </div>
+            <div class="msg-content" id="ig1">Hi <span class="placeholder">[品牌名]</span> 👋🏀
+
+我哋係 LaLaRef，香港嘅籃球賽事服務團隊。每季為 20+ 個聯賽提供球證同賽事管理服務。
+
+想了解下你哋有冇興趣合作？例如：
+🏆 賽事贊助（品牌曝光）
+📸 聯名活動
+🎬 社交媒體內容合作
+
+可以 DM 傾下或者 WhatsApp 8482 8484 💪</div>
+            <button class="copy-btn" onclick="copyMsg('ig1')">📋 複製訊息</button>
+        </div>
+
+        <div class="msg-card">
+            <div class="msg-header">
+                <div class="msg-label">
+                    <span class="icon">📸</span>
+                    <h3>IG DM — 致公司 HR / 活動帳號</h3>
+                </div>
+                <span class="msg-tag tag-cold">Cold Outreach</span>
+            </div>
+            <div class="msg-content" id="ig2">Hello <span class="placeholder">[公司名]</span> 👋
+
+見到你哋成日搞員工活動，好正！想介紹下我哋 LaLaRef 嘅企業籃球活動服務 🏀
+
+球證、計分、攝影、賽制設計全部包辦，HR 零煩惱。方案由 $2,000 起。
+
+有興趣可以睇下 www.lalaref.com 或者 DM 我傾下 😊</div>
+            <button class="copy-btn" onclick="copyMsg('ig2')">📋 複製訊息</button>
+        </div>
+
+        <div class="msg-card">
+            <div class="msg-header">
+                <div class="msg-label">
+                    <span class="icon">📸</span>
+                    <h3>IG DM — Comment 互動後跟進</h3>
+                </div>
+                <span class="msg-tag tag-warm">Warm Outreach</span>
+            </div>
+            <div class="msg-content" id="ig3">Hey！多謝你之前 like / comment 我哋嘅 post 🙏
+
+順便介紹下，我哋 LaLaRef 除咗提供球證服務，仲幫企業搞籃球活動。
+
+如果你公司有興趣搞場 Team Building 籃球賽，歡迎隨時搵我哋傾 💪🏀</div>
+            <button class="copy-btn" onclick="copyMsg('ig3')">📋 複製訊息</button>
+        </div>
+
+        <div class="tips-box">
+            <h4>💡 IG DM 小貼士</h4>
+            <ul>
+                <li>先 follow 對方，like 幾個 post，再 DM，唔好太突然</li>
+                <li>IG DM 要短，最多 5-6 行</li>
+                <li>可以 send 活動靚相或短片增加吸引力</li>
+                <li>用 Story reply 功能回覆對方嘅 Story 開始對話更自然</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- ===== SPONSOR ===== -->
+    <div class="section" id="tab-sponsor">
+        <h2>🤝 贊助邀請範本</h2>
+        <p class="intro">主動聯繫品牌尋求贊助，重點講清楚佢哋可以得到咩回報。</p>
+
+        <div class="msg-card">
+            <div class="msg-header">
+                <div class="msg-label">
+                    <span class="icon">🏷️</span>
+                    <h3>Email — 致運動品牌 / 飲品品牌</h3>
+                </div>
+                <span class="msg-tag tag-sponsor">贊助邀請</span>
+            </div>
+            <div class="msg-meta">
+                <div class="meta-item">Subject: <span>籃球聯賽贊助合作邀請 — 直接接觸 HK 年輕運動愛好者</span></div>
+            </div>
+            <div class="msg-content" id="sp1"><span class="placeholder">[品牌名稱]</span> Marketing Team 你好！
+
+我係 LaLaRef 嘅 <span class="placeholder">[你的名字]</span>。LaLaRef 係香港最活躍嘅籃球賽事服務平台之一，每季服務超過 20 個私人籃球聯賽，直接接觸數千名 18-35 歲嘅活躍運動愛好者。
+
+我哋正在為即將舉行嘅 <span class="placeholder">[聯賽名稱/賽季]</span> 尋找合作夥伴，想邀請 <span class="placeholder">[品牌名稱]</span> 成為我哋嘅贊助商。
+
+📊 我哋嘅受眾數據：
+• 每季參賽球員：500+ 人
+• 年齡層：18-35 歲為主
+• 社交媒體觸及：每月 10,000+ 次曝光
+• 賽事場次：每季 100+ 場
+
+🎁 贊助回報（可度身訂造）：
+• 聯賽冠名權 / 獎項冠名權
+• 場地橫額及背板品牌展示
+• 社交媒體帖文及 Story 合作
+• 品牌影片製作及植入
+• 現場產品派發 / 攤位
+• 參賽隊伍球衣 Logo
+
+贊助方案由 HKD $5,000/季起，亦歡迎以產品形式贊助。
+
+附上詳細合作方案：<span class="placeholder">[proposal.html 連結]</span>
+
+期待有機會合作！歡迎回覆或 WhatsApp 8482 8484 進一步傾談。
+
+<span class="placeholder">[你的名字]</span>
+LaLaRef 急單王
+📱 8482 8484 ｜ 🌐 www.lalaref.com</div>
+            <button class="copy-btn" onclick="copyMsg('sp1')">📋 複製訊息</button>
+        </div>
+
+        <div class="msg-card">
+            <div class="msg-header">
+                <div class="msg-label">
+                    <span class="icon">🏷️</span>
+                    <h3>WhatsApp — 致本地小品牌 / 小店</h3>
+                </div>
+                <span class="msg-tag tag-sponsor">贊助邀請</span>
+            </div>
+            <div class="msg-content" id="sp2">Hi <span class="placeholder">[品牌/店名]</span> 👋
+
+我係 LaLaRef，香港嘅籃球賽事服務團隊 🏀
+
+我哋每季搞好多場籃球比賽，想搵本地品牌合作。
+
+合作方式好靈活：
+🎁 提供產品做比賽獎品（我哋幫你宣傳）
+📸 社交媒體互相 tag / 合作帖文
+🏆 獎項冠名（例如「<span class="placeholder">[品牌名]</span> MVP 獎」）
+
+唔使大預算，產品贊助都得！有興趣傾下嗎？😊</div>
+            <button class="copy-btn" onclick="copyMsg('sp2')">📋 複製訊息</button>
+        </div>
+
+        <div class="tips-box">
+            <h4>💡 贊助邀請小貼士</h4>
+            <ul>
+                <li>重點講對方可以得到咩，唔好只講你需要咩</li>
+                <li>準備好具體數據（參賽人數、社交媒體數據等）</li>
+                <li>產品贊助門檻低，適合初期建立合作關係</li>
+                <li>Target 品牌：運動品牌、飲品、健身中心、保險、銀行、餐飲</li>
+                <li>附上 proposal.html 連結顯得更專業</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- ===== THREADS ===== -->
+    <div class="section" id="tab-threads">
+        <h2>🧵 Threads 範本</h2>
+        <p class="intro">Threads 嘅風格係 casual、真實、有故事感。唔好太 salesy，用分享經驗同故事嘅方式吸引人。適合建立品牌形象同吸引 inbound 查詢。</p>
+
+        <div class="msg-card">
+            <div class="msg-header">
+                <div class="msg-label">
+                    <span class="icon">🧵</span>
+                    <h3>Threads Post — 故事型（活動花絮）</h3>
+                </div>
+                <span class="msg-tag tag-warm">Content Marketing</span>
+            </div>
+            <div class="msg-meta">
+                <div class="meta-item">類型: <span>自然分享，吸引 inbound</span></div>
+            </div>
+            <div class="msg-content" id="th1">尋日幫一間 <span class="placeholder">[行業]</span> 公司搞咗場部門籃球對抗賽 🏀
+
+Sales team vs Operations，打到最後 2 分鐘先分出勝負
+
+HR 同事同我講：「搞咗咁多次 team building，呢次係同事反應最好嘅一次。」
+
+其實搞一場公司籃球活動真係唔複雜，6 個人就開到波，我哋全部幫你搞掂 ⚖️📸
+
+有興趣嘅 HR / Marketing 朋友可以 DM 我 💪</div>
+            <button class="copy-btn" onclick="copyMsg('th1')">📋 複製訊息</button>
+        </div>
+
+        <div class="msg-card">
+            <div class="msg-header">
+                <div class="msg-label">
+                    <span class="icon">🧵</span>
+                    <h3>Threads Post — 痛點共鳴型</h3>
+                </div>
+                <span class="msg-tag tag-warm">Content Marketing</span>
+            </div>
+            <div class="msg-content" id="th2">做 HR 最怕老闆講：「下個月搞個 team building 啦。」
+
+然後你要搵場地、搵活動、搵供應商⋯⋯
+
+如果係籃球活動嘅話，我哋可以幫你一手包辦：
+球證 ✅ 計分 ✅ 攝影 ✅ 賽制 ✅ 錄影 ✅
+
+你只需要負責出現同享受比賽 😂🏀
+
+#HR #TeamBuilding #香港 #籃球</div>
+            <button class="copy-btn" onclick="copyMsg('th2')">📋 複製訊息</button>
+        </div>
+
+        <div class="msg-card">
+            <div class="msg-header">
+                <div class="msg-label">
+                    <span class="icon">🧵</span>
+                    <h3>Threads Post — 數據 / 知識型</h3>
+                </div>
+                <span class="msg-tag tag-warm">Content Marketing</span>
+            </div>
+            <div class="msg-content" id="th3">公司搞籃球活動嘅 5 個好處：
+
+1️⃣ 運動釋放安多酚，同事心情好自然合作好
+2️⃣ 打波要溝通配合，比食飯更能建立默契
+3️⃣ 唔同部門一齊打波，打破日常隔閡
+4️⃣ 有相有片，公司 social media 有嘢出
+5️⃣ 成本低過好多 team building 活動
+
+我哋幫過 50+ 間公司搞籃球活動，有興趣可以 DM 🏀</div>
+            <button class="copy-btn" onclick="copyMsg('th3')">📋 複製訊息</button>
+        </div>
+
+        <div class="msg-card">
+            <div class="msg-header">
+                <div class="msg-label">
+                    <span class="icon">🧵</span>
+                    <h3>Threads Post — 輕鬆搞笑型</h3>
+                </div>
+                <span class="msg-tag tag-warm">Content Marketing</span>
+            </div>
+            <div class="msg-content" id="th4">做球證最常聽到嘅一句：
+
+「吹我唔吹佢？！」😂
+
+放心，我哋嘅球證好公正㗎，唔會偏幫任何一隊
+
+（除非你請我食飯 🤫 開玩笑）
+
+#籃球 #球證 #香港籃球 #LaLaRef</div>
+            <button class="copy-btn" onclick="copyMsg('th4')">📋 複製訊息</button>
+        </div>
+
+        <div class="msg-card">
+            <div class="msg-header">
+                <div class="msg-label">
+                    <span class="icon">🧵</span>
+                    <h3>Threads Post — 贊助招募型</h3>
+                </div>
+                <span class="msg-tag tag-sponsor">贊助招募</span>
+            </div>
+            <div class="msg-content" id="th5">我哋每季為 20+ 個籃球聯賽提供服務，接觸幾千個 18-35 歲嘅運動愛好者 🏀
+
+而家開放贊助合作：
+🏆 聯賽冠名
+📸 社交媒體合作
+👕 球衣 Logo
+🎬 品牌影片
+
+唔使大預算，產品贊助都歡迎 🤝
+
+有興趣嘅品牌 DM 我，或者 WhatsApp 8482 8484
+
+#贊助 #籃球聯賽 #品牌合作 #香港</div>
+            <button class="copy-btn" onclick="copyMsg('th5')">📋 複製訊息</button>
+        </div>
+
+        <div class="msg-card">
+            <div class="msg-header">
+                <div class="msg-label">
+                    <span class="icon">🧵</span>
+                    <h3>Threads DM — 主動聯繫品牌</h3>
+                </div>
+                <span class="msg-tag tag-cold">Cold Outreach</span>
+            </div>
+            <div class="msg-content" id="th6">Hey <span class="placeholder">[品牌名]</span> 👋
+
+我哋係 LaLaRef，香港嘅籃球賽事團隊。每季搞好多場比賽，想搵啱嘅品牌合作 🏀
+
+見到你哋嘅產品好 fit 我哋嘅受眾（18-35 歲運動愛好者），想傾下有冇合作空間？
+
+可以係產品贊助、社交媒體互推、或者聯名活動都得 🤝
+
+有興趣回個 DM 或者 WhatsApp 8482 8484 傾下？</div>
+            <button class="copy-btn" onclick="copyMsg('th6')">📋 複製訊息</button>
+        </div>
+
+        <div class="msg-card">
+            <div class="msg-header">
+                <div class="msg-label">
+                    <span class="icon">🧵</span>
+                    <h3>Threads Post — English Version</h3>
+                </div>
+                <span class="msg-tag tag-warm">Content Marketing</span>
+            </div>
+            <div class="msg-content" id="th7">Helped a company organize a basketball tournament yesterday 🏀
+
+40 employees, 6 teams, one epic final that went to overtime
+
+The HR manager told me: "This is the best team building we've ever done."
+
+If your company wants to try basketball for team building:
+✅ We handle everything — referees, scoring, photos, video
+✅ Works for any skill level
+✅ 6 people minimum
+✅ 2 hours, done
+
+DM me or check www.lalaref.com 💪
+
+#TeamBuilding #HongKong #Basketball #CorporateEvents #HR</div>
+            <button class="copy-btn" onclick="copyMsg('th7')">📋 複製訊息</button>
+        </div>
+
+        <div class="tips-box">
+            <h4>💡 Threads 小貼士</h4>
+            <ul>
+                <li>Threads 嘅風格係真實、casual、有人味，唔好太 corporate</li>
+                <li>用故事同經歷分享，唔好直接 hard sell</li>
+                <li>短 post 表現通常比長 post 好，控制在 500 字以內</li>
+                <li>加 emoji 但唔好太多，保持自然</li>
+                <li>用 hashtag 但唔好超過 5 個</li>
+                <li>最佳發帖時間：朝早 8-9 點、lunch 12-1 點、夜晚 8-10 點</li>
+                <li>回覆其他人嘅 post 建立存在感，再引導去你嘅 profile</li>
+                <li>定期分享活動花絮相片/短片，建立 credibility</li>
+                <li>Threads 同 IG 互通，可以同步發帖增加曝光</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- ===== 公司比賽 THREADS ===== -->
+    <div class="section" id="tab-corp-threads">
+        <h2>🏢 搞內部公司比賽 — Threads 系列</h2>
+        <p class="intro">專門針對公司內部籃球比賽嘅 Threads 帖文，用嚟吸引 HR / Marketing / Admin 嘅注意力。建議連續幾日發，形成系列感。</p>
+
+        <div class="msg-card">
+            <div class="msg-header">
+                <div class="msg-label">
+                    <span class="icon">🧵</span>
+                    <h3>Post 1 — 開場：點解公司要搞籃球比賽</h3>
+                </div>
+                <span class="msg-tag tag-warm">系列 Day 1</span>
+            </div>
+            <div class="msg-content" id="ct1">你公司上一次搞 team building 係咩？食飯？唱K？escape room？
+
+試下搞場籃球比賽。
+
+認真講，我哋幫過好多公司搞內部籃球賽，HR 同事嘅反饋都係：
+
+「同事終於肯放低電話，一齊投入做一件事。」
+
+打波唔使好叻，6 個人就開到波，2 小時搞掂。
+
+重點係：
+🤝 唔同部門嘅人終於有機會互動
+💪 運動完大家心情好，返工都開心啲
+📸 有相有片，公司 IG 有嘢出
+
+下一個 post 我會講點樣用最低成本搞一場公司籃球賽 👇
+
+#公司活動 #TeamBuilding #籃球 #HR #香港</div>
+            <button class="copy-btn" onclick="copyMsg('ct1')">📋 複製訊息</button>
+        </div>
+
+        <div class="msg-card">
+            <div class="msg-header">
+                <div class="msg-label">
+                    <span class="icon">🧵</span>
+                    <h3>Post 2 — 教學：點樣搞一場公司籃球賽</h3>
+                </div>
+                <span class="msg-tag tag-warm">系列 Day 2</span>
+            </div>
+            <div class="msg-content" id="ct2">好多 HR 朋友問我：「我哋公司想搞場籃球比賽，但完全唔識搞，點算？」
+
+其實好簡單，你只需要搞掂 3 樣嘢：
+
+1️⃣ 場地
+去康文署 app book 個體育館，$75/小時，平過食餐飯
+
+2️⃣ 人數
+最少 6 人（3v3 半場）
+最理想 16-24 人（可以分 4-6 隊打循環賽）
+
+3️⃣ 球證 + 計分 + 攝影
+呢個搵我哋 LaLaRef 就搞掂 😂
+我哋會幫你設計賽制、安排球證、計分、攝影、錄影，全部一條龍
+
+你要做嘅就係：
+✅ Book 場
+✅ 叫同事報名
+✅ 出現
+
+就係咁簡單。
+
+想了解多啲？DM 我或者 WhatsApp 8482 8484 🏀
+
+#公司籃球賽 #HR攻略 #TeamBuilding #香港</div>
+            <button class="copy-btn" onclick="copyMsg('ct2')">📋 複製訊息</button>
+        </div>
+
+        <div class="msg-card">
+            <div class="msg-header">
+                <div class="msg-label">
+                    <span class="icon">🧵</span>
+                    <h3>Post 3 — 賽制推薦：唔同人數點搞</h3>
+                </div>
+                <span class="msg-tag tag-warm">系列 Day 3</span>
+            </div>
+            <div class="msg-content" id="ct3">公司搞籃球比賽，唔同人數有唔同玩法：
+
+👥 6-10 人
+→ 3v3 半場，打 3-4 場，輕鬆友誼賽
+⏱️ 約 1.5 小時
+
+👥 12-16 人
+→ 分 3-4 隊，3v3 循環賽 + 決賽
+⏱️ 約 2 小時
+
+👥 20-30 人
+→ 分 4-6 隊，5v5 分組賽 + 淘汰賽
+⏱️ 約 3 小時
+
+👥 30+ 人
+→ 5v5 大型錦標賽，分組循環 + 交叉淘汰 + 季軍戰 + 決賽
+⏱️ 半日至全日
+
+每個方案我哋都搞過，球證、計分、賽程全部幫你安排好。
+
+最受歡迎係 16-24 人嗰個，啱啱好一個部門嘅 size 🏀
+
+#公司籃球賽 #賽制設計 #TeamBuilding</div>
+            <button class="copy-btn" onclick="copyMsg('ct3')">📋 複製訊息</button>
+        </div>
+
+        <div class="msg-card">
+            <div class="msg-header">
+                <div class="msg-label">
+                    <span class="icon">🧵</span>
+                    <h3>Post 4 — 預算拆解：搞一場幾錢</h3>
+                </div>
+                <span class="msg-tag tag-warm">系列 Day 4</span>
+            </div>
+            <div class="msg-content" id="ct4">「搞場公司籃球比賽要幾錢？」
+
+幫你拆解：
+
+🏟️ 場地（康文署體育館）
+→ $75-150/小時，book 2-3 小時
+
+⚖️ 球證 + 計分 + 賽制設計
+→ LaLaRef 方案由 $2,000 起
+
+📸 攝影 + 錄影（可選）
+→ $200-280/小時
+
+🏆 獎盃獎牌（可選）
+→ $200-500
+
+💰 總預算：
+簡單友誼賽：$2,500 左右
+正式錦標賽：$5,000-8,000
+全日大型賽事：$10,000+
+
+比起搞一次 dinner 動輒過萬，籃球比賽性價比高好多，而且同事參與度同滿意度都高過食飯 😂
+
+想要報價？WhatsApp 8482 8484，我哋免費幫你度身設計方案 🏀
+
+#公司活動預算 #TeamBuilding #HR</div>
+            <button class="copy-btn" onclick="copyMsg('ct4')">📋 複製訊息</button>
+        </div>
+
+        <div class="msg-card">
+            <div class="msg-header">
+                <div class="msg-label">
+                    <span class="icon">🧵</span>
+                    <h3>Post 5 — 真實案例分享</h3>
+                </div>
+                <span class="msg-tag tag-warm">系列 Day 5</span>
+            </div>
+            <div class="msg-content" id="ct5">上個禮拜幫一間 <span class="placeholder">[行業，例如：金融]</span> 公司搞咗場內部籃球錦標賽 🏀
+
+📊 數據：
+• 24 位同事參加
+• 分成 6 隊
+• 3v3 循環賽 + 淘汰賽
+• 歷時 3 小時
+
+🔥 精彩時刻：
+• IT 部門嘅同事竟然係隱藏高手
+• 決賽最後 10 秒先絕殺
+• HR 同事話佢第一次見到 CEO 咁投入
+
+📸 活動相片同精華片段已經放上公司內部群組，大家都話下次再搞
+
+呢種活動真係比食飯有意義好多。
+
+想幫你公司搞一場？DM 我 💪
+
+#公司籃球賽 #企業活動 #TeamBuilding</div>
+            <button class="copy-btn" onclick="copyMsg('ct5')">📋 複製訊息</button>
+        </div>
+
+        <div class="msg-card">
+            <div class="msg-header">
+                <div class="msg-label">
+                    <span class="icon">🧵</span>
+                    <h3>Post 6 — 常見擔心 Q&A</h3>
+                </div>
+                <span class="msg-tag tag-warm">系列 Day 6</span>
+            </div>
+            <div class="msg-content" id="ct6">每次同 HR 朋友傾搞公司籃球比賽，佢哋最常擔心嘅 5 件事：
+
+❓「同事唔識打波點算？」
+→ 我哋會調整規則，放寬犯規尺度，新手都玩得開心
+
+❓「會唔會受傷？」
+→ 有專業球證控制比賽節奏，友誼賽為主，安全第一
+
+❓「女同事可以參加嗎？」
+→ 當然！可以設男女混合隊，或者女子組
+
+❓「我完全唔識籃球，點搞？」
+→ 你唔使識，我哋全部幫你搞掂，你負責出現就得
+
+❓「老闆會唔會覺得浪費錢？」
+→ 比起食飯唱K，籃球比賽更能促進團隊合作，而且有相有片做 PR，老闆一定 like
+
+仲有咩擔心？DM 我，我幫你解答 🏀
+
+#HR常見問題 #公司籃球賽 #TeamBuilding</div>
+            <button class="copy-btn" onclick="copyMsg('ct6')">📋 複製訊息</button>
+        </div>
+
+        <div class="msg-card">
+            <div class="msg-header">
+                <div class="msg-label">
+                    <span class="icon">🧵</span>
+                    <h3>Post 7 — 部門對抗賽概念</h3>
+                </div>
+                <span class="msg-tag tag-warm">話題帖</span>
+            </div>
+            <div class="msg-content" id="ct7">如果你公司搞部門籃球對抗賽，你覺得邊個部門會贏？
+
+🖥️ IT — 默默練波嘅隱藏高手
+💰 Finance — 精密計算每一球
+📢 Marketing — 氣勢最強，啦啦隊最大聲
+👔 Sales — 永遠唔認輸
+⚙️ Operations — 體力最好
+👩‍💼 HR — 搞比賽嗰個通常最想贏 😂
+
+留言話我知你 tip 邊隊 👇
+
+btw 如果你公司真係想搞場部門對抗賽，我哋 LaLaRef 可以幫你一手包辦 🏀
+WhatsApp 8482 8484
+
+#部門對抗 #公司籃球 #你tip邊隊</div>
+            <button class="copy-btn" onclick="copyMsg('ct7')">📋 複製訊息</button>
+        </div>
+
+        <div class="msg-card">
+            <div class="msg-header">
+                <div class="msg-label">
+                    <span class="icon">🧵</span>
+                    <h3>Post 8 — CTA 收尾帖</h3>
+                </div>
+                <span class="msg-tag tag-cold">Direct CTA</span>
+            </div>
+            <div class="msg-content" id="ct8">呢幾日分享咗好多關於搞公司籃球比賽嘅嘢，最後做個總結：
+
+✅ 6 個人就可以開波
+✅ 預算 $2,500 起
+✅ 球證計分攝影全包
+✅ 唔識打波都可以玩
+✅ 2-3 小時搞掂
+✅ 有相有片做 PR
+
+如果你係 HR / Marketing / Admin，想幫公司搞場籃球活動：
+
+📱 WhatsApp 8482 8484
+🌐 www.lalaref.com
+💬 或者直接 DM 我
+
+免費諮詢，免費報價，no obligation 🏀💪
+
+#公司籃球賽 #LaLaRef #TeamBuilding #企業活動 #香港</div>
+            <button class="copy-btn" onclick="copyMsg('ct8')">📋 複製訊息</button>
+        </div>
+
+        <div class="msg-card">
+            <div class="msg-header">
+                <div class="msg-label">
+                    <span class="icon">🧵</span>
+                    <h3>Post — English: Why Your Company Needs a Basketball Event</h3>
+                </div>
+                <span class="msg-tag tag-warm">English Version</span>
+            </div>
+            <div class="msg-content" id="ct9">Your company's next team building should be a basketball game. Here's why:
+
+🏀 It's active — no more sitting around a dinner table
+🤝 It builds real teamwork — you have to communicate on the court
+📸 It's content gold — photos & videos for your company socials
+💰 It's affordable — from HKD $2,500 all-in
+⏱️ It's quick — 2-3 hours, done
+
+We handle everything:
+✅ Professional referees
+✅ Scorekeeping & stats
+✅ Photography & video
+✅ Tournament design
+
+6 people minimum. Any skill level welcome.
+
+DM me or WhatsApp +852 8482 8484 🏀
+
+www.lalaref.com
+
+#TeamBuilding #CorporateEvents #HongKong #Basketball #HR</div>
+            <button class="copy-btn" onclick="copyMsg('ct9')">📋 複製訊息</button>
+        </div>
+
+        <!-- DM Section Divider -->
+        <div style="text-align:center; margin: 40px 0 25px; position: relative;">
+            <div style="position:absolute; top:50%; left:0; right:0; height:2px; background: linear-gradient(90deg, transparent, #d4a574, transparent);"></div>
+            <span style="position:relative; background: linear-gradient(145deg,#f0dcc8,#e8d4b8); padding: 8px 25px; border-radius: 20px; font-weight:900; color:#d4a574; font-size:1.1em; box-shadow: 6px 6px 12px rgba(0,0,0,.08), -6px -6px 12px rgba(255,255,255,.5);">💬 Threads DM — 主動搵公司</span>
+        </div>
+
+        <div class="msg-card">
+            <div class="msg-header">
+                <div class="msg-label">
+                    <span class="icon">💬</span>
+                    <h3>DM — Cold：搵公司官方帳號</h3>
+                </div>
+                <span class="msg-tag tag-cold">Cold DM</span>
+            </div>
+            <div class="msg-meta">
+                <div class="meta-item">Target: <span>公司官方 Threads / IG 帳號</span></div>
+            </div>
+            <div class="msg-content" id="ctdm1">Hi <span class="placeholder">[公司名]</span> 👋🏀
+
+我哋係 LaLaRef，專門幫公司搞內部籃球比賽。
+
+球證、計分、攝影、賽制設計全部一條龍包辦，HR 零煩惱。
+
+之前幫過唔少公司搞部門對抗賽同 Sports Day，同事反應都好正。
+
+唔知你哋有冇興趣為員工搞一場？方案由 $2,000 起，可以度身訂造 😊
+
+方便嘅話可以傾下？</div>
+            <button class="copy-btn" onclick="copyMsg('ctdm1')">📋 複製訊息</button>
+        </div>
+
+        <div class="msg-card">
+            <div class="msg-header">
+                <div class="msg-label">
+                    <span class="icon">💬</span>
+                    <h3>DM — 見到公司出 Team Building / 活動 post 後</h3>
+                </div>
+                <span class="msg-tag tag-warm">Warm DM</span>
+            </div>
+            <div class="msg-meta">
+                <div class="meta-item">時機: <span>對方剛發過員工活動 / Team Building 相關帖文</span></div>
+            </div>
+            <div class="msg-content" id="ctdm2">Hey <span class="placeholder">[公司名]</span>！見到你哋啱啱搞咗 <span class="placeholder">[活動類型，例如：員工運動日 / team building]</span>，好正呀 👏
+
+想介紹下，我哋 LaLaRef 專門幫公司搞籃球比賽活動 🏀
+
+如果下次想加入籃球環節，我哋可以全部幫你搞掂 — 球證、計分、攝影、賽制設計。
+
+有興趣了解下嗎？😊</div>
+            <button class="copy-btn" onclick="copyMsg('ctdm2')">📋 複製訊息</button>
+        </div>
+
+        <div class="msg-card">
+            <div class="msg-header">
+                <div class="msg-label">
+                    <span class="icon">💬</span>
+                    <h3>DM — 搵 HR / People & Culture 個人帳號</h3>
+                </div>
+                <span class="msg-tag tag-cold">Cold DM</span>
+            </div>
+            <div class="msg-meta">
+                <div class="meta-item">Target: <span>HR Manager / People & Culture / Admin 嘅個人帳號</span></div>
+            </div>
+            <div class="msg-content" id="ctdm3">Hi <span class="placeholder">[名字]</span> 👋
+
+見到你喺 <span class="placeholder">[公司名]</span> 做 <span class="placeholder">[HR / People & Culture / Admin]</span>，想 share 個 idea 俾你 🏀
+
+我哋 LaLaRef 專門幫公司搞內部籃球比賽，由球證到攝影全部包辦。好多 HR 朋友話呢個係佢哋搞過最受歡迎嘅 team building。
+
+6 個人就開到波，2 小時搞掂，預算 $2,000 起。
+
+有興趣了解下嗎？我可以 send 個方案俾你參考，no obligation 😊</div>
+            <button class="copy-btn" onclick="copyMsg('ctdm3')">📋 複製訊息</button>
+        </div>
+
+        <div class="msg-card">
+            <div class="msg-header">
+                <div class="msg-label">
+                    <span class="icon">💬</span>
+                    <h3>DM — 大公司 / MNC（English）</h3>
+                </div>
+                <span class="msg-tag tag-cold">Cold DM</span>
+            </div>
+            <div class="msg-meta">
+                <div class="meta-item">Target: <span>MNC / 外資公司帳號或 HR</span></div>
+            </div>
+            <div class="msg-content" id="ctdm4">Hi <span class="placeholder">[Company / Name]</span> 👋
+
+We're LaLaRef — we help companies in HK organize internal basketball events 🏀
+
+We handle everything: professional referees, scorekeeping, photography, tournament design. Your HR team just needs to show up.
+
+Works for any skill level, 6 people minimum, 2-3 hours. Packages from HKD $2,000.
+
+Would your team be interested? Happy to share more details 😊
+
+www.lalaref.com</div>
+            <button class="copy-btn" onclick="copyMsg('ctdm4')">📋 複製訊息</button>
+        </div>
+
+        <div class="msg-card">
+            <div class="msg-header">
+                <div class="msg-label">
+                    <span class="icon">💬</span>
+                    <h3>DM — 對方 reply 有興趣後嘅跟進</h3>
+                </div>
+                <span class="msg-tag tag-follow">Follow-up</span>
+            </div>
+            <div class="msg-content" id="ctdm5">太好喇！😊 簡單問幾個問題，我幫你度身設計方案：
+
+1️⃣ 大概幾多人參加？
+2️⃣ 有冇心水日期？
+3️⃣ 場地自己 book 定需要建議？
+4️⃣ 想簡單友誼賽定正式啲嘅錦標賽？
+
+你可以喺度回覆，或者 WhatsApp 8482 8484 傾都得，邊個方便用邊個 🏀</div>
+            <button class="copy-btn" onclick="copyMsg('ctdm5')">📋 複製訊息</button>
+        </div>
+
+        <div class="msg-card">
+            <div class="msg-header">
+                <div class="msg-label">
+                    <span class="icon">💬</span>
+                    <h3>DM — 已讀不回 Follow-up</h3>
+                </div>
+                <span class="msg-tag tag-follow">Follow-up</span>
+            </div>
+            <div class="msg-meta">
+                <div class="meta-item">時機: <span>3-5 日後</span></div>
+            </div>
+            <div class="msg-content" id="ctdm6">Hi <span class="placeholder">[公司名/名字]</span>，之前提到嘅公司籃球活動，唔知你有冇興趣了解多啲？
+
+如果而家唔係合適時間完全冇問題 🙏 有需要隨時搵我哋：
+📱 WhatsApp 8482 8484
+🌐 www.lalaref.com
+
+祝工作順利！🏀</div>
+            <button class="copy-btn" onclick="copyMsg('ctdm6')">📋 複製訊息</button>
+        </div>
+
+        <div class="tips-box">
+            <h4>💡 Threads DM 搵公司小貼士</h4>
+            <ul>
+                <li>DM 之前先 follow 對方，like 幾個 post，唔好太突然</li>
+                <li>如果對方啱啱出過員工活動 / Sports Day 嘅 post，用「見到你哋搞咗⋯」開頭更自然</li>
+                <li>DM 要短，最多 5-6 行，太長冇人睇</li>
+                <li>搵公司帳號同搵 HR 個人帳號雙管齊下，成功率更高</li>
+                <li>附上活動花絮相片可以大幅提升回覆率</li>
+                <li>每日 DM 唔好超過 10-15 個，避免被 Threads 限制</li>
+                <li>記錄每個 DM 嘅狀態（已發 / 已讀 / 已回覆 / 已成交）</li>
+            </ul>
+        </div>
+
+        <div class="tips-box">
+            <h4>💡 公司比賽 Threads 系列發帖策略</h4>
+            <ul>
+                <li>建議連續 5-7 日發，形成系列感，每日一帖</li>
+                <li>Day 1-2 講「點解要搞」同「點樣搞」，建立興趣</li>
+                <li>Day 3-4 講「賽制」同「預算」，解決實際問題</li>
+                <li>Day 5-6 講「案例」同「Q&A」，建立信任</li>
+                <li>Day 7 用互動帖（部門對抗 tip 邊隊）增加 engagement</li>
+                <li>最後用 CTA 帖收尾，引導查詢</li>
+                <li>每個帖都附上活動相片效果更好</li>
+                <li>回覆每一個 comment，增加互動同曝光</li>
+                <li>可以 cross-post 到 IG，同步增加觸及率</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- ===== FOLLOW-UP ===== -->
+    <div class="section" id="tab-followup">
+        <h2>🔄 Follow-up 範本</h2>
+        <p class="intro">大部分 deal 都係 follow-up 先成功。唔好怕煩，但要有禮貌同提供新價值。</p>
+
+        <div class="msg-card">
+            <div class="msg-header">
+                <div class="msg-label">
+                    <span class="icon">📧</span>
+                    <h3>Email Follow-up — 3 天後</h3>
+                </div>
+                <span class="msg-tag tag-follow">Follow-up #1</span>
+            </div>
+            <div class="msg-meta">
+                <div class="meta-item">Subject: <span>Re: 為貴公司員工打造專屬籃球活動</span></div>
+            </div>
+            <div class="msg-content" id="fu1">Hi <span class="placeholder">[稱呼]</span>，
+
+上次發咗封 email 關於企業籃球活動方案，唔知你有冇機會睇到？
+
+順便分享一個 case：上個月幫一間 <span class="placeholder">[行業]</span> 公司搞咗場 40 人嘅部門對抗賽，HR 同事話係佢哋搞過最受歡迎嘅 Team Building 活動。
+
+如果你有興趣了解更多，我可以 send 個詳細方案俾你，或者約 15 分鐘 quick call。
+
+完全 no pressure，只係想確保你收到訊息 😊
+
+<span class="placeholder">[你的名字]</span>
+LaLaRef ｜ 8482 8484</div>
+            <button class="copy-btn" onclick="copyMsg('fu1')">📋 複製訊息</button>
+        </div>
+
+        <div class="msg-card">
+            <div class="msg-header">
+                <div class="msg-label">
+                    <span class="icon">📧</span>
+                    <h3>Email Follow-up — 7 天後（最後一次）</h3>
+                </div>
+                <span class="msg-tag tag-follow">Follow-up #2</span>
+            </div>
+            <div class="msg-content" id="fu2">Hi <span class="placeholder">[稱呼]</span>，
+
+最後 follow up 一次，唔想打擾你太多 🙏
+
+如果而家唔係合適嘅時間，完全理解。不過如果將來有需要為公司搞籃球活動，歡迎隨時聯絡我：
+
+📱 WhatsApp: 8482 8484
+🌐 www.lalaref.com
+
+祝工作順利！
+
+<span class="placeholder">[你的名字]</span>
+LaLaRef 急單王</div>
+            <button class="copy-btn" onclick="copyMsg('fu2')">📋 複製訊息</button>
+        </div>
+
+        <div class="msg-card">
+            <div class="msg-header">
+                <div class="msg-label">
+                    <span class="icon">💬</span>
+                    <h3>WhatsApp Follow-up — 已讀不回</h3>
+                </div>
+                <span class="msg-tag tag-follow">Follow-up</span>
+            </div>
+            <div class="msg-content" id="fu3">Hi <span class="placeholder">[稱呼]</span>，之前 send 咗個企業籃球活動方案俾你，唔知你有冇興趣了解多啲？
+
+如果而家唔方便都冇問題，有需要隨時搵我 🏀💪</div>
+            <button class="copy-btn" onclick="copyMsg('fu3')">📋 複製訊息</button>
+        </div>
+
+        <div class="msg-card">
+            <div class="msg-header">
+                <div class="msg-label">
+                    <span class="icon">💬</span>
+                    <h3>季節性 Re-engage（節日/新季度）</h3>
+                </div>
+                <span class="msg-tag tag-follow">Re-engage</span>
+            </div>
+            <div class="msg-content" id="fu4">Hi <span class="placeholder">[稱呼]</span>！
+
+新一季就嚟開始，好多公司都趁呢個時間搞員工活動。
+
+LaLaRef 而家有 <span class="placeholder">[優惠內容，例如：新客戶首場 9 折]</span>，如果 <span class="placeholder">[公司名稱]</span> 有興趣為同事搞場籃球活動，歡迎隨時搵我傾 😊🏀
+
+www.lalaref.com</div>
+            <button class="copy-btn" onclick="copyMsg('fu4')">📋 複製訊息</button>
+        </div>
+
+        <div class="tips-box">
+            <h4>💡 Follow-up 小貼士</h4>
+            <ul>
+                <li>Follow-up 最多 2-3 次，唔好變 spam</li>
+                <li>每次 follow-up 要提供新資訊或新角度，唔好重複同一段訊息</li>
+                <li>語氣要輕鬆，唔好有壓力感</li>
+                <li>最後一次 follow-up 要留個好印象，方便將來再聯絡</li>
+                <li>記錄每個 lead 嘅狀態，用 spreadsheet 管理</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- ===== JAVASCRIPT ===== -->
+    <script>
+    function showTab(id) {
+        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById('tab-' + id).classList.add('active');
+        event.target.classList.add('active');
+    }
+
+    function copyMsg(id) {
+        const el = document.getElementById(id);
+        // Get text content, stripping HTML tags but preserving line breaks
+        const temp = document.createElement('div');
+        temp.innerHTML = el.innerHTML.replace(/<br\s*\/?>/gi, '\n').replace(/<div>/gi, '\n').replace(/<\/div>/gi, '');
+        const text = temp.textContent || temp.innerText;
+        
+        navigator.clipboard.writeText(text.trim()).then(() => {
+            const btn = el.parentElement.querySelector('.copy-btn');
+            btn.textContent = '✅ 已複製！';
+            btn.classList.add('copied');
+            setTimeout(() => {
+                btn.textContent = '📋 複製訊息';
+                btn.classList.remove('copied');
+            }, 2000);
+        });
+    }
+    </script>
+
+</body>
+</html>
