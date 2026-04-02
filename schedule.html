@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>球證排程系統 | LaLaRef 急單王</title>
+<link rel="icon" type="image/jpeg" href="lalaref2.jpg">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',-apple-system,BlinkMacSystemFont,'Microsoft JhengHei',sans-serif;background:linear-gradient(135deg,#f5e6d3,#e8d4b8);min-height:100vh;color:#5a4a3a}
+.top-bar{background:linear-gradient(145deg,#d4a574,#c89860);color:#fff;padding:15px 20px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100;box-shadow:0 4px 15px rgba(0,0,0,.15)}
+.top-bar h1{font-size:1.3em;font-weight:900}
+.top-bar .user-info{font-size:.9em;display:flex;align-items:center;gap:12px}
+.top-bar button{background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.4);color:#fff;padding:6px 14px;border-radius:15px;cursor:pointer;font-size:.85em;font-weight:700}
+.container{max-width:1000px;margin:0 auto;padding:20px}
+
+/* Login */
+.login-box{max-width:400px;margin:80px auto;background:linear-gradient(145deg,#f0dcc8,#e8d4b8);padding:50px 40px;border-radius:30px;box-shadow:20px 20px 40px rgba(0,0,0,.15),-20px -20px 40px rgba(255,255,255,.7);text-align:center}
+.login-box h2{color:#d4a574;margin-bottom:25px;font-size:1.8em}
+.login-box input{width:100%;padding:14px 18px;margin-bottom:15px;border:2px solid rgba(212,165,116,.3);border-radius:15px;font-size:1em;background:rgba(255,255,255,.5);outline:none}
+.login-box input:focus{border-color:#d4a574}
+.login-box .btn{width:100%;padding:14px;background:linear-gradient(145deg,#d4a574,#c89860);color:#fff;border:none;border-radius:15px;font-size:1.1em;font-weight:800;cursor:pointer;margin-top:5px}
+.login-box .error{color:#e74c3c;font-size:.9em;margin-top:10px}
+
+/* Tabs */
+.tabs{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+.tab{padding:10px 20px;background:linear-gradient(145deg,#f0dcc8,#e8d4b8);border:none;border-radius:20px;cursor:pointer;font-weight:700;font-size:.95em;color:#7a6a5a;box-shadow:5px 5px 10px rgba(0,0,0,.1),-5px -5px 10px rgba(255,255,255,.5);transition:all .2s}
+.tab.active{background:linear-gradient(145deg,#d4a574,#c89860);color:#fff}
+
+/* Cards */
+.card{background:linear-gradient(145deg,#f0dcc8,#e8d4b8);padding:25px;border-radius:22px;margin-bottom:15px;box-shadow:12px 12px 24px rgba(0,0,0,.1),-12px -12px 24px rgba(255,255,255,.6)}
+.card h3{color:#d4a574;font-size:1.15em;margin-bottom:10px}
+.card .meta{font-size:.9em;color:#7a6a5a;line-height:1.8}
+.card .meta strong{color:#5a4a3a}
+.card .actions{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap}
+
+/* Buttons */
+.btn-sm{padding:8px 16px;border:none;border-radius:12px;font-size:.85em;font-weight:700;cursor:pointer;transition:all .2s}
+.btn-primary{background:linear-gradient(145deg,#d4a574,#c89860);color:#fff}
+.btn-success{background:linear-gradient(145deg,#27ae60,#219a52);color:#fff}
+.btn-danger{background:linear-gradient(145deg,#e74c3c,#c0392b);color:#fff}
+.btn-wa{background:linear-gradient(145deg,#25d366,#20b358);color:#fff}
+.btn-outline{background:transparent;border:2px solid #d4a574;color:#d4a574}
+
+/* Badge */
+.badge{display:inline-block;padding:3px 10px;border-radius:10px;font-size:.78em;font-weight:700}
+.badge-today{background:#e74c3c;color:#fff}
+.badge-upcoming{background:#3498db;color:#fff}
+.badge-past{background:#95a5a6;color:#fff}
+.badge-assigned{background:#27ae60;color:#fff}
+.badge-notified{background:#f39c12;color:#fff}
+
+/* Form */
+.form-group{margin-bottom:15px}
+.form-group label{display:block;font-weight:700;margin-bottom:5px;font-size:.9em;color:#5a4a3a}
+.form-group input,.form-group select,.form-group textarea{width:100%;padding:12px 15px;border:2px solid rgba(212,165,116,.3);border-radius:12px;font-size:.95em;background:rgba(255,255,255,.5);outline:none}
+.form-group input:focus,.form-group select:focus{border-color:#d4a574}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+
+/* Modal */
+.modal-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);z-index:200;align-items:center;justify-content:center}
+.modal-overlay.show{display:flex}
+.modal{background:linear-gradient(145deg,#f5e6d3,#e8d4b8);padding:30px;border-radius:25px;max-width:500px;width:90%;max-height:85vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.modal h2{color:#d4a574;margin-bottom:20px;font-size:1.4em}
+.modal .close-btn{float:right;background:none;border:none;font-size:1.5em;cursor:pointer;color:#7a6a5a}
+
+/* Today banner */
+.today-banner{background:linear-gradient(145deg,#e74c3c,#c0392b);color:#fff;padding:20px 25px;border-radius:22px;margin-bottom:20px;box-shadow:12px 12px 24px rgba(0,0,0,.15)}
+.today-banner h2{font-size:1.3em;margin-bottom:8px}
+
+/* Empty state */
+.empty{text-align:center;padding:40px;color:#7a6a5a;font-size:1.1em}
+
+/* Loading */
+.loading{text-align:center;padding:30px;color:#7a6a5a}
+
+/* Responsive */
+@media(max-width:768px){
+  .top-bar{flex-direction:column;gap:8px;text-align:center}
+  .top-bar h1{font-size:1.1em}
+  .container{padding:12px}
+  .card{padding:18px;border-radius:18px}
+  .form-row{grid-template-columns:1fr}
+  .tabs{gap:5px}
+  .tab{padding:8px 14px;font-size:.85em}
+  .login-box{margin:40px 15px;padding:30px 25px}
+  .modal{padding:20px;margin:10px}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ LOGIN SCREEN ============ -->
+<div id="loginScreen">
+  <div class="login-box">
+    <h2>🏀 球證排程系統</h2>
+    <p style="color:#7a6a5a;margin-bottom:25px;font-size:.95em">LaLaRef 急單王 — 內部管理系統</p>
+    <input type="text" id="loginUser" placeholder="用戶名" autocomplete="username">
+    <input type="password" id="loginPass" placeholder="密碼" autocomplete="current-password">
+    <button class="btn" onclick="doLogin()">登入</button>
+    <div id="loginError" class="error"></div>
+  </div>
+</div>
+
+<!-- ============ MAIN APP ============ -->
+<div id="appScreen" style="display:none">
+  <div class="top-bar">
+    <h1>🏀 LaLaRef 球證排程</h1>
+    <div class="user-info">
+      <span id="userName"></span>
+      <button onclick="logout()">登出</button>
+    </div>
+  </div>
+  <div class="container">
+    <!-- Admin Tabs -->
+    <div id="adminTabs" class="tabs" style="display:none">
+      <button class="tab active" onclick="switchTab('today')">📅 今日賽事</button>
+      <button class="tab" onclick="switchTab('matches')">🏀 所有比賽</button>
+      <button class="tab" onclick="switchTab('referees')">👨‍⚖️ 球證管理</button>
+    </div>
+    <!-- Referee Tabs -->
+    <div id="refTabs" class="tabs" style="display:none">
+      <button class="tab active" onclick="switchTab('mySchedule')">📅 我的排程</button>
+    </div>
+    <!-- Content -->
+    <div id="content"></div>
+  </div>
+</div>
+
+<!-- ============ MATCH MODAL ============ -->
+<div class="modal-overlay" id="matchModal">
+  <div class="modal">
+    <button class="close-btn" onclick="closeModal('matchModal')">&times;</button>
+    <h2 id="matchModalTitle">新增比賽</h2>
+    <input type="hidden" id="editMatchId">
+    <div class="form-row">
+      <div class="form-group"><label>日期</label><input type="date" id="mDate"></div>
+      <div class="form-group"><label>比賽形式</label><select id="mFormat"><option value="5x5">5x5 全場</option><option value="3x3">3x3 半場</option></select></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>開始時間</label><input type="time" id="mTimeStart"></div>
+      <div class="form-group"><label>結束時間</label><input type="time" id="mTimeEnd"></div>
+    </div>
+    <div class="form-group"><label>場地</label><input type="text" id="mVenue" placeholder="例：修頓室內場館"></div>
+    <div class="form-group"><label>場地詳情</label><input type="text" id="mVenueDetails" placeholder="例：3樓A場"></div>
+    <div class="form-row">
+      <div class="form-group"><label>機構名稱</label><input type="text" id="mOrgName" placeholder="選填"></div>
+      <div class="form-group"><label>球證數量</label><select id="mRefCount"><option value="1">1</option><option value="2" selected>2</option><option value="3">3</option></select></div>
+    </div>
+    <button class="btn-sm btn-primary" style="width:100%;padding:14px;font-size:1em;margin-top:10px" onclick="saveMatch()">💾 儲存</button>
+  </div>
+</div>
+
+<!-- ============ ASSIGN MODAL ============ -->
+<div class="modal-overlay" id="assignModal">
+  <div class="modal">
+    <button class="close-btn" onclick="closeModal('assignModal')">&times;</button>
+    <h2>分配球證</h2>
+    <div id="assignMatchInfo"></div>
+    <div id="currentAssignments" style="margin:15px 0"></div>
+    <div class="form-row" style="margin-top:15px">
+      <div class="form-group"><label>選擇球證</label><select id="assignRef"></select></div>
+      <div class="form-group"><label>角色</label><select id="assignRole"><option value="球證">球證</option><option value="計時計分">計時計分</option><option value="攝影">攝影</option></select></div>
+    </div>
+    <button class="btn-sm btn-success" style="width:100%;padding:12px;font-size:1em" onclick="doAssign()">➕ 分配</button>
+  </div>
+</div>
+
+<!-- ============ REFEREE MODAL ============ -->
+<div class="modal-overlay" id="refModal">
+  <div class="modal">
+    <button class="close-btn" onclick="closeModal('refModal')">&times;</button>
+    <h2 id="refModalTitle">新增球證</h2>
+    <div class="form-group"><label>用戶名（登入用）</label><input type="text" id="rUsername" placeholder="例：ref1"></div>
+    <div class="form-group"><label>密碼</label><input type="text" id="rPassword" placeholder="例：ref123"></div>
+    <div class="form-group"><label>姓名</label><input type="text" id="rName" placeholder="例：陳大文"></div>
+    <div class="form-group"><label>電話（WhatsApp）</label><input type="tel" id="rPhone" placeholder="例：91234567"></div>
+    <button class="btn-sm btn-primary" style="width:100%;padding:14px;font-size:1em;margin-top:10px" onclick="saveReferee()">💾 儲存</button>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// CONFIG — 請將此 URL 替換為你的 Google Apps Script 部署 URL
+// ============================================================
+const API_URL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE';
+
+let currentUser = null;
+let currentTab = 'today';
+let allReferees = [];
+
+// ============ API HELPER ============
+async function api(params) {
+    const url = new URL(API_URL);
+    Object.keys(params).forEach(k => {
+        if (typeof params[k] === 'object') params[k] = JSON.stringify(params[k]);
+        url.searchParams.set(k, params[k]);
+    });
+    const res = await fetch(url.toString());
+    return res.json();
+}
+
+// ============ AUTH ============
+async function doLogin() {
+    const u = document.getElementById('loginUser').value.trim();
+    const p = document.getElementById('loginPass').value.trim();
+    if (!u || !p) { document.getElementById('loginError').textContent = '請輸入用戶名和密碼'; return; }
+    document.getElementById('loginError').textContent = '登入中...';
+    const res = await api({ action: 'login', username: u, password: p });
+    if (res.success) {
+        currentUser = res.user;
+        localStorage.setItem('scheduleUser', JSON.stringify(currentUser));
+        showApp();
+    } else {
+        document.getElementById('loginError').textContent = res.message || '登入失敗';
+    }
+}
+
+function logout() {
+    currentUser = null;
+    localStorage.removeItem('scheduleUser');
+    document.getElementById('appScreen').style.display = 'none';
+    document.getElementById('loginScreen').style.display = 'block';
+    document.getElementById('loginUser').value = '';
+    document.getElementById('loginPass').value = '';
+    document.getElementById('loginError').textContent = '';
+}
+
+function showApp() {
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('appScreen').style.display = 'block';
+    document.getElementById('userName').textContent = `👤 ${currentUser.name} (${currentUser.role === 'admin' ? '管理員' : '球證'})`;
+    if (currentUser.role === 'admin') {
+        document.getElementById('adminTabs').style.display = 'flex';
+        document.getElementById('refTabs').style.display = 'none';
+        currentTab = 'today';
+        loadTab();
+    } else {
+        document.getElementById('adminTabs').style.display = 'none';
+        document.getElementById('refTabs').style.display = 'flex';
+        currentTab = 'mySchedule';
+        loadTab();
+    }
+}
+
+// ============ TABS ============
+function switchTab(tab) {
+    currentTab = tab;
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    event.target.classList.add('active');
+    loadTab();
+}
+
+async function loadTab() {
+    const content = document.getElementById('content');
+    content.innerHTML = '<div class="loading">載入中...</div>';
+    switch(currentTab) {
+        case 'today': await loadToday(); break;
+        case 'matches': await loadMatches(); break;
+        case 'referees': await loadReferees(); break;
+        case 'mySchedule': await loadMySchedule(); break;
+    }
+}
+
+// ============ TODAY'S MATCHES ============
+async function loadToday() {
+    const res = await api({ action: 'getTodayMatches' });
+    const content = document.getElementById('content');
+    if (!res.success) { content.innerHTML = '<div class="empty">載入失敗</div>'; return; }
+    
+    let html = '';
+    if (res.matches.length > 0) {
+        html += `<div class="today-banner"><h2>📅 今日有 ${res.matches.length} 場比賽</h2><p>點擊 WhatsApp 按鈕通知球證</p></div>`;
+        res.matches.forEach(m => {
+            html += `<div class="card"><h3>🏀 ${m.venue} — ${m.format}</h3><div class="meta">
+                <strong>時間：</strong>${m.timeStart} - ${m.timeEnd}<br>
+                ${m.orgName ? `<strong>機構：</strong>${m.orgName}<br>` : ''}
+                <strong>球證：</strong>`;
+            if (m.referees.length === 0) {
+                html += '<span style="color:#e74c3c">未分配</span>';
+            } else {
+                m.referees.forEach(r => {
+                    const waMsg = encodeURIComponent(`🏀 LaLaRef 球證通知\n\n📅 日期：今天\n⏰ 時間：${m.timeStart} - ${m.timeEnd}\n📍 場地：${m.venue}\n🏀 形式：${m.format}\n\n請準時到場，謝謝！`);
+                    const waLink = r.phone ? `https://wa.me/852${r.phone}?text=${waMsg}` : '#';
+                    html += `<div style="display:inline-flex;align-items:center;gap:6px;margin:4px 0">
+                        ${r.name} (${r.status === 'notified' ? '<span class="badge badge-notified">已通知</span>' : '<span class="badge badge-assigned">待通知</span>'})
+                        <a href="${waLink}" target="_blank" class="btn-sm btn-wa" style="text-decoration:none;font-size:.8em;padding:4px 10px" onclick="markNotified('${r.assignmentId}')">📱 WhatsApp</a>
+                    </div><br>`;
+                });
+            }
+            html += '</div></div>';
+        });
+    } else {
+        html += '<div class="empty">✅ 今日沒有比賽</div>';
+    }
+    content.innerHTML = html;
+}
+
+async function markNotified(assignmentId) {
+    await api({ action: 'updateAssignmentStatus', assignmentId, status: 'notified' });
+}
+
+// ============ ALL MATCHES ============
+async function loadMatches() {
+    const res = await api({ action: 'getMatches', username: currentUser.username });
+    const content = document.getElementById('content');
+    
+    let html = '<button class="btn-sm btn-primary" style="margin-bottom:15px;padding:12px 20px;font-size:1em" onclick="openMatchModal()">➕ 新增比賽</button>';
+    
+    if (!res.success || res.matches.length === 0) {
+        html += '<div class="empty">暫無比賽記錄</div>';
+    } else {
+        const today = new Date().toISOString().split('T')[0];
+        res.matches.forEach(m => {
+            const mDate = typeof m.date === 'string' ? m.date.split('T')[0] : new Date(m.date).toISOString().split('T')[0];
+            let badge = '';
+            if (mDate === today) badge = '<span class="badge badge-today">今日</span>';
+            else if (mDate > today) badge = '<span class="badge badge-upcoming">即將</span>';
+            else badge = '<span class="badge badge-past">已過</span>';
+            
+            html += `<div class="card"><h3>${badge} ${m.venue} — ${m.format}</h3><div class="meta">
+                <strong>日期：</strong>${mDate}<br>
+                <strong>時間：</strong>${m.timeStart} - ${m.timeEnd}<br>
+                ${m.orgName ? `<strong>機構：</strong>${m.orgName}<br>` : ''}
+                <strong>需要球證：</strong>${m.refCount} 位
+            </div><div class="actions">
+                <button class="btn-sm btn-success" onclick="openAssignModal('${m.id}','${m.venue}','${mDate}','${m.timeStart}')">👨‍⚖️ 分配球證</button>
+                <button class="btn-sm btn-outline" onclick="openMatchModal('${m.id}')">✏️ 編輯</button>
+                <button class="btn-sm btn-danger" onclick="deleteMatchConfirm('${m.id}')">🗑️</button>
+            </div></div>`;
+        });
+    }
+    content.innerHTML = html;
+}
+
+// ============ REFEREES ============
+async function loadReferees() {
+    const res = await api({ action: 'getReferees' });
+    const content = document.getElementById('content');
+    allReferees = res.success ? res.referees : [];
+    
+    let html = '<button class="btn-sm btn-primary" style="margin-bottom:15px;padding:12px 20px;font-size:1em" onclick="openRefModal()">➕ 新增球證</button>';
+    
+    if (allReferees.length === 0) {
+        html += '<div class="empty">暫無球證</div>';
+    } else {
+        allReferees.forEach(r => {
+            html += `<div class="card"><h3>👨‍⚖️ ${r.name}</h3><div class="meta">
+                <strong>用戶名：</strong>${r.username}<br>
+                <strong>電話：</strong>${r.phone}
+            </div><div class="actions">
+                <a href="https://wa.me/852${r.phone}" target="_blank" class="btn-sm btn-wa" style="text-decoration:none">📱 WhatsApp</a>
+            </div></div>`;
+        });
+    }
+    content.innerHTML = html;
+}
+
+// ============ MY SCHEDULE (Referee view) ============
+async function loadMySchedule() {
+    const res = await api({ action: 'getMySchedule', username: currentUser.username });
+    const content = document.getElementById('content');
+    
+    if (!res.success || res.schedule.length === 0) {
+        content.innerHTML = '<div class="empty">暫無排程</div>';
+        return;
+    }
+    
+    const today = new Date().toISOString().split('T')[0];
+    let html = '';
+    res.schedule.forEach(s => {
+        const sDate = typeof s.date === 'string' ? s.date.split('T')[0] : new Date(s.date).toISOString().split('T')[0];
+        let badge = '';
+        if (sDate === today) badge = '<span class="badge badge-today">今日</span>';
+        else if (sDate > today) badge = '<span class="badge badge-upcoming">即將</span>';
+        else badge = '<span class="badge badge-past">已過</span>';
+        
+        html += `<div class="card"><h3>${badge} ${s.venue}</h3><div class="meta">
+            <strong>日期：</strong>${sDate}<br>
+            <strong>時間：</strong>${s.timeStart} - ${s.timeEnd}<br>
+            <strong>形式：</strong>${s.format}<br>
+            <strong>角色：</strong>${s.role}<br>
+            ${s.orgName ? `<strong>機構：</strong>${s.orgName}<br>` : ''}
+            ${s.venueDetails ? `<strong>場地詳情：</strong>${s.venueDetails}` : ''}
+        </div></div>`;
+    });
+    content.innerHTML = html;
+}
+
+// ============ MODALS ============
+function openModal(id) { document.getElementById(id).classList.add('show'); }
+function closeModal(id) { document.getElementById(id).classList.remove('show'); }
+
+async function openMatchModal(matchId) {
+    document.getElementById('editMatchId').value = matchId || '';
+    document.getElementById('matchModalTitle').textContent = matchId ? '編輯比賽' : '新增比賽';
+    if (matchId) {
+        const res = await api({ action: 'getMatch', matchId });
+        if (res.success) {
+            const m = res.match;
+            const d = typeof m.date === 'string' ? m.date.split('T')[0] : new Date(m.date).toISOString().split('T')[0];
+            document.getElementById('mDate').value = d;
+            document.getElementById('mTimeStart').value = m.timeStart;
+            document.getElementById('mTimeEnd').value = m.timeEnd;
+            document.getElementById('mVenue').value = m.venue;
+            document.getElementById('mVenueDetails').value = m.venueDetails || '';
+            document.getElementById('mFormat').value = m.format;
+            document.getElementById('mOrgName').value = m.orgName || '';
+            document.getElementById('mRefCount').value = m.refCount || 2;
+        }
+    } else {
+        document.getElementById('mDate').value = new Date().toISOString().split('T')[0];
+        document.getElementById('mTimeStart').value = '';
+        document.getElementById('mTimeEnd').value = '';
+        document.getElementById('mVenue').value = '';
+        document.getElementById('mVenueDetails').value = '';
+        document.getElementById('mFormat').value = '5x5';
+        document.getElementById('mOrgName').value = '';
+        document.getElementById('mRefCount').value = '2';
+    }
+    openModal('matchModal');
+}
+
+async function saveMatch() {
+    const matchId = document.getElementById('editMatchId').value;
+    const data = {
+        date: document.getElementById('mDate').value,
+        timeStart: document.getElementById('mTimeStart').value,
+        timeEnd: document.getElementById('mTimeEnd').value,
+        venue: document.getElementById('mVenue').value,
+        venueDetails: document.getElementById('mVenueDetails').value,
+        format: document.getElementById('mFormat').value,
+        orgName: document.getElementById('mOrgName').value,
+        refCount: document.getElementById('mRefCount').value,
+        createdBy: currentUser.username
+    };
+    if (!data.date || !data.timeStart || !data.venue) { alert('請填寫日期、時間和場地'); return; }
+    
+    let res;
+    if (matchId) {
+        res = await api({ action: 'updateMatch', matchId, data });
+    } else {
+        res = await api({ action: 'addMatch', data });
+    }
+    if (res.success) {
+        closeModal('matchModal');
+        loadTab();
+    } else {
+        alert(res.message || '儲存失敗');
+    }
+}
+
+async function deleteMatchConfirm(matchId) {
+    if (!confirm('確定刪除此比賽？')) return;
+    await api({ action: 'deleteMatch', matchId });
+    loadTab();
+}
+
+async function openAssignModal(matchId, venue, date, time) {
+    document.getElementById('assignMatchInfo').innerHTML = `<div class="meta"><strong>${venue}</strong> — ${date} ${time}</div>`;
+    
+    // Load current assignments
+    const aRes = await api({ action: 'getAssignments', matchId });
+    let aHtml = '';
+    if (aRes.success && aRes.assignments.length > 0) {
+        aHtml = '<div style="margin-bottom:10px"><strong>已分配：</strong></div>';
+        aRes.assignments.forEach(a => {
+            aHtml += `<div style="display:flex;align-items:center;gap:8px;margin:5px 0;padding:8px 12px;background:rgba(255,255,255,.3);border-radius:10px">
+                <span>${a.refereeName} — ${a.role}</span>
+                <button class="btn-sm btn-danger" style="margin-left:auto;padding:4px 10px;font-size:.8em" onclick="removeAssign('${a.id}','${matchId}','${venue}','${date}','${time}')">✕</button>
+            </div>`;
+        });
+    }
+    document.getElementById('currentAssignments').innerHTML = aHtml;
+    
+    // Load referees dropdown
+    if (allReferees.length === 0) {
+        const rRes = await api({ action: 'getReferees' });
+        allReferees = rRes.success ? rRes.referees : [];
+    }
+    const sel = document.getElementById('assignRef');
+    sel.innerHTML = allReferees.map(r => `<option value="${r.username}">${r.name} (${r.phone})</option>`).join('');
+    
+    document.getElementById('assignModal').dataset.matchId = matchId;
+    document.getElementById('assignModal').dataset.venue = venue;
+    document.getElementById('assignModal').dataset.date = date;
+    document.getElementById('assignModal').dataset.time = time;
+    openModal('assignModal');
+}
+
+async function doAssign() {
+    const modal = document.getElementById('assignModal');
+    const matchId = modal.dataset.matchId;
+    const data = {
+        matchId,
+        refereeUsername: document.getElementById('assignRef').value,
+        role: document.getElementById('assignRole').value
+    };
+    const res = await api({ action: 'assignReferee', data });
+    if (res.success) {
+        // Refresh the assign modal
+        openAssignModal(matchId, modal.dataset.venue, modal.dataset.date, modal.dataset.time);
+    } else {
+        alert(res.message || '分配失敗');
+    }
+}
+
+async function removeAssign(assignmentId, matchId, venue, date, time) {
+    await api({ action: 'removeAssignment', assignmentId });
+    openAssignModal(matchId, venue, date, time);
+}
+
+function openRefModal() {
+    document.getElementById('refModalTitle').textContent = '新增球證';
+    document.getElementById('rUsername').value = '';
+    document.getElementById('rPassword').value = '';
+    document.getElementById('rName').value = '';
+    document.getElementById('rPhone').value = '';
+    document.getElementById('rUsername').disabled = false;
+    openModal('refModal');
+}
+
+async function saveReferee() {
+    const data = {
+        username: document.getElementById('rUsername').value.trim(),
+        password: document.getElementById('rPassword').value.trim(),
+        name: document.getElementById('rName').value.trim(),
+        phone: document.getElementById('rPhone').value.trim()
+    };
+    if (!data.username || !data.password || !data.name || !data.phone) { alert('請填寫所有欄位'); return; }
+    const res = await api({ action: 'addReferee', data });
+    if (res.success) {
+        closeModal('refModal');
+        allReferees = [];
+        loadTab();
+    } else {
+        alert(res.message || '新增失敗');
+    }
+}
+
+// ============ INIT ============
+document.getElementById('loginPass').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+
+// Auto-login from localStorage
+const saved = localStorage.getItem('scheduleUser');
+if (saved) {
+    try {
+        currentUser = JSON.parse(saved);
+        showApp();
+    } catch(e) { localStorage.removeItem('scheduleUser'); }
+}
+</script>
+</body>
+</html>
