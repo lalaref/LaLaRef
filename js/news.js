@@ -1,4 +1,4 @@
-// LaLaRef Basketball News Aggregator
+﻿// LaLaRef Basketball News Aggregator
 // 方案 A: 混合新聞聚合
 
 // API Configuration
@@ -26,6 +26,12 @@ const API_CONFIG = {
         enabled: true // 設為 true 當你有 API Key
     },
     
+    // MediaStack - News API (需要註冊獲取 API Key)
+    mediaStack: {
+        baseUrl: 'http://api.mediastack.com/v1/news',
+        apiKey: '', // 請替換為你的 API Key
+        enabled: false // 設為 true 當你有 API Key
+    },
     
 };
 
@@ -354,6 +360,9 @@ async function loadAllNews() {
     // Load mock data first for demonstration
     loadMockData();
     
+    // Load daily blog posts from auto-generated index
+    await loadDailyBlogs();
+    
     // Load FIBA RSS feed (free, no API key needed)
     await loadFIBARSS();
     
@@ -368,6 +377,34 @@ async function loadAllNews() {
     
     // Load TheSportsDB data (free, no API key needed)
     await loadTheSportsDB();
+}
+
+// Load Daily Blog Posts from auto-generated index
+async function loadDailyBlogs() {
+    try {
+        const response = await fetch('js/blog-index.json');
+        if (!response.ok) return;
+        
+        const blogIndex = await response.json();
+        if (!blogIndex || blogIndex.length === 0) return;
+        
+        const blogArticles = blogIndex.slice(0, 20).map(entry => ({
+            title: entry.title,
+            excerpt: `${entry.icon} ${entry.category} — LaLaRef 球證/裁判專欄每日更新`,
+            category: entry.category,
+            date: entry.date,
+            source: 'LaLaRef',
+            url: entry.url,
+            image: entry.icon
+        }));
+        
+        newsData.referee = [...blogArticles, ...newsData.referee];
+        sortNewsByDate('referee');
+        renderNews('referee', newsData.referee);
+        console.log(`Loaded ${blogArticles.length} daily blog posts`);
+    } catch (error) {
+        console.log('No daily blog index found, skipping.');
+    }
 }
 
 // Load FIBA RSS Feed
