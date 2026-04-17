@@ -23,16 +23,20 @@
  *   without changing any code — just different JSON configs
  */
 
-function doGet(e) { return handle(e.parameter); }
+function doGet(e) {
+  var params = e && e.parameter ? e.parameter : {};
+  return handle(params);
+}
+
 function doPost(e) {
-  let p;
-  try { p = JSON.parse(e.postData.contents); } catch(_) { p = e.parameter; }
-  return handle(p);
+  var params;
+  try { params = JSON.parse(e.postData.contents); } catch(_) { params = e && e.parameter ? e.parameter : {}; }
+  return handle(params);
 }
 
 function handle(p) {
   try {
-    let r;
+    var r;
     switch(p.action) {
       // Public
       case 'getCompetition': r = getCompetition(p.token); break;
