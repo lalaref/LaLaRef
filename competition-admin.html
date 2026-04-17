@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>賽事管理 Admin | LaLaRef</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',-apple-system,BlinkMacSystemFont,'Microsoft JhengHei',sans-serif;background:#1a1a2e;color:#e0e0e0;min-height:100vh}
+.topbar{background:linear-gradient(145deg,#d4a574,#c89860);padding:14px 24px;display:flex;justify-content:space-between;align-items:center}
+.topbar h1{color:#fff;font-size:1.2em;font-weight:900}
+.topbar a{color:#fff;text-decoration:none;font-size:.85em;opacity:.85}
+.layout{display:flex;min-height:calc(100vh - 52px)}
+.sidebar{width:240px;background:#16213e;padding:20px 0;flex-shrink:0}
+.sidebar .menu-item{padding:12px 24px;cursor:pointer;font-size:.9em;color:#a0a0b0;transition:all .2s;border-left:3px solid transparent}
+.sidebar .menu-item:hover,.sidebar .menu-item.active{background:#0f3460;color:#d4a574;border-left-color:#d4a574}
+.main{flex:1;padding:24px;overflow-y:auto}
+.panel{display:none}.panel.active{display:block}
+.card{background:#16213e;border-radius:16px;padding:24px;margin-bottom:20px}
+.card h2{font-size:1.1em;color:#d4a574;font-weight:900;margin-bottom:18px}
+.form-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:12px}
+.form-group{display:flex;flex-direction:column;gap:6px}
+.form-group label{font-size:.8em;color:#a0a0b0;font-weight:700;text-transform:uppercase}
+input,select,textarea{background:#0f3460;border:1px solid #2a4a7f;border-radius:8px;padding:9px 12px;color:#e0e0e0;font-size:.9em;font-family:inherit;width:100%}
+input:focus,select:focus,textarea:focus{outline:none;border-color:#d4a574}
+textarea{resize:vertical;min-height:80px}
+.btn{padding:9px 20px;border-radius:10px;border:none;cursor:pointer;font-weight:700;font-size:.88em;transition:all .2s}
+.btn-primary{background:linear-gradient(145deg,#d4a574,#c89860);color:#fff}
+.btn-primary:hover{opacity:.9}
+.btn-danger{background:#dc3545;color:#fff}
+.btn-danger:hover{opacity:.9}
+.btn-success{background:#198754;color:#fff}
+.btn-success:hover{opacity:.9}
+.btn-sm{padding:5px 12px;font-size:.8em}
+.btn-outline{background:transparent;border:1px solid #d4a574;color:#d4a574}
+.btn-outline:hover{background:#d4a574;color:#fff}
+.comp-list{list-style:none}
+.comp-item{background:#0f3460;border-radius:12px;padding:16px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.comp-item .ci-info{flex:1}
+.comp-item .ci-name{font-weight:700;color:#e0e0e0}
+.comp-item .ci-meta{font-size:.8em;color:#a0a0b0;margin-top:3px}
+.comp-item .ci-actions{display:flex;gap:8px;flex-shrink:0}
+.badge{display:inline-block;padding:3px 10px;border-radius:10px;font-size:.75em;font-weight:700}
+.badge.upcoming{background:#fff3cd;color:#856404}
+.badge.ongoing{background:#d1e7dd;color:#0a3622}
+.badge.completed{background:#cfe2ff;color:#084298}
+.match-row{background:#0f3460;border-radius:10px;padding:12px 16px;margin-bottom:8px;display:grid;grid-template-columns:60px 120px 1fr 80px 1fr 100px auto;gap:10px;align-items:center;font-size:.88em}
+.match-row .score-input{width:60px;text-align:center;padding:6px}
+.match-row .team-input{background:#1a3a6e;border:1px solid #2a4a7f;border-radius:6px;padding:6px 10px;color:#e0e0e0;font-size:.88em;width:100%}
+.match-row .time-input{background:#1a3a6e;border:1px solid #2a4a7f;border-radius:6px;padding:6px 10px;color:#e0e0e0;font-size:.85em;width:100%}
+.rundown-row{display:flex;gap:10px;margin-bottom:8px;align-items:center}
+.rundown-row input{flex:1}
+.rundown-row input:first-child{max-width:160px}
+.section-title{font-size:.85em;color:#a0a0b0;font-weight:700;text-transform:uppercase;margin-bottom:10px;margin-top:18px}
+.alert{padding:12px 16px;border-radius:10px;margin-bottom:14px;font-size:.88em}
+.alert-success{background:#0a3622;color:#75b798;border:1px solid #198754}
+.alert-error{background:#2c0b0e;color:#ea868f;border:1px solid #dc3545}
+.login-wrap{display:flex;align-items:center;justify-content:center;min-height:100vh;background:#1a1a2e}
+.login-box{background:#16213e;border-radius:20px;padding:40px;width:100%;max-width:400px}
+.login-box h2{color:#d4a574;font-size:1.4em;margin-bottom:24px;text-align:center}
+.token-tag{background:#0f3460;border-radius:8px;padding:4px 10px;font-size:.8em;color:#d4a574;font-family:monospace}
+.vs-label{text-align:center;color:#a0a0b0;font-size:.85em}
+.status-sel{background:#1a3a6e;border:1px solid #2a4a7f;border-radius:6px;padding:5px 8px;color:#e0e0e0;font-size:.82em}
+@media(max-width:768px){
+  .layout{flex-direction:column}.sidebar{width:100%;display:flex;overflow-x:auto;padding:0}
+  .sidebar .menu-item{white-space:nowrap;border-left:none;border-bottom:3px solid transparent;padding:12px 16px}
+  .sidebar .menu-item.active{border-bottom-color:#d4a574;border-left:none}
+  .match-row{grid-template-columns:1fr;gap:6px}
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN SCREEN -->
+<div class="login-wrap" id="loginScreen">
+  <div class="login-box">
+    <h2>🏀 賽事管理</h2>
+    <div id="loginAlert"></div>
+    <div class="form-group" style="margin-bottom:14px">
+      <label>主密碼 Master Password</label>
+      <input type="password" id="masterPwInput" placeholder="輸入主密碼">
+    </div>
+    <button class="btn btn-primary" style="width:100%" onclick="masterLogin()">登入</button>
+    <div style="margin-top:20px;border-top:1px solid #2a4a7f;padding-top:16px">
+      <p style="font-size:.82em;color:#a0a0b0;margin-bottom:10px">或直接輸入賽事 Token 管理單一賽事：</p>
+      <div class="form-group" style="margin-bottom:10px">
+        <input type="text" id="tokenInput" placeholder="賽事 Token">
+      </div>
+      <div class="form-group" style="margin-bottom:14px">
+        <input type="password" id="tokenPwInput" placeholder="賽事密碼">
+      </div>
+      <button class="btn btn-outline" style="width:100%" onclick="tokenLogin()">以 Token 登入</button>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div id="mainApp" style="display:none">
+  <div class="topbar">
+    <h1>🏀 LaLaRef 賽事管理</h1>
+    <a href="#" onclick="logout()">登出</a>
+  </div>
+  <div class="layout">
+    <div class="sidebar">
+      <div class="menu-item active" onclick="showPanel('competitions')">📋 賽事列表</div>
+      <div class="menu-item" onclick="showPanel('create')" id="createMenuBtn">➕ 新增賽事</div>
+      <div class="menu-item" onclick="showPanel('manage')" id="manageMenuBtn" style="display:none">⚙️ 管理賽事</div>
+    </div>
+    <div class="main">
+      <div id="globalAlert"></div>
+
+      <!-- COMPETITIONS LIST -->
+      <div class="panel active" id="panel-competitions">
+        <div class="card">
+          <h2>所有賽事</h2>
+          <div id="compList"><p style="color:#a0a0b0">載入中...</p></div>
+        </div>
+      </div>
+
+      <!-- CREATE COMPETITION -->
+      <div class="panel" id="panel-create">
+        <div class="card">
+          <h2>➕ 新增賽事</h2>
+          <div class="form-row">
+            <div class="form-group"><label>賽事名稱 (中文)</label><input id="c_name" placeholder="例：2026年春季籃球邀請賽"></div>
+            <div class="form-group"><label>賽事名稱 (英文)</label><input id="c_nameEn" placeholder="2026 Spring Basketball Invitational"></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label>Token (唯一識別碼)</label><input id="c_token" placeholder="例：spring2026 (英數字)"></div>
+            <div class="form-group"><label>賽事密碼 (管理此賽事用)</label><input type="password" id="c_pw" placeholder="設定此賽事的管理密碼"></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label>日期</label><input type="date" id="c_date"></div>
+            <div class="form-group"><label>場地</label><input id="c_venue" placeholder="例：九龍灣體育館"></div>
+            <div class="form-group"><label>狀態</label>
+              <select id="c_status"><option value="upcoming">即將舉行</option><option value="ongoing">進行中</option><option value="completed">已完結</option></select>
+            </div>
+          </div>
+
+          <div class="section-title">比賽規則</div>
+          <div class="form-row">
+            <div class="form-group"><label>賽制</label><select id="r_format"><option value="5v5">5v5</option><option value="3v3">3v3</option></select></div>
+            <div class="form-group"><label>上下半場 (分鐘，留空則用節數)</label><input id="r_halves" placeholder="例：12"></div>
+            <div class="form-group"><label>節數</label><input id="r_quarters" placeholder="例：4"></div>
+            <div class="form-group"><label>每節 (分鐘)</label><input id="r_qmin" placeholder="例：10"></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label>加時 (分鐘)</label><input id="r_ot" placeholder="例：5"></div>
+            <div class="form-group"><label>進攻時限 (秒)</label><input id="r_shot" placeholder="例：24"></div>
+            <div class="form-group"><label>球隊犯規上限</label><input id="r_tfoul" placeholder="例：5"></div>
+            <div class="form-group"><label>個人犯規上限</label><input id="r_pfoul" placeholder="例：5"></div>
+            <div class="form-group"><label>暫停次數</label><input id="r_to" placeholder="例：2"></div>
+          </div>
+          <div class="form-group" style="margin-bottom:16px">
+            <label>其他規則備注</label>
+            <textarea id="r_notes" placeholder="輸入其他規則說明..."></textarea>
+          </div>
+
+          <div class="section-title">賽事流程 Rundown <button class="btn btn-outline btn-sm" onclick="addRundownRow('c_rundown')">+ 加一行</button></div>
+          <div id="c_rundown"></div>
+
+          <div style="margin-top:20px">
+            <button class="btn btn-primary" onclick="createCompetition()">建立賽事</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- MANAGE COMPETITION -->
+      <div class="panel" id="panel-manage">
+        <div id="manageContent"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const API_URL = 'https://script.google.com/macros/s/AKfycbw0MQNX-6gFu-mjePCy1czSK_Z1vK1i0lTEZ5QVLFS7PZUDmEr0ACaUtMrqZMck_j7weQ/exec'; // ← paste your deployed Apps Script URL
+
+let session = { type: null, masterPw: null, token: null, tokenPw: null, comp: null };
+
+// ── AUTH ──────────────────────────────────────────────────────
+async function masterLogin() {
+  const pw = document.getElementById('masterPwInput').value.trim();
+  if (!pw) return;
+  const res = await api({ action: 'listCompetitions', password: pw });
+  if (res.success) {
+    session = { type: 'master', masterPw: pw };
+    showApp();
+    loadCompList(res.competitions);
+  } else {
+    showAlert('loginAlert', res.message || '密碼錯誤', 'error');
+  }
+}
+
+async function tokenLogin() {
+  const token = document.getElementById('tokenInput').value.trim();
+  const pw = document.getElementById('tokenPwInput').value.trim();
+  if (!token || !pw) return;
+  const res = await api({ action: 'verifyAdmin', token, password: pw });
+  if (res.success) {
+    session = { type: 'token', token, tokenPw: pw };
+    showApp();
+    document.getElementById('createMenuBtn').style.display = 'none';
+    document.getElementById('manageMenuBtn').style.display = 'block';
+    // Load competition directly
+    const cRes = await api({ action: 'getCompetition', token });
+    if (cRes.success) openManage(cRes.competition);
+  } else {
+    showAlert('loginAlert', '密碼或 Token 錯誤', 'error');
+  }
+}
+
+function logout() {
+  session = {};
+  document.getElementById('loginScreen').style.display = 'flex';
+  document.getElementById('mainApp').style.display = 'none';
+}
+
+function showApp() {
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('mainApp').style.display = 'block';
+}
+
+// ── API ───────────────────────────────────────────────────────
+async function api(params) {
+  const url = API_URL + '?' + new URLSearchParams(params).toString();
+  const res = await fetch(url);
+  return res.json();
+}
+
+// ── PANELS ────────────────────────────────────────────────────
+function showPanel(name) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('active'));
+  document.getElementById('panel-' + name).classList.add('active');
+  event.currentTarget.classList.add('active');
+}
+
+function showAlert(id, msg, type) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.innerHTML = `<div class="alert alert-${type}">${msg}</div>`;
+  setTimeout(() => { el.innerHTML = ''; }, 4000);
+}
+
+// ── COMPETITIONS LIST ─────────────────────────────────────────
+async function loadCompList(comps) {
+  if (!comps) {
+    const res = await api({ action: 'listCompetitions', password: session.masterPw });
+    if (!res.success) return;
+    comps = res.competitions;
+  }
+  const statusLabel = { upcoming: '即將舉行', ongoing: '進行中', completed: '已完結' };
+  const html = comps.length ? `<ul class="comp-list">${comps.map(c => `
+    <li class="comp-item">
+      <div class="ci-info">
+        <div class="ci-name">${escHtml(c.name)} <span class="badge ${c.status}">${statusLabel[c.status] || c.status}</span></div>
+        <div class="ci-meta">Token: <span class="token-tag">${escHtml(c.token)}</span> ${c.date ? '| ' + c.date : ''} ${c.venue ? '| ' + c.venue : ''}</div>
+      </div>
+      <div class="ci-actions">
+        <button class="btn btn-outline btn-sm" onclick='openManageById("${escHtml(c.token)}")'>管理</button>
+        <a href="competition.html?token=${encodeURIComponent(c.token)}" target="_blank" class="btn btn-sm" style="background:#0f3460;color:#d4a574;border:1px solid #d4a574">公開頁</a>
+      </div>
+    </li>`).join('')}</ul>`
+    : '<p style="color:#a0a0b0">暫無賽事，請新增。</p>';
+  document.getElementById('compList').innerHTML = html;
+}
+
+async function openManageById(token) {
+  const res = await api({ action: 'getCompetition', token });
+  if (res.success) openManage(res.competition);
+}
+
+// ── MANAGE COMPETITION ────────────────────────────────────────
+async function openManage(comp) {
+  session.comp = comp;
+  const mRes = await api({ action: 'getMatches', token: comp.token });
+  const matches = mRes.matches || [];
+  renderManage(comp, matches);
+  showPanel('manage');
+  document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('active'));
+  document.getElementById('manageMenuBtn').style.display = 'block';
+  document.getElementById('manageMenuBtn').classList.add('active');
+}
+
+function renderManage(comp, matches) {
+  const rules = comp.rules || {};
+  const rundown = comp.rundown || [];
+  const statusLabel = { upcoming: '即將舉行', ongoing: '進行中', completed: '已完結' };
+
+  document.getElementById('manageContent').innerHTML = `
+    <div class="card">
+      <h2>⚙️ ${escHtml(comp.name)} <span class="badge ${comp.status}">${statusLabel[comp.status]||comp.status}</span></h2>
+      <p style="font-size:.82em;color:#a0a0b0;margin-bottom:16px">Token: <span class="token-tag">${escHtml(comp.token)}</span> &nbsp;|&nbsp;
+        <a href="competition.html?token=${encodeURIComponent(comp.token)}" target="_blank" style="color:#d4a574">公開頁面 ↗</a></p>
+
+      <div class="form-row">
+        <div class="form-group"><label>賽事名稱 (中文)</label><input id="e_name" value="${escHtml(comp.name)}"></div>
+        <div class="form-group"><label>賽事名稱 (英文)</label><input id="e_nameEn" value="${escHtml(comp.nameEn||'')}"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>日期</label><input type="date" id="e_date" value="${comp.date||''}"></div>
+        <div class="form-group"><label>場地</label><input id="e_venue" value="${escHtml(comp.venue||'')}"></div>
+        <div class="form-group"><label>狀態</label>
+          <select id="e_status">
+            <option value="upcoming" ${comp.status==='upcoming'?'selected':''}>即將舉行</option>
+            <option value="ongoing" ${comp.status==='ongoing'?'selected':''}>進行中</option>
+            <option value="completed" ${comp.status==='completed'?'selected':''}>已完結</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="section-title">比賽規則</div>
+      <div class="form-row">
+        <div class="form-group"><label>賽制</label>
+          <select id="e_format"><option value="5v5" ${rules.format==='5v5'?'selected':''}>5v5</option><option value="3v3" ${rules.format==='3v3'?'selected':''}>3v3</option></select>
+        </div>
+        <div class="form-group"><label>上下半場 (分鐘)</label><input id="e_halves" value="${rules.halves||''}" placeholder="例：12"></div>
+        <div class="form-group"><label>節數</label><input id="e_quarters" value="${rules.quarters||''}" placeholder="例：4"></div>
+        <div class="form-group"><label>每節 (分鐘)</label><input id="e_qmin" value="${rules.quarterMinutes||''}" placeholder="例：10"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>加時 (分鐘)</label><input id="e_ot" value="${rules.overtimeMinutes||''}" placeholder="例：5"></div>
+        <div class="form-group"><label>進攻時限 (秒)</label><input id="e_shot" value="${rules.shotClock||''}" placeholder="例：24"></div>
+        <div class="form-group"><label>球隊犯規</label><input id="e_tfoul" value="${rules.teamFouls||''}" placeholder="例：5"></div>
+        <div class="form-group"><label>個人犯規</label><input id="e_pfoul" value="${rules.playerFouls||''}" placeholder="例：5"></div>
+        <div class="form-group"><label>暫停次數</label><input id="e_to" value="${rules.timeouts||''}" placeholder="例：2"></div>
+      </div>
+      <div class="form-group" style="margin-bottom:16px">
+        <label>其他規則備注</label>
+        <textarea id="e_notes">${escHtml(rules.notes||'')}</textarea>
+      </div>
+
+      <div class="section-title">賽事流程 <button class="btn btn-outline btn-sm" onclick="addRundownRow('e_rundown')">+ 加一行</button></div>
+      <div id="e_rundown">${rundown.map((r,i)=>rundownRowHtml('e_rundown',r.time,r.event,i)).join('')}</div>
+
+      <div style="margin-top:20px;display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn btn-primary" onclick="saveCompetition()">儲存賽事資訊</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteCompetition()">刪除賽事</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>🏀 場次管理</h2>
+      <div id="matchList">${renderMatchRows(matches)}</div>
+      <div style="margin-top:14px">
+        <button class="btn btn-outline" onclick="addMatchRow()">+ 新增場次</button>
+      </div>
+    </div>
+  `;
+}
+
+function renderMatchRows(matches) {
+  if (!matches.length) return '<p style="color:#a0a0b0;font-size:.88em">暫無場次</p>';
+  return matches.map(m => matchRowHtml(m)).join('');
+}
+
+function matchRowHtml(m) {
+  const statusOpts = ['scheduled','live','completed'].map(s =>
+    `<option value="${s}" ${m.status===s?'selected':''}>${{scheduled:'待賽',live:'進行中',completed:'完場'}[s]}</option>`).join('');
+  return `<div class="match-row" id="mr_${m.id}">
+    <input class="time-input" value="${escHtml(String(m.gameNo||''))}" placeholder="場次#" style="width:55px" data-field="gameNo">
+    <input class="time-input" value="${escHtml(m.timeSlot||'')}" placeholder="時間段" data-field="timeSlot">
+    <input class="team-input" value="${escHtml(m.teamA||'')}" placeholder="隊伍 A" data-field="teamA">
+    <div style="display:flex;gap:4px;align-items:center">
+      <input class="score-input" type="number" value="${m.scoreA!==null?m.scoreA:''}" placeholder="-" data-field="scoreA" style="width:50px">
+      <span class="vs-label">:</span>
+      <input class="score-input" type="number" value="${m.scoreB!==null?m.scoreB:''}" placeholder="-" data-field="scoreB" style="width:50px">
+    </div>
+    <input class="team-input" value="${escHtml(m.teamB||'')}" placeholder="隊伍 B" data-field="teamB">
+    <div style="display:flex;flex-direction:column;gap:4px">
+      <select class="status-sel" data-field="status">${statusOpts}</select>
+      <input class="time-input" value="${escHtml(m.label||'')}" placeholder="備注標籤" data-field="label" style="font-size:.78em">
+    </div>
+    <div style="display:flex;gap:6px">
+      <button class="btn btn-success btn-sm" onclick="saveMatchRow('${m.id}')">儲存</button>
+      <button class="btn btn-danger btn-sm" onclick="deleteMatchRow('${m.id}')">刪</button>
+    </div>
+  </div>`;
+}
+
+function addMatchRow() {
+  const tempId = 'new_' + Date.now();
+  const html = `<div class="match-row" id="mr_${tempId}">
+    <input class="time-input" placeholder="場次#" style="width:55px" data-field="gameNo">
+    <input class="time-input" placeholder="時間段" data-field="timeSlot">
+    <input class="team-input" placeholder="隊伍 A" data-field="teamA">
+    <div style="display:flex;gap:4px;align-items:center">
+      <input class="score-input" type="number" placeholder="-" data-field="scoreA" style="width:50px">
+      <span class="vs-label">:</span>
+      <input class="score-input" type="number" placeholder="-" data-field="scoreB" style="width:50px">
+    </div>
+    <input class="team-input" placeholder="隊伍 B" data-field="teamB">
+    <div style="display:flex;flex-direction:column;gap:4px">
+      <select class="status-sel" data-field="status">
+        <option value="scheduled">待賽</option><option value="live">進行中</option><option value="completed">完場</option>
+      </select>
+      <input class="time-input" placeholder="備注標籤" data-field="label" style="font-size:.78em">
+    </div>
+    <div style="display:flex;gap:6px">
+      <button class="btn btn-success btn-sm" onclick="saveMatchRow('${tempId}')">儲存</button>
+      <button class="btn btn-danger btn-sm" onclick="document.getElementById('mr_${tempId}').remove()">刪</button>
+    </div>
+  </div>`;
+  document.getElementById('matchList').insertAdjacentHTML('beforeend', html);
+}
+
+async function saveMatchRow(id) {
+  const row = document.getElementById('mr_' + id);
+  const get = f => row.querySelector(`[data-field="${f}"]`).value;
+  const pw = getAdminPw();
+  const isNew = id.startsWith('new_');
+  const params = {
+    action: 'saveMatch', token: session.comp.token, password: pw,
+    gameNo: get('gameNo'), timeSlot: get('timeSlot'),
+    teamA: get('teamA'), teamB: get('teamB'),
+    status: get('status'), label: get('label')
+  };
+  if (!isNew) {
+    params.matchId = id;
+    const sA = get('scoreA'); const sB = get('scoreB');
+    if (sA !== '') params.scoreA = Number(sA);
+    if (sB !== '') params.scoreB = Number(sB);
+    // Use updateScore for score fields
+    await api({ action: 'updateScore', token: session.comp.token, password: pw,
+      matchId: id, scoreA: sA !== '' ? Number(sA) : undefined,
+      scoreB: sB !== '' ? Number(sB) : undefined,
+      status: get('status'), teamA: get('teamA'), teamB: get('teamB') });
+    const res = await api(params);
+    showAlert('globalAlert', res.success ? '✅ 場次已更新' : res.message, res.success ? 'success' : 'error');
+  } else {
+    const res = await api(params);
+    if (res.success) {
+      showAlert('globalAlert', '✅ 場次已新增', 'success');
+      // Reload matches
+      const mRes = await api({ action: 'getMatches', token: session.comp.token });
+      document.getElementById('matchList').innerHTML = renderMatchRows(mRes.matches || []);
+    } else {
+      showAlert('globalAlert', res.message, 'error');
+    }
+  }
+}
+
+async function deleteMatchRow(id) {
+  if (!confirm('確定刪除此場次？')) return;
+  const pw = getAdminPw();
+  const res = await api({ action: 'deleteMatch', matchId: id, token: session.comp.token, password: pw });
+  if (res.success) {
+    document.getElementById('mr_' + id)?.remove();
+    showAlert('globalAlert', '✅ 場次已刪除', 'success');
+  } else {
+    showAlert('globalAlert', res.message, 'error');
+  }
+}
+
+// ── SAVE COMPETITION ──────────────────────────────────────────
+async function saveCompetition() {
+  const pw = getAdminPw();
+  const rundown = collectRundown('e_rundown');
+  const rules = {
+    format: document.getElementById('e_format').value,
+    halves: document.getElementById('e_halves').value,
+    quarters: document.getElementById('e_quarters').value,
+    quarterMinutes: document.getElementById('e_qmin').value,
+    overtimeMinutes: document.getElementById('e_ot').value,
+    shotClock: document.getElementById('e_shot').value,
+    teamFouls: document.getElementById('e_tfoul').value,
+    playerFouls: document.getElementById('e_pfoul').value,
+    timeouts: document.getElementById('e_to').value,
+    notes: document.getElementById('e_notes').value
+  };
+  const res = await api({
+    action: 'updateCompetition', token: session.comp.token, password: pw,
+    name: document.getElementById('e_name').value,
+    nameEn: document.getElementById('e_nameEn').value,
+    date: document.getElementById('e_date').value,
+    venue: document.getElementById('e_venue').value,
+    status: document.getElementById('e_status').value,
+    rules: JSON.stringify(rules),
+    rundown: JSON.stringify(rundown)
+  });
+  showAlert('globalAlert', res.success ? '✅ 賽事已儲存' : res.message, res.success ? 'success' : 'error');
+  if (res.success) {
+    session.comp = { ...session.comp, name: document.getElementById('e_name').value, status: document.getElementById('e_status').value };
+  }
+}
+
+async function deleteCompetition() {
+  if (!confirm('確定刪除此賽事？此操作不可撤銷。')) return;
+  const pw = getAdminPw();
+  const res = await api({ action: 'deleteCompetition', token: session.comp.token, password: pw });
+  if (res.success) {
+    showAlert('globalAlert', '✅ 賽事已刪除', 'success');
+    showPanel('competitions');
+    loadCompList();
+  } else {
+    showAlert('globalAlert', res.message, 'error');
+  }
+}
+
+// ── CREATE COMPETITION ────────────────────────────────────────
+async function createCompetition() {
+  const rules = {
+    format: document.getElementById('r_format').value,
+    halves: document.getElementById('r_halves').value,
+    quarters: document.getElementById('r_quarters').value,
+    quarterMinutes: document.getElementById('r_qmin').value,
+    overtimeMinutes: document.getElementById('r_ot').value,
+    shotClock: document.getElementById('r_shot').value,
+    teamFouls: document.getElementById('r_tfoul').value,
+    playerFouls: document.getElementById('r_pfoul').value,
+    timeouts: document.getElementById('r_to').value,
+    notes: document.getElementById('r_notes').value
+  };
+  const rundown = collectRundown('c_rundown');
+  const res = await api({
+    action: 'createCompetition',
+    masterPassword: session.masterPw,
+    token: document.getElementById('c_token').value.trim(),
+    name: document.getElementById('c_name').value.trim(),
+    nameEn: document.getElementById('c_nameEn').value.trim(),
+    adminPassword: document.getElementById('c_pw').value,
+    date: document.getElementById('c_date').value,
+    venue: document.getElementById('c_venue').value,
+    status: document.getElementById('c_status').value,
+    rules: JSON.stringify(rules),
+    rundown: JSON.stringify(rundown)
+  });
+  showAlert('globalAlert', res.success ? '✅ 賽事已建立' : res.message, res.success ? 'success' : 'error');
+  if (res.success) loadCompList();
+}
+
+// ── RUNDOWN HELPERS ───────────────────────────────────────────
+function rundownRowHtml(containerId, time, event, idx) {
+  return `<div class="rundown-row" id="rd_${containerId}_${idx}">
+    <input value="${escHtml(time||'')}" placeholder="時間 (例：09:00 - 09:15)">
+    <input value="${escHtml(event||'')}" placeholder="活動內容">
+    <button class="btn btn-danger btn-sm" onclick="this.parentElement.remove()">✕</button>
+  </div>`;
+}
+
+let rdCounter = 0;
+function addRundownRow(containerId) {
+  document.getElementById(containerId).insertAdjacentHTML('beforeend', rundownRowHtml(containerId, '', '', rdCounter++));
+}
+
+function collectRundown(containerId) {
+  const rows = document.getElementById(containerId).querySelectorAll('.rundown-row');
+  return Array.from(rows).map(r => {
+    const inputs = r.querySelectorAll('input');
+    return { time: inputs[0].value, event: inputs[1].value };
+  }).filter(r => r.time || r.event);
+}
+
+function getAdminPw() {
+  return session.type === 'master' ? prompt('請輸入此賽事的管理密碼：') : session.tokenPw;
+}
+
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+</script>
+</body>
+</html>
