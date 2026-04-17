@@ -3,8 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>賽事對陣表 | Competition Bracket | LaLaRef 急單王</title>
-<meta name="description" content="籃球賽事對陣表 - 即時更新比賽結果及晉級狀況">
+<title>賽事資訊 | LaLaRef 急單王</title>
+<meta name="description" content="LaLaRef 賽事資訊 — 賽程、對陣及比賽規則">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-L1YNR24WBC"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-L1YNR24WBC');</script>
 <link rel="icon" type="image/jpeg" href="lalaref2.jpg">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -12,224 +14,233 @@ body{font-family:'Segoe UI',-apple-system,BlinkMacSystemFont,'Microsoft JhengHei
 .nb{background:linear-gradient(145deg,#d4a574,#c89860);padding:15px 0;box-shadow:0 10px 20px rgba(0,0,0,.15);position:sticky;top:0;z-index:100}
 .nc{max-width:1100px;margin:0 auto;padding:0 30px;display:flex;justify-content:space-between;align-items:center}
 .nl{color:#fff;font-size:1.5em;font-weight:900;text-decoration:none}
-.nk{display:flex;gap:30px}
-.nk a{color:#fff;text-decoration:none;font-weight:700;transition:all .3s;padding:8px 16px;border-radius:20px}
-.nk a:hover{background:rgba(255,255,255,.2)}
-.hb{display:none;flex-direction:column;cursor:pointer;padding:5px}
-.hb span{width:25px;height:3px;background:#fff;margin:3px 0;transition:.3s;border-radius:3px}
-.hb.active span:nth-child(1){transform:rotate(-45deg) translate(-5px,6px)}
-.hb.active span:nth-child(2){opacity:0}
-.hb.active span:nth-child(3){transform:rotate(45deg) translate(-5px,-6px)}
-.bc{max-width:1100px;margin:20px auto;padding:0 30px;font-size:.9em;color:#7a6a5a}
-.bc a{color:#d4a574;text-decoration:none;font-weight:600}
-.ct{max-width:1100px;margin:0 auto;padding:40px 30px}
-.ph{text-align:center;margin-bottom:40px;padding:50px 30px;background:linear-gradient(145deg,#f0dcc8,#e8d4b8);border-radius:40px;box-shadow:20px 20px 40px rgba(0,0,0,.15),-20px -20px 40px rgba(255,255,255,.7)}
-.ph h1{font-size:2.5em;color:#5a4a3a;margin-bottom:10px;font-weight:900}
-.ph p{font-size:1.1em;color:#7a6a5a}
-.tags{display:flex;gap:10px;justify-content:center;margin-top:15px;flex-wrap:wrap}
-.tag{background:linear-gradient(145deg,#d4a574,#c89860);color:#fff;padding:6px 16px;border-radius:20px;font-size:.85em;font-weight:700}
-.admin-toggle{display:block;margin:0 auto 30px;padding:14px 35px;background:linear-gradient(145deg,#d4a574,#c89860);color:#fff;border:none;border-radius:25px;font-size:1.05em;font-weight:800;cursor:pointer;box-shadow:8px 8px 16px rgba(0,0,0,.12),-8px -8px 16px rgba(255,255,255,.3);transition:all .3s}
-.admin-toggle:hover{transform:translateY(-3px)}
-.admin-panel{display:none;background:linear-gradient(145deg,#f0dcc8,#e8d4b8);border-radius:30px;padding:35px;margin-bottom:40px;box-shadow:15px 15px 30px rgba(0,0,0,.12),-15px -15px 30px rgba(255,255,255,.7)}
-.admin-panel.show{display:block}
-.admin-panel h2{color:#5a4a3a;font-size:1.4em;margin-bottom:20px;font-weight:900}
-.admin-panel label{display:block;color:#5a4a3a;font-weight:700;margin:10px 0 5px;font-size:.95em}
-.admin-panel input[type="text"],.admin-panel input[type="number"]{width:100%;padding:10px 14px;border:2px solid #d4a574;border-radius:15px;font-size:1em;background:#fff;color:#5a4a3a;outline:none;transition:border .3s}
-.admin-panel input:focus{border-color:#c89860}
-.admin-row{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin-bottom:10px}
-.admin-section{margin-bottom:25px;padding-bottom:20px;border-bottom:2px solid rgba(212,165,116,.3)}
-.admin-section h3{color:#d4a574;font-size:1.1em;margin-bottom:12px;font-weight:800}
-.save-btn{display:block;width:100%;padding:14px;background:linear-gradient(145deg,#d4a574,#c89860);color:#fff;border:none;border-radius:20px;font-size:1.1em;font-weight:800;cursor:pointer;box-shadow:8px 8px 16px rgba(0,0,0,.12),-8px -8px 16px rgba(255,255,255,.3);transition:all .3s;margin-top:20px}
-.save-btn:hover{transform:translateY(-3px)}
-.bracket-title{text-align:center;font-size:1.6em;font-weight:900;color:#5a4a3a;margin:30px 0 20px;padding:15px;background:linear-gradient(145deg,#f0dcc8,#e8d4b8);border-radius:20px;box-shadow:10px 10px 20px rgba(0,0,0,.1),-10px -10px 20px rgba(255,255,255,.5)}
-.round-label{text-align:center;font-size:1em;font-weight:700;color:#7a6a5a;margin:20px 0 15px}
-.matches{display:flex;flex-wrap:wrap;gap:20px;justify-content:center;margin-bottom:20px}
-.match-card{background:linear-gradient(145deg,#f0dcc8,#e8d4b8);border-radius:25px;padding:22px;min-width:260px;flex:1;max-width:340px;box-shadow:12px 12px 24px rgba(0,0,0,.12),-12px -12px 24px rgba(255,255,255,.6);transition:all .3s}
-.match-card:hover{transform:translateY(-4px)}
-.match-card.final{border:3px solid #d4a574;background:linear-gradient(145deg,#e8d4b8,#dcc8a8)}
-.match-label{text-align:center;font-size:.85em;color:#7a6a5a;font-weight:700;margin-bottom:10px}
-.match-team{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;border-radius:12px;margin:5px 0;background:rgba(255,255,255,.4);font-weight:700;font-size:.95em}
-.match-team.winner{background:linear-gradient(145deg,#d4a574,#c89860);color:#fff}
-.match-team .score{font-weight:900;font-size:1.1em}
-.match-team .tname{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.trophy{text-align:center;font-size:1.5em;margin-top:8px}
-.share-section{text-align:center;margin:40px 0;padding:35px;background:linear-gradient(145deg,#f0dcc8,#e8d4b8);border-radius:30px;box-shadow:15px 15px 30px rgba(0,0,0,.12),-15px -15px 30px rgba(255,255,255,.7)}
-.share-section h2{color:#5a4a3a;font-size:1.4em;margin-bottom:15px;font-weight:900}
-.share-btns{display:flex;gap:15px;justify-content:center;flex-wrap:wrap}
-.share-btn{padding:12px 28px;border:none;border-radius:20px;font-size:1em;font-weight:700;cursor:pointer;transition:all .3s;box-shadow:6px 6px 12px rgba(0,0,0,.1),-6px -6px 12px rgba(255,255,255,.3)}
-.share-btn:hover{transform:translateY(-3px)}
-.share-btn.wa{background:#25d366;color:#fff}
-.share-btn.copy{background:linear-gradient(145deg,#d4a574,#c89860);color:#fff}
-.toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:#5a4a3a;color:#fff;padding:12px 30px;border-radius:20px;font-weight:700;opacity:0;transition:opacity .3s;z-index:999;pointer-events:none}
-.toast.show{opacity:1}
-.cta-footer{text-align:center;padding:50px 40px;background:linear-gradient(145deg,#d4a574,#c89860);border-radius:35px;margin-top:40px;box-shadow:15px 15px 30px rgba(0,0,0,.15),-15px -15px 30px rgba(255,255,255,.3)}
-.cta-footer h2{color:#fff;font-size:1.8em;margin-bottom:15px;font-weight:900}
-.cta-footer p{color:#fff;font-size:1.1em;margin-bottom:25px}
-.cta-footer a.cb{display:inline-block;padding:16px 40px;background:linear-gradient(145deg,#f0dcc8,#e8d4b8);color:#5a4a3a;text-decoration:none;border-radius:25px;font-weight:900;font-size:1.1em;box-shadow:8px 8px 16px rgba(0,0,0,.15),-8px -8px 16px rgba(255,255,255,.2);transition:all .3s}
-.cta-footer a.cb:hover{transform:translateY(-4px)}
-.wf{position:fixed;width:70px;height:70px;bottom:30px;right:30px;background:linear-gradient(145deg,#25d366,#20b358);color:#FFF;border-radius:50%;box-shadow:15px 15px 30px rgba(0,0,0,.2),-15px -15px 30px rgba(255,255,255,.3);z-index:1000;display:flex;align-items:center;justify-content:center;transition:all .3s;text-decoration:none}
-.wf:hover{transform:translateY(-8px) scale(1.05)}
-.score-input{width:55px!important;text-align:center;display:inline-block}
+.nk{display:flex;gap:20px}.nk a{color:#fff;text-decoration:none;font-weight:700;padding:8px 14px;border-radius:20px;transition:all .3s}.nk a:hover{background:rgba(255,255,255,.2)}
+.hb{display:none;flex-direction:column;cursor:pointer;padding:5px}.hb span{width:25px;height:3px;background:#fff;margin:3px 0;border-radius:3px;transition:.3s}
+.ct{max-width:1100px;margin:0 auto;padding:30px}
+.ph{text-align:center;padding:40px 30px;background:linear-gradient(145deg,#f0dcc8,#e8d4b8);border-radius:30px;box-shadow:15px 15px 30px rgba(0,0,0,.12),-15px -15px 30px rgba(255,255,255,.7);margin-bottom:30px}
+.ph h1{font-size:2.2em;color:#5a4a3a;font-weight:900;margin-bottom:8px}
+.ph .sub{color:#7a6a5a;font-size:1em}
+.badge{display:inline-block;padding:4px 14px;border-radius:20px;font-size:.85em;font-weight:700;margin-top:10px}
+.badge.upcoming{background:#fff3cd;color:#856404}.badge.ongoing{background:#d1e7dd;color:#0a3622}.badge.completed{background:#cfe2ff;color:#084298}
+.card{background:linear-gradient(145deg,#f0dcc8,#e8d4b8);border-radius:24px;padding:28px;margin-bottom:24px;box-shadow:12px 12px 24px rgba(0,0,0,.1),-12px -12px 24px rgba(255,255,255,.6)}
+.card h2{font-size:1.3em;color:#d4a574;font-weight:900;margin-bottom:18px;padding-bottom:10px;border-bottom:2px solid rgba(212,165,116,.3)}
+.info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.info-item{background:rgba(255,255,255,.5);border-radius:12px;padding:12px 16px}
+.info-item .lbl{font-size:.78em;color:#9a8a7a;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+.info-item .val{font-size:1em;color:#5a4a3a;font-weight:700;margin-top:2px}
+.rules-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.rule-box{background:rgba(255,255,255,.5);border-radius:12px;padding:12px;text-align:center}
+.rule-box .rv{font-size:1.5em;font-weight:900;color:#d4a574}
+.rule-box .rl{font-size:.78em;color:#7a6a5a;margin-top:2px}
+.rules-notes{margin-top:14px;background:rgba(255,255,255,.4);border-radius:12px;padding:14px;font-size:.9em;white-space:pre-wrap}
+.rundown-list{list-style:none}
+.rundown-list li{display:flex;gap:14px;padding:10px 0;border-bottom:1px solid rgba(212,165,116,.2);align-items:flex-start}
+.rundown-list li:last-child{border-bottom:none}
+.rd-time{min-width:130px;font-weight:700;color:#d4a574;font-size:.9em;flex-shrink:0}
+.rd-event{color:#5a4a3a;font-size:.95em;flex:1}
+.rd-type{font-size:.72em;padding:2px 8px;border-radius:8px;font-weight:700;flex-shrink:0}
+.rd-type.match{background:#d1e7dd;color:#0a3622}.rd-type.ceremony{background:#e2d9f3;color:#5a3d8a}
+.rd-type.break{background:#f8d7da;color:#842029}.rd-type.show{background:#fff3cd;color:#856404}
+/* Phase sections */
+.phase-section{margin-bottom:8px}
+.phase-header{background:linear-gradient(145deg,#d4a574,#c89860);color:#fff;padding:14px 20px;border-radius:16px 16px 0 0;font-weight:900;font-size:1.05em;display:flex;justify-content:space-between;align-items:center}
+.phase-body{background:rgba(255,255,255,.35);border-radius:0 0 16px 16px;padding:4px 0;overflow-x:auto}
+.match-row{display:grid;grid-template-columns:50px 110px 1fr 90px 1fr 80px;gap:8px;align-items:center;padding:10px 16px;border-bottom:1px solid rgba(212,165,116,.12);font-size:.9em}
+.match-row:last-child{border-bottom:none}
+.match-row:hover{background:rgba(255,255,255,.3)}
+.game-no{color:#9a8a7a;font-size:.82em;font-weight:700}
+.time-slot{color:#7a6a5a;font-size:.82em}
+.team-name{font-weight:700;color:#5a4a3a;padding:4px 0}
+.team-name.tbd{color:#b0a090;font-style:italic;font-weight:400}
+.score-box{text-align:center;font-size:1.15em;font-weight:900;color:#d4a574;letter-spacing:2px}
+.score-box .vs{color:#b0a090;font-size:.8em;font-weight:400}
+.winner{color:#198754}.loser{color:#b0a090}
+.status-pill{display:inline-block;padding:3px 10px;border-radius:10px;font-size:.72em;font-weight:700}
+.status-pill.scheduled{background:#fff3cd;color:#856404}
+.status-pill.live{background:#d1e7dd;color:#0a3622;animation:pulse 1.5s infinite}
+.status-pill.completed{background:#cfe2ff;color:#084298}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
+.match-label{font-size:.72em;color:#9a8a7a;margin-top:2px}
+.loading{text-align:center;padding:60px;color:#9a8a7a;font-size:1.1em}
+.error-box{background:#fff3cd;border-radius:16px;padding:30px;text-align:center;color:#856404}
+.error-box h3{font-size:1.3em;margin-bottom:8px}
+.refresh-btn{background:rgba(255,255,255,.3);border:none;color:#5a4a3a;padding:6px 16px;border-radius:20px;cursor:pointer;font-size:.85em;font-weight:700;margin-left:12px;transition:all .3s}
+.refresh-btn:hover{background:rgba(255,255,255,.6)}
+.auto-tag{font-size:.7em;color:#9a8a7a;font-weight:400}
+.ft{background:linear-gradient(145deg,#d4a574,#c89860);color:#fff;padding:40px 30px 25px;border-radius:40px 40px 0 0;margin:40px 20px 0}
+.ft .fc{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:25px;margin-bottom:25px}
+.ft h4{font-size:1em;margin-bottom:12px;font-weight:900}.ft p,.ft a{font-size:.9em;line-height:1.8;color:#fff;text-decoration:none}
+.ft .fb{text-align:center;padding-top:15px;border-top:1px solid rgba(255,255,255,.3);font-size:.85em;color:rgba(255,255,255,.8)}
+.wf{position:fixed;width:60px;height:60px;bottom:25px;right:25px;background:linear-gradient(145deg,#25d366,#20b358);color:#fff;border-radius:50%;box-shadow:10px 10px 20px rgba(0,0,0,.2);z-index:1000;display:flex;align-items:center;justify-content:center;text-decoration:none;transition:all .3s}
+.wf:hover{transform:translateY(-5px) scale(1.05)}
 @media(max-width:768px){
-.hb{display:flex}
-.nk{position:absolute;top:100%;left:0;right:0;background:linear-gradient(145deg,#d4a574,#c89860);flex-direction:column;gap:0;padding:0;max-height:0;overflow:hidden;transition:max-height .3s}
-.nk.active{max-height:300px}
-.nk a{padding:15px 30px;border-radius:0;border-bottom:1px solid rgba(255,255,255,.1)}
-.ph h1{font-size:1.8em}
-.ph{padding:35px 20px}
-.admin-row{grid-template-columns:1fr}
-.matches{flex-direction:column;align-items:center}
-.match-card{min-width:auto;width:100%;max-width:100%}
-.wf{width:60px;height:60px;bottom:20px;right:20px}
+  .hb{display:flex}.nk{position:absolute;top:100%;left:0;right:0;background:linear-gradient(145deg,#d4a574,#c89860);flex-direction:column;gap:0;max-height:0;overflow:hidden;transition:max-height .3s}
+  .nk.active{max-height:300px}.nk a{padding:12px 25px;border-radius:0;border-bottom:1px solid rgba(255,255,255,.1)}
+  .nc{padding:0 15px}.nl{font-size:1.2em}.ct{padding:15px}
+  .ph{padding:25px 15px}.ph h1{font-size:1.5em}
+  .card{padding:18px;border-radius:18px}
+  .match-row{grid-template-columns:40px 90px 1fr 70px 1fr 60px;gap:4px;padding:8px 10px;font-size:.82em}
+  .score-box{font-size:1em}.rules-grid{grid-template-columns:repeat(2,1fr)}
+  .rd-time{min-width:100px;font-size:.82em}
 }
 </style>
 </head>
 <body>
-<nav class="nb"><div class="nc"><a href="index.html" class="nl">LaLaRef 急單王</a><div class="hb" onclick="toggleMenu()" aria-label="選單" role="button" tabindex="0"><span></span><span></span><span></span></div><div class="nk" id="navLinks"><a href="index.html">首頁</a><a href="service.html">服務資訊</a><a href="news.html">籃球新聞</a><a href="leagues.html">聯賽列表</a><a href="index.html#booking">立即預訂</a></div></div></nav>
-<nav class="bc" aria-label="麵包屑導航"><a href="index.html">首頁</a> <span style="margin:0 8px"></span> <span>賽事對陣表</span></nav>
-<a href="https://wa.me/85284828484?text=你好！我想查詢球證/裁判服務" class="wf" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp 聯絡"><svg viewBox="0 0 32 32" width="30" height="30" fill="white"><path d="M16 0C7.164 0 0 7.164 0 16c0 2.825.738 5.488 2.031 7.813L.281 30.594l7.031-1.844A15.923 15.923 0 0016 32c8.836 0 16-7.164 16-16S24.836 0 16 0zm0 29.25c-2.406 0-4.719-.656-6.719-1.875l-.469-.281-4.875 1.281 1.313-4.781-.313-.5A13.173 13.173 0 012.75 16C2.75 8.681 8.681 2.75 16 2.75S29.25 8.681 29.25 16 23.319 29.25 16 29.25zm7.25-9.906c-.406-.188-2.375-1.156-2.75-1.281-.375-.125-.656-.188-.938.188-.281.375-1.063 1.281-1.313 1.563-.25.281-.5.313-.906.125-.406-.188-1.719-.625-3.281-2-.219-.188-2.031-1.781-2.281-2.156-.25-.375-.031-.594.156-.781.156-.156.406-.406.594-.594.188-.188.25-.313.375-.531.125-.219.063-.406-.031-.594-.094-.188-.938-2.219-1.281-3.031-.344-.781-.688-.656-.938-.656-.25 0-.531-.031-.813-.031s-.75.094-1.125.469c-.375.375-1.438 1.406-1.438 3.438s1.469 3.969 1.656 4.25c.188.281 2.625 4 6.375 5.625.906.375 1.594.594 2.125.781.875.281 1.688.25 2.313.156.719-.094 2.188-.875 2.5-1.719.313-.844.313-1.563.219-1.719-.094-.156-.375-.25-.781-.438z"/></svg></a>
-<div class="ct">
-<header class="ph"><h1> 賽事對陣表</h1><p>Competition Bracket</p><div class="tags"><span class="tag" id="tagName">未設定賽事</span><span class="tag" id="tagDate">--</span></div></header>
-<button class="admin-toggle" onclick="toggleAP()"> 管理賽事 / Admin</button>
-<div class="admin-panel" id="adminPanel"></div>
-<div id="bracketDisplay"></div>
-<div class="share-section"><h2> 分享賽事狀況</h2><p style="color:#7a6a5a;margin-bottom:15px">Share this bracket with others</p><div class="share-btns"><button class="share-btn wa" onclick="shareWA()"> WhatsApp 分享</button><button class="share-btn copy" onclick="copyLink()"> 複製連結</button></div></div>
-<div class="cta-footer"><h2>需要專業球證/裁判？</h2><p>LaLaRef 提供持牌專業球證/裁判，為您的賽事保駕護航</p><a href="https://wa.me/85284828484?text=你好！我想預訂球證/裁判服務" class="cb" target="_blank" rel="noopener noreferrer">WhatsApp: 8482 8484</a></div>
-</div>
-<div class="toast" id="toast"></div>
+<nav class="nb"><div class="nc">
+  <a href="index.html" class="nl">LaLaRef 急單王</a>
+  <div class="hb" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+  <div class="nk" id="navLinks"><a href="index.html">首頁</a><a href="service.html">服務資訊</a><a href="news.html">籃球新聞</a><a href="leagues.html">聯賽列表</a><a href="index.html#booking">立即預訂</a></div>
+</div></nav>
+<div class="ct"><div id="app"><div class="loading">⏳ 載入賽事資訊中...</div></div></div>
+<a href="https://wa.me/85284828484?text=你好！我想查詢球證/裁判服務" class="wf" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><svg viewBox="0 0 32 32" width="28" height="28" fill="white"><path d="M16 0C7.164 0 0 7.164 0 16c0 2.825.738 5.488 2.031 7.813L.281 30.594l7.031-1.844A15.923 15.923 0 0016 32c8.836 0 16-7.164 16-16S24.836 0 16 0zm0 29.25c-2.406 0-4.719-.656-6.719-1.875l-.469-.281-4.875 1.281 1.313-4.781-.313-.5A13.173 13.173 0 012.75 16C2.75 8.681 8.681 2.75 16 2.75S29.25 8.681 29.25 16 23.319 29.25 16 29.25zm7.25-9.906c-.406-.188-2.375-1.156-2.75-1.281-.375-.125-.656-.188-.938.188-.281.375-1.063 1.281-1.313 1.563-.25.281-.5.313-.906.125-.406-.188-1.719-.625-3.281-2-.219-.188-2.031-1.781-2.281-2.156-.25-.375-.031-.594.156-.781.156-.156.406-.406.594-.594.188-.188.25-.313.375-.531.125-.219.063-.406-.031-.594-.094-.188-.938-2.219-1.281-3.031-.344-.781-.688-.656-.938-.656-.25 0-.531-.031-.813-.031s-.75.094-1.125.469c-.375.375-1.438 1.406-1.438 3.438s1.469 3.969 1.656 4.25c.188.281 2.625 4 6.375 5.625.906.375 1.594.594 2.125.781.875.281 1.688.25 2.313.156.719-.094 2.188-.875 2.5-1.719.313-.844.313-1.563.219-1.719-.094-.156-.375-.25-.781-.438z"/></svg></a>
+
+<footer class="ft"><div class="fc">
+  <div><h4>LaLaRef 急單王</h4><p>香港專業籃球球證/裁判<br>即日緊急接單<br>持牌專業球證/裁判 • 24/7接單</p></div>
+  <div><h4>聯絡方式</h4><p>📱 WhatsApp: <a href="https://wa.me/85284828484">8482 8484</a><br>📧 <a href="mailto:info@lalaref.com">info@lalaref.com</a><br>📍 服務地區: 全港覆蓋</p></div>
+  <div><h4>網站連結</h4><p><a href="about.html">關於我們</a><br><a href="contact.html">聯絡我們</a><br><a href="privacy.html">私隱政策</a><br><a href="terms.html">服務條款</a></p></div>
+</div><div class="fb"><p>&copy; 2026 LaLa Xolutions Co.</p></div></footer>
+
 <script>
-function toggleMenu(){document.querySelector('.hb').classList.toggle('active');document.getElementById('navLinks').classList.toggle('active')}
-document.querySelectorAll('.nk a').forEach(function(a){a.addEventListener('click',function(){document.querySelector('.hb').classList.remove('active');document.getElementById('navLinks').classList.remove('active')})});
+const API_URL = 'YOUR_APPS_SCRIPT_URL_HERE';
+const token = new URLSearchParams(location.search).get('token');
 
-var D={en:'',ed:'',t:['A1','A2','A3','A4','A5','A6','A7','A8'],s:{}};
-var games={g1:[0,1],g2:[2,3],g3:[4,5],g4:[6,7],g5:['g1w','g2w'],g6:['g3w','g4w'],g7:['g1l','g2l'],g8:['g3l','g4l'],g9:['g7w','g8w'],g10:['g5w','g6w']};
+if (!token) {
+  document.getElementById('app').innerHTML = '<div class="error-box"><h3>⚠️ 找不到賽事</h3><p>請確認連結是否正確。每個賽事有獨立的連結。</p></div>';
+} else { load(); }
 
-function init(){
-var p=new URLSearchParams(window.location.search);
-var dd=p.get('d');
-if(dd){try{D=JSON.parse(atob(dd))}catch(e){}}
-else{var s=localStorage.getItem('compData');if(s)try{D=JSON.parse(s)}catch(e){}}
-if(!D.t)D.t=['A1','A2','A3','A4','A5','A6','A7','A8'];
-if(!D.s)D.s={};
-document.getElementById('tagName').textContent=D.en||'未設定賽事';
-document.getElementById('tagDate').textContent=D.ed||'--';
-buildAP();render();
+async function api(params) {
+  const res = await fetch(API_URL + '?' + new URLSearchParams(params));
+  return res.json();
 }
 
-function gw(gid){
-var sc=D.s[gid];
-if(!sc||sc[0]===''||sc[1]===''||sc[0]===undefined||sc[1]===undefined)return -1;
-var a=parseInt(sc[0]),b=parseInt(sc[1]);
-if(isNaN(a)||isNaN(b)||a===b)return -1;
-return a>b?0:1;
+async function load() {
+  try {
+    const res = await api({ action:'getCompetition', token });
+    if (!res.success) { document.getElementById('app').innerHTML = `<div class="error-box"><h3>⚠️ ${esc(res.message)}</h3></div>`; return; }
+    render(res.competition);
+  } catch(e) {
+    document.getElementById('app').innerHTML = '<div class="error-box"><h3>⚠️ 載入失敗</h3><p>請稍後重試。</p></div>';
+  }
 }
 
-function gl(gid){var w=gw(gid);if(w===-1)return -1;return w===0?1:0;}
+function render(c) {
+  document.title = c.name + ' | LaLaRef 急單王';
+  const sl = {upcoming:'即將舉行',ongoing:'進行中',completed:'已完結'};
+  const matches = c.matches || [];
+  const phases = c.phases || [];
 
-function gt(gid,side){
-var ref=games[gid][side];
-if(typeof ref==='number')return D.t[ref]||('A'+(ref+1));
-var m=ref.match(/^(g\d+)(w|l)$/);
-if(m){var fn=m[2]==='w'?gw:gl;var r=fn(m[1]);if(r===-1)return '待定';var src=games[m[1]];if(typeof src[r]==='number')return D.t[src[r]]||('A'+(src[r]+1));return gt(m[1],r);}
-return '待定';
+  // Resolve auto-progression team names
+  const matchMap = {};
+  matches.forEach(m => { matchMap[m.id] = m; });
+  matches.forEach(m => {
+    if (m.sourceA && !m.teamA) m.teamA = resolveSource(m.sourceA, matchMap);
+    if (m.sourceB && !m.teamB) m.teamB = resolveSource(m.sourceB, matchMap);
+  });
+
+  let html = `
+    <div class="ph">
+      <h1>${esc(c.name)}</h1>
+      ${c.nameEn ? `<div class="sub">${esc(c.nameEn)}</div>` : ''}
+      <span class="badge ${c.status||'upcoming'}">${sl[c.status]||c.status}</span>
+      <button class="refresh-btn" onclick="load()">🔄 更新</button>
+    </div>
+    <div class="card"><h2>📋 賽事資訊</h2><div class="info-grid">
+      ${c.date ? `<div class="info-item"><div class="lbl">日期</div><div class="val">📅 ${esc(c.date)}</div></div>` : ''}
+      ${c.venue ? `<div class="info-item"><div class="lbl">場地</div><div class="val">📍 ${esc(c.venue)}</div></div>` : ''}
+    </div></div>
+    ${renderRules(c.rules)}
+    ${c.rundown.length ? renderRundown(c.rundown) : ''}
+    ${renderPhases(phases, matches)}
+  `;
+  document.getElementById('app').innerHTML = html;
 }
 
-function mh(gid,label,isFinal){
-var t1=gt(gid,0),t2=gt(gid,1);
-var sc=D.s[gid]||['',''];
-var w=gw(gid);
-var cls=isFinal?'match-card final':'match-card';
-var trophy='';
-if(isFinal&&w!==-1){trophy='<div class="trophy"> '+(w===0?t1:t2)+'</div>';}
-return '<div class="'+cls+'"><div class="match-label">'+label+'</div>'+
-'<div class="match-team'+(w===0?' winner':'')+'"><span class="tname">'+t1+'</span><span class="score">'+(sc[0]!==''?sc[0]:'-')+'</span></div>'+
-'<div class="match-team'+(w===1?' winner':'')+'"><span class="tname">'+t2+'</span><span class="score">'+(sc[1]!==''?sc[1]:'-')+'</span></div>'+trophy+'</div>';
+function resolveSource(src, map) {
+  if (!src || !src.matchId) return '';
+  const m = map[src.matchId];
+  if (!m || m.status !== 'completed') {
+    const gLabel = m ? ('第' + (m.gameNo||'?') + '場') : '?';
+    return src.result === 'winner' ? gLabel + '勝方' : gLabel + '負方';
+  }
+  const aWin = (m.scoreA||0) > (m.scoreB||0);
+  if (src.result === 'winner') return aWin ? m.teamA : m.teamB;
+  return aWin ? m.teamB : m.teamA;
 }
 
-function render(){
-var h='';
-h+='<div class="bracket-title"> 盃賽 Cup Bracket</div>';
-h+='<div class="round-label">第一輪 First Round</div><div class="matches">';
-h+=mh('g1','Game 1',false)+mh('g2','Game 2',false)+mh('g3','Game 3',false)+mh('g4','Game 4',false);
-h+='</div><div class="round-label">盃賽準決賽 Cup Semi-Finals</div><div class="matches">';
-h+=mh('g5','Game 5 (W1 vs W2)',false)+mh('g6','Game 6 (W3 vs W4)',false);
-h+='</div><div class="round-label">盃賽決賽 Cup Final</div><div class="matches">';
-h+=mh('g10','Game 10 - 盃賽冠軍',true);
-h+='</div>';
-h+='<div class="bracket-title"> 碟賽 Plate Bracket</div>';
-h+='<div class="round-label">碟賽準決賽 Plate Semi-Finals</div><div class="matches">';
-h+=mh('g7','Game 7 (L1 vs L2)',false)+mh('g8','Game 8 (L3 vs L4)',false);
-h+='</div><div class="round-label">碟賽決賽 Plate Final</div><div class="matches">';
-h+=mh('g9','Game 9 - 碟賽冠軍',true);
-h+='</div>';
-document.getElementById('bracketDisplay').innerHTML=h;
+function renderRules(r) {
+  if (!r || !Object.keys(r).length) return '';
+  const items = [
+    {k:'format',l:'賽制',s:''},{k:'halves',l:'上下半場',s:'分鐘'},
+    {k:'quarters',l:'節數',s:'節'},{k:'quarterMinutes',l:'每節',s:'分鐘'},
+    {k:'overtimeMinutes',l:'加時',s:'分鐘'},{k:'shotClock',l:'進攻時限',s:'秒'},
+    {k:'teamFouls',l:'球隊犯規',s:'次'},{k:'playerFouls',l:'個人犯規',s:'次'},
+    {k:'timeouts',l:'暫停次數',s:'次'}
+  ].filter(i => r[i.k] !== undefined && r[i.k] !== '');
+  if (!items.length && !r.notes) return '';
+  return `<div class="card"><h2>📏 比賽規則</h2>
+    <div class="rules-grid">${items.map(i=>`<div class="rule-box"><div class="rv">${r[i.k]}${i.s}</div><div class="rl">${i.l}</div></div>`).join('')}</div>
+    ${r.notes ? `<div class="rules-notes">${esc(r.notes)}</div>` : ''}
+  </div>`;
 }
 
-function buildAP(){
-var h='<h2> 賽事管理 Admin Panel</h2>';
-h+='<div class="admin-section"><h3> 賽事資料</h3>';
-h+='<label>賽事名稱 Event Name</label><input type="text" id="aEN" value="'+(D.en||'')+'">';
-h+='<label>賽事日期 Event Date</label><input type="text" id="aED" value="'+(D.ed||'')+'">';
-h+='</div>';
-h+='<div class="admin-section"><h3> 隊伍名稱 Team Names</h3>';
-for(var i=0;i<8;i++){
-if(i%2===0)h+='<div class="admin-row">';
-h+='<div><label>A'+(i+1)+'</label><input type="text" id="aT'+i+'" value="'+(D.t[i]||'A'+(i+1))+'"></div>';
-if(i%2===1)h+='</div>';
-}
-h+='</div>';
-var glist=[['g1','Game 1'],['g2','Game 2'],['g3','Game 3'],['g4','Game 4'],['g5','Game 5'],['g6','Game 6'],['g7','Game 7'],['g8','Game 8'],['g9','Game 9'],['g10','Game 10']];
-h+='<div class="admin-section"><h3> 比分 Scores</h3>';
-for(var j=0;j<glist.length;j++){
-var g=glist[j],sc=D.s[g[0]]||['',''];
-h+='<label>'+g[1]+' ('+gt(g[0],0)+' vs '+gt(g[0],1)+')</label>';
-h+='<div class="admin-row"><div><input type="number" class="score-input" id="aS_'+g[0]+'_0" value="'+sc[0]+'" min="0" placeholder="-"></div>';
-h+='<div><input type="number" class="score-input" id="aS_'+g[0]+'_1" value="'+sc[1]+'" min="0" placeholder="-"></div></div>';
-}
-h+='</div>';
-h+='<button class="save-btn" onclick="saveAll()"> 儲存 Save</button>';
-document.getElementById('adminPanel').innerHTML=h;
+function renderRundown(rd) {
+  const typeLabel = {match:'比賽',ceremony:'儀式',break:'間歇',show:'表演'};
+  const typeClass = {match:'match',ceremony:'ceremony',break:'break',show:'show'};
+  return `<div class="card"><h2>🕐 賽事流程</h2><ul class="rundown-list">
+    ${rd.map(r => `<li>
+      <span class="rd-time">${esc(r.time||'')}</span>
+      <span class="rd-event">${esc(r.event||'')}</span>
+      ${r.type ? `<span class="rd-type ${typeClass[r.type]||''}">${typeLabel[r.type]||r.type}</span>` : ''}
+    </li>`).join('')}
+  </ul></div>`;
 }
 
-function saveAll(){
-D.en=document.getElementById('aEN').value;
-D.ed=document.getElementById('aED').value;
-for(var i=0;i<8;i++)D.t[i]=document.getElementById('aT'+i).value||('A'+(i+1));
-var gids=['g1','g2','g3','g4','g5','g6','g7','g8','g9','g10'];
-for(var j=0;j<gids.length;j++){
-var a=document.getElementById('aS_'+gids[j]+'_0').value;
-var b=document.getElementById('aS_'+gids[j]+'_1').value;
-if(a!==''||b!=='')D.s[gids[j]]=[a,b];
-else delete D.s[gids[j]];
-}
-localStorage.setItem('compData',JSON.stringify(D));
-document.getElementById('tagName').textContent=D.en||'未設定賽事';
-document.getElementById('tagDate').textContent=D.ed||'--';
-buildAP();render();showToast('已儲存 Saved!');
-}
+function renderPhases(phases, matches) {
+  if (!phases.length && !matches.length) return '';
+  // If no phases defined, show all matches in one section
+  if (!phases.length && matches.length) {
+    return `<div class="card"><h2>🏀 對陣賽程</h2>${renderMatchList(matches)}</div>`;
+  }
+  // Group matches by phaseId
+  const grouped = {};
+  matches.forEach(m => { const pid = m.phaseId||'_none'; if(!grouped[pid]) grouped[pid]=[]; grouped[pid].push(m); });
 
-function toggleAP(){document.getElementById('adminPanel').classList.toggle('show')}
-
-function getShareURL(){
-var encoded=btoa(unescape(encodeURIComponent(JSON.stringify(D))));
-return window.location.origin+window.location.pathname+'?d='+encoded;
+  return phases.map(p => {
+    const pm = grouped[p.id] || [];
+    if (!pm.length) return '';
+    return `<div class="phase-section">
+      <div class="phase-header"><span>${esc(p.name)}</span><span style="font-size:.75em;font-weight:400">${pm.length} 場</span></div>
+      <div class="phase-body">${renderMatchList(pm)}</div>
+    </div>`;
+  }).join('');
 }
 
-function shareWA(){
-var url=getShareURL();
-var text=(D.en||'籃球賽事')+'%0A'+(D.ed||'')+'%0A'+url;
-window.open('https://wa.me/?text='+text,'_blank');
+function renderMatchList(matches) {
+  return matches.map(m => {
+    const done = m.status === 'completed';
+    const aW = done && (m.scoreA||0) > (m.scoreB||0);
+    const bW = done && (m.scoreB||0) > (m.scoreA||0);
+    const sl = {scheduled:'待賽',live:'🔴 進行中',completed:'完場'};
+    const tA = m.teamA || 'TBD';
+    const tB = m.teamB || 'TBD';
+    const scoreHtml = done
+      ? `<span class="${aW?'winner':'loser'}">${m.scoreA}</span> : <span class="${bW?'winner':'loser'}">${m.scoreB}</span>`
+      : m.status==='live' ? `<span class="${m.scoreA!=null?'':'vs'}">${m.scoreA!=null?m.scoreA:''}</span> : <span>${m.scoreB!=null?m.scoreB:''}</span>`
+      : '<span class="vs">vs</span>';
+    return `<div class="match-row">
+      <span class="game-no">${m.gameNo ? '#'+m.gameNo : ''}</span>
+      <span class="time-slot">${esc(m.time||'')}</span>
+      <span class="team-name ${!m.teamA?'tbd':''} ${aW?'winner':done?'loser':''}">${esc(tA)}</span>
+      <span class="score-box">${scoreHtml}</span>
+      <span class="team-name ${!m.teamB?'tbd':''} ${bW?'winner':done?'loser':''}">${esc(tB)}</span>
+      <span><span class="status-pill ${m.status||'scheduled'}">${sl[m.status]||m.status}</span>${m.label?`<div class="match-label">${esc(m.label)}</div>`:''}</span>
+    </div>`;
+  }).join('');
 }
 
-function copyLink(){
-var url=getShareURL();
-if(navigator.clipboard){navigator.clipboard.writeText(url).then(function(){showToast('連結已複製 Link Copied!')});}
-else{var t=document.createElement('textarea');t.value=url;document.body.appendChild(t);t.select();document.execCommand('copy');document.body.removeChild(t);showToast('連結已複製 Link Copied!');}
-}
-
-function showToast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(function(){t.classList.remove('show')},2000);}
-
-init();
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function toggleMenu(){document.querySelector('.hb').classList.toggle('active');document.getElementById('navLinks').classList.toggle('active');}
+document.querySelectorAll('.nk a').forEach(a=>a.addEventListener('click',()=>{document.querySelector('.hb').classList.remove('active');document.getElementById('navLinks').classList.remove('active');}));
 </script>
 </body>
 </html>
