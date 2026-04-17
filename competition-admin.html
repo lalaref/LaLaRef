@@ -67,12 +67,12 @@ textarea{resize:vertical;min-height:80px}
   <div class="login-box">
     <h2>🏀 賽事管理</h2>
     <div id="loginAlert"></div>
-    <div class="fg" style="margin-bottom:14px"><label>主密碼 Master Password</label><input type="password" id="masterPwInput" placeholder="管理所有賽事"></div>
+    <div class="fg" style="margin-bottom:14px"><label for="masterPwInput">主密碼 Master Password</label><input type="password" id="masterPwInput" placeholder="管理所有賽事"></div>
     <button class="btn btn-p" style="width:100%" onclick="masterLogin()">登入</button>
     <div style="margin-top:20px;border-top:1px solid #2a4a7f;padding-top:16px">
       <p style="font-size:.82em;color:#a0a0b0;margin-bottom:10px">或以 Token 管理單一賽事：</p>
-      <div class="fg" style="margin-bottom:10px"><input id="tokenInput" placeholder="賽事 Token"></div>
-      <div class="fg" style="margin-bottom:14px"><input type="password" id="tokenPwInput" placeholder="賽事密碼"></div>
+      <div class="fg" style="margin-bottom:10px"><label for="tokenInput" style="display:none">賽事 Token</label><input id="tokenInput" placeholder="賽事 Token"></div>
+      <div class="fg" style="margin-bottom:14px"><label for="tokenPwInput" style="display:none">賽事密碼</label><input type="password" id="tokenPwInput" placeholder="賽事密碼"></div>
       <button class="btn btn-o" style="width:100%" onclick="tokenLogin()">以 Token 登入</button>
     </div>
   </div>
