@@ -367,6 +367,7 @@ function loadScores(){
 }
 
 function applyScores(saved){
+  // First apply all saved data to the DOM
   document.querySelectorAll('.bm').forEach(function(bm){
     var gno = bm.querySelector('.bm-gno');
     if(!gno) return;
@@ -414,6 +415,72 @@ function applyScores(saved){
       }
     }
   });
+
+  // ── Auto-progression: resolve winners/losers into next rounds ──
+  // Helper: get winner and loser from a completed game
+  function getResult(key){
+    var d = saved[key];
+    if(!d || d.status !== 'completed' || d.scoreA === '' || d.scoreB === '') return null;
+    var a = Number(d.scoreA), b = Number(d.scoreB);
+    return { winner: a > b ? d.teamA : d.teamB, loser: a > b ? d.teamB : d.teamA };
+  }
+
+  // Helper: set team name on a bracket card
+  function setTeam(gameKey, slot, name){
+    if(!name) return;
+    var bm = null;
+    document.querySelectorAll('.bm').forEach(function(el){
+      var g = el.querySelector('.bm-gno');
+      if(g && g.textContent.trim() === gameKey) bm = el;
+    });
+    if(!bm) return;
+    var teams = bm.querySelectorAll('.bm-team');
+    var idx = (slot === 'A') ? 0 : 1;
+    if(teams[idx]){
+      var tn = teams[idx].querySelector('.bm-tname');
+      if(tn){ tn.textContent = name; tn.classList.remove('tbd'); }
+    }
+  }
+
+  // Cup bracket progression
+  var r1 = getResult('#1'), r2 = getResult('#2'), r3 = getResult('#3'), r4 = getResult('#4');
+
+  // #5: G1 winner vs G2 winner
+  if(r1) setTeam('#5','A', r1.winner);
+  if(r2) setTeam('#5','B', r2.winner);
+  // #6: G3 winner vs G4 winner
+  if(r3) setTeam('#6','A', r3.winner);
+  if(r4) setTeam('#6','B', r4.winner);
+
+  // Plate bracket: losers
+  // #7: G1 loser vs G2 loser
+  if(r1) setTeam('#7','A', r1.loser);
+  if(r2) setTeam('#7','B', r2.loser);
+  // #8: G3 loser vs G4 loser
+  if(r3) setTeam('#8','A', r3.loser);
+  if(r4) setTeam('#8','B', r4.loser);
+
+  // Cup final #10: G5 winner vs G6 winner
+  var r5 = getResult('#5'), r6 = getResult('#6');
+  if(r5) setTeam('#10','A', r5.winner);
+  if(r6) setTeam('#10','B', r6.winner);
+
+  // Plate final #9: G7 winner vs G8 winner
+  var r7 = getResult('#7'), r8 = getResult('#8');
+  if(r7) setTeam('#9','A', r7.winner);
+  if(r8) setTeam('#9','B', r8.winner);
+
+  // Also update the "初賽負方" display in plate bracket round 1
+  document.querySelectorAll('.bm').forEach(function(bm){
+    var g = bm.querySelector('.bm-gno');
+    if(!g) return;
+    var k = g.textContent.trim();
+    if(k === 'G1負' && r1) { var t = bm.querySelector('.bm-tname'); if(t){t.textContent=r1.loser;t.classList.remove('tbd');} }
+    if(k === 'G2負' && r2) { var t = bm.querySelector('.bm-tname'); if(t){t.textContent=r2.loser;t.classList.remove('tbd');} }
+    if(k === 'G3負' && r3) { var t = bm.querySelector('.bm-tname'); if(t){t.textContent=r3.loser;t.classList.remove('tbd');} }
+    if(k === 'G4負' && r4) { var t = bm.querySelector('.bm-tname'); if(t){t.textContent=r4.loser;t.classList.remove('tbd');} }
+  });
+
   updateTrophies(saved);
 }
 
