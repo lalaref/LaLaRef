@@ -262,8 +262,10 @@ body{font-family:'Segoe UI',-apple-system,BlinkMacSystemFont,'Microsoft JhengHei
 <div class="awards-card">
   <h2>🏆 頒獎典禮</h2>
   <div class="awards-grid">
-    <div class="award-item"><div class="emoji">🥇</div><div class="atitle">冠軍</div><div class="awinner">TBD</div></div>
-    <div class="award-item"><div class="emoji">🥈</div><div class="atitle">亞軍</div><div class="awinner">TBD</div></div>
+    <div class="award-item"><div class="emoji">🥇</div><div class="atitle">冠軍</div><div class="awinner" id="award-champion">TBD</div></div>
+    <div class="award-item"><div class="emoji">🥈</div><div class="atitle">亞軍</div><div class="awinner" id="award-runner-up">TBD</div></div>
+    <div class="award-item"><div class="emoji">🥉</div><div class="atitle">季軍</div><div class="awinner" id="award-3rd-a">TBD</div></div>
+    <div class="award-item"><div class="emoji">🥉</div><div class="atitle">季軍</div><div class="awinner" id="award-3rd-b">TBD</div></div>
   </div>
 </div>
 
@@ -398,11 +400,25 @@ function applyScores(saved){
   if(m8) setTeam('M10','A', m8.winner);
   if(m9) setTeam('M10','B', m9.winner);
 
-  // Update champion trophy
+  // Update champion trophy + awards
   var m10 = getResult('M10');
   if(m10){
     var el = document.getElementById('champion');
     if(el) el.textContent = m10.winner;
+    // Awards
+    var aw1 = document.getElementById('award-champion');
+    if(aw1) aw1.textContent = m10.winner;
+    var aw2 = document.getElementById('award-runner-up');
+    if(aw2) aw2.textContent = m10.loser;
+  }
+  // 雙季軍 = semi-final losers (M8 loser + M9 loser)
+  if(m8){
+    var aw3a = document.getElementById('award-3rd-a');
+    if(aw3a) aw3a.textContent = m8.loser;
+  }
+  if(m9){
+    var aw3b = document.getElementById('award-3rd-b');
+    if(aw3b) aw3b.textContent = m9.loser;
   }
 }
 
