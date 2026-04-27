@@ -280,6 +280,7 @@ body{font-family:'Segoe UI',-apple-system,BlinkMacSystemFont,'Microsoft JhengHei
 <script>
 // ── CONFIG ──
 var ADMIN_PASSWORD = 'thei2026';
+var SHEET_NAME = 'THEi';
 var API_URL = 'https://script.google.com/macros/s/AKfycbz91UrGglg8QMaw2MuqjoOcM0o1lNbPVdXcj74Qx8CvIm5K2jlqZE8yIgisOFPiwvCa6g/exec';
 
 function toggleMenu(){document.querySelector('.hb').classList.toggle('active');document.getElementById('navLinks').classList.toggle('active');}
@@ -289,7 +290,7 @@ document.querySelectorAll('.nk a').forEach(function(a){a.addEventListener('click
 loadScores();
 
 function loadScores(){
-  fetch(API_URL + '?action=getAll')
+  fetch(API_URL + '?action=getAll&sheet=' + SHEET_NAME)
     .then(function(r){ return r.json(); })
     .then(function(res){
       if(!res.success) return;
@@ -481,6 +482,7 @@ function saveMatch(key){
   var params = new URLSearchParams({
     action: 'update',
     pw: ADMIN_PASSWORD,
+    sheet: SHEET_NAME,
     key: key,
     teamA: document.getElementById('am-teamA').value,
     teamB: document.getElementById('am-teamB').value,
