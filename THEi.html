@@ -8,6 +8,7 @@
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-L1YNR24WBC"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-L1YNR24WBC');</script>
 <link rel="icon" type="image/jpeg" href="lalaref2.jpg">
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Segoe UI',-apple-system,BlinkMacSystemFont,'Microsoft JhengHei','PingFang TC',sans-serif;line-height:1.6;color:#5a4a3a;background:linear-gradient(135deg,#f5e6d3,#e8d4b8);min-height:100vh}
@@ -122,6 +123,35 @@ body{font-family:'Segoe UI',-apple-system,BlinkMacSystemFont,'Microsoft JhengHei
 .award-item .awinner{font-size:.78em;color:#9a8a7a;margin-top:2px}
 .admin-banner{background:#dc3545;color:#fff;text-align:center;padding:10px;border-radius:12px;margin-bottom:20px;font-weight:700;font-size:.9em}
 .admin-mode .bm:hover{border-color:#dc3545;box-shadow:0 0 0 2px rgba(220,53,69,.3)}
+
+/* Export buttons */
+.export-bar{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:20px 0}
+.export-btn{display:inline-flex;align-items:center;gap:6px;padding:10px 20px;border:none;border-radius:14px;font-size:.9em;font-weight:700;cursor:pointer;transition:all .3s;font-family:inherit}
+.export-btn:hover{transform:translateY(-2px);box-shadow:6px 6px 12px rgba(0,0,0,.12)}
+.export-btn.bracket-export{background:linear-gradient(145deg,#d4a574,#c89860);color:#fff}
+.export-btn.awards-export{background:linear-gradient(145deg,#198754,#157347);color:#fff}
+.export-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+
+/* Hidden export-only podium card */
+.export-podium{position:fixed;left:-9999px;top:0;width:900px;padding:40px;background:linear-gradient(135deg,#f5e6d3,#e8d4b8);font-family:'Segoe UI',-apple-system,BlinkMacSystemFont,'Microsoft JhengHei','PingFang TC',sans-serif;color:#5a4a3a}
+.export-podium .ep-title{text-align:center;font-size:1.8em;font-weight:900;color:#d4a574;margin-bottom:8px}
+.export-podium .ep-subtitle{text-align:center;font-size:1em;color:#7a6a5a;margin-bottom:30px}
+.export-podium .ep-grid{display:flex;justify-content:center;align-items:flex-end;gap:16px;margin-bottom:30px}
+.export-podium .ep-place{text-align:center;border-radius:20px;padding:20px 16px;min-width:160px;display:flex;flex-direction:column;align-items:center}
+.export-podium .ep-place.gold{background:linear-gradient(145deg,#ffd700,#f0c800);order:2;min-height:280px;box-shadow:0 8px 24px rgba(255,215,0,.3);min-width:200px}
+.export-podium .ep-place.silver{background:linear-gradient(145deg,#e8e8e8,#c0c0c0);order:1;min-height:240px;box-shadow:0 6px 18px rgba(0,0,0,.1)}
+.export-podium .ep-place.bronze-a{background:linear-gradient(145deg,#e8c496,#cd7f32);order:3;min-height:210px;box-shadow:0 6px 18px rgba(205,127,50,.3)}
+.export-podium .ep-place.bronze-b{background:linear-gradient(145deg,#e8c496,#cd7f32);order:4;min-height:210px;box-shadow:0 6px 18px rgba(205,127,50,.3)}
+.export-podium .ep-photo{width:120px;height:120px;border-radius:16px;background-size:cover;background-position:center center;border:3px solid rgba(255,255,255,.6);margin-bottom:8px;box-shadow:0 4px 12px rgba(0,0,0,.15);flex-shrink:0}
+.export-podium .ep-place.gold .ep-photo{width:140px;height:140px;border-radius:18px;border:4px solid rgba(255,255,255,.8)}
+.export-podium .ep-emoji{font-size:2em;margin-bottom:4px}
+.export-podium .ep-rank{font-size:.82em;font-weight:700;opacity:.8;margin-bottom:4px}
+.export-podium .ep-name{font-size:1.1em;font-weight:900;color:#333}
+.export-podium .ep-place.gold .ep-name{color:#5a4000;font-size:1.2em}
+.export-podium .ep-place.silver .ep-name{color:#333}
+.export-podium .ep-place.bronze-a .ep-name,.export-podium .ep-place.bronze-b .ep-name{color:#fff}
+.export-podium .ep-place.bronze-a .ep-rank,.export-podium .ep-place.bronze-b .ep-rank{color:rgba(255,255,255,.8)}
+.export-podium .ep-footer{text-align:center;font-size:.8em;color:#9a8a7a;margin-top:10px;padding-top:14px;border-top:1px solid rgba(212,165,116,.3)}
 .admin-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.6);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px}
 .admin-modal{background:#fff;border-radius:20px;padding:30px;width:100%;max-width:380px;color:#5a4a3a}
 .admin-modal h3{font-size:1.2em;color:#d4a574;margin-bottom:18px;text-align:center}
@@ -267,6 +297,45 @@ body{font-family:'Segoe UI',-apple-system,BlinkMacSystemFont,'Microsoft JhengHei
     <div class="award-item"><div class="emoji">🥉</div><div class="atitle">季軍</div><div class="awinner" id="award-3rd-a">TBD</div></div>
     <div class="award-item"><div class="emoji">🥉</div><div class="atitle">季軍</div><div class="awinner" id="award-3rd-b">TBD</div></div>
   </div>
+</div>
+
+<!-- Export Buttons -->
+<div class="export-bar">
+  <button class="export-btn bracket-export" onclick="exportBracket()">📸 匯出對陣表</button>
+  <button class="export-btn awards-export" onclick="exportAwards()">🏆 匯出頒獎圖</button>
+</div>
+
+<!-- Hidden podium card for export only -->
+<div class="export-podium" id="export-podium">
+  <div class="ep-title">🏆 香港高等教育科技學院2026年籃球比賽</div>
+  <div class="ep-subtitle">頒獎典禮 — 2026年4月27日</div>
+  <div class="ep-grid">
+    <div class="ep-place silver">
+      <div class="ep-photo" style="background-image:url('THEi/2nd.jpeg')"></div>
+      <div class="ep-emoji">🥈</div>
+      <div class="ep-rank">亞軍</div>
+      <div class="ep-name" id="ep-2nd">TBD</div>
+    </div>
+    <div class="ep-place gold">
+      <div class="ep-photo" style="background-image:url('THEi/1st.jpeg')"></div>
+      <div class="ep-emoji">🥇</div>
+      <div class="ep-rank">冠軍</div>
+      <div class="ep-name" id="ep-1st">TBD</div>
+    </div>
+    <div class="ep-place bronze-a">
+      <div class="ep-photo" style="background-image:url('THEi/3rdA.jpeg')"></div>
+      <div class="ep-emoji">🥉</div>
+      <div class="ep-rank">季軍</div>
+      <div class="ep-name" id="ep-3rd-a">TBD</div>
+    </div>
+    <div class="ep-place bronze-b">
+      <div class="ep-photo" style="background-image:url('THEi/3rdB.jpeg')"></div>
+      <div class="ep-emoji">🥉</div>
+      <div class="ep-rank">季軍</div>
+      <div class="ep-name" id="ep-3rd-b">TBD</div>
+    </div>
+  </div>
+  <div class="ep-footer">LaLaRef 急單王 — lalaref.com</div>
 </div>
 
 </div><!-- end .ct -->
@@ -528,6 +597,167 @@ function closeEditor(){
 }
 
 function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+// ── Export Functions ──
+function exportBracket(){
+  var btn = document.querySelector('.bracket-export');
+  btn.disabled = true; btn.textContent = '⏳ 匯出中...';
+  var target = document.querySelector('.bracket-wrap');
+  // Temporarily expand bracket-wrap so it's not clipped
+  var origOverflow = target.style.overflow;
+  var origWidth = target.style.width;
+  var origMaxWidth = target.style.maxWidth;
+  var origMarginL = target.style.marginLeft;
+  var origMarginR = target.style.marginRight;
+  var origPadL = target.style.paddingLeft;
+  var origPadR = target.style.paddingRight;
+  target.style.overflow = 'visible';
+  target.style.width = 'auto';
+  target.style.maxWidth = 'none';
+  target.style.marginLeft = '0';
+  target.style.marginRight = '0';
+  target.style.paddingLeft = '20px';
+  target.style.paddingRight = '20px';
+
+  html2canvas(target, {
+    scale: 2,
+    backgroundColor: '#f0dcc8',
+    useCORS: true,
+    scrollX: 0,
+    scrollY: -window.scrollY,
+    windowWidth: target.scrollWidth + 40
+  }).then(function(canvas){
+    target.style.overflow = origOverflow;
+    target.style.width = origWidth;
+    target.style.maxWidth = origMaxWidth;
+    target.style.marginLeft = origMarginL;
+    target.style.marginRight = origMarginR;
+    target.style.paddingLeft = origPadL;
+    target.style.paddingRight = origPadR;
+    downloadCanvas(canvas, 'THEi2026-bracket.jpg');
+    btn.disabled = false; btn.textContent = '📸 匯出對陣表';
+  }).catch(function(e){
+    target.style.overflow = origOverflow;
+    target.style.width = origWidth;
+    target.style.maxWidth = origMaxWidth;
+    target.style.marginLeft = origMarginL;
+    target.style.marginRight = origMarginR;
+    target.style.paddingLeft = origPadL;
+    target.style.paddingRight = origPadR;
+    console.error('Export failed', e);
+    alert('匯出失敗，請重試');
+    btn.disabled = false; btn.textContent = '📸 匯出對陣表';
+  });
+}
+
+function exportAwards(){
+  var btn = document.querySelector('.awards-export');
+  btn.disabled = true; btn.textContent = '⏳ 匯出中...';
+
+  // Populate the hidden podium card with current data
+  var champ = document.getElementById('award-champion');
+  var runner = document.getElementById('award-runner-up');
+  var third1 = document.getElementById('award-3rd-a');
+  var third2 = document.getElementById('award-3rd-b');
+
+  document.getElementById('ep-1st').textContent = champ ? champ.textContent : 'TBD';
+  document.getElementById('ep-2nd').textContent = runner ? runner.textContent : 'TBD';
+  document.getElementById('ep-3rd-a').textContent = third1 ? third1.textContent : 'TBD';
+  document.getElementById('ep-3rd-b').textContent = third2 ? third2.textContent : 'TBD';
+
+  // Move podium into view temporarily for capture
+  var podium = document.getElementById('export-podium');
+  podium.style.left = '0';
+  podium.style.position = 'absolute';
+  podium.style.zIndex = '-1';
+
+  // Preload background images before capturing
+  var imgSrcs = ['THEi/1st.jpeg','THEi/2nd.jpeg','THEi/3rdA.jpeg','THEi/3rdB.jpeg'];
+  var loaded = 0;
+  function doCapture(){
+    html2canvas(podium, {
+      scale: 2,
+      backgroundColor: null,
+      useCORS: true,
+      allowTaint: true,
+      width: 900
+    }).then(function(canvas){
+      podium.style.left = '-9999px';
+      podium.style.position = 'fixed';
+      podium.style.zIndex = '';
+      downloadCanvas(canvas, 'THEi2026-awards.jpg');
+      btn.disabled = false; btn.textContent = '🏆 匯出頒獎圖';
+    }).catch(function(e){
+      podium.style.left = '-9999px';
+      podium.style.position = 'fixed';
+      podium.style.zIndex = '';
+      console.error('Export failed', e);
+      alert('匯出失敗，請重試');
+      btn.disabled = false; btn.textContent = '🏆 匯出頒獎圖';
+    });
+  }
+  imgSrcs.forEach(function(src){
+    var img = new Image();
+    img.onload = img.onerror = function(){ loaded++; if(loaded >= imgSrcs.length) doCapture(); };
+    img.src = src;
+  });
+}
+
+function downloadCanvas(canvas, filename){
+  // Draw LaLaRef promotional watermark
+  var ctx = canvas.getContext('2d');
+  var w = canvas.width, h = canvas.height;
+
+  // ── Diagonal repeating watermark text across the image ──
+  ctx.save();
+  ctx.globalAlpha = 0.06;
+  ctx.font = 'bold ' + Math.round(w * 0.035) + 'px "Segoe UI", sans-serif';
+  ctx.fillStyle = '#5a4a3a';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.translate(w / 2, h / 2);
+  ctx.rotate(-25 * Math.PI / 180);
+  var step = Math.round(w * 0.18);
+  for (var y = -h; y < h * 2; y += step) {
+    for (var x = -w; x < w * 2; x += step * 1.8) {
+      ctx.fillText('LaLaRef 急單王', x, y);
+    }
+  }
+  ctx.restore();
+
+  // ── Bottom promotional banner ──
+  var bannerH = Math.round(h * 0.07);
+  if (bannerH < 50) bannerH = 50;
+  var bannerY = h - bannerH;
+
+  // Semi-transparent banner background
+  ctx.save();
+  ctx.fillStyle = 'rgba(212, 165, 116, 0.92)';
+  ctx.fillRect(0, bannerY, w, bannerH);
+
+  // Banner text
+  var fontSize = Math.round(bannerH * 0.32);
+  if (fontSize < 14) fontSize = 14;
+  ctx.font = '900 ' + fontSize + 'px "Segoe UI", "Microsoft JhengHei", sans-serif';
+  ctx.fillStyle = '#fff';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText('🏀 LaLaRef 急單王 — 香港專業籃球裁判服務', w / 2, bannerY + bannerH * 0.38);
+
+  var subSize = Math.round(fontSize * 0.7);
+  if (subSize < 11) subSize = 11;
+  ctx.font = '700 ' + subSize + 'px "Segoe UI", "Microsoft JhengHei", sans-serif';
+  ctx.fillStyle = 'rgba(255,255,255,0.85)';
+  ctx.fillText('WhatsApp: 8482 8484  |  lalaref.com  |  即日緊急接單 24/7', w / 2, bannerY + bannerH * 0.72);
+  ctx.restore();
+
+  // Download
+  var link = document.createElement('a');
+  link.download = filename;
+  link.href = canvas.toDataURL('image/jpeg', 0.95);
+  link.click();
+}
 </script>
+<script src="js/ga4-custom-events.js" defer></script>
 </body>
 </html>
