@@ -14,7 +14,11 @@
  * to prevent auto-conversion to dates.
  */
 
-var ADMIN_PASSWORD = 'hyd2026';
+// Per-competition passwords — add new competitions here
+var PASSWORDS = {
+  'hyd2026': true,
+  'thei2026': true
+};
 
 function doGet(e) {
   var p = (e && e.parameter) ? e.parameter : {};
@@ -32,10 +36,11 @@ function doPost(e) {
 function handleAction(p) {
   try {
     var action = p.action || '';
-    if (action === 'getAll') return ok(readAll());
+    var sheet = p.sheet || 'Scores'; // default sheet for backward compatibility
+    if (action === 'getAll') return ok(readAll(sheet));
     if (action === 'update') {
-      if (p.pw !== ADMIN_PASSWORD) return ok({success:false, message:'密碼錯誤'});
-      return ok(writeScore(p));
+      if (!PASSWORDS[p.pw]) return ok({success:false, message:'密碼錯誤'});
+      return ok(writeScore(p, sheet));
     }
     return ok({success:false, message:'Unknown action: ' + action});
   } catch(err) {
@@ -48,9 +53,15 @@ function ok(obj) {
 }
 
 /* ── READ ── */
-function readAll() {
-  var s = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Scores');
-  if (!s) return {success:true, scores:{}};
+function readAll(sheetName) {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var s = ss.getSheetByName(sheetName);
+  if (!s) {
+    // Auto-create the sheet with headers if it doesn't exist
+    s = ss.insertSheet(sheetName);
+    s.appendRow(['key', 'teamA', 'teamB', 'scoreA', 'scoreB', 'status']);
+    return {success:true, scores:{}};
+  }
   var rows = s.getDataRange().getDisplayValues(); // getDisplayValues returns strings, avoids Date conversion
   var out = {};
   for (var i = 1; i < rows.length; i++) {
@@ -68,12 +79,17 @@ function readAll() {
 }
 
 /* ── WRITE ── */
-function writeScore(p) {
+function writeScore(p, sheetName) {
   var key = p.key;
   if (!key) return {success:false, message:'Missing key'};
 
-  var s = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Scores');
-  if (!s) return {success:false, message:'Scores sheet not found'};
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var s = ss.getSheetByName(sheetName);
+  if (!s) {
+    // Auto-create the sheet with headers if it doesn't exist
+    s = ss.insertSheet(sheetName);
+    s.appendRow(['key', 'teamA', 'teamB', 'scoreA', 'scoreB', 'status']);
+  }
 
   var tA = p.teamA || '';
   var tB = p.teamB || '';
