@@ -365,6 +365,7 @@
             <button class="tab-btn" onclick="switchTab('list')">📋 預訂列表</button>
             <button class="tab-btn" onclick="switchTab('quotation')">💰 報價單</button>
             <button class="tab-btn" onclick="switchTab('invoice')">🧾 Invoice</button>
+            <button class="tab-btn" onclick="switchTab('receipt')">🧾 收據</button>
             <button class="tab-btn" onclick="switchTab('message')">📤 訊息</button>
             <button class="tab-btn" onclick="switchTab('config')">⚙️ 設定</button>
         </div>
@@ -675,6 +676,107 @@
                 <div id="invoice-preview" style="display:none; margin-top: 20px; padding: 20px; background: #f5e6d3; border-radius: 15px;">
                     <h4 style="color: #5a4a3a; margin-bottom: 10px;">已載入報價單資料：</h4>
                     <div id="invoice-preview-content"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Receipt Tab -->
+        <div id="receipt-tab" class="tab-content">
+            <div class="form-box">
+                <h3 style="margin-bottom: 20px; color: #5a4a3a;">🧾 建立收據</h3>
+                <div class="message" id="receipt-message"></div>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="receipt-quote-number">報價單編號 *</label>
+                        <input type="text" id="receipt-quote-number" placeholder="例如: Q20260226001">
+                    </div>
+                    <div class="form-group" style="display: flex; align-items: flex-end;">
+                        <button type="button" class="btn btn-secondary" onclick="loadQuotationForReceipt()" style="width: 100%;">📥 載入報價單資料</button>
+                    </div>
+                </div>
+
+                <div id="receipt-preview" style="display:none; margin-bottom: 20px; padding: 15px; background: #f5e6d3; border-radius: 15px;">
+                    <h4 style="color: #5a4a3a; margin-bottom: 10px;">已載入報價單資料：</h4>
+                    <div id="receipt-preview-content"></div>
+                </div>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="receipt-number">收據編號 *</label>
+                        <input type="text" id="receipt-number" placeholder="例如: REC20260226001">
+                    </div>
+                    <div class="form-group">
+                        <label for="receipt-date">收據日期 *</label>
+                        <input type="date" id="receipt-date">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="receipt-customer-name">客戶姓名/公司名稱 *</label>
+                    <input type="text" id="receipt-customer-name" placeholder="客戶名稱">
+                </div>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="receipt-customer-phone">聯絡電話</label>
+                        <input type="tel" id="receipt-customer-phone" placeholder="+852 XXXX XXXX">
+                    </div>
+                    <div class="form-group">
+                        <label for="receipt-customer-email">電郵地址</label>
+                        <input type="email" id="receipt-customer-email" placeholder="example@email.com">
+                    </div>
+                </div>
+
+                <h4 style="margin: 20px 0 15px; color: #5a4a3a;">服務項目</h4>
+                <div id="receipt-service-items">
+                    <div class="receipt-service-item" style="background: #f5e6d3; padding: 20px; border-radius: 15px; margin-bottom: 15px;">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>服務名稱 *</label>
+                                <input type="text" class="receipt-service-name" placeholder="例如: 5x5 全場球證/裁判服務" required>
+                            </div>
+                            <div class="form-group">
+                                <label>數量</label>
+                                <input type="number" class="receipt-service-quantity" min="1" value="1">
+                            </div>
+                            <div class="form-group">
+                                <label>單價 (HKD)</label>
+                                <input type="number" class="receipt-service-price" min="0" step="0.01" placeholder="0.00" oninput="updateReceiptCalculations()">
+                            </div>
+                            <div class="form-group">
+                                <label>小計 (HKD)</label>
+                                <input type="number" class="receipt-service-subtotal" readonly>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-secondary" onclick="addReceiptServiceItem()" style="margin-bottom: 20px;">➕ 新增服務項目</button>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="receipt-amount-received">實收金額 (HKD) *</label>
+                        <input type="number" id="receipt-amount-received" min="0" step="0.01" placeholder="0.00" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="receipt-payment-method">付款方式 *</label>
+                        <select id="receipt-payment-method">
+                            <option value="PayMe">PayMe</option>
+                            <option value="轉數快 (FPS)">轉數快 (FPS)</option>
+                            <option value="銀行轉帳">銀行轉帳</option>
+                            <option value="現金">現金</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="receipt-notes">備註</label>
+                    <textarea id="receipt-notes" placeholder="其他備註事項"></textarea>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="resetReceiptForm()">🔄 重設</button>
+                    <button type="button" class="btn" onclick="generateReceiptPDF()">🧾 匯出收據 PDF</button>
                 </div>
             </div>
         </div>
@@ -1057,11 +1159,15 @@ function doPost(e) {
                 document.querySelector('.tab-btn:nth-child(4)').classList.add('active');
                 document.getElementById('invoice-tab').classList.add('active');
                 document.getElementById('invoice-date').valueAsDate = new Date();
-            } else if (tab === 'message') {
+            } else if (tab === 'receipt') {
                 document.querySelector('.tab-btn:nth-child(5)').classList.add('active');
+                document.getElementById('receipt-tab').classList.add('active');
+                initReceiptForm();
+            } else if (tab === 'message') {
+                document.querySelector('.tab-btn:nth-child(6)').classList.add('active');
                 document.getElementById('message-tab').classList.add('active');
             } else if (tab === 'config') {
-                document.querySelector('.tab-btn:nth-child(6)').classList.add('active');
+                document.querySelector('.tab-btn:nth-child(7)').classList.add('active');
                 document.getElementById('config-tab').classList.add('active');
             }
         }
@@ -2432,6 +2538,338 @@ LaLaRef 急單王
                         });
                     }
                 });
+        }
+
+        // ===== Receipt Functions =====
+        function initReceiptForm() {
+            if (!document.getElementById('receipt-date').value) {
+                document.getElementById('receipt-date').valueAsDate = new Date();
+            }
+            if (!document.getElementById('receipt-number').value) {
+                const today = new Date();
+                const dateStr = today.getFullYear() +
+                    String(today.getMonth() + 1).padStart(2, '0') +
+                    String(today.getDate()).padStart(2, '0');
+                const randomNum = String(Math.floor(Math.random() * 1000)).padStart(3, '0');
+                document.getElementById('receipt-number').value = 'REC' + dateStr + randomNum;
+            }
+            updateReceiptCalculations();
+        }
+
+        function addReceiptServiceItem() {
+            const container = document.getElementById('receipt-service-items');
+            const newItem = document.createElement('div');
+            newItem.className = 'receipt-service-item';
+            newItem.style.cssText = 'background: #f5e6d3; padding: 20px; border-radius: 15px; margin-bottom: 15px; position: relative;';
+            newItem.innerHTML = `
+                <button type="button" onclick="this.parentElement.remove(); updateReceiptCalculations();" style="position:absolute;top:10px;right:10px;background:#ff4444;color:white;border:none;border-radius:50%;width:30px;height:30px;cursor:pointer;font-weight:bold;">×</button>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>服務名稱 *</label>
+                        <input type="text" class="receipt-service-name" placeholder="例如: 5x5 全場球證/裁判服務" required>
+                    </div>
+                    <div class="form-group">
+                        <label>數量</label>
+                        <input type="number" class="receipt-service-quantity" min="1" value="1">
+                    </div>
+                    <div class="form-group">
+                        <label>單價 (HKD)</label>
+                        <input type="number" class="receipt-service-price" min="0" step="0.01" placeholder="0.00" oninput="updateReceiptCalculations()">
+                    </div>
+                    <div class="form-group">
+                        <label>小計 (HKD)</label>
+                        <input type="number" class="receipt-service-subtotal" readonly>
+                    </div>
+                </div>
+            `;
+            container.appendChild(newItem);
+            updateReceiptCalculations();
+        }
+
+        function updateReceiptCalculations() {
+            let total = 0;
+            document.querySelectorAll('.receipt-service-item').forEach(item => {
+                const qty = parseFloat(item.querySelector('.receipt-service-quantity').value) || 0;
+                const price = parseFloat(item.querySelector('.receipt-service-price').value) || 0;
+                const subtotal = qty * price;
+                item.querySelector('.receipt-service-subtotal').value = subtotal.toFixed(2);
+                total += subtotal;
+            });
+            document.getElementById('receipt-amount-received').value = total.toFixed(2);
+        }
+
+        function loadQuotationForReceipt() {
+            const quoteNum = document.getElementById('receipt-quote-number').value.trim();
+            if (!quoteNum) {
+                showMessage('receipt-message', '請輸入報價單編號', 'error');
+                return;
+            }
+            const saved = JSON.parse(localStorage.getItem('savedQuotations') || '{}');
+            const data = saved[quoteNum];
+            if (!data) {
+                showMessage('receipt-message', '找不到此報價單編號，請先在報價單分頁生成 PDF', 'error');
+                document.getElementById('receipt-preview').style.display = 'none';
+                return;
+            }
+
+            // Populate form with quotation data
+            document.getElementById('receipt-customer-name').value = data.customerName || '';
+            document.getElementById('receipt-customer-phone').value = data.customerPhone || '';
+            document.getElementById('receipt-customer-email').value = data.customerEmail || '';
+
+            // Auto-fill receipt number from quote number
+            document.getElementById('receipt-number').value = 'REC' + quoteNum.replace('Q', '');
+
+            // Rebuild service items
+            const container = document.getElementById('receipt-service-items');
+            container.innerHTML = '';
+            data.services.forEach(svc => {
+                const item = document.createElement('div');
+                item.className = 'receipt-service-item';
+                item.style.cssText = 'background: #f5e6d3; padding: 20px; border-radius: 15px; margin-bottom: 15px; position: relative;';
+                const unitPrice = (parseFloat(svc.quantity) > 0 && parseFloat(svc.hours) > 0)
+                    ? (parseFloat(svc.subtotal) / (parseFloat(svc.quantity) * parseFloat(svc.hours))).toFixed(2)
+                    : svc.price;
+                const qty = parseFloat(svc.quantity) * (parseFloat(svc.hours) || 1);
+                item.innerHTML = `
+                    <button type="button" onclick="this.parentElement.remove(); updateReceiptCalculations();" style="position:absolute;top:10px;right:10px;background:#ff4444;color:white;border:none;border-radius:50%;width:30px;height:30px;cursor:pointer;font-weight:bold;">×</button>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>服務名稱 *</label>
+                            <input type="text" class="receipt-service-name" value="${svc.name}" required>
+                        </div>
+                        <div class="form-group">
+                            <label>數量</label>
+                            <input type="number" class="receipt-service-quantity" min="1" value="${qty}">
+                        </div>
+                        <div class="form-group">
+                            <label>單價 (HKD)</label>
+                            <input type="number" class="receipt-service-price" min="0" step="0.01" value="${unitPrice}" oninput="updateReceiptCalculations()">
+                        </div>
+                        <div class="form-group">
+                            <label>小計 (HKD)</label>
+                            <input type="number" class="receipt-service-subtotal" value="${parseFloat(svc.subtotal).toFixed(2)}" readonly>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(item);
+            });
+
+            updateReceiptCalculations();
+
+            document.getElementById('receipt-preview').style.display = 'block';
+            document.getElementById('receipt-preview-content').innerHTML = `
+                <div><strong>客戶：</strong>${data.customerName}</div>
+                <div><strong>電話：</strong>${data.customerPhone}</div>
+                <div><strong>服務：</strong>${data.services.map(s => s.name).join(', ')}</div>
+                <div><strong>總金額：</strong>HKD ${parseFloat(data.totalAmount).toFixed(2)}</div>
+            `;
+            showMessage('receipt-message', '報價單資料已載入', 'success');
+        }
+
+        function resetReceiptForm() {
+            document.getElementById('receipt-quote-number').value = '';
+            document.getElementById('receipt-number').value = '';
+            document.getElementById('receipt-date').valueAsDate = new Date();
+            document.getElementById('receipt-customer-name').value = '';
+            document.getElementById('receipt-customer-phone').value = '';
+            document.getElementById('receipt-customer-email').value = '';
+            document.getElementById('receipt-notes').value = '';
+            document.getElementById('receipt-preview').style.display = 'none';
+
+            const container = document.getElementById('receipt-service-items');
+            container.innerHTML = `
+                <div class="receipt-service-item" style="background: #f5e6d3; padding: 20px; border-radius: 15px; margin-bottom: 15px;">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>服務名稱 *</label>
+                            <input type="text" class="receipt-service-name" placeholder="例如: 5x5 全場球證/裁判服務" required>
+                        </div>
+                        <div class="form-group">
+                            <label>數量</label>
+                            <input type="number" class="receipt-service-quantity" min="1" value="1">
+                        </div>
+                        <div class="form-group">
+                            <label>單價 (HKD)</label>
+                            <input type="number" class="receipt-service-price" min="0" step="0.01" placeholder="0.00" oninput="updateReceiptCalculations()">
+                        </div>
+                        <div class="form-group">
+                            <label>小計 (HKD)</label>
+                            <input type="number" class="receipt-service-subtotal" readonly>
+                        </div>
+                    </div>
+                </div>
+            `;
+            updateReceiptCalculations();
+            initReceiptForm();
+        }
+
+        async function generateReceiptPDF() {
+            const receiptNumber = document.getElementById('receipt-number').value.trim();
+            const receiptDate = document.getElementById('receipt-date').value;
+            const customerName = document.getElementById('receipt-customer-name').value.trim();
+            const customerPhone = document.getElementById('receipt-customer-phone').value.trim();
+            const customerEmail = document.getElementById('receipt-customer-email').value.trim();
+            const amountReceived = document.getElementById('receipt-amount-received').value;
+            const paymentMethod = document.getElementById('receipt-payment-method').value;
+            const receiptNotes = document.getElementById('receipt-notes').value;
+
+            if (!receiptNumber || !receiptDate || !customerName) {
+                showMessage('receipt-message', '請填寫收據編號、日期及客戶名稱', 'error');
+                return;
+            }
+            if (!amountReceived || parseFloat(amountReceived) <= 0) {
+                showMessage('receipt-message', '請填寫服務項目及金額', 'error');
+                return;
+            }
+
+            const services = [];
+            document.querySelectorAll('.receipt-service-item').forEach(item => {
+                const name = item.querySelector('.receipt-service-name').value;
+                const qty = item.querySelector('.receipt-service-quantity').value;
+                const price = item.querySelector('.receipt-service-price').value;
+                const subtotal = item.querySelector('.receipt-service-subtotal').value;
+                if (name) services.push({ name, qty, price, subtotal });
+            });
+
+            const formatMoney = (amount) =>
+                parseFloat(amount || 0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+            // Load logo
+            let logoBase64 = '';
+            try {
+                const logoImg = new Image();
+                await new Promise((resolve) => {
+                    logoImg.onload = () => {
+                        try {
+                            const c = document.createElement('canvas');
+                            c.width = logoImg.width; c.height = logoImg.height;
+                            c.getContext('2d').drawImage(logoImg, 0, 0);
+                            logoBase64 = c.toDataURL('image/jpeg');
+                        } catch(e) {}
+                        resolve();
+                    };
+                    logoImg.onerror = () => resolve();
+                    logoImg.src = 'lalaref2.jpg';
+                });
+            } catch(e) {}
+
+            const pdfContainer = document.createElement('div');
+            pdfContainer.style.cssText = 'position:absolute;left:-9999px;width:800px;background:white;padding:40px;font-family:Arial,sans-serif;';
+
+            pdfContainer.innerHTML = `
+                <div style="font-family:'Microsoft JhengHei',Arial,sans-serif;">
+                    <!-- Header -->
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:30px;border-bottom:3px solid #d4a574;padding-bottom:20px;">
+                        <div style="display:flex;align-items:center;gap:15px;">
+                            ${logoBase64 ? `<img src="${logoBase64}" style="width:80px;height:80px;object-fit:contain;">` : ''}
+                            <div>
+                                <h1 style="color:#d4a574;font-size:36px;margin:0;">LaLaRef</h1>
+                                <h2 style="color:#5a4a3a;font-size:24px;margin:5px 0 0 0;">收據 RECEIPT</h2>
+                            </div>
+                        </div>
+                        <div style="text-align:right;">
+                            <div style="font-size:14px;margin-bottom:5px;"><strong>收據編號:</strong> ${receiptNumber}</div>
+                            <div style="font-size:14px;"><strong>日期:</strong> ${receiptDate}</div>
+                            ${document.getElementById('receipt-quote-number').value ? `<div style="font-size:13px;color:#888;margin-top:4px;">報價單: ${document.getElementById('receipt-quote-number').value}</div>` : ''}
+                        </div>
+                    </div>
+
+                    <!-- Customer Info -->
+                    <div style="margin-bottom:30px;">
+                        <h3 style="color:#5a4a3a;font-size:18px;margin-bottom:10px;">客戶資料 Received From:</h3>
+                        <div style="background:#f5e6d3;padding:15px;border-radius:10px;">
+                            <div style="margin-bottom:5px;"><strong>客戶名稱:</strong> ${customerName}</div>
+                            ${customerPhone ? `<div style="margin-bottom:5px;"><strong>聯絡電話:</strong> ${customerPhone}</div>` : ''}
+                            ${customerEmail ? `<div><strong>電郵:</strong> ${customerEmail}</div>` : ''}
+                        </div>
+                    </div>
+
+                    <!-- Services Table -->
+                    <div style="margin-bottom:30px;">
+                        <h3 style="color:#5a4a3a;font-size:18px;margin-bottom:10px;">服務項目 Services:</h3>
+                        <table style="width:100%;border-collapse:collapse;">
+                            <thead>
+                                <tr style="background:#d4a574;color:white;">
+                                    <th style="padding:10px;text-align:left;border:1px solid #c89860;">服務名稱</th>
+                                    <th style="padding:10px;text-align:center;border:1px solid #c89860;width:80px;">數量</th>
+                                    <th style="padding:10px;text-align:right;border:1px solid #c89860;width:110px;">單價 (HKD)</th>
+                                    <th style="padding:10px;text-align:right;border:1px solid #c89860;width:120px;">小計 (HKD)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${services.map(s => `
+                                    <tr>
+                                        <td style="padding:10px;border:1px solid #ddd;">${s.name}</td>
+                                        <td style="padding:10px;text-align:center;border:1px solid #ddd;">${s.qty}</td>
+                                        <td style="padding:10px;text-align:right;border:1px solid #ddd;">$${formatMoney(s.price)}</td>
+                                        <td style="padding:10px;text-align:right;border:1px solid #ddd;">$${formatMoney(s.subtotal)}</td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Total & Payment -->
+                    <div style="margin-bottom:30px;display:flex;justify-content:space-between;align-items:flex-start;gap:20px;">
+                        <div style="flex:1;">
+                            <div style="font-size:14px;color:#5a4a3a;margin-bottom:8px;"><strong>付款方式 Payment Method:</strong> ${paymentMethod}</div>
+                            ${receiptNotes ? `<div style="font-size:13px;color:#5a4a3a;background:#f5e6d3;padding:10px;border-radius:8px;white-space:pre-wrap;">${receiptNotes}</div>` : ''}
+                        </div>
+                        <div style="min-width:280px;">
+                            <div style="display:flex;justify-content:space-between;padding:12px 15px;background:#d4a574;color:white;font-size:20px;font-weight:bold;border-radius:10px;">
+                                <span>實收金額 Total Received:</span>
+                                <span>HKD $${formatMoney(amountReceived)}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PAID Stamp + Footer -->
+                    <div style="margin-top:20px;display:flex;justify-content:space-between;align-items:center;padding-top:15px;border-top:1px solid #e0d0bc;">
+                        <div style="text-align:center;font-size:11px;color:#999;flex:1;">
+                            <div style="margin-bottom:5px;"><strong>LaLaRef - 專業籃球球證/裁判服務</strong></div>
+                            <div>Professional Basketball Referee Service</div>
+                            <div style="margin-top:5px;">電話 Tel: +852 8482 8484 | 網站 Web: www.lalaref.com</div>
+                        </div>
+                        <!-- PAID stamp -->
+                        <div style="width:110px;height:110px;border:4px solid #25a244;border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;transform:rotate(-8deg);opacity:0.85;flex-shrink:0;margin-left:20px;">
+                            <div style="font-size:22px;font-weight:900;color:#25a244;letter-spacing:3px;">已收款</div>
+                            <div style="width:80px;height:2px;background:#25a244;margin:4px 0;"></div>
+                            <div style="font-size:14px;font-weight:900;color:#25a244;letter-spacing:2px;">PAID</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            document.body.appendChild(pdfContainer);
+            try {
+                const canvas = await html2canvas(pdfContainer, { scale: 1.5, useCORS: true, allowTaint: false, logging: false, backgroundColor: '#ffffff' });
+                const { jsPDF } = window.jspdf;
+                const imgWidth = 210;
+                const imgHeight = (canvas.height * imgWidth) / canvas.width;
+                const pdf = new jsPDF('p', 'mm', 'a4');
+                const imgData = canvas.toDataURL('image/jpeg', 0.85);
+                const pageHeight = 297;
+                if (imgHeight <= pageHeight) {
+                    pdf.addImage(imgData, 'JPEG', 0, 0, imgWidth, imgHeight);
+                } else {
+                    let heightLeft = imgHeight, position = 0;
+                    pdf.addImage(imgData, 'JPEG', 0, 0, imgWidth, imgHeight);
+                    heightLeft -= pageHeight;
+                    while (heightLeft > 10) {
+                        position += pageHeight;
+                        pdf.addPage();
+                        pdf.addImage(imgData, 'JPEG', 0, -position, imgWidth, imgHeight);
+                        heightLeft -= pageHeight;
+                    }
+                }
+                pdf.save('LaLaRef_收據_' + receiptNumber + '.pdf');
+                showMessage('receipt-message', '收據 PDF 已成功匯出', 'success');
+            } catch (error) {
+                showMessage('receipt-message', '收據 PDF 匯出失敗: ' + error.message, 'error');
+            } finally {
+                document.body.removeChild(pdfContainer);
+            }
         }
     </script>
 </body>
