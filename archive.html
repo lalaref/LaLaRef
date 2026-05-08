@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="ALL-IN Basketball League - 賽程表及季後賽對陣">
+    <meta name="description" content="ALL-IN Basketball League - 歷史檔案及賽季回顧">
     <meta name="theme-color" content="#1a1a2e">
         <!-- Google tag (gtag.js) -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-S64W9C7CYZ"></script>
@@ -14,9 +14,10 @@
 
             gtag('config', 'G-S64W9C7CYZ');
         </script>
-    <title>賽程表 — ALL-IN Basketball League</title>
+    <title>歷史檔案 — ALL-IN Basketball League</title>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/responsive.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
 </head>
 <body>
     <!-- 導航列 -->
@@ -34,12 +35,12 @@
                 </button>
                 <ul id="nav-menu" class="nav-links" role="menubar">
                     <li role="none"><a href="/" class="nav-link" role="menuitem" data-i18n="nav.home">首頁</a></li>
-                    <li role="none"><a href="schedule.html" class="nav-link active" role="menuitem" data-i18n="nav.schedule">賽程</a></li>
+                    <li role="none"><a href="schedule.html" class="nav-link" role="menuitem" data-i18n="nav.schedule">賽程</a></li>
                     <li role="none"><a href="team.html" class="nav-link" role="menuitem" data-i18n="nav.teams">球隊</a></li>
                     <li role="none"><a href="player.html" class="nav-link" role="menuitem" data-i18n="nav.players">球員</a></li>
                     <li role="none"><a href="standings.html" class="nav-link" role="menuitem" data-i18n="nav.standings">排行榜</a></li>
                     <li role="none"><a href="rules.html" class="nav-link" role="menuitem">比賽章程</a></li>
-                    <li role="none"><a href="archive.html" class="nav-link" role="menuitem" data-i18n="nav.archive">歷史檔案</a></li>
+                    <li role="none"><a href="archive.html" class="nav-link active" role="menuitem" data-i18n="nav.archive">歷史檔案</a></li>
                 </ul>
                 <div class="nav-actions">
                     <button class="lang-switch-btn" aria-label="切換語言" data-i18n-attr="aria-label:nav.langSwitch">
@@ -53,55 +54,90 @@
     <!-- 主要內容區域 -->
     <main class="main-content">
         <!-- 頁面標題及賽季選擇 -->
-        <section class="section hero-section" aria-label="賽程表標題">
+        <section class="section hero-section" aria-label="歷史檔案標題">
             <div class="container">
-                <h1 class="hero-title" data-i18n="schedule.title">賽程表</h1>
+                <h1 class="hero-title" data-i18n="archive.title">歷史檔案</h1>
                 <div class="standings-controls">
-                    <label for="season-select" class="sr-only" data-i18n="standings.selectSeason">選擇賽季</label>
-                    <select id="season-select" class="h2h-select" aria-label="選擇賽季" data-i18n-attr="aria-label:standings.selectSeason">
+                    <label for="archive-season-select" class="sr-only" data-i18n="archive.selectSeason">選擇歷史賽季</label>
+                    <select id="archive-season-select" class="h2h-select" aria-label="選擇歷史賽季" data-i18n-attr="aria-label:archive.selectSeason">
                         <option value="" data-i18n="common.loading">載入中...</option>
                     </select>
                 </div>
             </div>
         </section>
 
-        <!-- 分頁導航 -->
-        <section class="section schedule-tabs-section">
+        <!-- 無已完結賽季提示 -->
+        <section id="archive-empty" class="section" style="display:none;">
+            <div class="container text-center">
+                <p class="text-muted" data-i18n="archive.noCompleted">尚無已完結賽季</p>
+            </div>
+        </section>
+
+        <!-- 賽季摘要列表（未選擇特定賽季時顯示） -->
+        <section id="archive-season-list" class="section" style="display:none;" aria-label="已完結賽季列表">
             <div class="container">
-                <div class="tabs" role="tablist" aria-label="賽程類別">
-                    <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="tab-schedule" id="tab-btn-schedule" data-tab="schedule" data-i18n="schedule.scheduleTab">賽程</button>
-                    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-playoffs" id="tab-btn-playoffs" data-tab="playoffs" data-i18n="schedule.playoffs">季後賽</button>
+                <div id="season-cards" class="archive-season-cards"></div>
+            </div>
+        </section>
+
+        <!-- 選定賽季的詳細檔案 -->
+        <section id="archive-detail" class="section" style="display:none;" aria-label="賽季詳細檔案">
+            <div class="container">
+                <!-- 獎項區域 -->
+                <div class="archive-awards-section">
+                    <h2 class="section-title" data-i18n="archive.awards">獎項</h2>
+                    <div id="awards-grid" class="archive-awards-grid"></div>
                 </div>
 
-                <!-- 賽程列表分頁 -->
-                <div class="tab-panel active" role="tabpanel" id="tab-schedule" aria-labelledby="tab-btn-schedule">
-                    <div id="schedule-loading" class="loading" data-i18n="common.loading">載入中...</div>
-                    <div id="schedule-empty" class="text-center text-muted" style="display:none; padding: var(--spacing-2xl);" data-i18n="common.noData">暫無數據</div>
-                    <div id="schedule-list" style="display:none;">
-                        <div class="table-wrapper">
-                            <table class="data-table" aria-label="賽程表">
-                                <thead>
-                                    <tr>
-                                        <th data-i18n="table.date">日期</th>
-                                        <th data-i18n="table.time">時間</th>
-                                        <th data-i18n="table.venue">場地</th>
-                                        <th data-i18n="schedule.matchup">對陣</th>
-                                        <th data-i18n="table.result">結果</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="schedule-tbody"></tbody>
-                            </table>
-                        </div>
+                <!-- 排名表 -->
+                <div class="archive-standings-section">
+                    <h2 class="section-title" data-i18n="archive.finalStandings">最終排名</h2>
+                    <div id="archive-standings-loading" class="loading" data-i18n="common.loading">載入中...</div>
+                    <div id="archive-standings-wrapper" class="table-wrapper" style="display:none;">
+                        <table class="data-table" aria-label="最終排名表">
+                            <thead>
+                                <tr>
+                                    <th data-i18n="table.rank">排名</th>
+                                    <th data-i18n="table.team">球隊</th>
+                                    <th data-i18n="table.wins">勝</th>
+                                    <th data-i18n="table.losses">負</th>
+                                    <th data-i18n="table.pct">勝率</th>
+                                </tr>
+                            </thead>
+                            <tbody id="archive-standings-tbody"></tbody>
+                        </table>
                     </div>
                 </div>
 
-                <!-- 季後賽對陣分頁 -->
-                <div class="tab-panel" role="tabpanel" id="tab-playoffs" aria-labelledby="tab-btn-playoffs">
-                    <div id="playoffs-loading" class="loading" data-i18n="common.loading">載入中...</div>
-                    <div id="playoffs-empty" class="text-center text-muted" style="display:none; padding: var(--spacing-2xl);" data-i18n="schedule.noPlayoffs">尚無季後賽數據</div>
-                    <div id="playoffs-bracket-wrapper" class="playoff-bracket-wrapper" style="display:none;">
-                        <div id="playoffs-bracket" class="playoff-bracket" role="img" aria-label="季後賽對陣表"></div>
+                <!-- 季後賽結果 -->
+                <div class="archive-playoffs-section">
+                    <h2 class="section-title" data-i18n="archive.playoffResults">季後賽結果</h2>
+                    <div id="archive-playoffs-empty" class="text-center text-muted" style="display:none;" data-i18n="schedule.noPlayoffs">尚無季後賽數據</div>
+                    <div id="archive-playoffs-bracket" class="playoff-bracket-wrapper" style="display:none;">
+                        <div id="archive-bracket" class="playoff-bracket" role="img" aria-label="季後賽對陣表"></div>
                     </div>
+                </div>
+
+                <!-- 賽季回顧 -->
+                <div id="archive-summary-section" class="archive-summary-section" style="display:none;">
+                    <h2 class="section-title" data-i18n="archive.seasonSummary">賽季回顧</h2>
+                    <div id="archive-summary-text" class="archive-summary-text"></div>
+                </div>
+
+                <!-- 精選照片 -->
+                <div id="archive-photos-section" class="archive-photos-section" style="display:none;">
+                    <h2 class="section-title" data-i18n="archive.photos">精選照片</h2>
+                    <div id="archive-photos-grid" class="archive-photos-grid"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 跨賽季統計趨勢 -->
+        <section id="archive-trends-section" class="section" style="display:none;" aria-label="跨賽季統計趨勢">
+            <div class="container">
+                <h2 class="section-title" data-i18n="archive.trends">跨賽季統計趨勢</h2>
+                <div class="chart-container archive-trend-chart-container">
+                    <canvas id="season-trend-chart"></canvas>
                 </div>
             </div>
         </section>
@@ -135,7 +171,8 @@
     <script src="js/api.js?v=20260409"></script>
     <script src="js/i18n.js?v=20260409"></script>
     <script src="js/navigation.js?v=20260409"></script>
-    <script src="js/schedule.js?v=20260506b"></script>
+    <script src="js/charts.js"></script>
+    <script src="js/archive.js"></script>
     <script>
         I18n.init();
     </script>

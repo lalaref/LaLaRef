@@ -1,0 +1,861 @@
+/* ============================================
+   ALL-IN Basketball League — 管理後台樣式
+   ============================================ */
+
+/* --- 表單元素 --- */
+.admin-label {
+    display: block;
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--spacing-xs);
+}
+
+.admin-select,
+.admin-input {
+    width: 100%;
+    padding: var(--spacing-sm) var(--spacing-md);
+    background-color: var(--color-surface);
+    color: var(--color-text);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    font-family: var(--font-primary);
+    font-size: var(--font-size-base);
+    min-height: var(--touch-target-min);
+    appearance: none;
+}
+
+.admin-select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23a0a0b8' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 36px;
+    cursor: pointer;
+}
+
+.admin-select option {
+    background-color: var(--color-surface);
+    color: var(--color-text);
+}
+
+.admin-textarea {
+    width: 100%;
+    padding: var(--spacing-sm) var(--spacing-md);
+    background-color: var(--color-surface);
+    color: var(--color-text);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    font-family: var(--font-primary);
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-relaxed);
+    resize: vertical;
+    min-height: 120px;
+}
+
+.admin-input:focus,
+.admin-select:focus,
+.admin-textarea:focus {
+    outline: 2px solid var(--color-secondary);
+    outline-offset: 2px;
+}
+
+.admin-form-group {
+    margin-bottom: var(--spacing-md);
+}
+
+.admin-form-row {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+/* --- 訊息提示 --- */
+.admin-message {
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-sm);
+    margin-bottom: var(--spacing-md);
+}
+
+.admin-message--info {
+    background-color: rgba(52, 152, 219, 0.15);
+    border: 1px solid var(--color-info);
+    color: var(--color-info);
+}
+
+.admin-message--success {
+    background-color: rgba(46, 204, 113, 0.15);
+    border: 1px solid var(--color-success);
+    color: var(--color-success);
+}
+
+.admin-message--error {
+    background-color: rgba(231, 76, 60, 0.15);
+    border: 1px solid var(--color-error);
+    color: var(--color-error);
+}
+
+/* --- 工具列 --- */
+.admin-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-lg);
+}
+
+/* --- 操作按鈕區 --- */
+.admin-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-lg);
+}
+
+/* --- 卡片 --- */
+.admin-card {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
+}
+
+.admin-card-title {
+    font-size: var(--font-size-lg);
+    margin-bottom: var(--spacing-md);
+}
+
+/* --- Box Score 表格 --- */
+.admin-boxscore-table {
+    margin-bottom: var(--spacing-md);
+}
+
+.admin-team-header-row {
+    background-color: var(--color-primary-light);
+}
+
+.admin-team-header {
+    font-weight: var(--font-weight-bold);
+    color: var(--color-accent);
+    padding: var(--spacing-sm) var(--spacing-md) !important;
+    font-size: var(--font-size-sm);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.admin-player-name {
+    font-weight: var(--font-weight-medium);
+    white-space: nowrap;
+    min-width: 120px;
+    position: sticky;
+    left: 0;
+    background-color: var(--color-surface);
+    z-index: 1;
+}
+
+.admin-input-cell {
+    position: relative;
+    padding: var(--spacing-xs) !important;
+}
+
+.admin-stat-input {
+    width: 56px;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-mono);
+    font-size: var(--font-size-sm);
+    text-align: center;
+    min-height: 36px;
+}
+
+.admin-stat-input:focus {
+    outline: 2px solid var(--color-secondary);
+    outline-offset: 1px;
+    border-color: var(--color-secondary);
+}
+
+.admin-stat-input.admin-input-error {
+    border-color: var(--color-error);
+    background-color: rgba(231, 76, 60, 0.1);
+}
+
+.admin-field-error {
+    display: block;
+    font-size: var(--font-size-xs);
+    color: var(--color-error);
+    margin-top: 2px;
+    line-height: 1.2;
+    max-width: 120px;
+    word-wrap: break-word;
+}
+
+/* --- Box Score 手機卡片 --- */
+.admin-boxscore-mobile {
+    display: none;
+}
+
+.admin-player-card {
+    display: none;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+}
+
+.admin-player-card.active {
+    display: block;
+}
+
+.admin-player-card-header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+    margin-bottom: var(--spacing-md);
+    padding-bottom: var(--spacing-sm);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.admin-player-card-team {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.admin-player-card-name {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-inverse);
+}
+
+.admin-stat-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-sm);
+}
+
+.admin-stat-item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+}
+
+.admin-stat-label {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+    font-weight: var(--font-weight-semibold);
+    text-transform: uppercase;
+}
+
+.admin-stat-item .admin-stat-input {
+    width: 100%;
+}
+
+/* --- 滑動提示 --- */
+.admin-swipe-hint {
+    display: none;
+    text-align: center;
+    padding: var(--spacing-sm);
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+}
+
+.admin-player-indicator {
+    display: block;
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-accent);
+    margin-top: var(--spacing-xs);
+}
+
+/* --- 投籃位置記錄 --- */
+.admin-shot-toggle {
+    display: flex;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-md);
+}
+
+.admin-shot-btn {
+    flex: 1;
+    max-width: 160px;
+}
+
+.admin-tap-hint {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+    margin-bottom: var(--spacing-sm);
+    text-align: center;
+}
+
+.admin-court-container {
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto var(--spacing-lg);
+    cursor: crosshair;
+    touch-action: none;
+}
+
+.admin-court-svg {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: var(--radius-md);
+}
+
+.admin-shot-markers {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.admin-shot-marker {
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    border: 2px solid;
+    pointer-events: none;
+}
+
+.admin-shot-marker--made {
+    background-color: rgba(46, 204, 113, 0.7);
+    border-color: var(--color-success);
+}
+
+.admin-shot-marker--missed {
+    background-color: rgba(231, 76, 60, 0.5);
+    border-color: var(--color-error);
+}
+
+/* --- 投籃統計摘要 --- */
+.admin-shot-stats {
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-md);
+    flex-wrap: wrap;
+}
+
+.admin-shot-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-xs);
+}
+
+.admin-shot-stat-label {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+}
+
+.admin-shot-stat-value {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-bold);
+}
+
+/* ===========================
+   手機響應式 (< 768px)
+   =========================== */
+@media (max-width: 767px) {
+    .admin-boxscore-table {
+        display: none !important;
+    }
+
+    .admin-boxscore-mobile {
+        display: block !important;
+    }
+
+    .admin-swipe-hint {
+        display: block !important;
+    }
+
+    .admin-stat-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .admin-shot-marker {
+        width: 12px;
+        height: 12px;
+    }
+}
+
+/* ===========================
+   平板+ (≥ 768px)
+   =========================== */
+@media (min-width: 768px) {
+    .admin-form-row {
+        flex-direction: row;
+    }
+
+    .admin-form-row .admin-form-group {
+        flex: 1;
+    }
+
+    .admin-boxscore-mobile {
+        display: none !important;
+    }
+
+    .admin-swipe-hint {
+        display: none !important;
+    }
+
+    .admin-stat-input {
+        width: 64px;
+    }
+}
+
+
+/* --- 管理後台首頁 Dashboard Grid --- */
+.admin-dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-2xl);
+}
+
+.admin-dashboard-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-sm);
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-xl) var(--spacing-md);
+    text-decoration: none;
+    color: var(--color-text);
+    min-height: 120px;
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast);
+}
+
+.admin-dashboard-card:hover,
+.admin-dashboard-card:focus-visible {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--color-secondary);
+    color: var(--color-text-inverse);
+}
+
+.admin-dashboard-icon {
+    font-size: 2rem;
+}
+
+.admin-dashboard-label {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    text-align: center;
+}
+
+@media (min-width: 768px) {
+    .admin-dashboard-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .admin-dashboard-grid {
+        grid-template-columns: repeat(3, 1fr);
+        max-width: 800px;
+    }
+}
+
+/* --- 出席球員選擇 --- */
+.admin-attendance-group {
+    margin-bottom: var(--spacing-md);
+}
+
+.admin-attendance-group h4 {
+    color: var(--color-accent);
+    font-size: var(--font-size-base);
+    margin-bottom: var(--spacing-xs);
+    padding-bottom: var(--spacing-xs);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.admin-attendance-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    cursor: pointer;
+    border-radius: var(--radius-sm);
+    transition: background-color var(--transition-fast);
+}
+
+.admin-attendance-item:hover {
+    background-color: var(--color-surface);
+}
+
+.admin-attendance-item input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--color-accent);
+}
+
+.admin-subtitle {
+    color: var(--color-text);
+    font-size: var(--font-size-lg);
+    margin-bottom: var(--spacing-sm);
+}
+
+.admin-mvp-card {
+    background: linear-gradient(145deg, rgba(245, 166, 35, 0.12), rgba(233, 69, 96, 0.08));
+    border: 1px solid rgba(245, 166, 35, 0.35);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-md);
+}
+
+.admin-mvp-note {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--spacing-sm);
+}
+
+.admin-mvp-profile {
+    margin-top: var(--spacing-sm);
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--radius-md);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--color-border);
+}
+
+.admin-mvp-profile a {
+    color: var(--color-accent-light);
+    font-weight: var(--font-weight-semibold);
+    text-decoration: none;
+}
+
+.admin-mvp-profile a:hover {
+    color: var(--color-text-inverse);
+    text-decoration: underline;
+}
+
+/* --- 節分輸入 (Q1-Q4) --- */
+.admin-quarter-grid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+.admin-quarter-row {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.admin-quarter-team {
+    min-width: 100px;
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-sm);
+}
+
+.admin-quarter-row .admin-stat-input {
+    width: 60px;
+    text-align: center;
+}
+
+.admin-quarter-header-row {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+}
+
+.admin-quarter-col-label {
+    width: 60px;
+    text-align: center;
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-xs);
+    color: var(--color-text-secondary);
+}
+
+.admin-quarter-total-label {
+    color: var(--color-accent);
+}
+
+.admin-stat-input--total {
+    background: rgba(255, 255, 255, 0.04);
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+    font-weight: var(--font-weight-bold);
+    cursor: default;
+}
+
+/* --- 操作欄 --- */
+.admin-op-col {
+    width: 50px;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.admin-btn-remove {
+    background: transparent;
+    border: 1px solid var(--color-error);
+    color: var(--color-error);
+    border-radius: var(--radius-sm);
+    width: 28px;
+    height: 28px;
+    line-height: 1;
+    font-size: 14px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    transition: background 0.15s;
+}
+.admin-btn-remove:hover {
+    background: rgba(231, 76, 60, 0.15);
+}
+
+/* --- 球員名單管理 --- */
+.admin-player-mgmt-row {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    flex-wrap: wrap;
+    margin-bottom: var(--spacing-sm);
+}
+
+.admin-select--inline {
+    width: auto;
+    flex: 1;
+    min-width: 180px;
+    max-width: 360px;
+}
+
+.admin-guest-player-form {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-sm) var(--spacing-md);
+}
+
+.admin-guest-summary {
+    cursor: pointer;
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    list-style: none;
+    user-select: none;
+}
+.admin-guest-summary::-webkit-details-marker { display: none; }
+
+.admin-player-add-guest {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    flex-wrap: wrap;
+    margin-top: var(--spacing-sm);
+}
+
+.admin-input--sm {
+    width: auto;
+    flex: 1;
+    min-width: 80px;
+    max-width: 160px;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    font-size: var(--font-size-sm);
+    min-height: 40px;
+}
+
+
+/* --- 球衣顏色選擇器 --- */
+.admin-color-picker {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+}
+
+.admin-color-input {
+    width: 40px;
+    height: 40px;
+    padding: 2px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    background: transparent;
+    flex-shrink: 0;
+}
+
+.admin-color-picker .admin-input {
+    flex: 1;
+}
+
+/* --- Round-Robin Generator --- */
+.rr-matchups-grid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+}
+
+.rr-round-header {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-accent);
+    padding: var(--spacing-sm) 0 var(--spacing-xs);
+    border-bottom: 2px solid var(--color-accent);
+    margin-top: var(--spacing-md);
+}
+
+.rr-round-header:first-child {
+    margin-top: 0;
+}
+
+.rr-match-row {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    padding: var(--spacing-sm) 0;
+    border-bottom: 1px solid var(--color-border);
+    flex-wrap: wrap;
+}
+
+.rr-match-teams {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    min-width: 280px;
+    flex-shrink: 0;
+}
+
+.rr-team-select {
+    width: 120px;
+    min-width: 100px;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    font-size: var(--font-size-sm);
+    min-height: 36px;
+}
+
+.rr-vs {
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+    flex-shrink: 0;
+}
+
+.rr-match-details {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    flex: 1;
+    flex-wrap: wrap;
+}
+
+.rr-match-details .admin-input {
+    width: auto;
+    min-width: 100px;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    font-size: var(--font-size-sm);
+    min-height: 36px;
+}
+
+.rr-match-details .rr-date { max-width: 150px; }
+.rr-match-details .rr-time { max-width: 110px; }
+.rr-match-details .rr-venue { max-width: 180px; flex: 1; }
+
+.rr-published .admin-input {
+    opacity: 0.5;
+}
+
+.badge--success {
+    display: inline-block;
+    background: var(--color-success, #2ecc71);
+    color: #fff;
+    font-size: 0.7rem;
+    padding: 2px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+}
+
+.btn-accent {
+    background-color: var(--color-accent, #f39c12);
+    color: var(--color-primary, #1a1a2e);
+    border: 1px solid var(--color-accent, #f39c12);
+    font-weight: var(--font-weight-bold);
+}
+
+.btn-accent:hover,
+.btn-accent:focus-visible {
+    filter: brightness(1.1);
+}
+
+.admin-hint {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+    margin-bottom: var(--spacing-md);
+    line-height: var(--line-height-relaxed);
+}
+
+@media (max-width: 767px) {
+    .rr-match-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .rr-match-teams {
+        min-width: auto;
+    }
+    .rr-team-select {
+        flex: 1;
+        width: auto;
+    }
+    .rr-match-details .admin-input {
+        min-width: 0;
+        flex: 1;
+    }
+    .rr-match-details .rr-date,
+    .rr-match-details .rr-time,
+    .rr-match-details .rr-venue {
+        max-width: none;
+    }
+}
+
+/* --- 球衣顏色內聯編輯器 --- */
+.jersey-swatch {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+    vertical-align: middle;
+    margin-left: 4px;
+    border: 1px solid rgba(255,255,255,0.25);
+    flex-shrink: 0;
+}
+
+.jersey-input {
+    display: inline-block;
+    width: 70px;
+    padding: 2px 6px;
+    font-size: 0.7rem;
+    background: var(--color-surface-light, #222244);
+    color: var(--color-text, #e8e8f0);
+    border: 1px solid var(--color-border, #2a2a4a);
+    border-radius: 4px;
+    vertical-align: middle;
+    margin-left: 2px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.jersey-input:focus {
+    border-color: var(--color-secondary, #e94560);
+}
+
+.jersey-input::placeholder {
+    color: var(--color-text-muted, #6a6a8a);
+    font-size: 0.65rem;
+}
+
+.matchup-team {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    white-space: nowrap;
+}
