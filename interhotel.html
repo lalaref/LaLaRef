@@ -109,6 +109,39 @@ table.standings tr:hover td{background:rgba(255,255,255,.3)}
 .export-btn.stand-export{background:linear-gradient(145deg,#198754,#157347);color:#fff}
 .export-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
 
+/* Hyatt Logo */
+.hyatt-logo-wrap{display:flex;justify-content:center;align-items:center;margin-bottom:16px}
+.hyatt-logo-txt{font-size:2em;font-weight:900;letter-spacing:6px;color:#1a3a6b;font-family:'Georgia','Times New Roman',serif;text-shadow:0 1px 4px rgba(0,0,0,.12)}
+
+/* Champions Podium */
+.podium-wrap{display:flex;align-items:flex-end;justify-content:center;gap:14px;margin-top:20px;flex-wrap:nowrap}
+.podium-item{display:flex;flex-direction:column;align-items:center}
+.podium-photo{border-radius:50%;overflow:hidden;border:4px solid #ccc;background:rgba(255,255,255,.4);display:flex;align-items:center;justify-content:center;margin-bottom:10px;font-size:.72em;color:#9a8a7a;text-align:center;flex-shrink:0;width:96px;height:96px}
+.podium-photo img{width:100%;height:100%;object-fit:cover}
+.podium-photo.p1{width:120px;height:120px;border-color:#ffc107;border-width:5px;box-shadow:0 4px 16px rgba(255,193,7,.35)}
+.podium-photo.p2{border-color:#b0b8c4}
+.podium-photo.p3{border-color:#c47d3a}
+.podium-stand{border-radius:14px 14px 0 0;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:14px 12px 22px;width:140px}
+.podium-stand.p1{background:linear-gradient(145deg,#ffd700,#e8a000);min-height:130px;width:160px;box-shadow:0 8px 24px rgba(200,140,0,.25)}
+.podium-stand.p2{background:linear-gradient(145deg,#d4dde4,#9aaab4);min-height:100px;box-shadow:0 6px 18px rgba(130,150,170,.25)}
+.podium-stand.p3{background:linear-gradient(145deg,#dfa06e,#b5703a);min-height:80px;box-shadow:0 6px 18px rgba(160,100,50,.25)}
+.podium-rank{font-size:2em;margin-bottom:4px}
+.podium-team-abbr{font-size:.78em;font-weight:900;color:rgba(0,0,0,.55);letter-spacing:1px}
+.podium-team-zh{font-size:.82em;font-weight:700;color:#2a1a0a;text-align:center;line-height:1.3;margin-top:3px}
+.podium-team-en{font-size:.68em;color:rgba(0,0,0,.5);text-align:center;margin-top:2px;line-height:1.3}
+.podium-tbd{color:rgba(0,0,0,.35);font-size:.82em;margin-top:6px}
+.champion-note{text-align:center;font-size:.8em;color:#9a8a7a;margin-top:14px}
+@media(max-width:768px){
+  .podium-wrap{gap:6px}
+  .podium-stand.p1{width:120px;min-height:110px}
+  .podium-stand{width:96px;padding:10px 6px 18px}
+  .podium-photo.p1{width:88px;height:88px}
+  .podium-photo{width:68px;height:68px}
+  .podium-team-en{display:none}
+  .podium-team-zh{font-size:.72em}
+  .podium-rank{font-size:1.6em}
+}
+
 /* Footer & WhatsApp */
 .ft{background:linear-gradient(145deg,#d4a574,#c89860);color:#fff;padding:40px 30px 25px;border-radius:40px 40px 0 0;margin:40px 20px 0}
 .ft .fc{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:25px;margin-bottom:25px}
@@ -200,6 +233,9 @@ table.standings tr:hover td{background:rgba(255,255,255,.3)}
 
 <!-- HEADER -->
 <div class="ph">
+  <div class="hyatt-logo-wrap">
+    <div class="hyatt-logo-txt">HYATT REGENCY</div>
+  </div>
   <h1>🏀 Inter-Hotel Basketball Tournament 2026</h1>
   <h1>酒店籃球聯賽 2026</h1>
   <p class="sub">2026年5月至6月 | Round-Robin League Format 循環賽制</p>
@@ -427,6 +463,15 @@ table.standings tr:hover td{background:rgba(255,255,255,.3)}
   <p style="font-size:.75em;color:#9a8a7a;margin-top:10px;text-align:center">* 積分相同時，依次按 對賽成績 → 得失球差 → 得球 排列</p>
 </div>
 
+<!-- CHAMPIONS PODIUM -->
+<div class="card" id="champions-card">
+  <h2>🏆 冠軍榜 Champions</h2>
+  <div class="podium-wrap" id="podium-wrap">
+    <div style="text-align:center;color:#9a8a7a;padding:20px;width:100%">賽事進行中，積分榜即時更新<br><small>Live standings — podium finalised after all games</small></div>
+  </div>
+  <p class="champion-note" id="champion-note">賽事完結後更新球隊合照 · Team photos will be added after the tournament</p>
+</div>
+
 <!-- RANKING RULES -->
 <div class="card">
   <h2>📋 積分制度及排名規則 Points &amp; Ranking Rules</h2>
@@ -644,6 +689,8 @@ function buildStandings(){
       '<td class="' + gdClass + '">' + gdStr + '</td>';
     tbody.appendChild(tr);
   });
+
+  buildChampions(order);
 }
 
 // Head-to-head comparison between two tied teams
@@ -665,6 +712,60 @@ function headToHead(teamA, teamB){
   });
   // lower = better (sort ascending means teamA before teamB if negative)
   return ptsB - ptsA; // positive = B better = return >0 so A sorts after B
+}
+
+// ── Champions Podium ──
+function buildChampions(order){
+  var wrap = document.getElementById('podium-wrap');
+  if(!wrap) return;
+
+  // Check how many games completed
+  var completedGames = 0;
+  MATCHES.forEach(function(m){
+    var d = savedScores[m[0]];
+    if(d && (d.status === 'completed' || d.status === 'walkover')) completedGames++;
+  });
+
+  if(order.length === 0){
+    wrap.innerHTML = '<div style="text-align:center;color:#9a8a7a;padding:20px;width:100%">賽事尚未開始<br><small>Podium will appear after games are played</small></div>';
+    return;
+  }
+
+  // Podium visual order: 2nd (left) | 1st (centre) | 3rd (right)
+  var slots = [
+    {rank:2, idx:1, cls:'p2', medal:'🥈', photo:'images/champ2-photo.jpg', alt:'2nd place team photo'},
+    {rank:1, idx:0, cls:'p1', medal:'🥇', photo:'images/champ1-photo.jpg', alt:'Champion team photo'},
+    {rank:3, idx:2, cls:'p3', medal:'🥉', photo:'images/champ3-photo.jpg', alt:'3rd place team photo'}
+  ];
+
+  wrap.innerHTML = slots.map(function(pos){
+    var team = order[pos.idx];
+    var photoBlock;
+    if(!team){
+      photoBlock = '<div class="podium-photo ' + pos.cls + '"><span>-</span></div>';
+      return '<div class="podium-item">' + photoBlock +
+        '<div class="podium-stand ' + pos.cls + '"><div class="podium-rank">' + pos.medal + '</div>' +
+        '<div class="podium-tbd">TBD</div></div></div>';
+    }
+    var t = TEAMS[team];
+    photoBlock = '<div class="podium-photo ' + pos.cls + '">' +
+      '<img src="' + pos.photo + '" alt="' + esc(pos.alt) + '" ' +
+      'onerror="this.parentNode.innerHTML=\'<span style=\\'padding:6px;line-height:1.4\\'>合照<br>Coming<br>Soon</span>\'">' +
+      '</div>';
+    return '<div class="podium-item">' + photoBlock +
+      '<div class="podium-stand ' + pos.cls + '">' +
+        '<div class="podium-rank">' + pos.medal + '</div>' +
+        '<div class="podium-team-abbr">' + esc(team) + '</div>' +
+        '<div class="podium-team-zh">' + esc(t.zh) + '</div>' +
+        '<div class="podium-team-en">' + esc(t.en) + '</div>' +
+      '</div></div>';
+  }).join('');
+
+  // Update note once all games done
+  var noteEl = document.getElementById('champion-note');
+  if(noteEl && completedGames >= MATCHES.length){
+    noteEl.innerHTML = '🏆 最終排名 · 請上載球隊合照至 <code>images/champ1-photo.jpg</code> / <code>champ2-photo.jpg</code> / <code>champ3-photo.jpg</code>';
+  }
 }
 
 // Auto-refresh every 30 seconds
