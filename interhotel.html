@@ -762,12 +762,15 @@ function buildChampions(order){
   // Update note once all games done
   var noteEl = document.getElementById('champion-note');
   if(noteEl && completedGames >= MATCHES.length){
-    noteEl.innerHTML = '🏆 最終排名 · 請上載球隊合照至 <code>images/champ1-photo.jpg</code> / <code>champ2-photo.jpg</code> / <code>champ3-photo.jpg</code>';
+    noteEl.textContent = '🏆 最終排名 · 請上載球隊合照至 images/champ1-photo.jpg / champ2-photo.jpg / champ3-photo.jpg';
   }
 }
 
 function podiumImgFallback(el){
-  el.parentNode.innerHTML = '<span style="padding:6px;line-height:1.4;font-size:.75em;color:#9a8a7a">合照<br>Coming<br>Soon</span>';
+  var span = document.createElement('span');
+  span.style.cssText = 'padding:6px;line-height:1.4;font-size:.75em;color:#9a8a7a';
+  span.innerHTML = '合照<br>Coming<br>Soon';
+  el.parentNode.replaceChild(span, el);
 }
 
 // Auto-refresh every 30 seconds
