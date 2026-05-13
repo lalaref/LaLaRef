@@ -748,8 +748,7 @@ function buildChampions(order){
     }
     var t = TEAMS[team];
     photoBlock = '<div class="podium-photo ' + pos.cls + '">' +
-      '<img src="' + pos.photo + '" alt="' + esc(pos.alt) + '" ' +
-      'onerror="this.parentNode.innerHTML=\'<span style=\\'padding:6px;line-height:1.4\\'>合照<br>Coming<br>Soon</span>\'">' +
+      '<img src="' + pos.photo + '" alt="' + esc(pos.alt) + '" onerror="podiumImgFallback(this)">' +
       '</div>';
     return '<div class="podium-item">' + photoBlock +
       '<div class="podium-stand ' + pos.cls + '">' +
@@ -767,18 +766,51 @@ function buildChampions(order){
   }
 }
 
+function podiumImgFallback(el){
+  el.parentNode.innerHTML = '<span style="padding:6px;line-height:1.4;font-size:.75em;color:#9a8a7a">合照<br>Coming<br>Soon</span>';
+}
+
 // Auto-refresh every 30 seconds
 setInterval(loadScores, 30000);
 
 // ── Admin Mode ──
 var isAdmin = new URLSearchParams(location.search).get('admin') === '1';
-if(isAdmin){
-  var pw = prompt('請輸入管理密碼：');
+if(isAdmin){ showAdminLogin(); }
+
+function showAdminLogin(){
+  var overlay = document.createElement('div');
+  overlay.className = 'admin-overlay';
+  overlay.id = 'admin-login-overlay';
+  overlay.innerHTML = '<div class="admin-modal">' +
+    '<h3>🔐 管理員登入</h3>' +
+    '<div class="am-row"><label>管理密碼 Admin Password</label>' +
+    '<input id="admin-pw-input" type="password" placeholder="輸入密碼" autocomplete="current-password"></div>' +
+    '<div class="am-actions">' +
+      '<button class="am-save" onclick="checkAdminPw()">確認 Login</button>' +
+      '<button class="am-cancel" onclick="document.getElementById(\'admin-login-overlay\').remove()">取消</button>' +
+    '</div>' +
+    '<div id="admin-pw-msg" style="text-align:center;margin-top:10px;font-size:.85em;color:#dc3545"></div>' +
+  '</div>';
+  document.body.appendChild(overlay);
+  // Allow Enter key to submit
+  document.getElementById('admin-pw-input').addEventListener('keydown', function(e){
+    if(e.key === 'Enter') checkAdminPw();
+  });
+  setTimeout(function(){ var el = document.getElementById('admin-pw-input'); if(el) el.focus(); }, 100);
+}
+
+function checkAdminPw(){
+  var pw = document.getElementById('admin-pw-input').value;
   if(pw === ADMIN_PASSWORD){
+    var overlay = document.getElementById('admin-login-overlay');
+    if(overlay) overlay.remove();
     document.body.classList.add('admin-mode');
     initAdmin();
-  } else if(pw !== null){
-    alert('密碼錯誤');
+  } else {
+    var msg = document.getElementById('admin-pw-msg');
+    if(msg) msg.textContent = '❌ 密碼錯誤，請重試';
+    document.getElementById('admin-pw-input').value = '';
+    document.getElementById('admin-pw-input').focus();
   }
 }
 
