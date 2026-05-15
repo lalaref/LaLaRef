@@ -1159,7 +1159,6 @@ function recalcRow(input){
   var totEl = tr.querySelector('.sg-total');
   if(totEl) totEl.textContent = total > 0 ? total : '';
 }
-}
 
 function saveStatLB(type){
   var msgEl = document.getElementById('sl-msg');
@@ -1193,7 +1192,7 @@ setInterval(loadScores, 30000);
 
 // ── Admin Mode ──
 var isAdmin = new URLSearchParams(location.search).get('admin') === '1';
-if(isAdmin){ showAdminLogin(); }
+if(isAdmin){ document.addEventListener('DOMContentLoaded', showAdminLogin); }
 
 function showAdminLogin(){
   var overlay = document.createElement('div');
