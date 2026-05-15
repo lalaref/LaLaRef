@@ -17,7 +17,9 @@
 // Per-competition passwords — add new competitions here
 var PASSWORDS = {
   'hyd2026': true,
-  'thei2026': true
+  'thei2026': true,
+  'interhotel2026': true,
+  'poly2026': true
 };
 
 function doGet(e) {

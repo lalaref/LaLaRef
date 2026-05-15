@@ -548,7 +548,7 @@ table.stat-lb tr.top-row td{background:rgba(255,215,0,.1)}
       </div>
     </div>
   </div>
-  <p style="font-size:.75em;color:#9a8a7a;margin-top:10px;text-align:center">* 積分相同時，依次按 對賽成績 → 得失球差 → 得球數 排列 · Top 2 of each group advance to Finals</p>
+  <p style="font-size:.75em;color:#9a8a7a;margin-top:10px;text-align:center">* 積分相同時，依次按 對賽成績 → 得失球差 → 抽籤決定 排列 · Top 2 of each group advance to Finals</p>
 </div>
 
 <!-- CHAMPIONS PODIUM -->
@@ -682,7 +682,7 @@ table.stat-lb tr.top-row td{background:rgba(255,215,0,.1)}
 <div class="card">
   <h2>📋 積分制度及排名規則 Points &amp; Ranking Rules</h2>
   <div class="pts-legend">
-    <div class="pts-chip"><span>3</span>勝 Win</div>
+    <div class="pts-chip"><span>2</span>勝 Win</div>
     <div class="pts-chip"><span>1</span>負 Loss</div>
     <div class="pts-chip"><span>0</span>棄權 Forfeit</div>
   </div>
@@ -690,7 +690,7 @@ table.stat-lb tr.top-row td{background:rgba(255,215,0,.1)}
     <li>總積分 Total Points</li>
     <li>對賽成績 Head-to-Head Results（積分相同球隊之間的直接對賽）</li>
     <li>得失球差 Goal Difference（得球數 − 失球數）</li>
-    <li>得球數 Points For</li>
+    <li>抽籤決定 Draw Lots</li>
   </ol>
   <p style="margin-top:14px;font-size:.9em;color:#7a6a5a">🏅 各組首名及次名晉身季軍戰及冠軍戰<br>Top 2 of each group qualify for Bronze Final and Grand Final</p>
 </div>
@@ -769,7 +769,7 @@ var TEAMS = {
   AF:    {zh:'AF',         en:'AF'}
 };
 
-var PTS_WIN = 3, PTS_LOSS = 1, PTS_FORFEIT = 0;
+var PTS_WIN = 2, PTS_LOSS = 1, PTS_FORFEIT = 0;
 
 var savedScores = {};
 // groupOrder[A] = [1st, 2nd, 3rd], groupOrder[B] = [1st, 2nd]
@@ -1094,10 +1094,22 @@ function applyAwards(){
     renderStatLB(type, rows);
   });
 
-  // Votes
+  // Votes — each vote stored as individual VOTE_<timestamp> row
   var voteData = savedScores['VOTES_POPULAR'];
-  if(voteData && voteData.scoreA){ try{ votesData = JSON.parse(voteData.scoreA); } catch(e){ votesData = []; } }
-  else { votesData = []; }
+  votesData = [];
+  Object.keys(savedScores).forEach(function(k){
+    if(k.indexOf('VOTE_') === 0){
+      var v = savedScores[k];
+      if(v && v.status === 'vote'){
+        votesData.push({
+          voter: v.scoreA || '',
+          voterTeam: v.scoreB || '',
+          nominee: v.teamA || '',
+          nomineeTeam: v.teamB || ''
+        });
+      }
+    }
+  });
   voteOpen = !(voteData && voteData.status === 'closed');
   renderVoting();
 }
