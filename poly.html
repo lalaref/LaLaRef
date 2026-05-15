@@ -157,35 +157,6 @@ table.stat-lb tr.top-row td{background:rgba(255,215,0,.1)}
 .stat-add-btn:hover{background:rgba(212,165,116,.1)}
 .admin-mode .stat-add-btn{display:block}
 
-/* Voting panel */
-.vote-award-wrap{background:rgba(255,255,255,.5);border-radius:18px;padding:20px;box-shadow:6px 6px 14px rgba(0,0,0,.07),-6px -6px 14px rgba(255,255,255,.5)}
-.vote-header{display:flex;align-items:center;gap:10px;margin-bottom:14px}
-.vote-icon{font-size:2em;line-height:1}
-.vote-title-wrap .vote-title{font-size:1em;font-weight:900;color:#5a4a3a;line-height:1.3}
-.vote-title-wrap .vote-title-en{font-size:.75em;color:#9a8a7a;margin-top:1px}
-.vote-winner-bar{background:linear-gradient(145deg,#d4a574,#c89860);color:#fff;border-radius:12px;padding:12px 16px;margin-bottom:14px;display:flex;align-items:center;gap:12px}
-.vote-divider{width:100%;height:1px;background:rgba(212,165,116,.25);margin:14px 0}
-.vote-form-title{font-size:.85em;font-weight:900;color:#d4a574;margin-bottom:10px;text-transform:uppercase;letter-spacing:.5px}
-.vote-form{display:flex;flex-direction:column;gap:10px}
-.vote-form input,.vote-form select{width:100%;padding:10px 12px;border:2px solid #e8d4b8;border-radius:10px;font-size:.92em;font-family:inherit;color:#5a4a3a;background:#faf5ef}
-.vote-form input:focus,.vote-form select:focus{outline:none;border-color:#d4a574}
-.vote-submit-btn{padding:11px;border:none;border-radius:10px;background:linear-gradient(145deg,#d4a574,#c89860);color:#fff;font-weight:900;font-size:.95em;cursor:pointer;font-family:inherit;transition:opacity .2s}
-.vote-submit-btn:hover{opacity:.88}
-.vote-submit-btn:disabled{opacity:.45;cursor:not-allowed}
-.vote-msg{text-align:center;font-size:.85em;margin-top:6px;min-height:1.2em;font-weight:700}
-.vote-msg.ok{color:#198754}.vote-msg.err{color:#dc3545}
-.vote-results{margin-top:14px;display:none}
-.admin-mode .vote-results{display:block}
-.vote-results-title{font-size:.78em;font-weight:900;color:#d4a574;text-transform:uppercase;letter-spacing:.4px;margin-bottom:8px}
-.vote-bar-row{display:flex;align-items:center;gap:8px;margin-bottom:6px;font-size:.82em}
-.vote-bar-name{width:110px;flex-shrink:0;font-weight:700;color:#5a4a3a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.vote-bar-track{flex:1;height:14px;background:rgba(212,165,116,.15);border-radius:7px;overflow:hidden}
-.vote-bar-fill{height:100%;background:linear-gradient(90deg,#d4a574,#c89860);border-radius:7px;transition:width .5s}
-.vote-bar-count{width:28px;text-align:right;font-weight:900;color:#d4a574;flex-shrink:0}
-.vote-closed-badge{display:inline-block;background:#dc3545;color:#fff;font-size:.72em;font-weight:900;padding:3px 10px;border-radius:8px;margin-left:8px;vertical-align:middle}
-.vote-open-badge{display:inline-block;background:#198754;color:#fff;font-size:.72em;font-weight:900;padding:3px 10px;border-radius:8px;margin-left:8px;vertical-align:middle}
-.vote-toggle-btn{display:none;margin-top:10px;width:100%;padding:8px;border:none;border-radius:10px;font-weight:700;font-size:.82em;cursor:pointer;font-family:inherit}
-.admin-mode .vote-toggle-btn{display:block}
 .awards-cols{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:4px}
 @media(max-width:900px){.awards-cols{grid-template-columns:1fr}}
 
@@ -584,10 +555,12 @@ table.stat-lb tr.top-row td{background:rgba(255,215,0,.1)}
         </div>
         <div class="saw-stat" id="scorer-win-stat"></div>
       </div>
+      <div style="overflow-x:auto">
       <table class="stat-lb">
-        <thead><tr><th>#</th><th>球員</th><th>球隊</th><th class="right">得分 Pts</th></tr></thead>
+        <thead id="scorer-lb-head"><tr><th>#</th><th>球員</th><th>球隊</th><th class="right">得分 Pts</th></tr></thead>
         <tbody id="scorer-lb-body"></tbody>
       </table>
+      </div>
       <button class="stat-add-btn" onclick="openStatEditor('scorer')">＋ 輸入 / 更新球員得分</button>
     </div>
 
@@ -608,73 +581,20 @@ table.stat-lb tr.top-row td{background:rgba(255,215,0,.1)}
         </div>
         <div class="saw-stat" id="tpm-win-stat"></div>
       </div>
+      <div style="overflow-x:auto">
       <table class="stat-lb">
-        <thead><tr><th>#</th><th>球員</th><th>球隊</th><th class="right">3PM</th></tr></thead>
+        <thead id="tpm-lb-head"><tr><th>#</th><th>球員</th><th>球隊</th><th class="right">3PM</th></tr></thead>
         <tbody id="tpm-lb-body"></tbody>
       </table>
+      </div>
       <button class="stat-add-btn" onclick="openStatEditor('3pt')">＋ 輸入 / 更新三分球紀錄</button>
     </div>
 
   </div><!-- end awards-cols -->
 
-  <!-- 最受歡迎球員 — Voting -->
-  <div class="vote-award-wrap" id="award-popular-wrap" style="margin-top:16px">
-    <div class="vote-header">
-      <div class="vote-icon">⭐</div>
-      <div class="vote-title-wrap">
-        <div class="vote-title">最受歡迎球員 <span id="vote-status-badge"></span></div>
-        <div class="vote-title-en">Most Popular Player — Player Vote</div>
-      </div>
-    </div>
-
-    <!-- Winner display -->
-    <div class="vote-winner-bar" id="popular-winner-bar">
-      <div class="saw-medal">⭐</div>
-      <div class="saw-info">
-        <div class="saw-name saw-tba" id="popular-win-name">TBA</div>
-        <div class="saw-team" id="popular-win-team"></div>
-      </div>
-      <div class="saw-stat" id="popular-win-votes"></div>
-    </div>
-
-    <div class="vote-divider"></div>
-
-    <!-- Vote form -->
-    <div id="vote-form-area">
-      <div class="vote-form-title">📮 投票 Cast Your Vote</div>
-      <div class="vote-form">
-        <input type="text" id="vote-voter-name" placeholder="你的名字 Your Name" maxlength="30" autocomplete="off">
-        <select id="vote-voter-team">
-          <option value="">你所屬球隊 Your Team</option>
-          <option value="EGG">EGG — EGG Factor</option>
-          <option value="STARS">STARS — 全明星</option>
-          <option value="LIBAC">LIBAC — LIBAC</option>
-          <option value="ABCT">ABCT — ABCT</option>
-          <option value="AF">AF — AF</option>
-        </select>
-        <select id="vote-nominee">
-          <option value="">提名球員 Nominate a Player (from another team)</option>
-        </select>
-        <button class="vote-submit-btn" id="vote-submit-btn" onclick="submitVote()">⭐ 投票 Submit Vote</button>
-        <div class="vote-msg" id="vote-msg"></div>
-      </div>
-    </div>
-
-    <!-- Admin: vote results breakdown -->
-    <div class="vote-results" id="vote-results-area">
-      <div class="vote-results-title">📊 票數統計 Vote Tally (Admin)</div>
-      <div id="vote-bars"></div>
-    </div>
-
-    <button class="vote-toggle-btn" id="vote-toggle-btn" onclick="toggleVoting()">⏸ 關閉投票</button>
-
-  </div>
-
   <p class="award-note" style="margin-top:16px">
     得分王及三分神射手：出席場數少於一半者不計算在內<br>
-    Top Scorer &amp; Best 3-Point Shooter: Players appearing in less than half of games are ineligible<br>
-    最受歡迎球員：由所有球員以一人一票投票，不得投票予同隊球員<br>
-    Most Popular Player: One vote per player; cannot vote for teammates
+    Top Scorer &amp; Best 3-Point Shooter: Players appearing in less than half of games are ineligible
   </p>
 </div>
 
@@ -1086,62 +1006,58 @@ function podiumImgFallback(el){
 
 // Stat leaderboard data
 var statLBData = { scorer: [], '3pt': [] };
-// Votes array & state
-var votesData = [];
-var voteOpen = true;
-var hasVoted = false;
 
 function applyAwards(){
-  // Stat leaderboards
   ['scorer','3pt'].forEach(function(type){
     var key = type === 'scorer' ? 'STAT_SCORER' : 'STAT_TPM';
     var data = savedScores[key];
     var rows = [];
     if(data && data.scoreA){ try{ rows = JSON.parse(data.scoreA); } catch(e){} }
+    rows.forEach(function(r){
+      if(Array.isArray(r.g)) r.val = r.g.reduce(function(s,v){ return s+(Number(v)||0); }, 0);
+    });
     statLBData[type] = rows;
     renderStatLB(type, rows);
   });
-
-  // Votes — each vote stored as individual VOTE_<timestamp> row
-  var voteData = savedScores['VOTES_POPULAR'];
-  votesData = [];
-  Object.keys(savedScores).forEach(function(k){
-    if(k.indexOf('VOTE_') === 0){
-      var v = savedScores[k];
-      if(v && v.status === 'vote'){
-        votesData.push({
-          voter: v.scoreA || '',
-          voterTeam: v.scoreB || '',
-          nominee: v.teamA || '',
-          nomineeTeam: v.teamB || ''
-        });
-      }
-    }
-  });
-  voteOpen = !(voteData && voteData.status === 'closed');
-  renderVoting();
 }
 
 function renderStatLB(type, rows){
   var isScorer = type === 'scorer';
-  var bodyId = isScorer ? 'scorer-lb-body' : 'tpm-lb-body';
-  var unit    = isScorer ? 'pts' : '3PM';
-  var sorted  = rows.slice().sort(function(a,b){ return Number(b.val) - Number(a.val); });
+  var headId  = isScorer ? 'scorer-lb-head' : 'tpm-lb-head';
+  var bodyId  = isScorer ? 'scorer-lb-body' : 'tpm-lb-body';
+  var unit    = isScorer ? 'Pts' : '3PM';
+  var sorted  = rows.slice().filter(function(r){ return Number(r.val) > 0; }).sort(function(a,b){ return Number(b.val) - Number(a.val); });
+  var hasGames = rows.some(function(r){ return Array.isArray(r.g) && r.g.length; });
+  var GAME_LABELS = ['G1','G2','G3','G4','G5','G6'];
+
+  var thead = document.getElementById(headId);
+  if(thead){
+    var gTh = hasGames ? GAME_LABELS.map(function(g){
+      return '<th class="right" style="font-size:.72em;color:#9a8a7a">' + g + '</th>';
+    }).join('') : '';
+    thead.innerHTML = '<tr><th>#</th><th>球員</th><th>球隊</th>' + gTh + '<th class="right">' + unit + '</th></tr>';
+  }
 
   var tbody = document.getElementById(bodyId);
   if(tbody){
     tbody.innerHTML = '';
-    sorted.forEach(function(r, i){
-      var tr = document.createElement('tr');
-      if(i === 0) tr.classList.add('top-row');
-      tr.innerHTML = '<td>' + (i===0?'🥇':(i+1)) + '</td>' +
-        '<td>' + esc(r.name) + '</td>' +
-        '<td>' + esc(r.team) + '</td>' +
-        '<td class="right">' + esc(String(r.val)) + '</td>';
-      tbody.appendChild(tr);
-    });
     if(!sorted.length){
-      tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:#b0a090;padding:12px;font-style:italic">暫無數據 No data yet</td></tr>';
+      var cols = hasGames ? 10 : 4;
+      tbody.innerHTML = '<tr><td colspan="' + cols + '" style="text-align:center;color:#b0a090;padding:12px;font-style:italic">暫無數據 No data yet</td></tr>';
+    } else {
+      sorted.forEach(function(r, i){
+        var tr = document.createElement('tr');
+        if(i === 0) tr.classList.add('top-row');
+        var gCells = (hasGames && Array.isArray(r.g)) ? r.g.map(function(v){
+          return '<td class="right" style="font-size:.78em;color:#9a8a7a">' + (Number(v) > 0 ? v : '') + '</td>';
+        }).join('') : '';
+        tr.innerHTML = '<td>' + (i===0?'🥇':(i+1)) + '</td>' +
+          '<td>' + esc(r.name) + '</td>' +
+          '<td>' + esc(r.team) + '</td>' +
+          gCells +
+          '<td class="right"><strong>' + esc(String(r.val)) + '</strong></td>';
+        tbody.appendChild(tr);
+      });
     }
   }
 
@@ -1184,60 +1100,65 @@ function updateStatNameOpts(teamSel){
 
 function openStatEditor(type){
   var isScorer = type === 'scorer';
-  var title    = isScorer ? '🏆 得分王 — 輸入球員得分' : '🎯 三分神射手 — 輸入三分球數';
-  var colLabel = isScorer ? '得分 Points' : '三分球 3PM';
-  var rows     = statLBData[type] || [];
+  var title    = isScorer ? '🏆 得分王 — 各場得分輸入' : '🎯 三分神射手 — 各場三分球輸入';
+  var colLabel = isScorer ? 'Pts' : '3PM';
+  var existing = {};
+  (statLBData[type] || []).forEach(function(r){ existing[r.team + '|' + r.name] = r; });
+  var GAME_LABELS = ['G1','G2','G3','G4','G5','G6'];
 
-  function teamOpts(sel){
-    return ['','EGG','STARS','LIBAC','ABCT','AF'].map(function(k){
-      var label = k ? (k + (TEAMS[k] && TEAMS[k].zh !== k ? ' — ' + TEAMS[k].zh : '')) : '— 球隊 —';
-      return '<option value="' + esc(k) + '"' + (k===sel?' selected':'') + '>' + esc(label) + '</option>';
-    }).join('');
-  }
+  var rowsHtml = '';
+  ['EGG','STARS','LIBAC','ABCT','AF'].forEach(function(t){
+    rowsHtml += '<tr><td colspan="8" style="background:#f0dcc8;font-weight:900;font-size:.72em;padding:5px 8px;color:#7a6a5a;letter-spacing:.5px">' + esc(t) + ' \u2014 ' + esc(TEAMS[t].zh) + '</td></tr>';
+    (PLAYERS[t] || []).forEach(function(n){
+      var ex = existing[t + '|' + n] || {};
+      var g = Array.isArray(ex.g) ? ex.g.concat([0,0,0,0,0,0]).slice(0,6) : [0,0,0,0,0,0];
+      var total = g.reduce(function(s,v){ return s+(Number(v)||0); }, 0);
+      var inputs = g.map(function(v, i){
+        return '<td style="padding:2px 3px"><input class="sg-val" type="number" min="0" style="width:38px;padding:4px 3px;border:1.5px solid #e8d4b8;border-radius:6px;font-size:.82em;font-family:inherit;text-align:center" value="' + (v > 0 ? v : '') + '" placeholder="0" oninput="recalcRow(this)"></td>';
+      }).join('');
+      rowsHtml += '<tr data-team="' + esc(t) + '" data-name="' + esc(n) + '">' +
+        '<td style="font-size:.8em;padding:4px 6px;white-space:nowrap;color:#5a4a3a">' + esc(n) + '</td>' +
+        inputs +
+        '<td class="sg-total" style="font-weight:700;text-align:center;font-size:.85em;color:#d4a574;padding:4px 8px;min-width:32px">' + (total > 0 ? total : '') + '</td>' +
+      '</tr>';
+    });
+  });
 
-  var rowsHtml = rows.map(function(r){
-    return '<tr>' +
-      '<td><select class="sl-name" style="width:100%;padding:6px 4px;border:1.5px solid #e8d4b8;border-radius:7px;font-size:.85em;font-family:inherit">' + playerOpts(r.team, r.name) + '</select></td>' +
-      '<td><select class="sl-team" style="width:100%;padding:6px 4px;border:1.5px solid #e8d4b8;border-radius:7px;font-size:.82em;font-family:inherit" onchange="updateStatNameOpts(this)">' + teamOpts(r.team) + '</select></td>' +
-      '<td><input class="sl-val" type="number" min="0" style="width:64px;padding:6px 8px;border:1.5px solid #e8d4b8;border-radius:7px;font-size:.85em;font-family:inherit" value="' + esc(String(r.val||'')) + '"></td>' +
-      '<td><button onclick="this.closest(\'tr\').remove()" style="background:#fee;border:none;border-radius:6px;padding:4px 8px;cursor:pointer;color:#dc3545;font-size:.8em">✕</button></td>' +
-    '</tr>';
+  var gameHeaders = GAME_LABELS.map(function(g){
+    return '<th style="text-align:center;font-size:.7em;color:#9a8a7a;padding:4px 5px;font-weight:700;min-width:44px">' + g + '</th>';
   }).join('');
 
   var overlay = document.createElement('div');
   overlay.className = 'admin-overlay';
   overlay.id = 'stat-editor-overlay';
-  overlay.innerHTML = '<div class="admin-modal" style="max-width:500px">' +
+  overlay.innerHTML = '<div class="admin-modal" style="max-width:680px">' +
     '<h3>' + title + '</h3>' +
+    '<div style="overflow-x:auto;max-height:65vh;overflow-y:auto">' +
     '<table style="width:100%;border-collapse:collapse;margin-bottom:8px">' +
-      '<thead><tr>' +
-        '<th style="text-align:left;font-size:.72em;color:#9a8a7a;padding:4px 4px 8px;font-weight:700">球員名字</th>' +
-        '<th style="text-align:left;font-size:.72em;color:#9a8a7a;padding:4px 4px 8px;font-weight:700">球隊</th>' +
-        '<th style="text-align:left;font-size:.72em;color:#9a8a7a;padding:4px 4px 8px;font-weight:700">' + esc(colLabel) + '</th>' +
-        '<th></th>' +
+      '<thead style="position:sticky;top:0;background:#f5e6d3;z-index:1"><tr>' +
+        '<th style="text-align:left;font-size:.72em;color:#9a8a7a;padding:6px 6px 8px;font-weight:700;min-width:130px">\u7403\u54e1</th>' +
+        gameHeaders +
+        '<th style="text-align:center;font-size:.72em;color:#d4a574;padding:6px 6px 8px;font-weight:700">\u5408\u8a08</th>' +
       '</tr></thead>' +
       '<tbody id="sl-tbody">' + rowsHtml + '</tbody>' +
-    '</table>' +
-    '<button onclick="addStatRow()" style="width:100%;padding:8px;border:1.5px dashed #d4a574;border-radius:8px;background:transparent;color:#d4a574;font-weight:700;font-size:.85em;cursor:pointer;margin-bottom:14px;font-family:inherit">＋ 新增球員</button>' +
-    '<div class="am-actions">' +
-      '<button class="am-save" onclick="saveStatLB(\'' + type + '\')">💾 儲存</button>' +
-      '<button class="am-cancel" onclick="closeOverlay(\'stat-editor-overlay\')">取消</button>' +
+    '</table></div>' +
+    '<div class="am-actions" style="margin-top:12px">' +
+      '<button class="am-save" onclick="saveStatLB(\'' + type + '\')">\ud83d\udcbe \u5132\u5b58</button>' +
+      '<button class="am-cancel" onclick="closeOverlay(\'stat-editor-overlay\')">\u53d6\u6d88</button>' +
     '</div>' +
     '<div id="sl-msg" style="text-align:center;margin-top:10px;font-size:.85em"></div>' +
   '</div>';
   document.body.appendChild(overlay);
 }
 
-function addStatRow(){
-  var tbody = document.getElementById('sl-tbody');
-  if(!tbody) return;
-  var tr = document.createElement('tr');
-  tr.innerHTML = '<td><select class="sl-name" style="width:100%;padding:6px 4px;border:1.5px solid #e8d4b8;border-radius:7px;font-size:.85em;font-family:inherit"><option value="">— 先選球隊 —</option></select></td>' +
-    '<td><select class="sl-team" style="width:100%;padding:6px 4px;border:1.5px solid #e8d4b8;border-radius:7px;font-size:.82em;font-family:inherit" onchange="updateStatNameOpts(this)"><option value="">— 球隊 —</option><option value="EGG">EGG</option><option value="STARS">STARS</option><option value="LIBAC">LIBAC</option><option value="ABCT">ABCT</option><option value="AF">AF</option></select></td>' +
-    '<td><input class="sl-val" type="number" min="0" style="width:64px;padding:6px 8px;border:1.5px solid #e8d4b8;border-radius:7px;font-size:.85em;font-family:inherit" placeholder="0"></td>' +
-    '<td><button onclick="this.closest(\'tr\').remove()" style="background:#fee;border:none;border-radius:6px;padding:4px 8px;cursor:pointer;color:#dc3545;font-size:.8em">✕</button></td>';
-  tbody.appendChild(tr);
-  tr.querySelector('.sl-name').focus();
+function recalcRow(input){
+  var tr = input.closest('tr');
+  if(!tr) return;
+  var total = 0;
+  tr.querySelectorAll('.sg-val').forEach(function(v){ total += Number(v.value)||0; });
+  var totEl = tr.querySelector('.sg-total');
+  if(totEl) totEl.textContent = total > 0 ? total : '';
+}
 }
 
 function saveStatLB(type){
@@ -1245,11 +1166,13 @@ function saveStatLB(type){
   if(msgEl) msgEl.textContent = '儲存中...';
   var tbody = document.getElementById('sl-tbody');
   var rows = [];
-  tbody.querySelectorAll('tr').forEach(function(tr){
-    var name = tr.querySelector('.sl-name') ? tr.querySelector('.sl-name').value.trim() : '';
-    var team = tr.querySelector('.sl-team') ? tr.querySelector('.sl-team').value : '';
-    var val  = tr.querySelector('.sl-val')  ? tr.querySelector('.sl-val').value.trim() : '';
-    if(name) rows.push({name:name, team:team, val:val});
+  tbody.querySelectorAll('tr[data-name]').forEach(function(tr){
+    var name = tr.getAttribute('data-name');
+    var team = tr.getAttribute('data-team');
+    var gVals = [];
+    tr.querySelectorAll('.sg-val').forEach(function(inp){ gVals.push(Number(inp.value)||0); });
+    var total = gVals.reduce(function(s,v){ return s+v; }, 0);
+    if(total > 0) rows.push({name:name, team:team, g:gVals, val:total});
   });
   var key = type === 'scorer' ? 'STAT_SCORER' : 'STAT_TPM';
   var params = new URLSearchParams({
@@ -1263,188 +1186,6 @@ function saveStatLB(type){
       else { if(msgEl) msgEl.textContent = '❌ ' + (res.message || '儲存失敗'); }
     })
     .catch(function(){ if(msgEl) msgEl.textContent = '❌ 網絡錯誤'; });
-}
-
-// ── Voting ──
-document.addEventListener('DOMContentLoaded', function(){
-  var voterTeamSel = document.getElementById('vote-voter-team');
-  if(voterTeamSel) voterTeamSel.addEventListener('change', updateNomineeList);
-});
-
-function updateNomineeList(){
-  var voterTeam = (document.getElementById('vote-voter-team') || {}).value || '';
-  var nomSel = document.getElementById('vote-nominee');
-  if(!nomSel) return;
-  nomSel.innerHTML = '<option value="">提名球員 Nominate (from another team)</option>';
-
-  ['EGG','STARS','LIBAC','ABCT','AF'].forEach(function(t){
-    if(t === voterTeam) return;
-    var grp = document.createElement('optgroup');
-    grp.label = t + (TEAMS[t] ? ' — ' + TEAMS[t].zh : '');
-    (PLAYERS[t] || []).forEach(function(n){
-      var opt = document.createElement('option');
-      opt.value = JSON.stringify({name:n, team:t});
-      opt.textContent = n;
-      grp.appendChild(opt);
-    });
-    nomSel.appendChild(grp);
-  });
-
-  nomSel.onchange = function(){
-    var existing = document.getElementById('vote-free-row');
-    if(this.value === '__free__'){
-      if(!existing){
-        var div = document.createElement('div');
-        div.id = 'vote-free-row';
-        div.style.marginTop = '6px';
-        div.innerHTML = '<input id="vote-free-name" type="text" style="width:100%;padding:10px 12px;border:2px solid #e8d4b8;border-radius:10px;font-size:.92em;font-family:inherit;color:#5a4a3a;background:#faf5ef" placeholder="球員姓名 (球隊), 例: 陳大文 (EGG)">';
-        this.parentNode.insertBefore(div, this.nextSibling);
-        document.getElementById('vote-free-name').focus();
-      }
-    } else {
-      if(existing) existing.remove();
-    }
-  };
-}
-
-function renderVoting(){
-  // Status badge
-  var oldBadge = document.getElementById('vote-status-badge');
-  if(oldBadge){
-    oldBadge.className = voteOpen ? 'vote-open-badge' : 'vote-closed-badge';
-    oldBadge.textContent = voteOpen ? '🟢 投票開放中' : '🔴 投票已關閉';
-  }
-
-  // Toggle btn
-  var toggleBtn = document.getElementById('vote-toggle-btn');
-  if(toggleBtn){
-    toggleBtn.textContent = voteOpen ? '⏸ 關閉投票' : '▶ 重新開放投票';
-    toggleBtn.style.background = voteOpen ? '#dc3545' : '#198754';
-    toggleBtn.style.color = '#fff';
-  }
-
-  // Form area
-  var formArea = document.getElementById('vote-form-area');
-  if(formArea && !hasVoted){
-    if(!voteOpen){
-      formArea.innerHTML = '<div style="text-align:center;color:#b0a090;padding:16px;font-style:italic;font-size:.9em">🔴 投票已關閉 Voting is closed</div>';
-    }
-    // if open and not voted, form HTML stays intact from page load
-  } else if(formArea && hasVoted){
-    formArea.innerHTML = '<div style="text-align:center;color:#198754;padding:16px;font-weight:700;font-size:.95em">✅ 你已完成投票！感謝參與<br><small style="color:#9a8a7a;font-weight:400">Your vote has been recorded. Thank you!</small></div>';
-  }
-
-  // Winner bar: show only when voting closed
-  var tally = {};
-  votesData.forEach(function(v){
-    var k = v.nominee + '|' + (v.nomineeTeam||'');
-    if(!tally[k]) tally[k] = {name:v.nominee, team:v.nomineeTeam||'', count:0};
-    tally[k].count++;
-  });
-  var sorted = Object.values(tally).sort(function(a,b){ return b.count - a.count; });
-
-  var winNameEl = document.getElementById('popular-win-name');
-  var winTeamEl = document.getElementById('popular-win-team');
-  var winVotesEl = document.getElementById('popular-win-votes');
-  if(sorted.length && !voteOpen){
-    var top = sorted[0];
-    var teamZh = TEAMS[top.team] ? TEAMS[top.team].zh : top.team;
-    if(winNameEl){ winNameEl.textContent = top.name; winNameEl.classList.remove('saw-tba'); }
-    if(winTeamEl) winTeamEl.textContent = top.team + (teamZh && teamZh !== top.team ? ' · ' + teamZh : '');
-    if(winVotesEl) winVotesEl.textContent = top.count + ' 票';
-  } else {
-    if(winNameEl){ winNameEl.textContent = 'TBA'; winNameEl.classList.add('saw-tba'); }
-    if(winTeamEl) winTeamEl.textContent = '';
-    if(winVotesEl) winVotesEl.textContent = '';
-  }
-
-  // Admin tally bars
-  var barsEl = document.getElementById('vote-bars');
-  if(barsEl){
-    var maxVotes = sorted.length ? sorted[0].count : 1;
-    barsEl.innerHTML = sorted.length ? sorted.map(function(item){
-      var pct = Math.round(item.count / maxVotes * 100);
-      var label = item.name + (item.team ? ' (' + item.team + ')' : '');
-      return '<div class="vote-bar-row">' +
-        '<div class="vote-bar-name" title="' + esc(label) + '">' + esc(label) + '</div>' +
-        '<div class="vote-bar-track"><div class="vote-bar-fill" style="width:' + pct + '%"></div></div>' +
-        '<div class="vote-bar-count">' + item.count + '</div>' +
-      '</div>';
-    }).join('') : '<div style="color:#b0a090;font-size:.85em;font-style:italic">暫無投票 No votes yet</div>';
-  }
-
-  updateNomineeList();
-}
-
-function submitVote(){
-  var voterName = ((document.getElementById('vote-voter-name')||{}).value||'').trim();
-  var voterTeam = (document.getElementById('vote-voter-team')||{}).value||'';
-  var nomSel    = document.getElementById('vote-nominee');
-  var nomVal    = nomSel ? nomSel.value : '';
-  var nominee = '', nomineeTeam = '';
-
-  if(nomVal === '__free__' || nomVal === ''){
-    var freeInput = document.getElementById('vote-free-name');
-    var freeText  = freeInput ? freeInput.value.trim() : '';
-    if(!freeText){ showVoteMsg('請輸入被提名球員名字', 'err'); return; }
-    nominee = freeText; nomineeTeam = '';
-  } else {
-    try{ var p = JSON.parse(nomVal); nominee = p.name; nomineeTeam = p.team; }
-    catch(e){ nominee = nomVal; nomineeTeam = ''; }
-  }
-
-  if(!voterName){ showVoteMsg('請填寫你的名字', 'err'); return; }
-  if(!voterTeam){ showVoteMsg('請選擇你所屬球隊', 'err'); return; }
-  if(!nominee)  { showVoteMsg('請選擇或輸入被提名球員', 'err'); return; }
-  if(nomineeTeam && nomineeTeam === voterTeam){ showVoteMsg('不得投票予同隊球員！Cannot vote for teammates', 'err'); return; }
-
-  var submitBtn = document.getElementById('vote-submit-btn');
-  if(submitBtn){ submitBtn.disabled = true; submitBtn.textContent = '⏳ 提交中...'; }
-  showVoteMsg('', '');
-
-  var voteKey = 'VOTE_' + Date.now();
-  var params = new URLSearchParams({
-    action:'update', pw:ADMIN_PASSWORD, sheet:SHEET_NAME,
-    key:voteKey, teamA:nominee, teamB:nomineeTeam,
-    scoreA:voterName, scoreB:voterTeam, status:'vote'
-  });
-
-  fetch(API_URL + '?' + params.toString())
-    .then(function(r){ return r.json(); })
-    .then(function(res){
-      if(res.success){
-        hasVoted = true;
-        votesData.push({voter:voterName, voterTeam:voterTeam, nominee:nominee, nomineeTeam:nomineeTeam});
-        renderVoting();
-      } else {
-        showVoteMsg('❌ ' + (res.message || '提交失敗'), 'err');
-        if(submitBtn){ submitBtn.disabled = false; submitBtn.textContent = '⭐ 投票 Submit Vote'; }
-      }
-    })
-    .catch(function(){
-      showVoteMsg('❌ 網絡錯誤，請重試', 'err');
-      if(submitBtn){ submitBtn.disabled = false; submitBtn.textContent = '⭐ 投票 Submit Vote'; }
-    });
-}
-
-function showVoteMsg(msg, type){
-  var el = document.getElementById('vote-msg');
-  if(!el) return;
-  el.textContent = msg;
-  el.className = 'vote-msg' + (type ? ' ' + type : '');
-}
-
-function toggleVoting(){
-  var newStatus = voteOpen ? 'closed' : 'open';
-  var params = new URLSearchParams({
-    action:'update', pw:ADMIN_PASSWORD, sheet:SHEET_NAME,
-    key:'VOTES_POPULAR', teamA:'', teamB:'',
-    scoreA:JSON.stringify(votesData), scoreB:'', status:newStatus
-  });
-  fetch(API_URL + '?' + params.toString())
-    .then(function(r){ return r.json(); })
-    .then(function(res){ if(res.success) loadScores(); })
-    .catch(function(){});
 }
 
 // Auto-refresh every 30 seconds
