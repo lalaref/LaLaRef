@@ -1,0 +1,1583 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Poly Basketball Tournament 2026 | LaLaRef 急單王</title>
+<meta name="description" content="Poly Basketball Tournament 2026 — 賽程、積分榜及比賽規則 | LaLaRef 急單王">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-L1YNR24WBC"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-L1YNR24WBC');</script>
+<link rel="icon" type="image/jpeg" href="lalaref2.jpg">
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',-apple-system,BlinkMacSystemFont,'Microsoft JhengHei','PingFang TC',sans-serif;line-height:1.6;color:#5a4a3a;background:linear-gradient(135deg,#f5e6d3,#e8d4b8);min-height:100vh}
+.nb{background:linear-gradient(145deg,#d4a574,#c89860);padding:15px 0;box-shadow:0 10px 20px rgba(0,0,0,.15);position:sticky;top:0;z-index:100}
+.nc{max-width:1100px;margin:0 auto;padding:0 30px;display:flex;justify-content:space-between;align-items:center}
+.nl{color:#fff;font-size:1.5em;font-weight:900;text-decoration:none}
+.nk{display:flex;gap:20px}.nk a{color:#fff;text-decoration:none;font-weight:700;padding:8px 14px;border-radius:20px;transition:all .3s}.nk a:hover{background:rgba(255,255,255,.2)}
+.hb{display:none;flex-direction:column;cursor:pointer;padding:5px}.hb span{width:25px;height:3px;background:#fff;margin:3px 0;border-radius:3px}
+.ct{max-width:1100px;margin:0 auto;padding:30px}
+.ph{text-align:center;padding:40px 30px;background:linear-gradient(145deg,#f0dcc8,#e8d4b8);border-radius:30px;box-shadow:15px 15px 30px rgba(0,0,0,.12),-15px -15px 30px rgba(255,255,255,.7);margin-bottom:30px}
+.ph h1{font-size:2.2em;color:#5a4a3a;font-weight:900;margin-bottom:8px}
+.ph .sub{color:#7a6a5a;font-size:1em}
+.card{background:linear-gradient(145deg,#f0dcc8,#e8d4b8);border-radius:24px;padding:28px;margin-bottom:24px;box-shadow:12px 12px 24px rgba(0,0,0,.1),-12px -12px 24px rgba(255,255,255,.6)}
+.card h2{font-size:1.5em;color:#d4a574;font-weight:900;margin-bottom:18px;padding-bottom:10px;border-bottom:2px solid rgba(212,165,116,.3)}
+
+/* Poly logo */
+.poly-logo-wrap{display:flex;justify-content:center;align-items:center;margin-bottom:16px}
+.poly-logo-txt{font-size:2.2em;font-weight:900;letter-spacing:4px;color:#5a4a3a;font-family:'Georgia','Times New Roman',serif;text-shadow:0 1px 4px rgba(0,0,0,.12)}
+
+/* Schedule */
+.day-block{margin-bottom:24px}
+.day-header{background:linear-gradient(145deg,#d4a574,#c89860);color:#fff;padding:12px 20px;border-radius:16px 16px 0 0;font-weight:900;font-size:1em;display:flex;gap:16px;align-items:baseline}
+.day-header .day-num{font-size:1.2em}
+.day-header .day-date{font-size:.9em;opacity:.9}
+.day-header .day-dow{font-size:.8em;opacity:.75}
+.matches-body{background:rgba(255,255,255,.35);border-radius:0 0 16px 16px;overflow:hidden}
+
+/* Non-game rows (setup, warmup) */
+.info-row{display:flex;align-items:center;border-bottom:1px solid rgba(212,165,116,.18);padding:8px 16px;background:rgba(255,255,255,.15);color:#7a6a5a;font-size:.88em;gap:14px}
+.info-row .ir-time{width:90px;flex-shrink:0;font-weight:700;font-size:.85em;color:#9a8a7a}
+.info-row .ir-label{flex:1;font-style:italic}
+
+/* Match row */
+.match-row{display:flex;align-items:stretch;border-bottom:1px solid rgba(212,165,116,.2);min-height:72px}
+.match-row:last-child{border-bottom:none}
+.match-row:hover{background:rgba(255,255,255,.25)}
+.mr-label-col{width:52px;flex-shrink:0;display:flex;align-items:center;justify-content:center;padding:6px 4px;background:rgba(212,165,116,.1);border-right:1px solid rgba(212,165,116,.2);font-size:.72em;font-weight:900;color:#c89860;text-align:center;writing-mode:horizontal-tb;line-height:1.2;letter-spacing:.5px}
+.mr-label-col:empty{background:transparent;border-right:1px solid rgba(212,165,116,.2)}
+.mr-time-col{width:100px;flex-shrink:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 6px;background:rgba(212,165,116,.08);border-right:1px solid rgba(212,165,116,.2);font-size:.88em;font-weight:700;color:#d4a574;text-align:center;gap:2px}
+.mr-time-col .time-range{font-size:.78em;color:#9a8a7a;font-weight:400}
+.mr-content{flex:1;display:flex;align-items:center;gap:0;padding:0}
+.mr-team{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 12px;text-align:center}
+.mr-team.home{align-items:flex-end;text-align:right}
+.mr-team.away{align-items:flex-start;text-align:left}
+.team-abbr{font-size:.85em;font-weight:700;color:#d4a574;letter-spacing:.5px}
+.team-name-zh{font-size:1em;font-weight:700;color:#5a4a3a;line-height:1.3}
+.team-name-en{font-size:.82em;color:#9a8a7a;margin-top:1px}
+.mr-score-box{display:flex;align-items:center;gap:0;flex-shrink:0}
+.score-val{width:52px;height:52px;display:flex;align-items:center;justify-content:center;font-size:1.7em;font-weight:900;color:#5a4a3a;background:rgba(255,255,255,.6);border-radius:12px}
+.score-val.win{color:#198754}
+.score-val.lose{color:#b0a090}
+.score-sep{font-size:1.2em;font-weight:900;color:#c89860;padding:0 6px}
+.mr-status{width:64px;flex-shrink:0;display:flex;align-items:center;justify-content:center;padding:6px}
+.ms{font-size:.82em;padding:5px 10px;border-radius:10px;font-weight:700;text-align:center}
+.ms.scheduled{background:#fff3cd;color:#856404}
+.ms.live{background:#d1e7dd;color:#0a3622;animation:pulse 1.5s infinite}
+.ms.completed{background:#cfe2ff;color:#084298}
+.ms.walkover{background:#f8d7da;color:#842029}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
+
+/* Group standings */
+.groups-wrap{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.group-card{background:rgba(255,255,255,.4);border-radius:18px;padding:18px;box-shadow:6px 6px 14px rgba(0,0,0,.07),-6px -6px 14px rgba(255,255,255,.5)}
+.group-card h3{font-size:1.1em;color:#d4a574;font-weight:900;margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid rgba(212,165,116,.3)}
+.standings-wrap{overflow-x:auto}
+table.standings{width:100%;border-collapse:collapse;font-size:.95em}
+table.standings th{background:linear-gradient(145deg,#d4a574,#c89860);color:#fff;padding:10px 10px;font-weight:700;text-align:center;font-size:.83em;text-transform:uppercase;letter-spacing:.5px}
+table.standings th.left{text-align:left}
+table.standings td{padding:10px 10px;text-align:center;border-bottom:1px solid rgba(212,165,116,.2)}
+table.standings td.left{text-align:left}
+table.standings tr:last-child td{border-bottom:none}
+table.standings tr:hover td{background:rgba(255,255,255,.3)}
+.rank-cell{font-weight:900;color:#d4a574;font-size:1.2em}
+.team-cell .t-abbr{font-weight:700;color:#d4a574;font-size:.88em}
+.team-cell .t-zh{font-weight:700;color:#5a4a3a}
+.team-cell .t-en{font-size:.82em;color:#9a8a7a}
+.pts-cell{font-weight:900;font-size:1.2em;color:#5a4a3a}
+.gd-pos{color:#198754;font-weight:700}
+.gd-neg{color:#dc3545;font-weight:700}
+.gd-zero{color:#6c757d;font-weight:700}
+.qualify-row td{background:rgba(212,165,116,.08)}
+
+/* Finals section */
+.finals-bracket{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.final-item{background:rgba(255,255,255,.4);border-radius:18px;overflow:hidden;box-shadow:6px 6px 14px rgba(0,0,0,.07)}
+.final-label{padding:10px 18px;font-weight:900;font-size:.92em;text-align:center;color:#fff}
+.final-label.bronze{background:linear-gradient(145deg,#cd7f32,#a05a20)}
+.final-label.gold{background:linear-gradient(145deg,#ffd700,#e8a000);color:#3a2a00}
+
+/* Champions Podium */
+.podium-wrap{display:flex;align-items:flex-end;justify-content:center;gap:14px;margin-top:20px;flex-wrap:nowrap}
+.podium-item{display:flex;flex-direction:column;align-items:center}
+.podium-photo{border-radius:50%;overflow:hidden;border:4px solid #ccc;background:rgba(255,255,255,.4);display:flex;align-items:center;justify-content:center;margin-bottom:10px;font-size:.72em;color:#9a8a7a;text-align:center;flex-shrink:0;width:96px;height:96px}
+.podium-photo img{width:100%;height:100%;object-fit:cover}
+.podium-photo.p1{width:120px;height:120px;border-color:#ffc107;border-width:5px;box-shadow:0 4px 16px rgba(255,193,7,.35)}
+.podium-photo.p2{border-color:#b0b8c4}
+.podium-photo.p3{border-color:#c47d3a}
+.podium-stand{border-radius:14px 14px 0 0;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:14px 12px 22px;width:140px}
+.podium-stand.p1{background:linear-gradient(145deg,#ffd700,#e8a000);min-height:130px;width:160px;box-shadow:0 8px 24px rgba(200,140,0,.25)}
+.podium-stand.p2{background:linear-gradient(145deg,#d4dde4,#9aaab4);min-height:100px;box-shadow:0 6px 18px rgba(130,150,170,.25)}
+.podium-stand.p3{background:linear-gradient(145deg,#dfa06e,#b5703a);min-height:80px;box-shadow:0 6px 18px rgba(160,100,50,.25)}
+.podium-rank{font-size:2em;margin-bottom:4px}
+.podium-team-abbr{font-size:.78em;font-weight:900;color:rgba(0,0,0,.55);letter-spacing:1px}
+.podium-team-zh{font-size:.82em;font-weight:700;color:#2a1a0a;text-align:center;line-height:1.3;margin-top:3px}
+.podium-team-en{font-size:.68em;color:rgba(0,0,0,.5);text-align:center;margin-top:2px;line-height:1.3}
+.podium-tbd{color:rgba(0,0,0,.35);font-size:.82em;margin-top:6px}
+.champion-note{text-align:center;font-size:.8em;color:#9a8a7a;margin-top:14px}
+
+/* Special Awards */
+.awards-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:4px}
+.award-item{background:rgba(255,255,255,.5);border-radius:18px;padding:22px 16px;text-align:center;box-shadow:6px 6px 14px rgba(0,0,0,.07),-6px -6px 14px rgba(255,255,255,.5);position:relative;transition:transform .2s}
+.award-item:hover{transform:translateY(-2px)}
+.award-icon{font-size:2.4em;margin-bottom:8px;line-height:1}
+.award-title{font-size:1em;font-weight:900;color:#5a4a3a;line-height:1.3}
+.award-title-en{font-size:.78em;color:#9a8a7a;margin-bottom:12px;margin-top:2px}
+.award-divider{width:40px;height:2px;background:linear-gradient(90deg,#d4a574,#c89860);margin:0 auto 12px;border-radius:2px}
+.award-winner{font-size:1.1em;font-weight:900;color:#d4a574;min-height:1.4em}
+.award-team{font-size:.82em;color:#7a6a5a;margin-top:3px;font-weight:700}
+.award-stat{font-size:.88em;color:#9a8a7a;margin-top:4px;min-height:1.2em}
+.award-tba{color:#b0a090;font-size:1em;font-weight:400;font-style:italic}
+.award-edit-btn{position:absolute;top:10px;right:10px;background:linear-gradient(145deg,#d4a574,#c89860);color:#fff;border:none;border-radius:8px;padding:4px 10px;font-size:.72em;font-weight:700;cursor:pointer;display:none}
+.admin-mode .award-edit-btn{display:block}
+.award-note{font-size:.78em;color:#9a8a7a;text-align:center;margin-top:16px;line-height:1.6}
+
+/* Stat leaderboard */
+.stat-award-wrap{background:rgba(255,255,255,.5);border-radius:18px;padding:20px;box-shadow:6px 6px 14px rgba(0,0,0,.07),-6px -6px 14px rgba(255,255,255,.5)}
+.stat-award-header{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.stat-award-icon{font-size:2em;line-height:1}
+.stat-award-title{font-size:1em;font-weight:900;color:#5a4a3a;line-height:1.3}
+.stat-award-title-en{font-size:.75em;color:#9a8a7a;margin-top:1px}
+.stat-award-winner-bar{background:linear-gradient(145deg,#d4a574,#c89860);color:#fff;border-radius:12px;padding:12px 16px;margin-bottom:14px;display:flex;align-items:center;gap:12px}
+.saw-medal{font-size:1.6em}
+.saw-info{flex:1}
+.saw-name{font-weight:900;font-size:1em}
+.saw-team{font-size:.78em;opacity:.85;margin-top:1px}
+.saw-stat{font-size:1.2em;font-weight:900;margin-left:auto;flex-shrink:0}
+.saw-tba{color:rgba(255,255,255,.65);font-size:.88em;font-style:italic}
+table.stat-lb{width:100%;border-collapse:collapse;font-size:.88em}
+table.stat-lb th{background:rgba(212,165,116,.15);color:#c89860;padding:7px 10px;font-weight:700;text-align:left;font-size:.78em;text-transform:uppercase;letter-spacing:.4px}
+table.stat-lb th.right{text-align:right}
+table.stat-lb td{padding:8px 10px;border-bottom:1px solid rgba(212,165,116,.18);color:#5a4a3a}
+table.stat-lb td.right{text-align:right;font-weight:700;color:#d4a574}
+table.stat-lb tr:last-child td{border-bottom:none}
+table.stat-lb tr.top-row td{background:rgba(255,215,0,.1)}
+.stat-add-btn{display:none;width:100%;margin-top:10px;padding:9px;border:2px dashed rgba(212,165,116,.45);border-radius:10px;background:transparent;color:#d4a574;font-weight:700;font-size:.85em;cursor:pointer;font-family:inherit;transition:all .2s}
+.stat-add-btn:hover{background:rgba(212,165,116,.1)}
+.admin-mode .stat-add-btn{display:block}
+
+/* Voting panel */
+.vote-award-wrap{background:rgba(255,255,255,.5);border-radius:18px;padding:20px;box-shadow:6px 6px 14px rgba(0,0,0,.07),-6px -6px 14px rgba(255,255,255,.5)}
+.vote-header{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.vote-icon{font-size:2em;line-height:1}
+.vote-title-wrap .vote-title{font-size:1em;font-weight:900;color:#5a4a3a;line-height:1.3}
+.vote-title-wrap .vote-title-en{font-size:.75em;color:#9a8a7a;margin-top:1px}
+.vote-winner-bar{background:linear-gradient(145deg,#d4a574,#c89860);color:#fff;border-radius:12px;padding:12px 16px;margin-bottom:14px;display:flex;align-items:center;gap:12px}
+.vote-divider{width:100%;height:1px;background:rgba(212,165,116,.25);margin:14px 0}
+.vote-form-title{font-size:.85em;font-weight:900;color:#d4a574;margin-bottom:10px;text-transform:uppercase;letter-spacing:.5px}
+.vote-form{display:flex;flex-direction:column;gap:10px}
+.vote-form input,.vote-form select{width:100%;padding:10px 12px;border:2px solid #e8d4b8;border-radius:10px;font-size:.92em;font-family:inherit;color:#5a4a3a;background:#faf5ef}
+.vote-form input:focus,.vote-form select:focus{outline:none;border-color:#d4a574}
+.vote-submit-btn{padding:11px;border:none;border-radius:10px;background:linear-gradient(145deg,#d4a574,#c89860);color:#fff;font-weight:900;font-size:.95em;cursor:pointer;font-family:inherit;transition:opacity .2s}
+.vote-submit-btn:hover{opacity:.88}
+.vote-submit-btn:disabled{opacity:.45;cursor:not-allowed}
+.vote-msg{text-align:center;font-size:.85em;margin-top:6px;min-height:1.2em;font-weight:700}
+.vote-msg.ok{color:#198754}.vote-msg.err{color:#dc3545}
+.vote-results{margin-top:14px;display:none}
+.admin-mode .vote-results{display:block}
+.vote-results-title{font-size:.78em;font-weight:900;color:#d4a574;text-transform:uppercase;letter-spacing:.4px;margin-bottom:8px}
+.vote-bar-row{display:flex;align-items:center;gap:8px;margin-bottom:6px;font-size:.82em}
+.vote-bar-name{width:110px;flex-shrink:0;font-weight:700;color:#5a4a3a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.vote-bar-track{flex:1;height:14px;background:rgba(212,165,116,.15);border-radius:7px;overflow:hidden}
+.vote-bar-fill{height:100%;background:linear-gradient(90deg,#d4a574,#c89860);border-radius:7px;transition:width .5s}
+.vote-bar-count{width:28px;text-align:right;font-weight:900;color:#d4a574;flex-shrink:0}
+.vote-closed-badge{display:inline-block;background:#dc3545;color:#fff;font-size:.72em;font-weight:900;padding:3px 10px;border-radius:8px;margin-left:8px;vertical-align:middle}
+.vote-open-badge{display:inline-block;background:#198754;color:#fff;font-size:.72em;font-weight:900;padding:3px 10px;border-radius:8px;margin-left:8px;vertical-align:middle}
+.vote-toggle-btn{display:none;margin-top:10px;width:100%;padding:8px;border:none;border-radius:10px;font-weight:700;font-size:.82em;cursor:pointer;font-family:inherit}
+.admin-mode .vote-toggle-btn{display:block}
+.awards-cols{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:4px}
+@media(max-width:900px){.awards-cols{grid-template-columns:1fr}}
+
+/* Points/Rules */
+.rules-list{list-style:none;counter-reset:rl}
+.rules-list li{counter-increment:rl;display:flex;gap:10px;padding:10px 0;border-bottom:1px solid rgba(212,165,116,.18);font-size:1.05em;color:#5a4a3a}
+.rules-list li:last-child{border-bottom:none}
+.rules-list li::before{content:counter(rl);min-width:24px;height:24px;background:linear-gradient(145deg,#d4a574,#c89860);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:.8em;flex-shrink:0}
+.pts-legend{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.pts-chip{background:rgba(255,255,255,.5);border-radius:10px;padding:10px 18px;font-size:1em;font-weight:700;color:#5a4a3a}
+.pts-chip span{color:#d4a574;font-size:1.1em;margin-right:4px}
+
+/* Admin */
+.admin-banner{background:#dc3545;color:#fff;text-align:center;padding:10px;border-radius:12px;margin-bottom:20px;font-weight:700;font-size:.9em}
+.admin-mode .match-row:hover{background:rgba(212,165,116,.15);cursor:pointer}
+.admin-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.6);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;overflow-y:auto}
+.admin-modal{background:#fff;border-radius:20px;padding:30px;width:100%;max-width:420px;color:#5a4a3a}
+.admin-modal h3{font-size:1.15em;color:#d4a574;margin-bottom:18px;text-align:center;font-weight:900}
+.am-section{font-size:.8em;font-weight:900;color:#d4a574;text-transform:uppercase;letter-spacing:.5px;margin:14px 0 6px;border-bottom:1px solid #e8d4b8;padding-bottom:4px}
+.am-row{margin-bottom:12px}
+.am-row label{display:block;font-size:.78em;font-weight:700;color:#9a8a7a;margin-bottom:4px;text-transform:uppercase}
+.am-row input,.am-row select{width:100%;padding:10px 12px;border:2px solid #e8d4b8;border-radius:10px;font-size:.95em;font-family:inherit;color:#5a4a3a;background:#faf5ef}
+.am-row input:focus,.am-row select:focus{outline:none;border-color:#d4a574}
+.am-actions{display:flex;gap:10px;margin-top:18px}
+.am-save{flex:1;padding:10px;border:none;border-radius:10px;background:linear-gradient(145deg,#d4a574,#c89860);color:#fff;font-weight:700;font-size:.95em;cursor:pointer}
+.am-save:hover{opacity:.9}
+.am-cancel{flex:1;padding:10px;border:2px solid #e8d4b8;border-radius:10px;background:#fff;color:#9a8a7a;font-weight:700;font-size:.95em;cursor:pointer}
+.am-cancel:hover{background:#faf5ef}
+
+/* Export */
+.export-bar{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:20px 0}
+.export-btn{display:inline-flex;align-items:center;gap:6px;padding:10px 20px;border:none;border-radius:14px;font-size:.9em;font-weight:700;cursor:pointer;transition:all .3s;font-family:inherit}
+.export-btn:hover{transform:translateY(-2px);box-shadow:6px 6px 12px rgba(0,0,0,.12)}
+.export-btn.sched-export{background:linear-gradient(145deg,#d4a574,#c89860);color:#fff}
+.export-btn.stand-export{background:linear-gradient(145deg,#198754,#157347);color:#fff}
+.export-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+
+/* Footer & WhatsApp */
+.ft{background:linear-gradient(145deg,#d4a574,#c89860);color:#fff;padding:40px 30px 25px;border-radius:40px 40px 0 0;margin:40px 20px 0}
+.ft .fc{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:25px;margin-bottom:25px}
+.ft h4{font-size:1em;margin-bottom:12px;font-weight:900}.ft p,.ft a{font-size:.9em;line-height:1.8;color:#fff;text-decoration:none}
+.ft .fb{text-align:center;padding-top:15px;border-top:1px solid rgba(255,255,255,.3);font-size:.85em;color:rgba(255,255,255,.8)}
+.wf{position:fixed;width:60px;height:60px;bottom:25px;right:25px;background:linear-gradient(145deg,#25d366,#20b358);color:#fff;border-radius:50%;box-shadow:10px 10px 20px rgba(0,0,0,.2);z-index:1000;display:flex;align-items:center;justify-content:center;text-decoration:none;transition:all .3s}
+.wf:hover{transform:translateY(-5px) scale(1.05)}
+
+@media(max-width:900px){
+  .groups-wrap{grid-template-columns:1fr}
+  .awards-grid{grid-template-columns:1fr}
+  .finals-bracket{grid-template-columns:1fr}
+}
+@media(max-width:768px){
+  .hb{display:flex}.nk{position:absolute;top:100%;left:0;right:0;background:linear-gradient(145deg,#d4a574,#c89860);flex-direction:column;gap:0;max-height:0;overflow:hidden;transition:max-height .3s}
+  .nk.active{max-height:300px}.nk a{padding:12px 25px;border-radius:0;border-bottom:1px solid rgba(255,255,255,.1)}
+  .nc{padding:0 15px;position:relative}.nl{font-size:1.2em}.ct{padding:12px}
+  .ph{padding:20px 12px}.ph h1{font-size:1.3em}
+  .card{padding:14px;border-radius:16px}
+  .card h2{font-size:1.2em}
+  .day-header{flex-direction:column;gap:2px;padding:10px 14px}
+  .day-header .day-num{font-size:1em}
+  .match-row{
+    display:grid;
+    grid-template-columns:auto 1fr auto;
+    grid-template-rows:auto auto;
+    grid-template-areas:"label time status" "label content content";
+    min-height:auto;
+  }
+  .mr-label-col{grid-area:label;font-size:.62em;width:38px}
+  .mr-time-col{
+    grid-area:time;
+    width:auto;
+    flex-direction:row;
+    gap:6px;
+    padding:7px 10px;
+    border-right:none;
+    border-bottom:1px solid rgba(212,165,116,.2);
+    font-size:.82em;
+    align-items:center;
+    justify-content:flex-start;
+  }
+  .mr-time-col .time-range{display:none}
+  .mr-status{
+    grid-area:status;
+    width:auto;
+    padding:7px 10px;
+    border-bottom:1px solid rgba(212,165,116,.2);
+    align-items:center;
+    justify-content:flex-end;
+  }
+  .mr-content{
+    grid-area:content;
+    width:100%;
+    padding:10px 4px;
+  }
+  .mr-team{padding:0 4px}
+  .team-abbr{font-size:.78em}
+  .team-name-zh{font-size:.8em;word-break:keep-all}
+  .team-name-en{display:none}
+  .score-val{width:40px;height:40px;font-size:1.25em;border-radius:8px}
+  .score-sep{padding:0 4px;font-size:1em}
+  .ms{font-size:.72em;padding:4px 8px}
+  table.standings{font-size:.8em}
+  table.standings th,table.standings td{padding:7px 5px}
+  .awards-grid{grid-template-columns:1fr}
+  .export-bar{flex-direction:column;align-items:stretch}
+  .export-btn{justify-content:center}
+  .podium-wrap{gap:6px}
+  .podium-stand.p1{width:120px;min-height:110px}
+  .podium-stand{width:96px;padding:10px 6px 18px}
+  .podium-photo.p1{width:88px;height:88px}
+  .podium-photo{width:68px;height:68px}
+  .podium-team-en{display:none}
+  .podium-team-zh{font-size:.72em}
+  .podium-rank{font-size:1.6em}
+}
+</style>
+</head>
+<body>
+<nav class="nb"><div class="nc">
+  <a href="index.html" class="nl">LaLaRef 急單王</a>
+  <div class="hb" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+  <div class="nk" id="navLinks"><a href="index.html">首頁</a><a href="service.html">服務資訊</a><a href="news.html">籃球新聞</a><a href="leagues.html">聯賽列表</a><a href="index.html#booking">立即預訂</a></div>
+</div></nav>
+
+<div class="ct">
+
+<!-- HEADER -->
+<div class="ph">
+  <div class="poly-logo-wrap">
+    <div class="poly-logo-txt">POLY</div>
+  </div>
+  <h1>🏀 Poly Basketball Tournament 2026</h1>
+  <p class="sub">2026年5月至6月 | Round-Robin Group Stage + Knockout Finals 循環賽 + 淘汰賽制</p>
+</div>
+
+<!-- SCHEDULE -->
+<div class="card" id="schedule-card">
+  <h2>📅 賽程 Schedule</h2>
+
+  <!-- Day 1 — 16 May 2026 -->
+  <div class="day-block">
+    <div class="day-header">
+      <span class="day-num">Day 1</span>
+      <span class="day-date">16 May 2026</span>
+      <span class="day-dow">Saturday 星期六</span>
+    </div>
+    <div class="matches-body">
+      <div class="info-row"><div class="ir-time">08:30–09:00</div><div class="ir-label">🏟 Venue Setup 場地準備</div></div>
+      <div class="info-row"><div class="ir-time">09:00–09:15</div><div class="ir-label">🔥 Warm-up 熱身</div></div>
+
+      <div class="match-row" data-game="G1" data-home="EGG" data-away="STARS">
+        <div class="mr-label-col">Gp A</div>
+        <div class="mr-time-col">09:15<div class="time-range">09:15–10:15</div></div>
+        <div class="mr-content">
+          <div class="mr-team home">
+            <div class="team-abbr">EGG</div>
+            <div class="team-name-zh">EGG Factor</div>
+          </div>
+          <div class="mr-score-box">
+            <div class="score-val" id="G1-scoreA">-</div>
+            <div class="score-sep">:</div>
+            <div class="score-val" id="G1-scoreB">-</div>
+          </div>
+          <div class="mr-team away">
+            <div class="team-abbr">STARS</div>
+            <div class="team-name-zh">全明星</div>
+          </div>
+        </div>
+        <div class="mr-status"><div class="ms scheduled" id="G1-status">待賽</div></div>
+      </div>
+
+      <div class="info-row"><div class="ir-time">10:15–10:40</div><div class="ir-label">🔥 Warm-up 熱身</div></div>
+
+      <div class="match-row" data-game="G2" data-home="EGG" data-away="LIBAC">
+        <div class="mr-label-col">Gp A</div>
+        <div class="mr-time-col">10:40<div class="time-range">10:40–11:40</div></div>
+        <div class="mr-content">
+          <div class="mr-team home">
+            <div class="team-abbr">EGG</div>
+            <div class="team-name-zh">EGG Factor</div>
+          </div>
+          <div class="mr-score-box">
+            <div class="score-val" id="G2-scoreA">-</div>
+            <div class="score-sep">:</div>
+            <div class="score-val" id="G2-scoreB">-</div>
+          </div>
+          <div class="mr-team away">
+            <div class="team-abbr">LIBAC</div>
+            <div class="team-name-zh">LIBAC</div>
+          </div>
+        </div>
+        <div class="mr-status"><div class="ms scheduled" id="G2-status">待賽</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Day 2 — 23 May 2026 -->
+  <div class="day-block">
+    <div class="day-header">
+      <span class="day-num">Day 2</span>
+      <span class="day-date">23 May 2026</span>
+      <span class="day-dow">Saturday 星期六</span>
+    </div>
+    <div class="matches-body">
+      <div class="info-row"><div class="ir-time">08:30–09:00</div><div class="ir-label">🏟 Venue Setup 場地準備</div></div>
+      <div class="info-row"><div class="ir-time">09:00–09:15</div><div class="ir-label">🔥 Warm-up 熱身</div></div>
+
+      <div class="match-row" data-game="G3" data-home="ABCT" data-away="AF">
+        <div class="mr-label-col">Gp B</div>
+        <div class="mr-time-col">09:15<div class="time-range">09:15–10:15</div></div>
+        <div class="mr-content">
+          <div class="mr-team home">
+            <div class="team-abbr">ABCT</div>
+            <div class="team-name-zh">ABCT</div>
+          </div>
+          <div class="mr-score-box">
+            <div class="score-val" id="G3-scoreA">-</div>
+            <div class="score-sep">:</div>
+            <div class="score-val" id="G3-scoreB">-</div>
+          </div>
+          <div class="mr-team away">
+            <div class="team-abbr">AF</div>
+            <div class="team-name-zh">AF</div>
+          </div>
+        </div>
+        <div class="mr-status"><div class="ms scheduled" id="G3-status">待賽</div></div>
+      </div>
+
+      <div class="info-row"><div class="ir-time">10:15–10:30</div><div class="ir-label">🔥 Warm-up 熱身</div></div>
+
+      <div class="match-row" data-game="G4" data-home="STARS" data-away="LIBAC">
+        <div class="mr-label-col">Gp A</div>
+        <div class="mr-time-col">10:30<div class="time-range">10:30–11:30</div></div>
+        <div class="mr-content">
+          <div class="mr-team home">
+            <div class="team-abbr">STARS</div>
+            <div class="team-name-zh">全明星</div>
+          </div>
+          <div class="mr-score-box">
+            <div class="score-val" id="G4-scoreA">-</div>
+            <div class="score-sep">:</div>
+            <div class="score-val" id="G4-scoreB">-</div>
+          </div>
+          <div class="mr-team away">
+            <div class="team-abbr">LIBAC</div>
+            <div class="team-name-zh">LIBAC</div>
+          </div>
+        </div>
+        <div class="mr-status"><div class="ms scheduled" id="G4-status">待賽</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Day 3 — 30 May 2026 (Finals) -->
+  <div class="day-block">
+    <div class="day-header">
+      <span class="day-num">Day 3</span>
+      <span class="day-date">30 May 2026</span>
+      <span class="day-dow">Saturday 星期六 — Finals 決賽日</span>
+    </div>
+    <div class="matches-body">
+      <div class="info-row"><div class="ir-time">08:30–09:00</div><div class="ir-label">🏟 Venue Setup 場地準備</div></div>
+      <div class="info-row"><div class="ir-time">09:00–09:15</div><div class="ir-label">🔥 Warm-up 熱身</div></div>
+
+      <div class="match-row" data-game="G5" data-home="A2" data-away="B2">
+        <div class="mr-label-col">季軍戰</div>
+        <div class="mr-time-col">09:15<div class="time-range">09:15–10:15</div></div>
+        <div class="mr-content">
+          <div class="mr-team home">
+            <div class="team-abbr" id="G5-homeAbbr">A2</div>
+            <div class="team-name-zh" id="G5-homeName">2nd of Group A</div>
+          </div>
+          <div class="mr-score-box">
+            <div class="score-val" id="G5-scoreA">-</div>
+            <div class="score-sep">:</div>
+            <div class="score-val" id="G5-scoreB">-</div>
+          </div>
+          <div class="mr-team away">
+            <div class="team-abbr" id="G5-awayAbbr">B2</div>
+            <div class="team-name-zh" id="G5-awayName">2nd of Group B</div>
+          </div>
+        </div>
+        <div class="mr-status"><div class="ms scheduled" id="G5-status">待賽</div></div>
+      </div>
+
+      <div class="info-row"><div class="ir-time">10:15–10:30</div><div class="ir-label">🔥 Warm-up 熱身</div></div>
+
+      <div class="match-row" data-game="G6" data-home="A1" data-away="B1">
+        <div class="mr-label-col">冠軍戰</div>
+        <div class="mr-time-col">10:30<div class="time-range">10:30–11:30</div></div>
+        <div class="mr-content">
+          <div class="mr-team home">
+            <div class="team-abbr" id="G6-homeAbbr">A1</div>
+            <div class="team-name-zh" id="G6-homeName">1st of Group A</div>
+          </div>
+          <div class="mr-score-box">
+            <div class="score-val" id="G6-scoreA">-</div>
+            <div class="score-sep">:</div>
+            <div class="score-val" id="G6-scoreB">-</div>
+          </div>
+          <div class="mr-team away">
+            <div class="team-abbr" id="G6-awayAbbr">B1</div>
+            <div class="team-name-zh" id="G6-awayName">1st of Group B</div>
+          </div>
+        </div>
+        <div class="mr-status"><div class="ms scheduled" id="G6-status">待賽</div></div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end schedule card -->
+
+<!-- Export buttons -->
+<div class="export-bar">
+  <button class="export-btn sched-export" onclick="exportCard('schedule-card','poly2026-schedule.jpg','⏳ 匯出中...','📸 匯出賽程')">📸 匯出賽程</button>
+  <button class="export-btn stand-export" onclick="exportCard('standings-card','poly2026-standings.jpg','⏳ 匯出中...','📊 匯出積分榜')">📊 匯出積分榜</button>
+</div>
+
+<!-- GROUP STANDINGS -->
+<div class="card" id="standings-card">
+  <h2>📊 積分榜 Standings</h2>
+  <div class="groups-wrap">
+    <!-- Group A -->
+    <div class="group-card">
+      <h3>🔵 Group A — EGG Factor / 全明星 / LIBAC</h3>
+      <div class="standings-wrap">
+        <table class="standings" id="standings-table-A">
+          <thead>
+            <tr>
+              <th style="width:32px">#</th>
+              <th class="left">球隊</th>
+              <th>賽 P</th>
+              <th>勝 W</th>
+              <th>負 L</th>
+              <th>積分</th>
+              <th>GD</th>
+            </tr>
+          </thead>
+          <tbody id="standings-body-A"></tbody>
+        </table>
+      </div>
+    </div>
+    <!-- Group B -->
+    <div class="group-card">
+      <h3>🔴 Group B — ABCT / AF</h3>
+      <div class="standings-wrap">
+        <table class="standings" id="standings-table-B">
+          <thead>
+            <tr>
+              <th style="width:32px">#</th>
+              <th class="left">球隊</th>
+              <th>賽 P</th>
+              <th>勝 W</th>
+              <th>負 L</th>
+              <th>積分</th>
+              <th>GD</th>
+            </tr>
+          </thead>
+          <tbody id="standings-body-B"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <p style="font-size:.75em;color:#9a8a7a;margin-top:10px;text-align:center">* 積分相同時，依次按 對賽成績 → 得失球差 → 得球數 排列 · Top 2 of each group advance to Finals</p>
+</div>
+
+<!-- CHAMPIONS PODIUM -->
+<div class="card" id="champions-card">
+  <h2>🏆 冠軍榜 Champions</h2>
+  <div class="podium-wrap" id="podium-wrap">
+    <div style="text-align:center;color:#9a8a7a;padding:20px;width:100%">賽事進行中，積分榜即時更新<br><small>Live standings — podium finalised after all games</small></div>
+  </div>
+  <p class="champion-note" id="champion-note">賽事完結後更新球隊合照 · Team photos will be added after the tournament</p>
+</div>
+
+<!-- SPECIAL AWARDS -->
+<div class="card" id="awards-card">
+  <h2>🏅 特別獎項 Special Awards</h2>
+
+  <!-- Top row: Scorer + 3PT side by side -->
+  <div class="awards-cols">
+
+    <!-- 得分王 -->
+    <div class="stat-award-wrap" id="award-scorer-wrap">
+      <div class="stat-award-header">
+        <div class="stat-award-icon">🏆</div>
+        <div>
+          <div class="stat-award-title">得分王</div>
+          <div class="stat-award-title-en">Top Scorer</div>
+        </div>
+      </div>
+      <div class="stat-award-winner-bar" id="scorer-winner-bar">
+        <div class="saw-medal">🥇</div>
+        <div class="saw-info">
+          <div class="saw-name saw-tba" id="scorer-win-name">TBA</div>
+          <div class="saw-team" id="scorer-win-team"></div>
+        </div>
+        <div class="saw-stat" id="scorer-win-stat"></div>
+      </div>
+      <table class="stat-lb">
+        <thead><tr><th>#</th><th>球員</th><th>球隊</th><th class="right">得分 Pts</th></tr></thead>
+        <tbody id="scorer-lb-body"></tbody>
+      </table>
+      <button class="stat-add-btn" onclick="openStatEditor('scorer')">＋ 輸入 / 更新球員得分</button>
+    </div>
+
+    <!-- 三分神射手 -->
+    <div class="stat-award-wrap" id="award-3pt-wrap">
+      <div class="stat-award-header">
+        <div class="stat-award-icon">🎯</div>
+        <div>
+          <div class="stat-award-title">三分神射手</div>
+          <div class="stat-award-title-en">Best 3-Point Shooter</div>
+        </div>
+      </div>
+      <div class="stat-award-winner-bar" id="tpm-winner-bar">
+        <div class="saw-medal">🥇</div>
+        <div class="saw-info">
+          <div class="saw-name saw-tba" id="tpm-win-name">TBA</div>
+          <div class="saw-team" id="tpm-win-team"></div>
+        </div>
+        <div class="saw-stat" id="tpm-win-stat"></div>
+      </div>
+      <table class="stat-lb">
+        <thead><tr><th>#</th><th>球員</th><th>球隊</th><th class="right">3PM</th></tr></thead>
+        <tbody id="tpm-lb-body"></tbody>
+      </table>
+      <button class="stat-add-btn" onclick="openStatEditor('3pt')">＋ 輸入 / 更新三分球紀錄</button>
+    </div>
+
+  </div><!-- end awards-cols -->
+
+  <!-- 最受歡迎球員 — Voting -->
+  <div class="vote-award-wrap" id="award-popular-wrap" style="margin-top:16px">
+    <div class="vote-header">
+      <div class="vote-icon">⭐</div>
+      <div class="vote-title-wrap">
+        <div class="vote-title">最受歡迎球員 <span id="vote-status-badge"></span></div>
+        <div class="vote-title-en">Most Popular Player — Player Vote</div>
+      </div>
+    </div>
+
+    <!-- Winner display -->
+    <div class="vote-winner-bar" id="popular-winner-bar">
+      <div class="saw-medal">⭐</div>
+      <div class="saw-info">
+        <div class="saw-name saw-tba" id="popular-win-name">TBA</div>
+        <div class="saw-team" id="popular-win-team"></div>
+      </div>
+      <div class="saw-stat" id="popular-win-votes"></div>
+    </div>
+
+    <div class="vote-divider"></div>
+
+    <!-- Vote form -->
+    <div id="vote-form-area">
+      <div class="vote-form-title">📮 投票 Cast Your Vote</div>
+      <div class="vote-form">
+        <input type="text" id="vote-voter-name" placeholder="你的名字 Your Name" maxlength="30" autocomplete="off">
+        <select id="vote-voter-team">
+          <option value="">你所屬球隊 Your Team</option>
+          <option value="EGG">EGG — EGG Factor</option>
+          <option value="STARS">STARS — 全明星</option>
+          <option value="LIBAC">LIBAC — LIBAC</option>
+          <option value="ABCT">ABCT — ABCT</option>
+          <option value="AF">AF — AF</option>
+        </select>
+        <select id="vote-nominee">
+          <option value="">提名球員 Nominate a Player (from another team)</option>
+        </select>
+        <button class="vote-submit-btn" id="vote-submit-btn" onclick="submitVote()">⭐ 投票 Submit Vote</button>
+        <div class="vote-msg" id="vote-msg"></div>
+      </div>
+    </div>
+
+    <!-- Admin: vote results breakdown -->
+    <div class="vote-results" id="vote-results-area">
+      <div class="vote-results-title">📊 票數統計 Vote Tally (Admin)</div>
+      <div id="vote-bars"></div>
+    </div>
+
+    <button class="vote-toggle-btn" id="vote-toggle-btn" onclick="toggleVoting()">⏸ 關閉投票</button>
+
+  </div>
+
+  <p class="award-note" style="margin-top:16px">
+    得分王及三分神射手：出席場數少於一半者不計算在內<br>
+    Top Scorer &amp; Best 3-Point Shooter: Players appearing in less than half of games are ineligible<br>
+    最受歡迎球員：由所有球員以一人一票投票，不得投票予同隊球員<br>
+    Most Popular Player: One vote per player; cannot vote for teammates
+  </p>
+</div>
+
+<!-- RANKING RULES -->
+<div class="card">
+  <h2>📋 積分制度及排名規則 Points &amp; Ranking Rules</h2>
+  <div class="pts-legend">
+    <div class="pts-chip"><span>3</span>勝 Win</div>
+    <div class="pts-chip"><span>1</span>負 Loss</div>
+    <div class="pts-chip"><span>0</span>棄權 Forfeit</div>
+  </div>
+  <ol class="rules-list">
+    <li>總積分 Total Points</li>
+    <li>對賽成績 Head-to-Head Results（積分相同球隊之間的直接對賽）</li>
+    <li>得失球差 Goal Difference（得球數 − 失球數）</li>
+    <li>得球數 Points For</li>
+  </ol>
+  <p style="margin-top:14px;font-size:.9em;color:#7a6a5a">🏅 各組首名及次名晉身季軍戰及冠軍戰<br>Top 2 of each group qualify for Bronze Final and Grand Final</p>
+</div>
+
+<!-- TEAMS -->
+<div class="card">
+  <h2>🏀 參賽球隊 Participating Teams</h2>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px">
+    <div style="background:rgba(255,255,255,.5);border-radius:14px;padding:16px;border-left:4px solid #d4a574">
+      <div style="font-size:.7em;font-weight:900;color:#9a8a7a;letter-spacing:1px;margin-bottom:2px">GROUP A</div>
+      <div style="font-weight:900;font-size:.88em;color:#d4a574;letter-spacing:1px">EGG</div>
+      <div style="font-weight:700;color:#5a4a3a;margin-top:2px">EGG Factor</div>
+    </div>
+    <div style="background:rgba(255,255,255,.5);border-radius:14px;padding:16px;border-left:4px solid #d4a574">
+      <div style="font-size:.7em;font-weight:900;color:#9a8a7a;letter-spacing:1px;margin-bottom:2px">GROUP A</div>
+      <div style="font-weight:900;font-size:.88em;color:#d4a574;letter-spacing:1px">STARS</div>
+      <div style="font-weight:700;color:#5a4a3a;margin-top:2px">全明星</div>
+    </div>
+    <div style="background:rgba(255,255,255,.5);border-radius:14px;padding:16px;border-left:4px solid #d4a574">
+      <div style="font-size:.7em;font-weight:900;color:#9a8a7a;letter-spacing:1px;margin-bottom:2px">GROUP A</div>
+      <div style="font-weight:900;font-size:.88em;color:#d4a574;letter-spacing:1px">LIBAC</div>
+      <div style="font-weight:700;color:#5a4a3a;margin-top:2px">LIBAC</div>
+    </div>
+    <div style="background:rgba(255,255,255,.5);border-radius:14px;padding:16px;border-left:4px solid #c89860">
+      <div style="font-size:.7em;font-weight:900;color:#9a8a7a;letter-spacing:1px;margin-bottom:2px">GROUP B</div>
+      <div style="font-weight:900;font-size:.88em;color:#c89860;letter-spacing:1px">ABCT</div>
+      <div style="font-weight:700;color:#5a4a3a;margin-top:2px">ABCT</div>
+    </div>
+    <div style="background:rgba(255,255,255,.5);border-radius:14px;padding:16px;border-left:4px solid #c89860">
+      <div style="font-size:.7em;font-weight:900;color:#9a8a7a;letter-spacing:1px;margin-bottom:2px">GROUP B</div>
+      <div style="font-weight:900;font-size:.88em;color:#c89860;letter-spacing:1px">AF</div>
+      <div style="font-weight:700;color:#5a4a3a;margin-top:2px">AF</div>
+    </div>
+  </div>
+</div>
+
+</div><!-- end .ct -->
+
+<a href="https://wa.me/85284828484?text=你好！我想查詢球證/裁判服務" class="wf" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><svg viewBox="0 0 32 32" width="28" height="28" fill="white"><path d="M16 0C7.164 0 0 7.164 0 16c0 2.825.738 5.488 2.031 7.813L.281 30.594l7.031-1.844A15.923 15.923 0 0016 32c8.836 0 16-7.164 16-16S24.836 0 16 0zm0 29.25c-2.406 0-4.719-.656-6.719-1.875l-.469-.281-4.875 1.281 1.313-4.781-.313-.5A13.173 13.173 0 012.75 16C2.75 8.681 8.681 2.75 16 2.75S29.25 8.681 29.25 16 23.319 29.25 16 29.25zm7.25-9.906c-.406-.188-2.375-1.156-2.75-1.281-.375-.125-.656-.188-.938.188-.281.375-1.063 1.281-1.313 1.563-.25.281-.5.313-.906.125-.406-.188-1.719-.625-3.281-2-.219-.188-2.031-1.781-2.281-2.156-.25-.375-.031-.594.156-.781.156-.156.406-.406.594-.594.188-.188.25-.313.375-.531.125-.219.063-.406-.031-.594-.094-.188-.938-2.219-1.281-3.031-.344-.781-.688-.656-.938-.656-.25 0-.531-.031-.813-.031s-.75.094-1.125.469c-.375.375-1.438 1.406-1.438 3.438s1.469 3.969 1.656 4.25c.188.281 2.625 4 6.375 5.625.906.375 1.594.594 2.125.781.875.281 1.688.25 2.313.156.719-.094 2.188-.875 2.5-1.719.313-.844.313-1.563.219-1.719-.094-.156-.375-.25-.781-.438z"/></svg></a>
+
+<footer class="ft"><div class="fc">
+  <div><h4>LaLaRef 急單王</h4><p>香港專業球證/裁判<br>即日緊急接單<br>持牌專業球證/裁判 • 24/7接單</p></div>
+  <div><h4>聯絡方式</h4><p>📱 WhatsApp: <a href="https://wa.me/85284828484">8482 8484</a><br>📧 <a href="mailto:info@lalaref.com">info@lalaref.com</a><br>📍 服務地區: 全港覆蓋</p></div>
+  <div><h4>網站連結</h4><p><a href="about.html">關於我們</a><br><a href="contact.html">聯絡我們</a><br><a href="privacy.html">私隱政策</a><br><a href="terms.html">服務條款</a></p></div>
+</div><div class="fb"><p>&copy; 2026 LaLa Xolutions Co.</p></div></footer>
+
+<script>
+// ── CONFIG ──
+var ADMIN_PASSWORD = 'poly2026';
+var SHEET_NAME = 'Poly';
+var API_URL = 'https://script.google.com/macros/s/AKfycbz91UrGglg8QMaw2MuqjoOcM0o1lNbPVdXcj74Qx8CvIm5K2jlqZE8yIgisOFPiwvCa6g/exec';
+
+// Match definitions: [gameKey, homeTeam, awayTeam, group]
+// G5/G6 home/away determined dynamically from standings
+var GROUP_MATCHES = [
+  ['G1','EGG','STARS','A'],
+  ['G2','EGG','LIBAC','A'],
+  ['G3','ABCT','AF','B'],
+  ['G4','STARS','LIBAC','A']
+];
+var FINAL_MATCHES = [
+  ['G5','A2','B2'],  // Bronze: 2nd A vs 2nd B
+  ['G6','A1','B1']   // Final:  1st A vs 1st B
+];
+var ALL_MATCHES = GROUP_MATCHES.map(function(m){ return [m[0],m[1],m[2]]; })
+  .concat(FINAL_MATCHES);
+
+var GROUP_A = ['EGG','STARS','LIBAC'];
+var GROUP_B = ['ABCT','AF'];
+
+var TEAMS = {
+  EGG:   {zh:'EGG Factor', en:'EGG Factor'},
+  STARS: {zh:'全明星',      en:'All Stars'},
+  LIBAC: {zh:'LIBAC',      en:'LIBAC'},
+  ABCT:  {zh:'ABCT',       en:'ABCT'},
+  AF:    {zh:'AF',         en:'AF'}
+};
+
+var PTS_WIN = 3, PTS_LOSS = 1, PTS_FORFEIT = 0;
+
+var savedScores = {};
+// groupOrder[A] = [1st, 2nd, 3rd], groupOrder[B] = [1st, 2nd]
+var groupOrder = {A: [], B: []};
+
+function toggleMenu(){
+  document.querySelector('.hb').classList.toggle('active');
+  document.getElementById('navLinks').classList.toggle('active');
+}
+document.querySelectorAll('.nk a').forEach(function(a){
+  a.addEventListener('click', function(){
+    document.querySelector('.hb').classList.remove('active');
+    document.getElementById('navLinks').classList.remove('active');
+  });
+});
+
+// ── Load scores ──
+loadScores();
+
+function loadScores(){
+  fetch(API_URL + '?action=getAll&sheet=' + SHEET_NAME)
+    .then(function(r){ return r.json(); })
+    .then(function(res){
+      if(!res.success) return;
+      savedScores = res.scores || {};
+      applyScores();
+      buildStandings();
+      applyAwards();
+    })
+    .catch(function(e){ console.log('Failed to load scores', e); buildStandings(); applyAwards(); });
+}
+
+function applyScores(){
+  ALL_MATCHES.forEach(function(m){
+    var key = m[0];
+    var data = savedScores[key];
+    if(!data) return;
+
+    var saEl = document.getElementById(key + '-scoreA');
+    var sbEl = document.getElementById(key + '-scoreB');
+    var stEl = document.getElementById(key + '-status');
+
+    var sa = (data.scoreA !== undefined && data.scoreA !== '') ? data.scoreA : '-';
+    var sb = (data.scoreB !== undefined && data.scoreB !== '') ? data.scoreB : '-';
+
+    if(saEl) saEl.textContent = sa;
+    if(sbEl) sbEl.textContent = sb;
+
+    if(stEl && data.status){
+      stEl.className = 'ms ' + data.status;
+      stEl.textContent = {scheduled:'待賽', live:'進行中', completed:'完場', walkover:'棄權'}[data.status] || data.status;
+    }
+
+    if(data.status === 'completed' && sa !== '-' && sb !== '-'){
+      var a = Number(sa), b = Number(sb);
+      if(saEl){ saEl.classList.toggle('win', a > b); saEl.classList.toggle('lose', a < b); }
+      if(sbEl){ sbEl.classList.toggle('win', b > a); sbEl.classList.toggle('lose', b < a); }
+    }
+  });
+}
+
+// ── Standings ──
+function buildGroupStats(teamList, matchList){
+  var stats = {};
+  teamList.forEach(function(t){
+    stats[t] = {played:0, win:0, loss:0, forfeit:0, pts:0, gf:0, ga:0};
+  });
+  matchList.forEach(function(m){
+    var key = m[0], home = m[1], away = m[2];
+    var data = savedScores[key];
+    if(!data || (data.status !== 'completed' && data.status !== 'walkover')) return;
+    var sa = Number(data.scoreA), sb = Number(data.scoreB);
+    var isWalkover = data.status === 'walkover';
+    if(!stats[home] || !stats[away]) return;
+    stats[home].played++;
+    stats[away].played++;
+    stats[home].gf += sa;
+    stats[home].ga += sb;
+    stats[away].gf += sb;
+    stats[away].ga += sa;
+    if(isWalkover){
+      if(sa > sb){ stats[home].win++; stats[home].pts += PTS_WIN; stats[away].forfeit++; stats[away].pts += PTS_FORFEIT; }
+      else { stats[away].win++; stats[away].pts += PTS_WIN; stats[home].forfeit++; stats[home].pts += PTS_FORFEIT; }
+    } else {
+      if(sa > sb){ stats[home].win++; stats[home].pts += PTS_WIN; stats[away].loss++; stats[away].pts += PTS_LOSS; }
+      else if(sb > sa){ stats[away].win++; stats[away].pts += PTS_WIN; stats[home].loss++; stats[home].pts += PTS_LOSS; }
+      else { stats[home].loss++; stats[home].pts += PTS_LOSS; stats[away].loss++; stats[away].pts += PTS_LOSS; }
+    }
+  });
+  return stats;
+}
+
+function sortTeams(teams, stats, matchList){
+  var order = teams.slice();
+  order.sort(function(a, b){
+    var sa = stats[a], sb = stats[b];
+    if(sb.pts !== sa.pts) return sb.pts - sa.pts;
+    var h2h = headToHead(a, b, matchList);
+    if(h2h !== 0) return h2h;
+    var gdA = sa.gf - sa.ga, gdB = sb.gf - sb.ga;
+    if(gdB !== gdA) return gdB - gdA;
+    return sb.gf - sa.gf;
+  });
+  return order;
+}
+
+function headToHead(teamA, teamB, matchList){
+  var ptsA = 0, ptsB = 0;
+  matchList.forEach(function(m){
+    var key = m[0], home = m[1], away = m[2];
+    if(!((home === teamA && away === teamB) || (home === teamB && away === teamA))) return;
+    var data = savedScores[key];
+    if(!data || (data.status !== 'completed' && data.status !== 'walkover')) return;
+    var sa = Number(data.scoreA), sb = Number(data.scoreB);
+    var homeIsA = (home === teamA);
+    var aGoals = homeIsA ? sa : sb;
+    var bGoals = homeIsA ? sb : sa;
+    if(aGoals > bGoals){ ptsA += PTS_WIN; ptsB += PTS_LOSS; }
+    else if(bGoals > aGoals){ ptsB += PTS_WIN; ptsA += PTS_LOSS; }
+    else { ptsA += PTS_LOSS; ptsB += PTS_LOSS; }
+  });
+  return ptsB - ptsA;
+}
+
+function renderGroupTable(tbodyId, order, stats, qualify){
+  var tbody = document.getElementById(tbodyId);
+  if(!tbody) return;
+  tbody.innerHTML = '';
+  order.forEach(function(t, i){
+    var s = stats[t];
+    var gd = s.gf - s.ga;
+    var gdClass = gd > 0 ? 'gd-pos' : gd < 0 ? 'gd-neg' : 'gd-zero';
+    var gdStr = gd > 0 ? '+' + gd : String(gd);
+    var qualifies = i < qualify;
+    var tr = document.createElement('tr');
+    if(qualifies) tr.classList.add('qualify-row');
+    tr.innerHTML =
+      '<td class="rank-cell">' + (i+1) + (qualifies ? ' ✓' : '') + '</td>' +
+      '<td class="left team-cell">' +
+        '<div class="t-abbr">' + esc(t) + '</div>' +
+        '<div class="t-zh">' + esc(TEAMS[t] ? TEAMS[t].zh : t) + '</div>' +
+      '</td>' +
+      '<td>' + s.played + '</td>' +
+      '<td>' + s.win + '</td>' +
+      '<td>' + s.loss + '</td>' +
+      '<td class="pts-cell">' + s.pts + '</td>' +
+      '<td class="' + gdClass + '">' + gdStr + '</td>';
+    tbody.appendChild(tr);
+  });
+}
+
+function buildStandings(){
+  // Group A
+  var matchesA = GROUP_MATCHES.filter(function(m){ return m[3] === 'A'; });
+  var statsA = buildGroupStats(GROUP_A, matchesA);
+  var orderA = sortTeams(GROUP_A, statsA, matchesA);
+  groupOrder.A = orderA;
+  renderGroupTable('standings-body-A', orderA, statsA, 2);
+
+  // Group B
+  var matchesB = GROUP_MATCHES.filter(function(m){ return m[3] === 'B'; });
+  var statsB = buildGroupStats(GROUP_B, matchesB);
+  var orderB = sortTeams(GROUP_B, statsB, matchesB);
+  groupOrder.B = orderB;
+  renderGroupTable('standings-body-B', orderB, statsB, 2);
+
+  // Update finals team display
+  updateFinalsDisplay(orderA, orderB);
+
+  // Apply final match scores
+  applyFinalScores(orderA, orderB);
+
+  // Build champions
+  buildChampions(orderA, orderB);
+}
+
+function updateFinalsDisplay(orderA, orderB){
+  // G5: 2nd A vs 2nd B
+  var g5home = orderA[1] || null;
+  var g5away = orderB[1] || null;
+  var g6home = orderA[0] || null;
+  var g6away = orderB[0] || null;
+
+  function setFinalTeam(abbrId, nameId, team, fallbackLabel){
+    var abbr = document.getElementById(abbrId);
+    var name = document.getElementById(nameId);
+    if(abbr) abbr.textContent = team ? team : fallbackLabel.split(' ')[0];
+    if(name) name.textContent = team ? (TEAMS[team] ? TEAMS[team].zh : team) : fallbackLabel;
+  }
+  setFinalTeam('G5-homeAbbr', 'G5-homeName', g5home, '2nd of Group A');
+  setFinalTeam('G5-awayAbbr', 'G5-awayName', g5away, '2nd of Group B');
+  setFinalTeam('G6-homeAbbr', 'G6-homeName', g6home, '1st of Group A');
+  setFinalTeam('G6-awayAbbr', 'G6-awayName', g6away, '1st of Group B');
+
+  // Update data-home/away so admin editor shows correct team
+  function setMatchAttr(gameKey, homeTeam, awayTeam){
+    var row = document.querySelector('[data-game="' + gameKey + '"]');
+    if(!row) return;
+    if(homeTeam) row.setAttribute('data-home', homeTeam);
+    if(awayTeam) row.setAttribute('data-away', awayTeam);
+  }
+  setMatchAttr('G5', g5home, g5away);
+  setMatchAttr('G6', g6home, g6away);
+}
+
+function applyFinalScores(orderA, orderB){
+  ['G5','G6'].forEach(function(key){
+    var data = savedScores[key];
+    if(!data) return;
+    var saEl = document.getElementById(key + '-scoreA');
+    var sbEl = document.getElementById(key + '-scoreB');
+    var stEl = document.getElementById(key + '-status');
+    var sa = (data.scoreA !== undefined && data.scoreA !== '') ? data.scoreA : '-';
+    var sb = (data.scoreB !== undefined && data.scoreB !== '') ? data.scoreB : '-';
+    if(saEl) saEl.textContent = sa;
+    if(sbEl) sbEl.textContent = sb;
+    if(stEl && data.status){
+      stEl.className = 'ms ' + data.status;
+      stEl.textContent = {scheduled:'待賽', live:'進行中', completed:'完場', walkover:'棄權'}[data.status] || data.status;
+    }
+    if(data.status === 'completed' && sa !== '-' && sb !== '-'){
+      var a = Number(sa), b = Number(sb);
+      if(saEl){ saEl.classList.toggle('win', a > b); saEl.classList.toggle('lose', a < b); }
+      if(sbEl){ sbEl.classList.toggle('win', b > a); sbEl.classList.toggle('lose', b < a); }
+    }
+  });
+}
+
+// ── Champions Podium ──
+function buildChampions(orderA, orderB){
+  var wrap = document.getElementById('podium-wrap');
+  if(!wrap) return;
+
+  // Final result determines champion/runner-up
+  var finalData = savedScores['G6'];
+  var bronzeData = savedScores['G5'];
+
+  var g6home = orderA[0], g6away = orderB[0];
+  var g5home = orderA[1], g5away = orderB[1];
+
+  var champ = null, runner = null, bronze = null;
+
+  if(finalData && finalData.status === 'completed' && g6home && g6away){
+    var sa = Number(finalData.scoreA), sb = Number(finalData.scoreB);
+    if(sa > sb){ champ = g6home; runner = g6away; }
+    else if(sb > sa){ champ = g6away; runner = g6home; }
+  } else if(finalData && finalData.status === 'walkover' && g6home && g6away){
+    var sa2 = Number(finalData.scoreA), sb2 = Number(finalData.scoreB);
+    if(sa2 > sb2){ champ = g6home; runner = g6away; }
+    else { champ = g6away; runner = g6home; }
+  }
+
+  if(bronzeData && (bronzeData.status === 'completed' || bronzeData.status === 'walkover') && g5home && g5away){
+    var ba = Number(bronzeData.scoreA), bb = Number(bronzeData.scoreB);
+    if(ba > bb) bronze = g5home;
+    else if(bb > ba) bronze = g5away;
+  }
+
+  var allGroupDone = GROUP_MATCHES.every(function(m){
+    var d = savedScores[m[0]];
+    return d && (d.status === 'completed' || d.status === 'walkover');
+  });
+
+  if(!allGroupDone && !champ){
+    wrap.innerHTML = '<div style="text-align:center;color:#9a8a7a;padding:20px;width:100%">賽事進行中，積分榜即時更新<br><small>Podium finalised after all games</small></div>';
+    return;
+  }
+
+  var slots = [
+    {rank:2, team:runner, cls:'p2', medal:'🥈', photo:'images/poly-champ2.jpg'},
+    {rank:1, team:champ,  cls:'p1', medal:'🥇', photo:'images/poly-champ1.jpg'},
+    {rank:3, team:bronze, cls:'p3', medal:'🥉', photo:'images/poly-champ3.jpg'}
+  ];
+
+  wrap.innerHTML = slots.map(function(pos){
+    var t = pos.team;
+    var photoBlock;
+    if(!t){
+      photoBlock = '<div class="podium-photo ' + pos.cls + '"><span>?</span></div>';
+      return '<div class="podium-item">' + photoBlock +
+        '<div class="podium-stand ' + pos.cls + '"><div class="podium-rank">' + pos.medal + '</div>' +
+        '<div class="podium-tbd">TBD</div></div></div>';
+    }
+    var info = TEAMS[t] || {zh:t, en:t};
+    photoBlock = '<div class="podium-photo ' + pos.cls + '">' +
+      '<img src="' + pos.photo + '" alt="' + esc(info.zh) + ' photo" onerror="podiumImgFallback(this)">' +
+      '</div>';
+    return '<div class="podium-item">' + photoBlock +
+      '<div class="podium-stand ' + pos.cls + '">' +
+        '<div class="podium-rank">' + pos.medal + '</div>' +
+        '<div class="podium-team-abbr">' + esc(t) + '</div>' +
+        '<div class="podium-team-zh">' + esc(info.zh) + '</div>' +
+        '<div class="podium-team-en">' + esc(info.en) + '</div>' +
+      '</div></div>';
+  }).join('');
+}
+
+function podiumImgFallback(el){
+  var span = document.createElement('span');
+  span.style.cssText = 'padding:6px;line-height:1.4;font-size:.75em;color:#9a8a7a';
+  span.innerHTML = '合照<br>Coming<br>Soon';
+  el.parentNode.replaceChild(span, el);
+}
+
+// ── Special Awards ──
+
+// Stat leaderboard data
+var statLBData = { scorer: [], '3pt': [] };
+// Votes array & state
+var votesData = [];
+var voteOpen = true;
+var hasVoted = false;
+
+function applyAwards(){
+  // Stat leaderboards
+  ['scorer','3pt'].forEach(function(type){
+    var key = type === 'scorer' ? 'STAT_SCORER' : 'STAT_TPM';
+    var data = savedScores[key];
+    var rows = [];
+    if(data && data.scoreA){ try{ rows = JSON.parse(data.scoreA); } catch(e){} }
+    statLBData[type] = rows;
+    renderStatLB(type, rows);
+  });
+
+  // Votes
+  var voteData = savedScores['VOTES_POPULAR'];
+  if(voteData && voteData.scoreA){ try{ votesData = JSON.parse(voteData.scoreA); } catch(e){ votesData = []; } }
+  else { votesData = []; }
+  voteOpen = !(voteData && voteData.status === 'closed');
+  renderVoting();
+}
+
+function renderStatLB(type, rows){
+  var isScorer = type === 'scorer';
+  var bodyId = isScorer ? 'scorer-lb-body' : 'tpm-lb-body';
+  var unit    = isScorer ? 'pts' : '3PM';
+  var sorted  = rows.slice().sort(function(a,b){ return Number(b.val) - Number(a.val); });
+
+  var tbody = document.getElementById(bodyId);
+  if(tbody){
+    tbody.innerHTML = '';
+    sorted.forEach(function(r, i){
+      var tr = document.createElement('tr');
+      if(i === 0) tr.classList.add('top-row');
+      tr.innerHTML = '<td>' + (i===0?'🥇':(i+1)) + '</td>' +
+        '<td>' + esc(r.name) + '</td>' +
+        '<td>' + esc(r.team) + '</td>' +
+        '<td class="right">' + esc(String(r.val)) + '</td>';
+      tbody.appendChild(tr);
+    });
+    if(!sorted.length){
+      tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:#b0a090;padding:12px;font-style:italic">暫無數據 No data yet</td></tr>';
+    }
+  }
+
+  var winNameId = isScorer ? 'scorer-win-name' : 'tpm-win-name';
+  var winTeamId = isScorer ? 'scorer-win-team' : 'tpm-win-team';
+  var winStatId = isScorer ? 'scorer-win-stat' : 'tpm-win-stat';
+  var nameEl = document.getElementById(winNameId);
+  var teamEl = document.getElementById(winTeamId);
+  var statEl = document.getElementById(winStatId);
+  if(sorted.length && sorted[0].val){
+    var top = sorted[0];
+    var teamZh = TEAMS[top.team] ? TEAMS[top.team].zh : top.team;
+    if(nameEl){ nameEl.textContent = top.name; nameEl.classList.remove('saw-tba'); }
+    if(teamEl) teamEl.textContent = top.team + (teamZh && teamZh !== top.team ? ' · ' + teamZh : '');
+    if(statEl) statEl.textContent = top.val + ' ' + unit;
+  } else {
+    if(nameEl){ nameEl.textContent = 'TBA'; nameEl.classList.add('saw-tba'); }
+    if(teamEl) teamEl.textContent = '';
+    if(statEl) statEl.textContent = '';
+  }
+}
+
+function openStatEditor(type){
+  var isScorer = type === 'scorer';
+  var title    = isScorer ? '🏆 得分王 — 輸入球員得分' : '🎯 三分神射手 — 輸入三分球數';
+  var colLabel = isScorer ? '得分 Points' : '三分球 3PM';
+  var rows     = statLBData[type] || [];
+
+  function teamOpts(sel){
+    return ['','EGG','STARS','LIBAC','ABCT','AF'].map(function(k){
+      var label = k ? (k + (TEAMS[k] && TEAMS[k].zh !== k ? ' — ' + TEAMS[k].zh : '')) : '— 球隊 —';
+      return '<option value="' + esc(k) + '"' + (k===sel?' selected':'') + '>' + esc(label) + '</option>';
+    }).join('');
+  }
+
+  var rowsHtml = rows.map(function(r){
+    return '<tr>' +
+      '<td><input class="sl-name" style="width:100%;padding:6px 8px;border:1.5px solid #e8d4b8;border-radius:7px;font-size:.85em;font-family:inherit" value="' + esc(r.name) + '" placeholder="球員名字"></td>' +
+      '<td><select class="sl-team" style="width:100%;padding:6px 4px;border:1.5px solid #e8d4b8;border-radius:7px;font-size:.82em;font-family:inherit">' + teamOpts(r.team) + '</select></td>' +
+      '<td><input class="sl-val" type="number" min="0" style="width:64px;padding:6px 8px;border:1.5px solid #e8d4b8;border-radius:7px;font-size:.85em;font-family:inherit" value="' + esc(String(r.val||'')) + '"></td>' +
+      '<td><button onclick="this.closest(\'tr\').remove()" style="background:#fee;border:none;border-radius:6px;padding:4px 8px;cursor:pointer;color:#dc3545;font-size:.8em">✕</button></td>' +
+    '</tr>';
+  }).join('');
+
+  var overlay = document.createElement('div');
+  overlay.className = 'admin-overlay';
+  overlay.id = 'stat-editor-overlay';
+  overlay.innerHTML = '<div class="admin-modal" style="max-width:500px">' +
+    '<h3>' + title + '</h3>' +
+    '<table style="width:100%;border-collapse:collapse;margin-bottom:8px">' +
+      '<thead><tr>' +
+        '<th style="text-align:left;font-size:.72em;color:#9a8a7a;padding:4px 4px 8px;font-weight:700">球員名字</th>' +
+        '<th style="text-align:left;font-size:.72em;color:#9a8a7a;padding:4px 4px 8px;font-weight:700">球隊</th>' +
+        '<th style="text-align:left;font-size:.72em;color:#9a8a7a;padding:4px 4px 8px;font-weight:700">' + esc(colLabel) + '</th>' +
+        '<th></th>' +
+      '</tr></thead>' +
+      '<tbody id="sl-tbody">' + rowsHtml + '</tbody>' +
+    '</table>' +
+    '<button onclick="addStatRow()" style="width:100%;padding:8px;border:1.5px dashed #d4a574;border-radius:8px;background:transparent;color:#d4a574;font-weight:700;font-size:.85em;cursor:pointer;margin-bottom:14px;font-family:inherit">＋ 新增球員</button>' +
+    '<div class="am-actions">' +
+      '<button class="am-save" onclick="saveStatLB(\'' + type + '\')">💾 儲存</button>' +
+      '<button class="am-cancel" onclick="closeOverlay(\'stat-editor-overlay\')">取消</button>' +
+    '</div>' +
+    '<div id="sl-msg" style="text-align:center;margin-top:10px;font-size:.85em"></div>' +
+  '</div>';
+  document.body.appendChild(overlay);
+}
+
+function addStatRow(){
+  var tbody = document.getElementById('sl-tbody');
+  if(!tbody) return;
+  var tr = document.createElement('tr');
+  tr.innerHTML = '<td><input class="sl-name" style="width:100%;padding:6px 8px;border:1.5px solid #e8d4b8;border-radius:7px;font-size:.85em;font-family:inherit" placeholder="球員名字"></td>' +
+    '<td><select class="sl-team" style="width:100%;padding:6px 4px;border:1.5px solid #e8d4b8;border-radius:7px;font-size:.82em;font-family:inherit"><option value="">— 球隊 —</option><option value="EGG">EGG</option><option value="STARS">STARS</option><option value="LIBAC">LIBAC</option><option value="ABCT">ABCT</option><option value="AF">AF</option></select></td>' +
+    '<td><input class="sl-val" type="number" min="0" style="width:64px;padding:6px 8px;border:1.5px solid #e8d4b8;border-radius:7px;font-size:.85em;font-family:inherit" placeholder="0"></td>' +
+    '<td><button onclick="this.closest(\'tr\').remove()" style="background:#fee;border:none;border-radius:6px;padding:4px 8px;cursor:pointer;color:#dc3545;font-size:.8em">✕</button></td>';
+  tbody.appendChild(tr);
+  tr.querySelector('.sl-name').focus();
+}
+
+function saveStatLB(type){
+  var msgEl = document.getElementById('sl-msg');
+  if(msgEl) msgEl.textContent = '儲存中...';
+  var tbody = document.getElementById('sl-tbody');
+  var rows = [];
+  tbody.querySelectorAll('tr').forEach(function(tr){
+    var name = tr.querySelector('.sl-name') ? tr.querySelector('.sl-name').value.trim() : '';
+    var team = tr.querySelector('.sl-team') ? tr.querySelector('.sl-team').value : '';
+    var val  = tr.querySelector('.sl-val')  ? tr.querySelector('.sl-val').value.trim() : '';
+    if(name) rows.push({name:name, team:team, val:val});
+  });
+  var key = type === 'scorer' ? 'STAT_SCORER' : 'STAT_TPM';
+  var params = new URLSearchParams({
+    action:'update', pw:ADMIN_PASSWORD, sheet:SHEET_NAME,
+    key:key, teamA:'', teamB:'', scoreA:JSON.stringify(rows), scoreB:'', status:'stat'
+  });
+  fetch(API_URL + '?' + params.toString())
+    .then(function(r){ return r.json(); })
+    .then(function(res){
+      if(res.success){ closeOverlay('stat-editor-overlay'); loadScores(); }
+      else { if(msgEl) msgEl.textContent = '❌ ' + (res.message || '儲存失敗'); }
+    })
+    .catch(function(){ if(msgEl) msgEl.textContent = '❌ 網絡錯誤'; });
+}
+
+// ── Voting ──
+document.addEventListener('DOMContentLoaded', function(){
+  var voterTeamSel = document.getElementById('vote-voter-team');
+  if(voterTeamSel) voterTeamSel.addEventListener('change', updateNomineeList);
+});
+
+function updateNomineeList(){
+  var voterTeam = (document.getElementById('vote-voter-team') || {}).value || '';
+  var nomSel = document.getElementById('vote-nominee');
+  if(!nomSel) return;
+  nomSel.innerHTML = '<option value="">提名球員 Nominate (from another team)</option>';
+
+  // Build candidate list from stat data
+  var seen = {};
+  ['scorer','3pt'].forEach(function(type){
+    (statLBData[type] || []).forEach(function(r){
+      var k = r.name + '|' + r.team;
+      if(r.team !== voterTeam && !seen[k]){ seen[k] = {name:r.name, team:r.team}; }
+    });
+  });
+
+  var byTeam = {};
+  Object.values(seen).forEach(function(p){
+    if(!byTeam[p.team]) byTeam[p.team] = [];
+    byTeam[p.team].push(p.name);
+  });
+  Object.keys(byTeam).forEach(function(t){
+    var grp = document.createElement('optgroup');
+    grp.label = t + (TEAMS[t] ? ' — ' + TEAMS[t].zh : '');
+    byTeam[t].forEach(function(n){
+      var opt = document.createElement('option');
+      opt.value = JSON.stringify({name:n, team:t});
+      opt.textContent = n;
+      grp.appendChild(opt);
+    });
+    nomSel.appendChild(grp);
+  });
+
+  // Free-text option
+  var freeOpt = document.createElement('option');
+  freeOpt.value = '__free__';
+  freeOpt.textContent = '✏️ 輸入其他球員姓名...';
+  nomSel.appendChild(freeOpt);
+
+  nomSel.onchange = function(){
+    var existing = document.getElementById('vote-free-row');
+    if(this.value === '__free__'){
+      if(!existing){
+        var div = document.createElement('div');
+        div.id = 'vote-free-row';
+        div.style.marginTop = '6px';
+        div.innerHTML = '<input id="vote-free-name" type="text" style="width:100%;padding:10px 12px;border:2px solid #e8d4b8;border-radius:10px;font-size:.92em;font-family:inherit;color:#5a4a3a;background:#faf5ef" placeholder="球員姓名 (球隊), 例: 陳大文 (EGG)">';
+        this.parentNode.insertBefore(div, this.nextSibling);
+        document.getElementById('vote-free-name').focus();
+      }
+    } else {
+      if(existing) existing.remove();
+    }
+  };
+}
+
+function renderVoting(){
+  // Status badge
+  var oldBadge = document.getElementById('vote-status-badge');
+  if(oldBadge){
+    oldBadge.className = voteOpen ? 'vote-open-badge' : 'vote-closed-badge';
+    oldBadge.textContent = voteOpen ? '🟢 投票開放中' : '🔴 投票已關閉';
+  }
+
+  // Toggle btn
+  var toggleBtn = document.getElementById('vote-toggle-btn');
+  if(toggleBtn){
+    toggleBtn.textContent = voteOpen ? '⏸ 關閉投票' : '▶ 重新開放投票';
+    toggleBtn.style.background = voteOpen ? '#dc3545' : '#198754';
+    toggleBtn.style.color = '#fff';
+  }
+
+  // Form area
+  var formArea = document.getElementById('vote-form-area');
+  if(formArea && !hasVoted){
+    if(!voteOpen){
+      formArea.innerHTML = '<div style="text-align:center;color:#b0a090;padding:16px;font-style:italic;font-size:.9em">🔴 投票已關閉 Voting is closed</div>';
+    }
+    // if open and not voted, form HTML stays intact from page load
+  } else if(formArea && hasVoted){
+    formArea.innerHTML = '<div style="text-align:center;color:#198754;padding:16px;font-weight:700;font-size:.95em">✅ 你已完成投票！感謝參與<br><small style="color:#9a8a7a;font-weight:400">Your vote has been recorded. Thank you!</small></div>';
+  }
+
+  // Winner bar: show only when voting closed
+  var tally = {};
+  votesData.forEach(function(v){
+    var k = v.nominee + '|' + (v.nomineeTeam||'');
+    if(!tally[k]) tally[k] = {name:v.nominee, team:v.nomineeTeam||'', count:0};
+    tally[k].count++;
+  });
+  var sorted = Object.values(tally).sort(function(a,b){ return b.count - a.count; });
+
+  var winNameEl = document.getElementById('popular-win-name');
+  var winTeamEl = document.getElementById('popular-win-team');
+  var winVotesEl = document.getElementById('popular-win-votes');
+  if(sorted.length && !voteOpen){
+    var top = sorted[0];
+    var teamZh = TEAMS[top.team] ? TEAMS[top.team].zh : top.team;
+    if(winNameEl){ winNameEl.textContent = top.name; winNameEl.classList.remove('saw-tba'); }
+    if(winTeamEl) winTeamEl.textContent = top.team + (teamZh && teamZh !== top.team ? ' · ' + teamZh : '');
+    if(winVotesEl) winVotesEl.textContent = top.count + ' 票';
+  } else {
+    if(winNameEl){ winNameEl.textContent = 'TBA'; winNameEl.classList.add('saw-tba'); }
+    if(winTeamEl) winTeamEl.textContent = '';
+    if(winVotesEl) winVotesEl.textContent = '';
+  }
+
+  // Admin tally bars
+  var barsEl = document.getElementById('vote-bars');
+  if(barsEl){
+    var maxVotes = sorted.length ? sorted[0].count : 1;
+    barsEl.innerHTML = sorted.length ? sorted.map(function(item){
+      var pct = Math.round(item.count / maxVotes * 100);
+      var label = item.name + (item.team ? ' (' + item.team + ')' : '');
+      return '<div class="vote-bar-row">' +
+        '<div class="vote-bar-name" title="' + esc(label) + '">' + esc(label) + '</div>' +
+        '<div class="vote-bar-track"><div class="vote-bar-fill" style="width:' + pct + '%"></div></div>' +
+        '<div class="vote-bar-count">' + item.count + '</div>' +
+      '</div>';
+    }).join('') : '<div style="color:#b0a090;font-size:.85em;font-style:italic">暫無投票 No votes yet</div>';
+  }
+
+  updateNomineeList();
+}
+
+function submitVote(){
+  var voterName = ((document.getElementById('vote-voter-name')||{}).value||'').trim();
+  var voterTeam = (document.getElementById('vote-voter-team')||{}).value||'';
+  var nomSel    = document.getElementById('vote-nominee');
+  var nomVal    = nomSel ? nomSel.value : '';
+  var nominee = '', nomineeTeam = '';
+
+  if(nomVal === '__free__' || nomVal === ''){
+    var freeInput = document.getElementById('vote-free-name');
+    var freeText  = freeInput ? freeInput.value.trim() : '';
+    if(!freeText){ showVoteMsg('請輸入被提名球員名字', 'err'); return; }
+    nominee = freeText; nomineeTeam = '';
+  } else {
+    try{ var p = JSON.parse(nomVal); nominee = p.name; nomineeTeam = p.team; }
+    catch(e){ nominee = nomVal; nomineeTeam = ''; }
+  }
+
+  if(!voterName){ showVoteMsg('請填寫你的名字', 'err'); return; }
+  if(!voterTeam){ showVoteMsg('請選擇你所屬球隊', 'err'); return; }
+  if(!nominee)  { showVoteMsg('請選擇或輸入被提名球員', 'err'); return; }
+  if(nomineeTeam && nomineeTeam === voterTeam){ showVoteMsg('不得投票予同隊球員！Cannot vote for teammates', 'err'); return; }
+
+  var submitBtn = document.getElementById('vote-submit-btn');
+  if(submitBtn){ submitBtn.disabled = true; submitBtn.textContent = '⏳ 提交中...'; }
+  showVoteMsg('', '');
+
+  var voteKey = 'VOTE_' + Date.now();
+  var params = new URLSearchParams({
+    action:'update', pw:'', sheet:SHEET_NAME,
+    key:voteKey, teamA:nominee, teamB:nomineeTeam,
+    scoreA:voterName, scoreB:voterTeam, status:'vote'
+  });
+
+  fetch(API_URL + '?' + params.toString())
+    .then(function(r){ return r.json(); })
+    .then(function(res){
+      if(res.success){
+        hasVoted = true;
+        votesData.push({voter:voterName, voterTeam:voterTeam, nominee:nominee, nomineeTeam:nomineeTeam});
+        renderVoting();
+      } else {
+        showVoteMsg('❌ ' + (res.message || '提交失敗'), 'err');
+        if(submitBtn){ submitBtn.disabled = false; submitBtn.textContent = '⭐ 投票 Submit Vote'; }
+      }
+    })
+    .catch(function(){
+      showVoteMsg('❌ 網絡錯誤，請重試', 'err');
+      if(submitBtn){ submitBtn.disabled = false; submitBtn.textContent = '⭐ 投票 Submit Vote'; }
+    });
+}
+
+function showVoteMsg(msg, type){
+  var el = document.getElementById('vote-msg');
+  if(!el) return;
+  el.textContent = msg;
+  el.className = 'vote-msg' + (type ? ' ' + type : '');
+}
+
+function toggleVoting(){
+  var newStatus = voteOpen ? 'closed' : 'open';
+  var params = new URLSearchParams({
+    action:'update', pw:ADMIN_PASSWORD, sheet:SHEET_NAME,
+    key:'VOTES_POPULAR', teamA:'', teamB:'',
+    scoreA:JSON.stringify(votesData), scoreB:'', status:newStatus
+  });
+  fetch(API_URL + '?' + params.toString())
+    .then(function(r){ return r.json(); })
+    .then(function(res){ if(res.success) loadScores(); })
+    .catch(function(){});
+}
+
+// Auto-refresh every 30 seconds
+setInterval(loadScores, 30000);
+
+// ── Admin Mode ──
+var isAdmin = new URLSearchParams(location.search).get('admin') === '1';
+if(isAdmin){ showAdminLogin(); }
+
+function showAdminLogin(){
+  var overlay = document.createElement('div');
+  overlay.className = 'admin-overlay';
+  overlay.id = 'admin-login-overlay';
+  overlay.innerHTML = '<div class="admin-modal">' +
+    '<h3>🔐 管理員登入</h3>' +
+    '<div class="am-row"><label>管理密碼 Admin Password</label>' +
+    '<input id="admin-pw-input" type="password" placeholder="輸入密碼" autocomplete="current-password"></div>' +
+    '<div class="am-actions">' +
+      '<button class="am-save" onclick="checkAdminPw()">確認 Login</button>' +
+      '<button class="am-cancel" onclick="document.getElementById(\'admin-login-overlay\').remove()">取消</button>' +
+    '</div>' +
+    '<div id="admin-pw-msg" style="text-align:center;margin-top:10px;font-size:.85em;color:#dc3545"></div>' +
+  '</div>';
+  document.body.appendChild(overlay);
+  document.getElementById('admin-pw-input').addEventListener('keydown', function(e){
+    if(e.key === 'Enter') checkAdminPw();
+  });
+  setTimeout(function(){ var el = document.getElementById('admin-pw-input'); if(el) el.focus(); }, 100);
+}
+
+function checkAdminPw(){
+  var pw = document.getElementById('admin-pw-input').value;
+  if(pw === ADMIN_PASSWORD){
+    var overlay = document.getElementById('admin-login-overlay');
+    if(overlay) overlay.remove();
+    document.body.classList.add('admin-mode');
+    initAdmin();
+  } else {
+    var msg = document.getElementById('admin-pw-msg');
+    if(msg) msg.textContent = '❌ 密碼錯誤，請重試';
+    document.getElementById('admin-pw-input').value = '';
+    document.getElementById('admin-pw-input').focus();
+  }
+}
+
+function initAdmin(){
+  var banner = document.createElement('div');
+  banner.className = 'admin-banner';
+  banner.innerHTML = '🔧 管理模式 — 點擊場次行更新比分 | 點擊獎項 ✏️ 更新得獎者（所有人即時可見）';
+  document.querySelector('.ct').prepend(banner);
+
+  document.querySelectorAll('.match-row').forEach(function(row){
+    var key = row.getAttribute('data-game');
+    if(!key) return;
+    row.addEventListener('click', function(){ openEditor(key, row); });
+  });
+}
+
+function openEditor(key, row){
+  var data = savedScores[key] || {};
+  var home = row.getAttribute('data-home') || '';
+  var away = row.getAttribute('data-away') || '';
+  var homeLabel = TEAMS[home] ? (home + ' — ' + TEAMS[home].zh) : home;
+  var awayLabel = TEAMS[away] ? (away + ' — ' + TEAMS[away].zh) : away;
+  var curScoreA = data.scoreA !== undefined ? data.scoreA : '';
+  var curScoreB = data.scoreB !== undefined ? data.scoreB : '';
+  var curStatus = data.status || 'scheduled';
+
+  var overlay = document.createElement('div');
+  overlay.className = 'admin-overlay';
+  overlay.id = 'match-editor-overlay';
+  overlay.innerHTML = '<div class="admin-modal">' +
+    '<h3>更新 ' + esc(key) + '</h3>' +
+    '<p style="text-align:center;font-size:.88em;color:#7a6a5a;margin-bottom:16px">' + esc(homeLabel) + ' vs ' + esc(awayLabel) + '</p>' +
+    '<div class="am-row"><label>' + esc(home || 'Home') + ' 比分</label><input id="am-scoreA" type="number" min="0" value="' + esc(String(curScoreA)) + '"></div>' +
+    '<div class="am-row"><label>' + esc(away || 'Away') + ' 比分</label><input id="am-scoreB" type="number" min="0" value="' + esc(String(curScoreB)) + '"></div>' +
+    '<div class="am-row"><label>狀態 Status</label><select id="am-status">' +
+      '<option value="scheduled"' + (curStatus==='scheduled'?' selected':'') + '>待賽 Scheduled</option>' +
+      '<option value="live"' + (curStatus==='live'?' selected':'') + '>進行中 Live</option>' +
+      '<option value="completed"' + (curStatus==='completed'?' selected':'') + '>完場 Completed</option>' +
+      '<option value="walkover"' + (curStatus==='walkover'?' selected':'') + '>棄權 Walkover</option>' +
+    '</select></div>' +
+    '<div class="am-actions">' +
+      '<button class="am-save" onclick="saveMatch(\'' + esc(key) + '\',\'' + esc(home) + '\',\'' + esc(away) + '\')">💾 儲存</button>' +
+      '<button class="am-cancel" onclick="closeOverlay(\'match-editor-overlay\')">取消</button>' +
+    '</div>' +
+    '<div id="am-msg" style="text-align:center;margin-top:10px;font-size:.85em"></div>' +
+  '</div>';
+  document.body.appendChild(overlay);
+}
+
+function saveMatch(key, home, away){
+  var msgEl = document.getElementById('am-msg');
+  if(msgEl) msgEl.textContent = '儲存中...';
+
+  var params = new URLSearchParams({
+    action: 'update',
+    pw: ADMIN_PASSWORD,
+    sheet: SHEET_NAME,
+    key: key,
+    teamA: home,
+    teamB: away,
+    scoreA: document.getElementById('am-scoreA').value,
+    scoreB: document.getElementById('am-scoreB').value,
+    status: document.getElementById('am-status').value
+  });
+
+  fetch(API_URL + '?' + params.toString())
+    .then(function(r){ return r.json(); })
+    .then(function(res){
+      if(res.success){
+        closeOverlay('match-editor-overlay');
+        loadScores();
+      } else {
+        if(msgEl) msgEl.textContent = '❌ ' + (res.message || '儲存失敗');
+      }
+    })
+    .catch(function(){
+      if(msgEl) msgEl.textContent = '❌ 網絡錯誤';
+    });
+}
+
+function closeOverlay(id){
+  var overlay = document.getElementById(id) || document.querySelector('.admin-overlay');
+  if(overlay) overlay.remove();
+}
+
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+// ── Export ──
+function exportCard(cardId, filename, loadingText, defaultText){
+  var btn = event.currentTarget;
+  btn.disabled = true; btn.textContent = loadingText;
+  var target = document.getElementById(cardId);
+  html2canvas(target, {
+    scale: 2,
+    backgroundColor: '#f0dcc8',
+    useCORS: true,
+    scrollX: 0,
+    scrollY: -window.scrollY
+  }).then(function(canvas){
+    var link = document.createElement('a');
+    link.download = filename;
+    link.href = canvas.toDataURL('image/jpeg', 0.92);
+    link.click();
+    btn.disabled = false; btn.textContent = defaultText;
+  }).catch(function(e){
+    console.error('Export failed', e);
+    alert('匯出失敗，請重試');
+    btn.disabled = false; btn.textContent = defaultText;
+  });
+}
+</script>
+</body>
+</html>
