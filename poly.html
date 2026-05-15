@@ -769,6 +769,14 @@ var TEAMS = {
   AF:    {zh:'AF',         en:'AF'}
 };
 
+var PLAYERS = {
+  'EGG':   ['LI Tian','LI Danning','YANG Yi','GUAN Jianyu','LI Runsheng','ZHANG Fan','MA Zongrui','HE Wenchao','YAN Rui','YIN Binbin','WENG Zihang','ZHU Jiaming','CHEN Jianming','HU Mingjun','Bu Siqi'],
+  'STARS': ['FAN Di','FANG Bo','HE Jiaqi','JIE Jiacheng','LIU Xinlong','PU Junhong','SHOU Dahua','WU Yaopeng','XU Shengduo','XIA Gang','ZHANG Rui','CHENG Jia','HU JUNXIN'],
+  'LIBAC': ['JIANG Liming','WANG Kun','YANG Dong','JIANG Changmi','GAO Jing','ZHANG Kai','WEN Weisong','LI Dun','REN Cheng'],
+  'ABCT':  ['CHAN Chin Fung, Terry','ZHENG Zijian','CHEUNG Ka Leong, Ric','HE Zhong Ming, Jeremy','TSANG Ka Ho, Tony','AU Chi Ming, David','CHAN Chi Ho, Roy','CHAN Chun Ming, Fortune','SO Yik Hing, Paul','YAN Sau Woon, Clare','SO Pui Kin','CHAN Yu Keung, Henry','FANG Kar Hei, James'],
+  'AF':    ['Wilson Kwok','Chan Chun Sang Dick','Raymond Ho','Cheng Chun Lok','Austin Zhao','Wong Ka Hei Hayward','Yuen Ho Shing An','Tam Wai Chiu Joe','Eric Chung','Chan Wai Kit','Wong Chi Chung John','Choi Kai Yip','Chow Ka Ping Oscar','Yip Wai Kin']
+};
+
 var PTS_WIN = 2, PTS_LOSS = 1, PTS_FORFEIT = 0;
 
 var savedScores = {};
@@ -1156,6 +1164,24 @@ function renderStatLB(type, rows){
   }
 }
 
+function playerOpts(team, selName){
+  var list = team ? (PLAYERS[team] || []) : [];
+  var opts = list.length ? '' : '<option value="">— 先選球隊 —</option>';
+  list.forEach(function(n){
+    opts += '<option value="' + esc(n) + '"' + (n===selName?' selected':'') + '>' + esc(n) + '</option>';
+  });
+  return opts;
+}
+
+function updateStatNameOpts(teamSel){
+  var tr = teamSel.closest('tr');
+  if(!tr) return;
+  var nameSel = tr.querySelector('.sl-name');
+  if(!nameSel) return;
+  var cur = nameSel.value;
+  nameSel.innerHTML = playerOpts(teamSel.value, cur);
+}
+
 function openStatEditor(type){
   var isScorer = type === 'scorer';
   var title    = isScorer ? '🏆 得分王 — 輸入球員得分' : '🎯 三分神射手 — 輸入三分球數';
@@ -1171,8 +1197,8 @@ function openStatEditor(type){
 
   var rowsHtml = rows.map(function(r){
     return '<tr>' +
-      '<td><input class="sl-name" style="width:100%;padding:6px 8px;border:1.5px solid #e8d4b8;border-radius:7px;font-size:.85em;font-family:inherit" value="' + esc(r.name) + '" placeholder="球員名字"></td>' +
-      '<td><select class="sl-team" style="width:100%;padding:6px 4px;border:1.5px solid #e8d4b8;border-radius:7px;font-size:.82em;font-family:inherit">' + teamOpts(r.team) + '</select></td>' +
+      '<td><select class="sl-name" style="width:100%;padding:6px 4px;border:1.5px solid #e8d4b8;border-radius:7px;font-size:.85em;font-family:inherit">' + playerOpts(r.team, r.name) + '</select></td>' +
+      '<td><select class="sl-team" style="width:100%;padding:6px 4px;border:1.5px solid #e8d4b8;border-radius:7px;font-size:.82em;font-family:inherit" onchange="updateStatNameOpts(this)">' + teamOpts(r.team) + '</select></td>' +
       '<td><input class="sl-val" type="number" min="0" style="width:64px;padding:6px 8px;border:1.5px solid #e8d4b8;border-radius:7px;font-size:.85em;font-family:inherit" value="' + esc(String(r.val||'')) + '"></td>' +
       '<td><button onclick="this.closest(\'tr\').remove()" style="background:#fee;border:none;border-radius:6px;padding:4px 8px;cursor:pointer;color:#dc3545;font-size:.8em">✕</button></td>' +
     '</tr>';
@@ -1206,8 +1232,8 @@ function addStatRow(){
   var tbody = document.getElementById('sl-tbody');
   if(!tbody) return;
   var tr = document.createElement('tr');
-  tr.innerHTML = '<td><input class="sl-name" style="width:100%;padding:6px 8px;border:1.5px solid #e8d4b8;border-radius:7px;font-size:.85em;font-family:inherit" placeholder="球員名字"></td>' +
-    '<td><select class="sl-team" style="width:100%;padding:6px 4px;border:1.5px solid #e8d4b8;border-radius:7px;font-size:.82em;font-family:inherit"><option value="">— 球隊 —</option><option value="EGG">EGG</option><option value="STARS">STARS</option><option value="LIBAC">LIBAC</option><option value="ABCT">ABCT</option><option value="AF">AF</option></select></td>' +
+  tr.innerHTML = '<td><select class="sl-name" style="width:100%;padding:6px 4px;border:1.5px solid #e8d4b8;border-radius:7px;font-size:.85em;font-family:inherit"><option value="">— 先選球隊 —</option></select></td>' +
+    '<td><select class="sl-team" style="width:100%;padding:6px 4px;border:1.5px solid #e8d4b8;border-radius:7px;font-size:.82em;font-family:inherit" onchange="updateStatNameOpts(this)"><option value="">— 球隊 —</option><option value="EGG">EGG</option><option value="STARS">STARS</option><option value="LIBAC">LIBAC</option><option value="ABCT">ABCT</option><option value="AF">AF</option></select></td>' +
     '<td><input class="sl-val" type="number" min="0" style="width:64px;padding:6px 8px;border:1.5px solid #e8d4b8;border-radius:7px;font-size:.85em;font-family:inherit" placeholder="0"></td>' +
     '<td><button onclick="this.closest(\'tr\').remove()" style="background:#fee;border:none;border-radius:6px;padding:4px 8px;cursor:pointer;color:#dc3545;font-size:.8em">✕</button></td>';
   tbody.appendChild(tr);
@@ -1251,24 +1277,11 @@ function updateNomineeList(){
   if(!nomSel) return;
   nomSel.innerHTML = '<option value="">提名球員 Nominate (from another team)</option>';
 
-  // Build candidate list from stat data
-  var seen = {};
-  ['scorer','3pt'].forEach(function(type){
-    (statLBData[type] || []).forEach(function(r){
-      var k = r.name + '|' + r.team;
-      if(r.team !== voterTeam && !seen[k]){ seen[k] = {name:r.name, team:r.team}; }
-    });
-  });
-
-  var byTeam = {};
-  Object.values(seen).forEach(function(p){
-    if(!byTeam[p.team]) byTeam[p.team] = [];
-    byTeam[p.team].push(p.name);
-  });
-  Object.keys(byTeam).forEach(function(t){
+  ['EGG','STARS','LIBAC','ABCT','AF'].forEach(function(t){
+    if(t === voterTeam) return;
     var grp = document.createElement('optgroup');
     grp.label = t + (TEAMS[t] ? ' — ' + TEAMS[t].zh : '');
-    byTeam[t].forEach(function(n){
+    (PLAYERS[t] || []).forEach(function(n){
       var opt = document.createElement('option');
       opt.value = JSON.stringify({name:n, team:t});
       opt.textContent = n;
@@ -1276,12 +1289,6 @@ function updateNomineeList(){
     });
     nomSel.appendChild(grp);
   });
-
-  // Free-text option
-  var freeOpt = document.createElement('option');
-  freeOpt.value = '__free__';
-  freeOpt.textContent = '✏️ 輸入其他球員姓名...';
-  nomSel.appendChild(freeOpt);
 
   nomSel.onchange = function(){
     var existing = document.getElementById('vote-free-row');
