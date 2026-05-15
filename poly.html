@@ -159,6 +159,12 @@ table.stat-lb tr.top-row td{background:rgba(255,215,0,.1)}
 
 .awards-cols{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:4px}
 @media(max-width:900px){.awards-cols{grid-template-columns:1fr}}
+.stat-lb-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+@media(max-width:768px){
+  .stat-award-wrap{padding:14px 10px}
+  table.stat-lb{font-size:.73em}
+  table.stat-lb th,table.stat-lb td{padding:4px 4px;white-space:nowrap}
+}
 
 /* Points/Rules */
 .rules-list{list-style:none;counter-reset:rl}
@@ -555,7 +561,7 @@ table.stat-lb tr.top-row td{background:rgba(255,215,0,.1)}
         </div>
         <div class="saw-stat" id="scorer-win-stat"></div>
       </div>
-      <div style="overflow-x:auto">
+      <div class="stat-lb-scroll">
       <table class="stat-lb">
         <thead id="scorer-lb-head"><tr><th>#</th><th>球員</th><th>球隊</th><th class="right">得分 Pts</th></tr></thead>
         <tbody id="scorer-lb-body"></tbody>
@@ -581,7 +587,7 @@ table.stat-lb tr.top-row td{background:rgba(255,215,0,.1)}
         </div>
         <div class="saw-stat" id="tpm-win-stat"></div>
       </div>
-      <div style="overflow-x:auto">
+      <div class="stat-lb-scroll">
       <table class="stat-lb">
         <thead id="tpm-lb-head"><tr><th>#</th><th>球員</th><th>球隊</th><th class="right">3PM</th></tr></thead>
         <tbody id="tpm-lb-body"></tbody>
