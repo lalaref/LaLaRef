@@ -1385,7 +1385,7 @@ function submitVote(){
 
   var voteKey = 'VOTE_' + Date.now();
   var params = new URLSearchParams({
-    action:'update', pw:'', sheet:SHEET_NAME,
+    action:'update', pw:ADMIN_PASSWORD, sheet:SHEET_NAME,
     key:voteKey, teamA:nominee, teamB:nomineeTeam,
     scoreA:voterName, scoreB:voterTeam, status:'vote'
   });
