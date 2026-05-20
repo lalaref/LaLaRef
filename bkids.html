@@ -97,14 +97,60 @@ body{font-family:'Segoe UI',-apple-system,BlinkMacSystemFont,'Microsoft JhengHei
 .wf:hover{transform:translateY(-5px) scale(1.05)}
 
 @media(max-width:768px){
-  .hb{display:flex}.nk{position:absolute;top:100%;left:0;right:0;background:linear-gradient(145deg,#d4a574,#c89860);flex-direction:column;gap:0;max-height:0;overflow:hidden;transition:max-height .3s}
-  .nk.active{max-height:300px}.nk a{padding:12px 25px;border-radius:0;border-bottom:1px solid rgba(255,255,255,.1)}
-  .nc{padding:0 15px}.nl{font-size:1.2em}.ct{padding:15px}
-  .ph{padding:25px 15px}.ph h1{font-size:1.5em}
-  .card{padding:18px;border-radius:18px}
+  /* Nav */
+  .hb{display:flex}
+  .nk{position:absolute;top:100%;left:0;right:0;background:linear-gradient(145deg,#d4a574,#c89860);flex-direction:column;gap:0;max-height:0;overflow:hidden;transition:max-height .3s}
+  .nk.active{max-height:300px}
+  .nk a{padding:12px 25px;border-radius:0;border-bottom:1px solid rgba(255,255,255,.1)}
+  .nc{padding:0 15px}.nl{font-size:1.2em}
+
+  /* Layout */
+  .ct{padding:12px}
+  .ph{padding:22px 14px;border-radius:20px}
+  .ph h1{font-size:1.35em}
+  .card{padding:16px;border-radius:16px;margin-bottom:16px}
+  .card h2{font-size:1.1em;margin-bottom:14px}
+
+  /* Info / Rules grids */
+  .info-grid{grid-template-columns:1fr 1fr;gap:8px}
+  .rules-grid{grid-template-columns:repeat(3,1fr);gap:8px}
+  .rule-box .rv{font-size:1.2em}
+  .overview-grid{grid-template-columns:1fr 1fr;gap:8px}
+
+  /* Division nav */
+  .div-nav{padding:12px 14px;border-radius:16px;margin-bottom:20px}
+  .div-nav-btns{gap:6px}
+  .div-btn{padding:7px 11px;font-size:.78em}
+
+  /* Division header — stack badge + meta vertically */
+  .div-header{flex-direction:column;align-items:flex-start;gap:8px}
+  .div-badge{font-size:.88em;padding:6px 16px}
+  .div-meta{gap:6px}
+  .div-tag{font-size:.74em;padding:3px 10px}
+
+  /* Schedule table */
+  .sched-wrap{border-radius:12px}
+  .sched-table{font-size:.82em}
+  .sched-table thead th{padding:8px 10px;font-size:.74em}
+  .sched-table td{padding:7px 10px}
+  .td-time{min-width:70px}
+  .sched-table tbody tr.phase-break td{white-space:normal;font-size:.74em;padding:5px 10px}
+
+  /* Footer */
+  .ft{padding:28px 18px 20px;border-radius:28px 28px 0 0;margin:28px 8px 0}
+  .ft .fc{grid-template-columns:1fr;gap:16px}
+}
+
+@media(max-width:420px){
+  .ph h1{font-size:1.15em}
+  .info-grid{grid-template-columns:1fr}
   .rules-grid{grid-template-columns:repeat(2,1fr)}
-  .div-nav{padding:12px 15px}
-  .div-btn{padding:7px 12px;font-size:.8em}
+  .overview-grid{grid-template-columns:1fr}
+  .div-btn{padding:6px 10px;font-size:.75em}
+  .sched-table{font-size:.78em}
+  .sched-table thead th{padding:7px 8px}
+  .sched-table td{padding:6px 8px}
+  .td-time{min-width:60px}
 }
 </style>
 </head>
